@@ -1,27 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.btn-inner {
+    transition: all 0.2s ease-in-out;
+}
+.btn:hover .btn-inner {
+    /* animation: btnAnimation;
+    animation-duration: 0.5s; */
+    transform: translateX(0) translateY(0);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.box-shadow {
+    -webkit-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
+    -moz-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
+    box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.pattern-bg {
+    background: radial-gradient(
+                circle farthest-side at 0% 50%,
+                #ededed 23.5%,
+                #0000 0
+            )
+            19.95px 28.5px,
+        radial-gradient(circle farthest-side at 0% 50%, #c1c1c1 24%, #0000 0)
+            18.05px 28.5px,
+        linear-gradient(#ededed 14%, #0000 0, #0000 85%, #ededed 0) 0 0,
+        linear-gradient(
+                150deg,
+                #ededed 24%,
+                #c1c1c1 0,
+                #c1c1c1 26%,
+                #0000 0,
+                #0000 74%,
+                #c1c1c1 0,
+                #c1c1c1 76%,
+                #ededed 0
+            )
+            0 0,
+        linear-gradient(
+                30deg,
+                #ededed 24%,
+                #c1c1c1 0,
+                #c1c1c1 26%,
+                #0000 0,
+                #0000 74%,
+                #c1c1c1 0,
+                #c1c1c1 76%,
+                #ededed 0
+            )
+            0 0,
+        linear-gradient(90deg, #c1c1c1 2%, #ededed 0, #ededed 98%, #c1c1c1 0%) 0
+            0 #ededed;
+    background-size: 38px 57px;
+    background-color: #ededed;
 }
