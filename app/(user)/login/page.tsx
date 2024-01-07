@@ -1,6 +1,12 @@
+"use client";
+
 import Button from "@/app/ui/Button";
+import Link from "next/link";
+import { useState } from "react";
+import OTPInput from "react-otp-input";
 
 export default function LoginPage() {
+    const [otp, setOtp] = useState("");
     return (
         <div className="max-w-[400px] w-full flex flex-col gap-8">
             <h1 className="font-primary font-extrabold text-4xl text-college-grey">
@@ -18,7 +24,7 @@ export default function LoginPage() {
                         </div>
                         <input
                             type="text"
-                            className="relative w-full h-12 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow"
+                            className="relative w-full h-12 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                             placeholder="Enter mobile no."
                             maxLength={10}
                             inputMode={"numeric"}
@@ -34,32 +40,29 @@ export default function LoginPage() {
                 <div className="flex flex-col gap-6">
                     <div className="">
                         <span className="text-sm">Enter OTP</span>
-                        <div className="flex justify-between mt-1">
-                            <input
-                                type="text"
-                                className="h-14 w-14 border-1 border-black rounded-lg text-2xl font-bold outline-none text-center box-shadow"
-                                inputMode={"numeric"}
-                                maxLength={1}
-                            />
-                            <input
-                                type="text"
-                                className="h-14 w-14 border-1 border-black rounded-lg text-2xl font-bold outline-none text-center box-shadow"
-                                inputMode={"numeric"}
-                                maxLength={1}
-                            />
-                            <input
-                                type="text"
-                                className="h-14 w-14 border-1 border-black rounded-lg text-2xl font-bold outline-none text-center box-shadow"
-                                inputMode={"numeric"}
-                                maxLength={1}
-                            />
-                            <input
-                                type="text"
-                                className="h-14 w-14 border-1 border-black rounded-lg text-2xl font-bold outline-none text-center box-shadow"
-                                inputMode={"numeric"}
-                                maxLength={1}
-                            />
-                        </div>
+                        <OTPInput
+                            value={otp}
+                            onChange={setOtp}
+                            numInputs={4}
+                            renderInput={(props) => <input {...props} />}
+                            containerStyle={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                width: "100%",
+                                marginTop: "0.5rem",
+                            }}
+                            inputStyle={{
+                                height: "3.5rem",
+                                width: "3.5rem",
+                                border: "1.5px black solid",
+                                borderRadius: "0.5rem",
+                                outline: "none",
+                                boxShadow:
+                                    "6px 6px 0px 0px rgba(221, 221, 221, 0.75)",
+                                fontFamily: "Be Vietnam Pro",
+                                fontSize: "1.4rem"
+                            }}
+                        />
                     </div>
                     <Button
                         title="Verify"
@@ -67,7 +70,10 @@ export default function LoginPage() {
                         textColor="#ffffff"
                     />
                     <span className="mt-4 text-center">
-                        Not Registered? <b>Signup</b>
+                        Not Registered?{" "}
+                        <Link href={"/signup"}>
+                            <b>Signup</b>
+                        </Link>
                     </span>
                 </div>
             </div>

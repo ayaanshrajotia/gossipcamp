@@ -6,7 +6,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
             <div className="w-1/2 flex items-center justify-center">
                 {children}
             </div>
-            <div className="pattern-bg relative w-1/2 rounded-r-xl">
+            <div className="pattern-bg relative w-1/2 rounded-r-2xl border-1 border-gray-300">
                 <Image
                     src={"/login-1.png"}
                     alt="thought photo"

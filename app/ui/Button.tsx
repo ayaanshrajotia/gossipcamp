@@ -1,10 +1,11 @@
 import { BtnPropsType } from "../lib/definitions";
 
-function Button({ title, bgColor, textColor }: BtnPropsType) {
+function Button({ title, bgColor, textColor, onClickHandle }: BtnPropsType) {
     return (
         <button
             className={`btn relative w-full h-12 border-1 border-black rounded-lg flex items-center justify-center  font-secondary font-semibold  cursor-pointer `}
             style={{ color: textColor }}
+            onClick={onClickHandle}
         >
             {title}
             <div
