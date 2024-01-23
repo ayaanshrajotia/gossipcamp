@@ -1,11 +1,25 @@
 export type BtnPropsType = {
-    title: string;
+    children: string;
     bgColor: string;
     textColor: string;
-    onClickHandle?: () => void;
+    type: string;
+    className?: string;
+} & Record<string, any>;
+
+export type ContainerPropsType = {
+    children: string;
+    bgColor: string;
+    textColor: string;
+    className?: string;
+} & Record<string, any>;
+
+export type DropdownPropsType = {
+    title: string;
+    options?: optionType[];
+    handleOptions: (data: string) => void;
 };
 
-export type DropdownpPropsType = {
-    title: string;
-    options?: string[];
+export type optionType = {
+    id: number;
+    name: string;
 };

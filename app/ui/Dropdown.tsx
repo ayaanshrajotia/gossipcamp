@@ -3,13 +3,18 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { DropdownpPropsType } from "../lib/definitions";
+import { DropdownPropsType } from "../lib/definitions";
+import { colleges } from "../lib/customOptions";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Dropdown({ title, options }: DropdownpPropsType) {
+export default function Dropdown({
+    title,
+    options,
+    handleOptions,
+}: DropdownPropsType) {
     return (
         <Menu as="div" className="relative inline-block text-left w-full">
             <div className="">
@@ -33,68 +38,25 @@ export default function Dropdown({ title, options }: DropdownpPropsType) {
             >
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-lg bg-white border-1 border-black box-shadow focus:outline-none">
                     <div className="py-1">
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active
-                                            ? "bg-gray-100 text-gray-900"
-                                            : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
-                                    )}
-                                >
-                                    LNCT, Bhopal
-                                </a>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active
-                                            ? "bg-gray-100 text-gray-900"
-                                            : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
-                                    )}
-                                >
-                                    Oriental Institute of Science & Technology
-                                </a>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active
-                                            ? "bg-gray-100 text-gray-900"
-                                            : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
-                                    )}
-                                >
-                                    TIT, Bhopal
-                                </a>
-                            )}
-                        </Menu.Item>
-                        <form method="POST" action="#">
-                            <Menu.Item>
+                        {options?.map((option) => (
+                            <Menu.Item key={option.id}>
                                 {({ active }) => (
-                                    <button
-                                        type="submit"
+                                    <div
                                         className={classNames(
                                             active
                                                 ? "bg-gray-100 text-gray-900"
                                                 : "text-gray-700",
-                                            "block w-full px-4 py-2 text-left text-sm"
+                                            "block px-4 py-2 text-sm font-medium cursor-pointer"
                                         )}
+                                        onClick={() =>
+                                            handleOptions(option.name)
+                                        }
                                     >
-                                        Sign out
-                                    </button>
+                                        {option.name}
+                                    </div>
                                 )}
                             </Menu.Item>
-                        </form>
+                        ))}
                     </div>
                 </Menu.Items>
             </Transition>

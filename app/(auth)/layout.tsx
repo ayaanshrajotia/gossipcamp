@@ -6,14 +6,13 @@ export default function layout({ children }: { children: React.ReactNode }) {
             <div className="w-1/2 flex items-center justify-center">
                 {children}
             </div>
-            <div className="pattern-bg relative w-1/2 rounded-r-2xl border-1 border-gray-300">
+            <div className="doodle relative w-1/2 rounded-r-2xl">
                 <Image
                     src={"/login-1.png"}
                     alt="thought photo"
                     width={400}
                     height={0}
-                    className="absolute top-10 right-0
-                    "
+                    className="absolute top-10 right-0"
                 />
                 <Image
                     src={"/login-2.png"}

@@ -66,3 +66,45 @@ input:focus {
     background-size: 38px 57px;
     background-color: #ededed;
 }
+
+.homepage-pattern {
+    background-image: radial-gradient(#a4a4a4 2px, transparent 2px),
+        radial-gradient(#a4a4a4 2px, transparent 2px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    background-color: #ececec;
+}
+
+.doodle {
+    background-image: url("/doodle-bg.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    backdrop-filter: blur(10px);
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    color: #000;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 100;
+    padding: 0 5px;
+    transition: 0.2s;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+    top: 4px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #757575;
+    background-color: #fff;
+}
