@@ -5,61 +5,28 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { DropdownPropsType } from "../lib/definitions";
 import { colleges } from "../lib/customOptions";
+import { capitalizeFirstLetter } from "../lib/helper";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function Dropdown({
-    title,
     options,
     handleOptions,
+    className,
 }: DropdownPropsType) {
     return (
-        <Menu as="div" className="relative inline-block text-left w-full">
-            <div className="">
-                <Menu.Button className="flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-3 py-2 font-semibold text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-none">
-                    {title}
-                    <ChevronDownIcon
-                        className="-mr-1 h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                    />
-                </Menu.Button>
-            </div>
-
-            <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-lg bg-white border-1 border-black box-shadow focus:outline-none">
-                    <div className="py-1">
-                        {options?.map((option) => (
-                            <Menu.Item key={option.id}>
-                                {({ active }) => (
-                                    <div
-                                        className={classNames(
-                                            active
-                                                ? "bg-gray-100 text-gray-900"
-                                                : "text-gray-700",
-                                            "block px-4 py-2 text-sm font-medium cursor-pointer"
-                                        )}
-                                        onClick={() =>
-                                            handleOptions(option.name)
-                                        }
-                                    >
-                                        {option.name}
-                                    </div>
-                                )}
-                            </Menu.Item>
-                        ))}
-                    </div>
-                </Menu.Items>
-            </Transition>
-        </Menu>
+        <select
+            name=""
+            id=""
+            className="flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none"
+        >
+            {options?.map((item) => (
+                <option key={item.id} value={item.name}>
+                    {capitalizeFirstLetter(item.name)}
+                </option>
+            ))}
+        </select>
     );
 }

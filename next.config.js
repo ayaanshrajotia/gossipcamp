@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    images: {
+        dangerouslyAllowSVG: true,
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "avataaars.io",
+                port: "",
+                pathname: "/",
+            },
+        ],
+    },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

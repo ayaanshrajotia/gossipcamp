@@ -1,5 +1,6 @@
 "use client";
 
+import { colleges } from "@/app/lib/customOptions";
 import Button from "@/app/ui/Button";
 import Dropdown from "@/app/ui/Dropdown";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,8 +13,11 @@ import { z } from "zod";
 
 const schema = z.object({
     mobileNumber: z
-        .number({ invalid_type_error: "Mobile number must be a number" })
-        .min(10, "Mobile number must be less than or equal to 10"),
+        .string()
+        .refine((value) => value.length === 10, {
+            message: "Mobile number must be exactly 10 digits long",
+        })
+        .transform((value) => parseInt(value)),
     enrollmentNumber: z
         .string()
         .min(8, "Enrollment number must contain at least 4 character(s)"),
@@ -24,7 +28,7 @@ type FormFields = z.infer<typeof schema>;
 export default function SignupPage() {
     const [otp, setOtp] = useState("");
     const [college, setCollege] = useState("Select College");
-    console.log(college)
+    console.log(college);
     const router = useRouter();
     const {
         register,
@@ -39,7 +43,7 @@ export default function SignupPage() {
 
     // Signup handler
     const signup: SubmitHandler<FormFields> = async (data) => {
-        router.push("/signup/avatar");
+        router.push("/create-avatar");
         console.log(data);
     };
 
@@ -63,10 +67,8 @@ export default function SignupPage() {
                         </div>
                         <div className="input-group w-full">
                             <input
-                                {...register("mobileNumber", {
-                                    valueAsNumber: true,
-                                })}
-                                id="mobileNumber"
+                                {...register("mobileNumber")}
+                                id="mobileNumber" type="text"
                                 className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                                 required
                                 autoComplete="false"
@@ -99,8 +101,8 @@ export default function SignupPage() {
                     </div>
 
                     <Dropdown
-                        title={college}
                         handleOptions={handleOptions}
+                        options={colleges}
                     />
                     <Button
                         bgColor="#fdd800"
@@ -141,7 +143,7 @@ export default function SignupPage() {
                         bgColor="#313236"
                         textColor="text-white"
                         disabled={isSubmitting}
-                        onClick={() => console.log("llund")}
+                        onClick={() => router.push("/create-avatar")}
                         type="submit"
                     >
                         {isSubmitting ? "Logging..." : " Next → "}

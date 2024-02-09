@@ -12,8 +12,11 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 const schema = z.object({
     mobileNumber: z
-        .number()
-        .min(10, "Mobile number must contain at least 4 character(s)"),
+        .string()
+        .refine((value) => value.length === 10, {
+            message: "Mobile number must be exactly 10 digits long",
+        })
+        .transform((value) => parseInt(value)),
     password: z
         .string()
         .min(8, "Password must contain at least 8 character(s)"),

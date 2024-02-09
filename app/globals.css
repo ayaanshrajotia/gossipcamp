@@ -4,6 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    display: none;
+}
+
+select {
+    /* styling */
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+
+    /* reset */
+
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
 .btn-inner {
     transition: all 0.2s ease-in-out;
 }
@@ -25,6 +49,18 @@ input:focus {
     -webkit-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
     -moz-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
     box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
+}
+
+.box-shadow-yellow {
+    -webkit-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+    -moz-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+    box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+}
+
+.box-shadow-black {
+    -webkit-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
+    -moz-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
+    box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
 }
 
 .pattern-bg {
@@ -76,11 +112,11 @@ input:focus {
 }
 
 .doodle {
-    background-image: url("/doodle-bg.jpeg");
+    background-image:
+        url("/doodle-bg.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    backdrop-filter: blur(10px);
 }
 
 .input-group {
