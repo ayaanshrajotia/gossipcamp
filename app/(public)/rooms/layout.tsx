@@ -24,7 +24,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
     function handleChange(e: any) {
         console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
+        // setFile(URL.createObjectURL(e.target.files[0]));
     }
     return (
         <div className="relative bg-[#F1F2F5] w-full">
