@@ -1,6 +1,12 @@
 import { PostBoxPropsType } from "@/app/lib/definitions";
 import Image from "next/image";
 
+// icons
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
+
+import { useState } from "react";
+
 function PostBox({
     bgColor = "bg-white",
     textColor,
@@ -10,15 +16,25 @@ function PostBox({
     postImgUrl,
     user,
     description,
+    isUser,
     ...props
 }: PostBoxPropsType) {
-    console.log(postImgUrl);
+    const [isLiked, setIsLiked] = useState(false);
     return (
         <div
-            className={`relative max-w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 my-4`}
+            className={`relative max-w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 ${
+                isUser ? "self-end" : ""
+            }`}
             style={{ color: textColor }}
             {...props}
         >
+            {/* <div
+                className={`post-heart absolute w-6 h-6 text-red-500  ${
+                    isUser ? "-left-9" : "-right-10"
+                } top-1/2 -translate-y-1/2`}
+            >
+                <HeartIcon />{" "}
+            </div> */}
             <div className="flex gap-3">
                 <div>
                     <div className="relative h-[50px] w-[50px]">
@@ -45,6 +61,19 @@ function PostBox({
                             </div>
                         )}
                     </div>
+                </div>
+                <div>
+                    {isLiked ? (
+                        <HeartIconFilled
+                            className="h-6 w-6 text-red-500 cursor-pointer"
+                            onClick={() => setIsLiked(false)}
+                        />
+                    ) : (
+                        <HeartIcon
+                            className="h-6 w-6 text-red-500 cursor-pointer"
+                            onClick={() => setIsLiked(true)}
+                        />
+                    )}
                 </div>
             </div>
             <span className="text-xs text-right mt-1">{date}</span>

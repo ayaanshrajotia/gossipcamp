@@ -14,7 +14,26 @@ export type ContainerPropsType = {
 } & Record<string, any>;
 
 export type RoomPropsType = {
-    children?: string;
+    roomName: string;
+    roomId: string;
+    bgColor: string;
+    textColor: string;
+    className?: string;
+    isPrivate: boolean;
+} & Record<string, any>;
+
+export type RoomBoxPropsType = {
+    roomName: string;
+    roomId: string;
+    bgColor: string;
+    textColor: string;
+    className?: string;
+    isPrivate: boolean;
+} & Record<string, any>;
+
+export type RoomBoxBiggerPropsType = {
+    roomName: string;
+    roomId: string;
     bgColor: string;
     textColor: string;
     className?: string;
@@ -37,9 +56,16 @@ export type PostBoxPropsType = {
     postImgUrl?: string;
     user: string;
     description: string;
+    isUser: boolean;
 } & Record<string, any>;
 
 export type optionType = {
     id: number;
     name: string;
+};
+
+export type PeopleCountPropType = {
+    width: string;
+    height: string;
+    margin: string;
 };

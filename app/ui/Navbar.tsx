@@ -1,13 +1,26 @@
+"use client";
+
 import React from "react";
-import Container from "./Container";
 
 // icons
-import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+    BellIcon,
+    HomeIcon,
+    MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import {
+    BellIcon as BellIconFilled,
+    HomeIcon as HomeIconFilled,
+} from "@heroicons/react/24/solid";
+
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+    const pathname = usePathname();
     return (
-        <header className="h-screen w-[220px] border-r-2 fixed flex flex-col">
+        <header className="h-screen w-[220px] border-r-1 border-black fixed flex flex-col">
             <div className="h-[70px] px-4 flex items-center">
                 <h1 className="text-2xl font-primary font-bold ">
                     CollegeKhabar
@@ -15,14 +28,55 @@ export default function Navbar() {
             </div>
             <nav className="h-full flex flex-col justify-between p-4">
                 <div className="">
-                    <ul className="flex flex-col gap-4">
+                    <ul className="flex flex-col w-full gap-2">
                         <li className="flex gap-4 items-center cursor-pointer">
-                            <HomeIcon className="w-8 h-8" />
-                            Home
+                            <Link
+                                href={"/home"}
+                                className={`flex gap-4 items-center font-secondary w-full py-2 pl-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
+                                    pathname === "/home" ? "font-bold" : ""
+                                }`}
+                            >
+                                {pathname === "/home" ? (
+                                    <HomeIconFilled className={`w-8 h-8`} />
+                                ) : (
+                                    <HomeIcon className={`w-8 h-8`} />
+                                )}
+                                Home
+                            </Link>
                         </li>
-                        <li className="flex gap-4 items-center cursor-pointer">
-                            <MagnifyingGlassIcon className="w-8 h-8" />
-                            Explore
+                        <li className="cursor-pointer">
+                            <Link
+                                href={"/explore"}
+                                className={`flex gap-4 items-center font-secondary w-full py-2 pl-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                    pathname === "/explore" ? "font-bold" : ""
+                                }`}
+                            >
+                                <MagnifyingGlassIcon
+                                    className={`w-8 h-8 ${
+                                        pathname === "/explore"
+                                            ? "stroke-[3]"
+                                            : ""
+                                    }`}
+                                />
+                                Explore
+                            </Link>
+                        </li>
+                        <li className="cursor-pointer">
+                            <Link
+                                href={"/notifications"}
+                                className={`flex gap-4 items-center font-secondary w-full py-2  pl-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                    pathname === "/notifications"
+                                        ? "font-bold"
+                                        : ""
+                                }`}
+                            >
+                                {pathname === "/notifications" ? (
+                                    <BellIconFilled className={`w-8 h-8`} />
+                                ) : (
+                                    <BellIcon className={`w-8 h-8`} />
+                                )}
+                                Notifications
+                            </Link>
                         </li>
                     </ul>
                 </div>

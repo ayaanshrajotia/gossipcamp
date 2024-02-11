@@ -3,6 +3,7 @@
 import { colleges } from "@/app/lib/customOptions";
 import Button from "@/app/ui/Button";
 import Dropdown from "@/app/ui/Dropdown";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,9 @@ const schema = z.object({
             message: "Mobile number must be exactly 10 digits long",
         })
         .transform((value) => parseInt(value)),
+    password: z
+        .string()
+        .min(8, "Password must contain at least 8 character(s)"),
     enrollmentNumber: z
         .string()
         .min(8, "Enrollment number must contain at least 4 character(s)"),
@@ -26,6 +30,7 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function SignupPage() {
+    const [showPassword, setShowPassword] = useState(false);
     const [otp, setOtp] = useState("");
     const [college, setCollege] = useState("Select College");
     console.log(college);
@@ -68,7 +73,8 @@ export default function SignupPage() {
                         <div className="input-group w-full">
                             <input
                                 {...register("mobileNumber")}
-                                id="mobileNumber" type="text"
+                                id="mobileNumber"
+                                type="text"
                                 className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                                 required
                                 autoComplete="false"
@@ -80,6 +86,33 @@ export default function SignupPage() {
                                 </div>
                             )}
                         </div>
+                    </div>
+                    {/* Password */}
+                    <div className="input-group">
+                        <input
+                            {...register("password")}
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
+                            required
+                        />
+                        <label htmlFor="password">Password</label>
+                        {errors.password && (
+                            <div className="text-red-600 font-medium text-sm mt-2">
+                                {errors.password.message}
+                            </div>
+                        )}
+                        {showPassword ? (
+                            <EyeSlashIcon
+                                className="cursor-pointer h-5 w-5 absolute right-3 top-[18px]"
+                                onClick={() => setShowPassword(false)}
+                            />
+                        ) : (
+                            <EyeIcon
+                                className="cursor-pointer h-5 w-5 absolute right-3 top-[18px]"
+                                onClick={() => setShowPassword(true)}
+                            />
+                        )}
                     </div>
                     <div className="input-group w-full">
                         <input
