@@ -2,7 +2,7 @@ export type BtnPropsType = {
     children: string;
     bgColor: string;
     textColor: string;
-    type: string;
+    // type: string;
     className?: string;
 } & Record<string, any>;
 
@@ -25,6 +25,15 @@ export type RoomPropsType = {
 export type RoomBoxPropsType = {
     roomName: string;
     roomId: string;
+    bgColor: string;
+    textColor: string;
+    className?: string;
+    isPrivate: boolean;
+} & Record<string, any>;
+
+export type UserBoxPropsType = {
+    userName: string;
+    userId: string;
     bgColor: string;
     textColor: string;
     className?: string;

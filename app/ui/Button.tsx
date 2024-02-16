@@ -1,4 +1,4 @@
-import { BtnPropsType } from "../lib/definitions";
+import { BtnPropsType } from "../utils/definitions";
 
 function Button({
     children,
@@ -12,6 +12,7 @@ function Button({
         <button
             className={`btn relative w-full h-12 border-1 border-black rounded-lg flex items-center justify-center  font-secondary font-semibold  cursor-pointer ${textColor} ${className}`}
             style={{ color: textColor }}
+            type={type}
             {...props}
         >
             {children}

@@ -1,4 +1,4 @@
-const colleges = [
+const collegesOptions = [
     { id: 0, name: "Choose Your College" },
     { id: 1, name: "LNCT Bhopal" },
     { id: 2, name: "Oriental Institute of Science & Technology" },
@@ -169,7 +169,7 @@ const skinColorOptions = [
 ];
 
 export {
-    colleges,
+    collegesOptions,
     firstNames,
     lastNames,
     skinColorOptions,

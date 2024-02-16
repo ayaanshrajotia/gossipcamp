@@ -1,14 +1,21 @@
 "use client";
-
-import { colleges } from "@/app/lib/customOptions";
+import { collegesOptions } from "@/app/utils/customOptions";
+import auth from "@/app/utils/firebase";
 import Button from "@/app/ui/Button";
 import Dropdown from "@/app/ui/Dropdown";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import {
+    ConfirmationResult,
+    RecaptchaVerifier,
+    signInWithPhoneNumber,
+} from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import OTPInput from "react-otp-input";
 import { z } from "zod";
 
@@ -31,25 +38,113 @@ type FormFields = z.infer<typeof schema>;
 
 export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState("");
-    const [college, setCollege] = useState("Select College");
-    console.log(college);
+    const [college, setCollege] = useState("");
     const router = useRouter();
+    const [confirmationResult, setConfirmationResult] =
+        useState<ConfirmationResult | null>(null);
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpVerified, setOptVerified] = useState(false);
+    const [mobileNumber, setMobileNumber] = useState("");
+
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({ resolver: zodResolver(schema) });
 
-    //
+    useEffect(() => {
+        // @ts-ignore
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-otp", {
+            size: "invisible",
+            callback: (response: any) => {
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+                // handleOTP();
+            },
+        });
+    }, []);
+
+    const handleOTP = async () => {
+        try {
+            setLoading(true);
+            // @ts-ignore
+            const appVerifier = window.recaptchaVerifier;
+            const phoneNumber = "+91" + mobileNumber;
+            const confirmationResult = await signInWithPhoneNumber(
+                auth,
+                phoneNumber,
+                appVerifier
+            );
+
+            setConfirmationResult(confirmationResult);
+            setOtpSent(true);
+            // @ts-ignore
+            // window.recaptchaVerifier = null;
+            toast.success("OTP Sent");
+            setLoading(false);
+        } catch (err) {
+            console.error(err);
+            toast.error("Too many requests, try again later.");
+            setLoading(false);
+        }
+    };
+
+    const confirmOTP = async () => {};
+
     const handleOptions = (data: string) => {
         setCollege(data);
     };
 
     // Signup handler
     const signup: SubmitHandler<FormFields> = async (data) => {
-        router.push("/create-avatar");
-        console.log(data);
+        try {
+            setLoading(true);
+            if (confirmationResult) {
+                await confirmationResult.confirm(otp);
+                setOptVerified(true);
+            } else {
+                toast.error("Erong OTP");
+                return;
+            }
+
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
+                {
+                    mobileNo: data.mobileNumber,
+                    password: data.password,
+                    enrollmentNo: data.enrollmentNumber,
+                    collegeName: college,
+                }
+            );
+
+            if (response.data.statusCode === 200) {
+                // document.cookie = `accessToken=${response.data.data.accessToken}; path=/`;
+                localStorage.setItem(
+                    "accessToken",
+                    response.data.data.accessToken
+                );
+                localStorage.setItem(
+                    "refreshToken",
+                    response.data.data.refreshToken
+                );
+                toast.success(response.data.message);
+                console.log(response);
+                setTimeout(() => {
+                    router.push("/create-avatar");
+                }, 1500);
+                console.log(
+                    data.mobileNumber,
+                    data.password,
+                    data.enrollmentNumber,
+                    college
+                );
+            }
+            setLoading(false);
+        } catch (err) {
+            console.error(err);
+            setLoading(false);
+        }
     };
 
     return (
@@ -57,6 +152,7 @@ export default function SignupPage() {
             <h1 className="font-primary font-extrabold text-4xl text-college-grey mb-8">
                 Signup Anonymously!
             </h1>
+            {!otpSent ? <div id="recaptcha-container"></div> : null}
             {/* Form Content */}
             <form
                 className="flex flex-col gap-8"
@@ -73,6 +169,9 @@ export default function SignupPage() {
                         <div className="input-group w-full">
                             <input
                                 {...register("mobileNumber")}
+                                onChange={(e) =>
+                                    setMobileNumber(e.target.value)
+                                }
                                 id="mobileNumber"
                                 type="text"
                                 className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
@@ -135,14 +234,16 @@ export default function SignupPage() {
 
                     <Dropdown
                         handleOptions={handleOptions}
-                        options={colleges}
+                        options={collegesOptions}
                     />
                     <Button
                         bgColor="#fdd800"
                         textColor="text-college-gray"
                         type="button"
+                        id="sign-in-otp"
+                        onClick={handleOTP}
                     >
-                        Get OTP
+                        {loading ? "Fetching" : "Get OTP"}
                     </Button>
                 </div>
                 <div className="w-full h-[1px] bg-black"></div>
@@ -153,7 +254,7 @@ export default function SignupPage() {
                         <OTPInput
                             value={otp}
                             onChange={setOtp}
-                            numInputs={4}
+                            numInputs={6}
                             renderInput={(props) => <input {...props} />}
                             containerStyle={{
                                 display: "flex",
@@ -175,11 +276,10 @@ export default function SignupPage() {
                     <Button
                         bgColor="#313236"
                         textColor="text-white"
-                        disabled={isSubmitting}
-                        onClick={() => router.push("/create-avatar")}
+                        disabled={loading}
                         type="submit"
                     >
-                        {isSubmitting ? "Logging..." : " Next → "}
+                        {loading ? "Signing..." : " Next → "}
                     </Button>
                 </div>
             </form>

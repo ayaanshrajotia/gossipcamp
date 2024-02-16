@@ -1,4 +1,4 @@
-import { BtnPropsType, ContainerPropsType } from "../lib/definitions";
+import { BtnPropsType, ContainerPropsType } from "../utils/definitions";
 
 function Container({
     children,

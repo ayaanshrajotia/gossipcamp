@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { PeopleCountPropType } from "../lib/definitions";
+import { PeopleCountPropType } from "../utils/definitions";
 
 function PeopleCount({
     width = "w-[50px]",

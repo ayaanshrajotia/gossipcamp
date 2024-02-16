@@ -1,6 +1,6 @@
 "use client";
 
-import { RoomPropsType } from "@/app/lib/definitions";
+import { RoomPropsType } from "@/app/utils/definitions";
 import PostBox from "@/app/ui/post-containers/PostBox";
 import Image from "next/image";
 import { useParams } from "next/navigation";

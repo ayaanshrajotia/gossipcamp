@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
+import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
     title: "College Khabar",
@@ -18,7 +20,8 @@ export default function RootLayout({
                 className="bg-white min-w-screen min-h-screen box-border"
                 suppressHydrationWarning={true}
             >
-                {children}
+                <StoreProvider>{children}</StoreProvider>
+                <Toaster />
             </body>
         </html>
     );

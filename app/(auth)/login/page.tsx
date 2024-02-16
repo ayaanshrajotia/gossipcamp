@@ -6,12 +6,18 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { loginUser } from "@/lib/slices/userSlice";
 
 const schema = z.object({
-    mobileNumber: z
+    mobileNo: z
         .string()
         .refine((value) => value.length === 10, {
             message: "Mobile number must be exactly 10 digits long",
@@ -25,16 +31,28 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function LoginPage() {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+    // const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const { loading, error } = useSelector((state: RootState) => state.user);
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({ resolver: zodResolver(schema) });
 
+    // Login Function
     const login: SubmitHandler<FormFields> = async (data) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        console.log(data);
+        try {
+            dispatch(loginUser(data));
+        } catch (err: any) {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            toast.error(err?.response?.data?.message);
+            console.log(err.response);
+            // dispatch(logout());
+        }
     };
 
     return (
@@ -51,17 +69,17 @@ export default function LoginPage() {
                 {/* Mobile Number */}
                 <div className="input-group">
                     <input
-                        {...register("mobileNumber")}
+                        {...register("mobileNo")}
                         type="text"
-                        id="mobileNumber"
+                        id="mobileNo"
                         className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                         required
                         autoComplete="false"
                     />
-                    <label htmlFor="mobileNumber">Mobile Number</label>
-                    {errors.mobileNumber && (
+                    <label htmlFor="mobileNo">Mobile Number</label>
+                    {errors.mobileNo && (
                         <div className="text-red-600 font-medium text-sm mt-2">
-                            {errors.mobileNumber.message}
+                            {errors.mobileNo.message}
                         </div>
                     )}
                 </div>
@@ -109,7 +127,7 @@ export default function LoginPage() {
                     type="submit"
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? "Logging..." : "Login"}
+                    {loading ? "Logging in..." : " Login → "}
                 </Button>
             </form>
             <span className="mt-4 text-center">

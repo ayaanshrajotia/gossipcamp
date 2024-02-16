@@ -1,4 +1,4 @@
-import { PostBoxPropsType } from "@/app/lib/definitions";
+import { PostBoxPropsType } from "@/app/utils/definitions";
 import Image from "next/image";
 
 // icons

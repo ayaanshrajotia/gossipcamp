@@ -1,5 +1,5 @@
 import React from "react";
-import { RoomBoxBiggerPropsType } from "../../lib/definitions";
+import { RoomBoxBiggerPropsType } from "../../utils/definitions";
 import Image from "next/image";
 
 // icons

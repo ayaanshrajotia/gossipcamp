@@ -46,7 +46,7 @@ export default function Navbar() {
                         </li>
                         <li className="cursor-pointer">
                             <Link
-                                href={"/explore"}
+                                href={"/explore/people"}
                                 className={`flex gap-4 items-center font-secondary w-full py-2 pl-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
                                     pathname === "/explore" ? "font-bold" : ""
                                 }`}
