@@ -1,40 +1,49 @@
+"use client";
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import toast from "react-hot-toast";
 
-export const loginUser = createAsyncThunk(
-    "user/loginUser",
+export const signupUser = createAsyncThunk(
+    "user/signupUser",
     async (userCredentials: object) => {
         const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
+            `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/signup`,
             userCredentials
         );
         if (response.data.statusCode === 200) {
-            // localStorage.setItem(
-            //     "accessToken",
-            //     JSON.stringify(response.data.data.accessToken)
-            // );
-            localStorage.setItem(
-                "user",
-                JSON.stringify(response.data.data.user)
-            );
-
-            console.log(response);
-
-            toast.success(response.data.message);
         }
         return response.data.data.user;
     }
 );
 
+// login user
+export const loginUser = createAsyncThunk(
+    "user/loginUser",
+    async (userCredentials: object, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
+                userCredentials
+            );
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.data.user)
+            );
+            return response.data.data.user;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
 const initialState = {
     loading: false,
-    user: localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user")!)
-        : null,
-    error: null,
+    user:
+        typeof window !== "undefined" && localStorage.getItem("user")
+            ? JSON.parse(localStorage.getItem("user")!)
+            : null,
+    error: false,
 };
-
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -42,6 +51,7 @@ const userSlice = createSlice({
         logout: (state) => {
             state.user = null;
             localStorage.removeItem("user");
+            console.log("Logged out");
         },
     },
     extraReducers: (builder) => {
@@ -49,18 +59,17 @@ const userSlice = createSlice({
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.user = null;
-                state.error = null;
+                state.error = false;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
-                console.log(action.payload);
-                state.error = null;
+                state.error = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
-                console.log(action);
+                state.error = true;
             });
     },
 });

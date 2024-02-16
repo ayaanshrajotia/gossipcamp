@@ -14,7 +14,8 @@ import { AppDispatch, RootState } from "@/lib/store";
 
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { loginUser } from "@/lib/slices/userSlice";
+import { loginUser, logout } from "@/lib/slices/userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const schema = z.object({
     mobileNo: z
@@ -45,13 +46,11 @@ export default function LoginPage() {
     // Login Function
     const login: SubmitHandler<FormFields> = async (data) => {
         try {
-            dispatch(loginUser(data));
-        } catch (err: any) {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            toast.error(err?.response?.data?.message);
-            console.log(err.response);
-            // dispatch(logout());
+            await dispatch(loginUser(data));
+            toast.success("Logged in successfully");
+            router.push("/home");
+        } catch (error: any) {
+            toast.error(error);
         }
     };
 
