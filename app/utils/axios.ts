@@ -1,36 +1,54 @@
 import axios from "axios";
 
-const instance = axios.create({
+const axiosInstance = axios.create({
     baseURL: "https://college-khabar-backend.vercel.app/api/v1",
-    withCredentials: true,
 });
 
-instance.interceptors.request.use(
-    function (config) {
-        // Do something before request is sent
-
-        return config;
-    },
-    function (error) {
-        // Do something with request error
-        return Promise.reject(error);
-    }
-);
-
-instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
     async (request) => {
-        console.log("Interceptor ran");
+        const accessToken = localStorage?.getItem("accessToken");
+        if (accessToken) {
+            request.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        // request.withCredentials = true;
         return request;
     },
     (error) => {}
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
-    (response) => response,
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
     async (error) => {
-        console.log(error.config);
+        const originalRequest = error.config;
+        if (error.response.status === 401) {
+            try {
+                const refreshToken = localStorage?.getItem("refreshToken");
+                const response = await axios.post(
+                    `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
+                    { refreshToken }
+                );
+                localStorage.setItem(
+                    "accessToken",
+                    response.data.data.accessToken
+                );
+                localStorage.setItem(
+                    "refreshToken",
+                    response.data.data.refreshToken
+                );
+                return axiosInstance(originalRequest);
+            } catch (error: any) {
+                localStorage.removeItem("user");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                window.location.href = "/login";
+                return Promise.reject(error);
+            }
+        }
+        return Promise.reject(error);
     }
 );
 
-export default instance;
+export default axiosInstance;

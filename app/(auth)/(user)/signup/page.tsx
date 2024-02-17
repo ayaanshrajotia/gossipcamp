@@ -5,7 +5,6 @@ import Button from "@/app/ui/Button";
 import Dropdown from "@/app/ui/Dropdown";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import {
     ConfirmationResult,
     RecaptchaVerifier,
@@ -18,6 +17,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import OTPInput from "react-otp-input";
 import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { signupUser } from "@/lib/slices/userSlice";
 
 const schema = z.object({
     mobileNumber: z
@@ -38,7 +40,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [otp, setOtp] = useState("");
     const [college, setCollege] = useState("");
     const router = useRouter();
@@ -47,6 +49,8 @@ export default function SignupPage() {
     const [otpSent, setOtpSent] = useState(false);
     const [otpVerified, setOptVerified] = useState(false);
     const [mobileNumber, setMobileNumber] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
+    const { loading, error } = useSelector((state: RootState) => state.user);
 
     const {
         register,
@@ -67,7 +71,7 @@ export default function SignupPage() {
 
     const handleOTP = async () => {
         try {
-            setLoading(true);
+            setIsLoading(true);
             // @ts-ignore
             const appVerifier = window.recaptchaVerifier;
             const phoneNumber = "+91" + mobileNumber;
@@ -82,11 +86,11 @@ export default function SignupPage() {
             // @ts-ignore
             // window.recaptchaVerifier = null;
             toast.success("OTP Sent");
-            setLoading(false);
+            setIsLoading(false);
         } catch (err) {
             console.error(err);
             toast.error("Too many requests, try again later.");
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -99,7 +103,7 @@ export default function SignupPage() {
     // Signup handler
     const signup: SubmitHandler<FormFields> = async (data) => {
         try {
-            setLoading(true);
+            setIsLoading(true);
             if (confirmationResult) {
                 await confirmationResult.confirm(otp);
                 setOptVerified(true);
@@ -108,42 +112,29 @@ export default function SignupPage() {
                 return;
             }
 
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
-                {
-                    mobileNo: data.mobileNumber,
-                    password: data.password,
-                    enrollmentNo: data.enrollmentNumber,
-                    collegeName: college,
-                }
-            );
-
-            if (response.data.statusCode === 200) {
-                // document.cookie = `accessToken=${response.data.data.accessToken}; path=/`;
-                localStorage.setItem(
-                    "accessToken",
-                    response.data.data.accessToken
+            // Signup user
+            try {
+                const response = await dispatch(
+                    signupUser({
+                        mobileNo: data.mobileNumber,
+                        password: data.password,
+                        enrollmentNo: data.enrollmentNumber,
+                        collegeName: college,
+                    })
                 );
-                localStorage.setItem(
-                    "refreshToken",
-                    response.data.data.refreshToken
-                );
-                toast.success(response.data.message);
+                toast.success("Signed up successfully");
                 console.log(response);
                 setTimeout(() => {
                     router.push("/create-avatar");
                 }, 1500);
-                console.log(
-                    data.mobileNumber,
-                    data.password,
-                    data.enrollmentNumber,
-                    college
-                );
+            } catch (error: any) {
+                toast.error(error);
             }
-            setLoading(false);
+
+            setIsLoading(false);
         } catch (err) {
             console.error(err);
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 

@@ -1,18 +1,28 @@
 "use client";
 
+import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// signup user
 export const signupUser = createAsyncThunk(
     "user/signupUser",
-    async (userCredentials: object) => {
-        const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/signup`,
-            userCredentials
-        );
-        if (response.data.statusCode === 200) {
+    async (userCredentials: object, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/signup`,
+                userCredentials
+            );
+            localStorage.setItem("accessToken", response.data.data.accessToken);
+            localStorage.setItem(
+                "refreshToken",
+                response.data.data.refreshToken
+            );
+
+            return response.data.data.user;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
         }
-        return response.data.data.user;
     }
 );
 
@@ -23,13 +33,36 @@ export const loginUser = createAsyncThunk(
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
-                userCredentials
+                { mobileNo: "9399823477", password: "ayaanshrajotia" }
+            );
+            localStorage.setItem("accessToken", response.data.data.accessToken);
+            localStorage.setItem(
+                "refreshToken",
+                response.data.data.refreshToken
             );
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.data.user)
             );
             return response.data.data.user;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+// logout user
+export const logoutUser = createAsyncThunk(
+    "user/logoutUser",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post(`/users/logout`);
+            localStorage.removeItem("user");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            console.log("Logged out");
+
+            return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -47,13 +80,7 @@ const initialState = {
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-        logout: (state) => {
-            state.user = null;
-            localStorage.removeItem("user");
-            console.log("Logged out");
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.pending, (state) => {
@@ -70,10 +97,26 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.user = null;
                 state.error = true;
+            })
+            .addCase(logoutUser.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(logoutUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = null;
+                state.error = false;
+            })
+            .addCase(logoutUser.rejected, (state, action) => {
+                state.loading = false;
+                state.user = null;
+                state.error = true;
+                
+                console.log(action);
             });
     },
 });
 
-export const { logout } = userSlice.actions;
+export const {} = userSlice.actions;
 
 export default userSlice.reducer;

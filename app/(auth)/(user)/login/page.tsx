@@ -14,19 +14,16 @@ import { AppDispatch, RootState } from "@/lib/store";
 
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { loginUser, logout } from "@/lib/slices/userSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
+import { loginUser } from "@/lib/slices/userSlice";
 
 const schema = z.object({
-    mobileNo: z
-        .string()
-        .refine((value) => value.length === 10, {
-            message: "Mobile number must be exactly 10 digits long",
-        })
-        .transform((value) => parseInt(value)),
-    password: z
-        .string()
-        .min(8, "Password must contain at least 8 character(s)"),
+    mobileNo: z.string(),
+    // .refine((value) => value.length === 10, {
+    //     message: "Mobile number must be exactly 10 digits long",
+    // })
+    // .transform((value) => parseInt(value)),
+    password: z.string(),
+    // .min(8, "Password must contain at least 8 character(s)"),
 });
 
 type FormFields = z.infer<typeof schema>;

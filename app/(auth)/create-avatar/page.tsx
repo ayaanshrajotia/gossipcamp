@@ -17,8 +17,8 @@ import {
     mouthTypeOptions,
     skinColorOptions,
     topTypeOptions,
-} from "../utils/customOptions";
-import { capitalizeFirstLetter } from "../utils/helper";
+} from "../../utils/customOptions";
+import { capitalizeFirstLetter } from "../../utils/helper";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
