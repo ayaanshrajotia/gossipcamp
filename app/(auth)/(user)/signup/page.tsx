@@ -1,4 +1,5 @@
 "use client";
+
 import { collegesOptions } from "@/app/utils/customOptions";
 import auth from "@/app/utils/firebase";
 import Button from "@/app/ui/Button";

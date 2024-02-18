@@ -15,6 +15,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/userSlice";
+import withAuth from "@/app/ui/withAuth";
 
 const schema = z.object({
     mobileNo: z.string(),
@@ -28,12 +29,12 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function LoginPage() {
+const LoginPage = () => {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, error } = useSelector((state: RootState) => state.user);
+    const { loading, user } = useSelector((state: RootState) => state.user);
     const {
         register,
         handleSubmit,
@@ -134,4 +135,6 @@ export default function LoginPage() {
             </span>
         </div>
     );
-}
+};
+
+export default LoginPage;

@@ -30,6 +30,7 @@ axiosInstance.interceptors.response.use(
                     `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
                     { refreshToken }
                 );
+
                 localStorage.setItem(
                     "accessToken",
                     response.data.data.accessToken
@@ -40,6 +41,10 @@ axiosInstance.interceptors.response.use(
                 );
                 return axiosInstance(originalRequest);
             } catch (error: any) {
+                document.cookie =
+                    "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie =
+                    "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 localStorage.removeItem("user");
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");

@@ -35,6 +35,9 @@ export const loginUser = createAsyncThunk(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 { mobileNo: "9399823477", password: "ayaanshrajotia" }
             );
+            document.cookie = `accessToken=${response.data.data.accessToken}`;
+            document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+
             localStorage.setItem("accessToken", response.data.data.accessToken);
             localStorage.setItem(
                 "refreshToken",
@@ -44,6 +47,7 @@ export const loginUser = createAsyncThunk(
                 "user",
                 JSON.stringify(response.data.data.user)
             );
+            console.log(response);
             return response.data.data.user;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -57,11 +61,14 @@ export const logoutUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post(`/users/logout`);
+            document.cookie =
+                "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+                "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             console.log("Logged out");
-
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -91,6 +98,7 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                console.log("fulfilled");
                 state.error = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -111,7 +119,7 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.user = null;
                 state.error = true;
-                
+
                 console.log(action);
             });
     },

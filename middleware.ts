@@ -1,29 +1,24 @@
+import { access } from "fs";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { RootState, store } from "./lib/store";
-
-// This function can be marked `async` if using `await` inside
+import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-    const state: RootState = store.getState();
+    const path = request.nextUrl.pathname;
+    const publicPaths = path === "/login" || path === "/signup";
+    const accessToken = request.cookies.get("accessToken")?.value || "";
 
-    const userData = state.user;
-    console.log(userData);
-
-    const publicRoutes =
-        request.nextUrl.pathname === "/login" ||
-        request.nextUrl.pathname === "/signup";
-
-    if (publicRoutes && !userData) {
+    if (publicPaths && accessToken) {
         return NextResponse.redirect(new URL("/home", request.nextUrl));
     }
 
-    if (!publicRoutes && userData) {
+    if (!publicPaths && !accessToken) {
         return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
+    return;
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: [],
+    matcher: ["/home", "/login", "/signup"],
 };

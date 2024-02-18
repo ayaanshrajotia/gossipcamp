@@ -1,15 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import Navbar from "../../ui/Navbar";
-import Sidebar from "../../ui/Sidebar";
-import PostBox from "../../ui/post-containers/PostBox";
 import { AppDispatch } from "@/lib/store";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "@/lib/slices/userSlice";
 import { useRouter } from "next/navigation";
+import { cookies } from "next/headers";
 
-export default function Home() {
+const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     return (
@@ -27,4 +24,6 @@ export default function Home() {
             </div>
         </div>
     );
-}
+};
+
+export default Home;
