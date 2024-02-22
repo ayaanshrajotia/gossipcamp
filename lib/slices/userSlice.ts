@@ -1,5 +1,3 @@
-"use client";
-
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -33,10 +31,15 @@ export const loginUser = createAsyncThunk(
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
-                { mobileNo: "9399823477", password: "ayaanshrajotia" }
+                // { mobileNo: "7880049324", password: "nehakumari" }
+                // { mobileNo: "8109774963", password: "adi@1234" }
+                { mobileNo: "9336339270", password: "pulkitgupta" }
             );
             document.cookie = `accessToken=${response.data.data.accessToken}`;
             document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+            document.cookie = `profile=${JSON.stringify(
+                response.data.data.profile
+            )}`;
 
             localStorage.setItem("accessToken", response.data.data.accessToken);
             localStorage.setItem(
@@ -47,8 +50,31 @@ export const loginUser = createAsyncThunk(
                 "user",
                 JSON.stringify(response.data.data.user)
             );
-            console.log(response);
-            return response.data.data.user;
+            localStorage.setItem(
+                "profile",
+                JSON.stringify(response.data.data.profile)
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+// create user profile
+export const createAvatar = createAsyncThunk(
+    "user/createAvatar",
+    async (profile: object, { rejectWithValue }) => {
+        try {
+            console.log(profile);
+            const response = await axiosInstance.post(
+                `/users/create-profile`,
+                profile
+            );
+            localStorage.setItem("profile", JSON.stringify(response.data.data));
+            document.cookie = `profile=${JSON.stringify(response.data.data)}`;
+            console.log(response.data.data);
+            return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -65,10 +91,12 @@ export const logoutUser = createAsyncThunk(
                 "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie =
                 "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+                "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            console.log("Logged out");
+            localStorage.removeItem("profile");
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -82,8 +110,13 @@ const initialState = {
         typeof window !== "undefined" && localStorage.getItem("user")
             ? JSON.parse(localStorage.getItem("user")!)
             : null,
+    profile:
+        typeof window !== "undefined" && localStorage.getItem("profile")
+            ? JSON.parse(localStorage.getItem("profile")!)
+            : null,
     error: false,
 };
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -97,14 +130,31 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
-                console.log("fulfilled");
+                state.user = action.payload.user;
+                console.log(action.payload.user);
+                state.profile = action.payload.profile;
+                console.log(action.payload.profile);
                 state.error = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = true;
+                console.log(action);
+            })
+            .addCase(createAvatar.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(createAvatar.fulfilled, (state, action) => {
+                state.loading = false;
+                state.profile = action.payload;
+                state.error = false;
+            })
+            .addCase(createAvatar.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+                console.log(action);
             })
             .addCase(logoutUser.pending, (state) => {
                 state.loading = true;
@@ -113,6 +163,7 @@ const userSlice = createSlice({
             .addCase(logoutUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = null;
+                state.profile = null;
                 state.error = false;
             })
             .addCase(logoutUser.rejected, (state, action) => {

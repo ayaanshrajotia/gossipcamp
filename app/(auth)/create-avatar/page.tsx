@@ -19,6 +19,10 @@ import {
     topTypeOptions,
 } from "../../utils/customOptions";
 import { capitalizeFirstLetter } from "../../utils/helper";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
+import { createAvatar } from "@/lib/slices/userSlice";
+import { useRouter } from "next/navigation";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
@@ -36,12 +40,17 @@ function CreateAvatar() {
         mouthType: "Default",
         skinColor: "Light",
     });
-
-    console.log(avatarParams);
+    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
 
     const url = `https://avataaars.io/?avatarStyle=Circle&${avatarParams.accessoriesType}&topType=${avatarParams.topType}&accessoriesType=${avatarParams.accessoriesType}&hairColor=${avatarParams.hairColor}&facialHairType=${avatarParams.facialHairType}&clotheType=${avatarParams.clotheType}&eyebrowType=${avatarParams.eyebrowType}&mouthType=${avatarParams.mouthType}&skinColor=${avatarParams.skinColor}&eyeType=${avatarParams.eyeType}`;
 
-    console.log(url);
+    const handleCreateProfile = async () => {
+        await dispatch(
+            createAvatar({ fName: firstName, lName: lastName, avatarUrl: url })
+        );
+        router.push("/home");
+    };
 
     return (
         <div className="w-[1200px] flex flex-col gap-10 items-center font-secondary">
@@ -339,6 +348,7 @@ function CreateAvatar() {
                 textColor="#000000"
                 type="submit"
                 className=""
+                onClick={handleCreateProfile}
             >
                 Enter
             </Button>

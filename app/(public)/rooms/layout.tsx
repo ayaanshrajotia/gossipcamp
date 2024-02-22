@@ -27,12 +27,12 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         // setFile(URL.createObjectURL(e.target.files[0]));
     }
     return (
-        <div className="relative bg-[#F1F2F5] w-full">
+        <div className="min-h-screen relative px-6 w-full">
             {children}
             <div
                 className={`bg-white w-full  ${
-                    !isActive ? "bottom-0 h-[60px]" : "bottom-0 h-[500px]"
-                }  sticky  rounded-t-2xl border-1 border-black transition-all duration-300 ease-in-out flex flex-col px-3 pt-2`}
+                    !isActive ? "bottom-4 h-[60px]" : "bottom-0 h-[500px]"
+                }  sticky  rounded-2xl border-1 border-black transition-all duration-300 ease-in-out flex flex-col px-3 pt-2`}
             >
                 <div className="flex items-center gap-4 w-full h-fit">
                     <div className="flex items-center gap-2">
@@ -46,14 +46,14 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     <input
                         className="flex-1 p-2 px-4 bg-[#F1F2F5] border-black rounded-full outline-none "
                         placeholder="Write your thoughts"
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        // onFocus={handleFocus}
+                        // onBlur={handleBlur}
                     />
                     <button>
                         <PaperAirplaneIcon className="w-7 h-7" />
                     </button>
                 </div>
-                <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>
+                {/* <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>
                     <div className="border-2 border-dashed border-black rounded-lg  h-full w-full cursor-pointer bg-[#F1F2F5]">
                         <label
                             htmlFor="inputTag"
@@ -69,7 +69,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         </label>
                         <img src={file} />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

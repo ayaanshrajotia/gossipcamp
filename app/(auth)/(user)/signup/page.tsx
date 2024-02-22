@@ -125,9 +125,6 @@ export default function SignupPage() {
                 );
                 toast.success("Signed up successfully");
                 console.log(response);
-                setTimeout(() => {
-                    router.push("/create-avatar");
-                }, 1500);
             } catch (error: any) {
                 toast.error(error);
             }
@@ -229,7 +226,7 @@ export default function SignupPage() {
                         options={collegesOptions}
                     />
                     <Button
-                        bgColor="#fdd800"
+                        bgColor="bg-[#fdd800]"
                         textColor="text-college-gray"
                         type="button"
                         id="sign-in-otp"
@@ -266,7 +263,7 @@ export default function SignupPage() {
                         />
                     </div>
                     <Button
-                        bgColor="#313236"
+                        bgColor="bg-[#313236]"
                         textColor="text-white"
                         disabled={loading}
                         type="submit"

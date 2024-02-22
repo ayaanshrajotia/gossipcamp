@@ -57,28 +57,61 @@ input:focus {
     box-shadow: 0px 0px 0px 0px rgba(221, 221, 221, 0.75);
 }
 
+.box-shadow-black:hover {
+    box-shadow: 0px 0px 0px 0px rgba(221, 221, 221, 0.75);
+}
+
 .box-shadow-yellow:hover {
     box-shadow: 0px 0px 0px 0px rgba(221, 221, 221, 0.75);
 }
 
+.box-shadow-yellow-extend:hover {
+    -webkit-box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    -moz-box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    transition: all 0.1s ease-in-out;
+}
+
 .box-shadow {
-    -webkit-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    -moz-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    transition: all 0.2s ease-in-out;
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    transition: all 0.1s ease-in-out;
 }
 
 .box-shadow-yellow {
-    -webkit-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
-    -moz-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
-    box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
-    transition: all 0.2s ease-in-out;
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    transition: all 0.1s ease-in-out;
+}
+
+.box-shadow-yellow-static {
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    transition: all 0.1s ease-in-out;
+}
+
+.box-shadow-yellow-extend {
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    box-shadow: 5px 5px 0px 0px rgba(253, 216, 0, 1);
+    transition: all 0.1s ease-in-out;
 }
 
 .box-shadow-black {
-    -webkit-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
-    -moz-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
-    box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    transition: all 0.1s ease-in-out;
+}
+
+.card:hover {
+    -webkit-box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    transform: scale(1.05);
 }
 
 .pattern-bg {

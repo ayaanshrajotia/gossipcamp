@@ -1,26 +1,25 @@
 "use client";
 
-import { AppDispatch } from "@/lib/store";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "@/lib/slices/userSlice";
-import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
-
 const Home = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const router = useRouter();
     return (
-        <div className="min-h-screen relative">
-            <div className="sticky w-full top-0 bg-white dark:bg-slate-900 z-[999] flex items-center px-4 gap-4 border-b-1 border-black h-[70px]">
-                <h1 className="font-secondary font-extrabold text-2xl">Home</h1>
-                <button
-                    onClick={() => {
-                        dispatch(logoutUser());
-                        // router.push("/login");
-                    }}
-                >
-                    Logout
-                </button>
+        <div className="min-h-screen relative px-6 w-full pt-4">
+            <div className="h-[70px]">
+                <div className="sticky w-full top-4 bg-white dark:bg-slate-900 z-[999] flex items-center gap-4  px-4 h-[60px] rounded-xl box-shadow-black border-1">
+                    <h1 className="font-secondary font-extrabold text-2xl">
+                        Home
+                    </h1>
+                </div>
+            </div>
+            <div className="mt-4">
+                <div className="bg-red-100 text-2xl p-4 rounded-xl">
+                    Ayaansh
+                </div>
+                <div className="bg-red-100 text-2xl p-4 rounded-xl">
+                    Ayaansh
+                </div>
+                <div className="bg-red-100 text-2xl p-4 rounded-xl">
+                    Ayaansh
+                </div>
             </div>
         </div>
     );

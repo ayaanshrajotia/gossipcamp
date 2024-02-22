@@ -25,7 +25,6 @@ export type RoomPropsType = {
 export type RoomBoxPropsType = {
     roomName: string;
     roomId: string;
-    bgColor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;

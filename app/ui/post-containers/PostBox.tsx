@@ -23,7 +23,7 @@ function PostBox({
     return (
         <div
             className={`relative max-w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 ${
-                isUser ? "self-end" : ""
+                isUser ? "self-end box-shadow-yellow" : "box-shadow-black"
             }`}
             style={{ color: textColor }}
             {...props}

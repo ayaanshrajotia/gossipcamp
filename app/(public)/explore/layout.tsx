@@ -5,8 +5,8 @@ import React from "react";
 
 function page({ children }: { children: React.ReactNode }) {
     return (
-        <div className="min-h-screen">
-            <div className="border-b-1 sticky top-0 z-[999] flex h-[70px] w-full items-center gap-4 border-black bg-white px-4 dark:bg-slate-900">
+        <div className="min-h-screen relative px-6 w-full pt-6">
+            <div className="sticky w-full top-4 bg-white dark:bg-slate-900 z-[999] flex items-center gap-4 h-[70px] px-4 rounded-xl box-shadow-yellow-static">
                 <h1 className="font-secondary text-2xl font-extrabold">
                     Explore
                 </h1>

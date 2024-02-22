@@ -18,7 +18,7 @@ function RoomBox({
 }: RoomBoxPropsType) {
     return (
         <div
-            className={`relative border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white p-3 mx-3 min-w-fit`}
+            className={`relative border-1 border-college-bg-grey rounded-xl font-secondary ${textColor} ${className} bg-white p-3 min-w-fit transition-all cursor-pointer`}
             style={{ color: textColor }}
             {...props}
         >
@@ -58,7 +58,7 @@ function RoomBox({
                     />
                     <Link
                         href={`/rooms/${roomId}`}
-                        className="bg-black text-white text-sm rounded-xl p-1 px-3 flex items-center justify-center"
+                        className="bg-black text-white text-sm rounded-full p-1 px-4 flex items-center justify-center"
                     >
                         View
                     </Link>
