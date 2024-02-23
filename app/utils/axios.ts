@@ -10,7 +10,6 @@ axiosInstance.interceptors.request.use(
         if (accessToken) {
             request.headers.Authorization = `Bearer ${accessToken}`;
         }
-        console.log(accessToken);
         // request.withCredentials = true;
         return request;
     },
@@ -31,8 +30,7 @@ axiosInstance.interceptors.response.use(
                     `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
                     { refreshToken }
                 );
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
+
                 localStorage.setItem(
                     "accessToken",
                     response.data.data.accessToken
@@ -43,17 +41,15 @@ axiosInstance.interceptors.response.use(
                 );
                 return axiosInstance(originalRequest);
             } catch (error: any) {
-                if (error.response.status !== 500) {
-                    document.cookie =
-                        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie =
-                        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    localStorage.removeItem("user");
-                    localStorage.removeItem("accessToken");
-                    localStorage.removeItem("refreshToken");
-                    window.location.href = "/login";
-                    return Promise.reject(error);
-                }
+                document.cookie =
+                    "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie =
+                    "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                localStorage.removeItem("user");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                window.location.href = "/login";
+                return Promise.reject(error);
             }
         }
         return Promise.reject(error);

@@ -10,30 +10,29 @@ export default function Room() {
     const roomName = "LNCT Bhopal";
     return (
         <>
-            <div className="pt-4 sticky w-full top-0 bg-college-bg-grey z-[999]">
-                <div className=" bg-neutral-700 border-1 text-white border-black dark:bg-slate-900  flex items-center gap-4 h-[70px] px-4 rounded-xl">
-                    <div>
-                        <div className="relative h-[45px] w-[45px]">
-                            <Image
-                                src="/lnct-logo.png"
-                                alt="avatar-1"
-                                fill
-                                className="object-cover rounded-full border-1 border-black"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-secondary font-bold text-lg">
-                            {roomId}
-                        </span>
-                        <span className="font-secondary text-gray-400 text-sm">
-                            @{roomId}
-                        </span>
+            <div className="sticky top-0 bg-white dark:bg-slate-900 z-[999] flex items-center px-4 gap-4 border-b-1 h-[70px]">
+                <div>
+                    <div className="relative h-[45px] w-[45px]">
+                        <Image
+                            src="/lnct-logo.png"
+                            alt="avatar-1"
+                            fill
+                            className="object-cover rounded-full border-1 border-black"
+                        />
                     </div>
                 </div>
+                <div className="flex flex-col">
+                    <span className="font-secondary font-bold text-lg">
+                        {roomId}
+                    </span>
+                    <span className="font-secondary text-gray-500 text-sm">
+                        @{roomId}
+                    </span>
+                </div>
             </div>
-            <div className="w-full my-6 mb-10 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1]">
+            <div className="w-full px-6 my-6 max-w-[1400px] mx-auto flex flex-col gap-8">
                 <PostBox
+                    className="box-shadow-black"
                     date="8 Jan"
                     profileUrl="/avatar-2.png"
                     user="Nightranger"
@@ -42,6 +41,7 @@ export default function Room() {
                     isUser={false}
                 />
                 <PostBox
+                    className="box-shadow-black"
                     date="8 Jan"
                     profileUrl="/avatar-2.png"
                     user="Nightranger"
@@ -50,6 +50,7 @@ export default function Room() {
                     isUser={false}
                 />
                 <PostBox
+                    className="box-shadow-black"
                     date="8 Jan"
                     profileUrl="/avatar-1.png"
                     user="DeathVader"
@@ -57,6 +58,7 @@ export default function Room() {
                     isUser={true}
                 />
                 <PostBox
+                    className="box-shadow-black"
                     date="8 Jan"
                     profileUrl="/avatar-1.png"
                     user="BurgerEater"
@@ -64,27 +66,7 @@ export default function Room() {
                     isUser={false}
                 />
                 <PostBox
-                    date="8 Jan"
-                    profileUrl="/avatar-1.png"
-                    user="BurgerEater"
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={true}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl="/avatar-1.png"
-                    user="DeathVader"
-                    description="I know a guy who can help in hacking the instagram accounts"
-                    isUser={true}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl="/avatar-1.png"
-                    user="BurgerEater"
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={false}
-                />
-                <PostBox
+                    className="box-shadow-black"
                     date="8 Jan"
                     profileUrl="/avatar-1.png"
                     user="BurgerEater"

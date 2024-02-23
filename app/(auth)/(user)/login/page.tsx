@@ -15,6 +15,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/userSlice";
+import withAuth from "@/app/ui/withAuth";
 
 const schema = z.object({
     mobileNo: z.string(),
@@ -52,7 +53,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="max-w-[400px] w-full flex flex-col font-secondary ">
+        <div className="max-w-[400px] w-full flex flex-col font-secondary">
             <h1 className="font-primary font-extrabold text-4xl text-college-grey mb-8">
                 Login Anonymously!
             </h1>
@@ -118,7 +119,7 @@ const LoginPage = () => {
                 </div>
 
                 <Button
-                    bgColor="bg-[#fdd800]"
+                    bgColor="#fdd800"
                     textColor="#000000"
                     type="submit"
                     disabled={isSubmitting}

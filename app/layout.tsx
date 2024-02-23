@@ -17,7 +17,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="">
             <body
-                className="min-w-screen min-h-screen box-border"
+                className="bg-white min-w-screen min-h-screen box-border"
                 suppressHydrationWarning={true}
             >
                 <StoreProvider>{children}</StoreProvider>

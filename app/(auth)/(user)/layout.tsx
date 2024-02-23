@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="relative h-screen w-full flex flex-1 p-4">
+        <div className="h-screen w-full flex flex-1 p-4">
             <div className="w-1/2 flex items-center justify-center">
                 {children}
             </div>

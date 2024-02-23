@@ -3,13 +3,14 @@ import { BtnPropsType, ContainerPropsType } from "../utils/definitions";
 function Container({
     children,
     bgColor = "bg-blue-600",
-    textColor = "text-black",
+    textColor,
     className = "",
     ...props
 }: ContainerPropsType) {
     return (
         <div
             className={`relative w-full border-1 border-black rounded-lg font-secondary ${textColor} ${className} bg-white p-4`}
+            style={{ color: textColor }}
             {...props}
         >
             {children}
