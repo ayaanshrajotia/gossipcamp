@@ -9,14 +9,17 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            backgroundImage: {
+                "chat-background": "url('/images/chat-background.png')",
+            },
             colors: {
                 "college-yellow": "#fdd800",
                 "college-grey": "#313236",
                 "college-grey-2": "rgba(221, 221, 221, 0.75)",
             },
             fontFamily: {
-                primary: ["Raleway", "sans-serif"],
-                secondary: ["Be Vietnam Pro", "sans-serif"],
+                primary: ["Lato", "sans-serif"],
+                secondary: ["Lato", "sans-serif"],
             },
             borderWidth: {
                 "1": "1.5px",

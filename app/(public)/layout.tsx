@@ -1,5 +1,5 @@
-import Navbar from "../ui/Navbar";
-import Sidebar from "../ui/Sidebar";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 export default function PublicLayout({
     children,
@@ -7,10 +7,10 @@ export default function PublicLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="h-screen relative">
-            <div className="flex">
-                <Navbar />
-                <div className="relative w-full ml-[220px] mr-[320px] bg-[#F1F2F5]">
+        <div className="flex relative">
+            <Navbar />
+            <main className="min-h-screen relative flex w-[calc(100%-240px)] ml-auto bg-college-bg-grey items-start gap-6">
+                <div className="relative flex gap-2 w-[calc(100%-340px)]">
                     {children}
                 </div>
                 <Sidebar />

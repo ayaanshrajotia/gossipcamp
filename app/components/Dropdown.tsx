@@ -22,7 +22,17 @@ export default function Dropdown({
             className="flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none"
             onChange={(e) => handleOptions(e.target.value)}
         >
-            {options?.map((item) => (
+            {options?.slice(0, 1).map((item) => (
+                <option
+                    key={item.id}
+                    value={item.name}
+                    disabled={true}
+                    selected={true}
+                >
+                    {capitalizeFirstLetter(item.name)}
+                </option>
+            ))}
+            {options?.slice(1).map((item) => (
                 <option key={item.id} value={item.name}>
                     {capitalizeFirstLetter(item.name)}
                 </option>

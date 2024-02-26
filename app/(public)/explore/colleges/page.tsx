@@ -1,4 +1,4 @@
-import RoomBoxBigger from "@/app/ui/room-boxes/RoomBoxBigger";
+import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import React from "react";
 
 function page() {

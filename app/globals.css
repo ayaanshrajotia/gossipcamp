@@ -1,8 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     box-sizing: border-box;
@@ -58,14 +65,30 @@ input:focus {
 }
 
 .box-shadow-yellow:hover {
-    box-shadow: 0px 0px 0px 0px rgba(221, 221, 221, 0.75);
+    box-shadow: 3px 3px 0px 0px rgba(253, 216, 0, 1);
+}
+
+.box-shadow-yellow-extend:hover {
+    -webkit-box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    -moz-box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    box-shadow: 8px 8px 0px 0px rgba(253, 216, 0, 1);
+    transition: all 0.1s ease-in-out;
+}
+
+.light-shadow {
+    box-shadow: rgba(149, 157, 165, 0.089) 0px 8px 24px;
 }
 
 .box-shadow {
-    -webkit-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    -moz-box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    box-shadow: 6px 6px 0px 0px rgba(221, 221, 221, 0.75);
-    transition: all 0.2s ease-in-out;
+    box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+}
+
+.box-shadow-static {
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
+    box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
+    transition: all 0.1s ease-in-out;
 }
 
 .box-shadow-yellow {
@@ -76,9 +99,17 @@ input:focus {
 }
 
 .box-shadow-black {
-    -webkit-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
-    -moz-box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
-    box-shadow: 6px 6px 0px 0px rgba(49, 50, 54, 0.75);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    -webkit-box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    box-shadow: 10px 10px 35px -20px rgba(0, 0, 0, 0.33);
+    transform: scale(1.05);
 }
 
 .pattern-bg {
@@ -130,7 +161,7 @@ input:focus {
 }
 
 .doodle {
-    background-image: url("/doodle-bg.jpeg");
+    background-image: url("/images/doodle-bg.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -160,4 +191,137 @@ input:focus {
     font-size: 0.8rem;
     color: #757575;
     background-color: #fff;
+}
+
+.text-trim {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.embla {
+    /* max-width: 48rem; */
+    margin: auto;
+    --slide-height: 19rem;
+    --slide-spacing: 1rem;
+    --slide-size: 100%;
+}
+.embla__viewport {
+    overflow: hidden;
+}
+.embla__container {
+    backface-visibility: hidden;
+    display: flex;
+    touch-action: pan-y;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
+}
+.embla__slide__img {
+    border-radius: 1.4rem;
+    display: block;
+    height: var(--slide-height);
+    width: 100%;
+    object-fit: cover;
+}
+.embla__controls {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+}
+.embla__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+}
+.embla__button {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+    width: 3.6rem;
+    height: 3.6rem;
+    z-index: 1;
+    border-radius: 50%;
+    color: var(--text-body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.embla__button:disabled {
+    color: var(--detail-high-contrast);
+}
+.embla__button__svg {
+    width: 35%;
+    height: 35%;
+}
+.embla__dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
+    margin-top: 0.4rem;
+}
+.embla__dot {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 1.2rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.embla__dot:after {
+    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    content: "";
+    background-color: rgb(182, 182, 182);
+}
+.embla__dot--selected:after {
+    box-shadow: inset 0 0 0 0.2rem var(--text-body);
+    background-color: #fdd800;
+}
+.embla__parallax {
+    border-radius: 1.4rem;
+    height: 100%;
+    overflow: hidden;
+}
+.embla__parallax__layer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.embla__parallax__img {
+    max-width: none;
+    flex: 0 0 calc(115% + (var(--slide-spacing) * 2));
+    object-fit: cover;
 }

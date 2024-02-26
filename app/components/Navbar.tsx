@@ -1,9 +1,17 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { logoutUser } from "@/lib/slices/userSlice";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
+import toast from "react-hot-toast";
 
 // icons
 import {
+    ArrowRightStartOnRectangleIcon,
     BellIcon,
     HomeIcon,
     MagnifyingGlassIcon,
@@ -11,29 +19,40 @@ import {
 import {
     BellIcon as BellIconFilled,
     HomeIcon as HomeIconFilled,
+    UserGroupIcon,
 } from "@heroicons/react/24/solid";
-
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function Navbar() {
     const pathname = usePathname();
+    const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(logoutUser());
+            toast.success("Logged out successfully");
+            router.push("/login");
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Handle logout error, if needed
+        }
+    };
     return (
-        <header className="h-screen w-[220px] border-r-1 border-black fixed flex flex-col">
+        <header className="h-screen w-[240px] top-0 bg-[#ffffff] border-black fixed pt-4 flex flex-col light-shadow z-[999]">
             <div className="h-[70px] px-4 flex items-center">
-                <h1 className="text-2xl font-primary font-bold ">
-                    CollegeKhabar
+                <h1 className="text-2xl font-primary font-bold p-2 flex gap-3">
+                    <UserGroupIcon className={`w-8 h-8 `} />
+                    CK
                 </h1>
             </div>
-            <nav className="h-full flex flex-col justify-between p-4">
+            <nav className="flex flex-1 flex-col justify-between p-4 mb-2">
                 <div className="">
                     <ul className="flex flex-col w-full gap-2">
                         <li className="flex gap-4 items-center cursor-pointer">
                             <Link
                                 href={"/home"}
-                                className={`flex gap-4 items-center font-secondary w-full py-2 pl-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
-                                    pathname === "/home" ? "font-bold" : ""
+                                className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
+                                    pathname === "/home" ? "font-extrabold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
@@ -47,13 +66,15 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/explore/people"}
-                                className={`flex gap-4 items-center font-secondary w-full py-2 pl-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
-                                    pathname === "/explore" ? "font-bold" : ""
+                                className={`flex gap-4 items-center font-secondary w-full p-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                    pathname.includes("/explore")
+                                        ? "font-extrabold"
+                                        : ""
                                 }`}
                             >
                                 <MagnifyingGlassIcon
                                     className={`w-8 h-8 ${
-                                        pathname === "/explore"
+                                        pathname.includes("/explore")
                                             ? "stroke-[3]"
                                             : ""
                                     }`}
@@ -64,9 +85,9 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/notifications"}
-                                className={`flex gap-4 items-center font-secondary w-full py-2  pl-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
                                     pathname === "/notifications"
-                                        ? "font-bold"
+                                        ? "font-extrabold"
                                         : ""
                                 }`}
                             >
@@ -80,26 +101,13 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <div className="flex gap-2">
-                    <div>
-                        <div className="relative h-[45px] w-[45px]">
-                            <Image
-                                src="/avatar-1.png"
-                                alt="avatar-1"
-                                fill
-                                className="object-cover rounded-full border-1 border-black"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-secondary font-bold text-base">
-                            @BurgerEater
-                        </span>
-                        <span className="font-secondary text-gray-500 text-sm">
-                            Profile
-                        </span>
-                    </div>
-                </div>
+                <button
+                    onClick={handleLogout}
+                    className="bg-college-yellow rounded-xl flex items-center px-3 py-3 font-secondary font-semibold text-sm gap-2"
+                >
+                    <ArrowRightStartOnRectangleIcon className="w-6 h-6" />
+                    Logout
+                </button>
             </nav>
         </header>
     );

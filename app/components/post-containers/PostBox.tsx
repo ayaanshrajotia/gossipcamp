@@ -22,8 +22,10 @@ function PostBox({
     const [isLiked, setIsLiked] = useState(false);
     return (
         <div
-            className={`relative max-w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 ${
-                isUser ? "self-end" : ""
+            className={`border-box relative max-w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 ${
+                isUser
+                    ? "self-end box-shadow-yellow-static"
+                    : "box-shadow-static"
             }`}
             style={{ color: textColor }}
             {...props}
@@ -42,7 +44,7 @@ function PostBox({
                             src={profileUrl}
                             alt="avatar-1"
                             fill
-                            className="object-cover rounded-full border-1 border-black"
+                            className="object-cover rounded-full"
                         />
                     </div>
                 </div>

@@ -1,8 +1,11 @@
 const collegesOptions = [
     { id: 0, name: "Choose Your College" },
+    { id: 5, name: "LNCTE Bhopal" },
+    { id: 6, name: "LNCTU Bhopal" },
     { id: 1, name: "LNCT Bhopal" },
     { id: 2, name: "Oriental Institute of Science & Technology" },
     { id: 3, name: "TIT Bhopal" },
+    { id: 4, name: "LNCTS Bhopal" },
 ];
 
 const firstNames = [
@@ -10,6 +13,8 @@ const firstNames = [
     { id: 1, name: "black" },
     { id: 2, name: "sexy" },
     { id: 3, name: "handsome" },
+    { id: 4, name: "legendary" },
+    { id: 5, name: "kawaii" },
 ];
 
 const lastNames = [
@@ -17,6 +22,7 @@ const lastNames = [
     { id: 1, name: "donkey" },
     { id: 2, name: "musician" },
     { id: 3, name: "bear" },
+    { id: 4, name: "bunny" },
 ];
 
 const topTypeOptions = [

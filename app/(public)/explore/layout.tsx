@@ -1,18 +1,24 @@
-import RoomBoxBigger from "@/app/ui/room-boxes/RoomBoxBigger";
+"use client";
+
+import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-function page({ children }: { children: React.ReactNode }) {
+function Page({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
     return (
-        <div className="min-h-screen">
-            <div className="border-b-1 sticky top-0 z-[999] flex h-[70px] w-full items-center gap-4 border-black bg-white px-4 dark:bg-slate-900">
-                <h1 className="font-secondary text-2xl font-extrabold">
-                    Explore
-                </h1>
+        <div className="min-h-screen relative w-full font-secondary">
+            <div className="pt-4 sticky w-full top-0 z-[999]">
+                <div className="bg-stone-800 text-white flex items-center gap-4 h-[70px] px-4 rounded-xl mx-6">
+                    <h1 className="font-secondary font-bold text-2xl">
+                        Explore
+                    </h1>
+                </div>
             </div>
-            <div className="p-6">
-                <div className="border-1 font-secondary box-shadow-yellow mt-1 flex h-12 w-full items-center rounded-xl border-black bg-white p-3 text-lg">
+            <div className="mt-6 px-6">
+                <div className="border-1 font-secondary mt-1 flex h-12 w-full items-center rounded-xl border-stone-800 bg-white p-3 text-lg">
                     <MagnifyingGlassIcon className="h-7 w-7" />
                     <input
                         type="text"
@@ -21,18 +27,50 @@ function page({ children }: { children: React.ReactNode }) {
                 </div>
                 <div className="py-5">
                     <ul className="flex justify-evenly">
-                        <li className="border-1 cursor-pointer rounded-2xl border-black bg-white p-1 px-4 font-semibold transition-all hover:bg-black hover:text-white">
-                            <Link href="/explore/people">People</Link>
-                        </li>
-                        <li className="border-1 cursor-pointer rounded-2xl border-black bg-white p-1 px-4 font-semibold transition-all hover:bg-black hover:text-white">
-                            <Link href="/explore/rooms">Rooms</Link>
-                        </li>
-                        <li className="border-1 cursor-pointer rounded-2xl border-black bg-white p-1 px-4 font-semibold transition-all hover:bg-black hover:text-white">
-                            <Link href="/explore/colleges">Colleges</Link>
-                        </li>
-                        <li className="border-1 cursor-pointer rounded-2xl border-black bg-white p-1 px-4 font-semibold transition-all hover:bg-black hover:text-white">
-                            <Link href="/explore/posts">Posts</Link>
-                        </li>
+                        <Link href="/explore/people">
+                            <li
+                                className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800 hover:text-white ${
+                                    pathname.includes("/explore/people")
+                                        ? "bg-stone-800 text-white"
+                                        : "bg-white"
+                                }`}
+                            >
+                                People
+                            </li>
+                        </Link>
+                        <Link href="/explore/rooms">
+                            <li
+                                className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800 hover:text-white ${
+                                    pathname.includes("/explore/rooms")
+                                        ? "bg-stone-800 text-white"
+                                        : "bg-white"
+                                }`}
+                            >
+                                Rooms
+                            </li>
+                        </Link>
+                        <Link href="/explore/colleges">
+                            <li
+                                className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800 hover:text-white ${
+                                    pathname.includes("/explore/colleges")
+                                        ? "bg-stone-800 text-white"
+                                        : "bg-white"
+                                }`}
+                            >
+                                Colleges
+                            </li>
+                        </Link>
+                        <Link href="/explore/posts">
+                            <li
+                                className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800  hover:text-white ${
+                                    pathname.includes("/explore/posts")
+                                        ? "bg-stone-800 text-white"
+                                        : "bg-white"
+                                }`}
+                            >
+                                Posts
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 {children}
@@ -41,4 +79,4 @@ function page({ children }: { children: React.ReactNode }) {
     );
 }
 
-export default page;
+export default Page;

@@ -8,21 +8,21 @@ export default function layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="doodle relative w-1/2 rounded-r-2xl">
                 <Image
-                    src={"/login-1.png"}
+                    src={"/images/login-1.png"}
                     alt="thought photo"
                     width={400}
                     height={0}
                     className="absolute top-10 right-0"
                 />
                 <Image
-                    src={"/login-2.png"}
+                    src={"/images/login-2.png"}
                     alt="thought photo"
                     width={400}
                     height={0}
                     className="absolute bottom-32 left-0"
                 />
                 <Image
-                    src={"/login-3.png"}
+                    src={"/images/login-3.png"}
                     alt="thought photo"
                     width={400}
                     height={0}

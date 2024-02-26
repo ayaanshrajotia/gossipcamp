@@ -18,7 +18,7 @@ function RoomBoxBigger({
 }: RoomBoxBiggerPropsType) {
     return (
         <div
-            className={`relative border-1 border-black rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-fit`}
+            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-fit`}
             style={{ color: textColor }}
             {...props}
         >
@@ -29,7 +29,7 @@ function RoomBoxBigger({
                         <div>
                             <div className="relative h-[100px] w-[100px]">
                                 <Image
-                                    src="/avatar-1.png"
+                                    src="/images/avatar-1.png"
                                     alt="avatar-1"
                                     fill
                                     className="object-cover rounded-full border-1 border-black"
@@ -65,7 +65,7 @@ function RoomBoxBigger({
                     />
                     <Link
                         href={`/rooms/${roomId}`}
-                        className="bg-black text-white text-base rounded-xl p-2 px-3 flex items-center justify-center"
+                        className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
                     >
                         Join Room
                     </Link>

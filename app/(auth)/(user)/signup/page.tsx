@@ -2,8 +2,8 @@
 
 import { collegesOptions } from "@/app/utils/customOptions";
 import auth from "@/app/utils/firebase";
-import Button from "@/app/ui/Button";
-import Dropdown from "@/app/ui/Dropdown";
+import Button from "@/app/components/Button";
+import Dropdown from "@/app/components/Dropdown";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -23,12 +23,12 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { signupUser } from "@/lib/slices/userSlice";
 
 const schema = z.object({
-    mobileNumber: z
-        .string()
-        .refine((value) => value.length === 10, {
-            message: "Mobile number must be exactly 10 digits long",
-        })
-        .transform((value) => parseInt(value)),
+    // mobileNumber: z
+    //     .string()
+    //     .refine((value) => value.length === 10, {
+    //         message: "Mobile number must be exactly 10 digits long",
+    //     })
+    //     .transform((value) => parseInt(value)),
     password: z
         .string()
         .min(8, "Password must contain at least 8 character(s)"),
@@ -59,45 +59,46 @@ export default function SignupPage() {
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({ resolver: zodResolver(schema) });
 
-    useEffect(() => {
-        // @ts-ignore
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-otp", {
-            size: "invisible",
-            callback: (response: any) => {
-                // reCAPTCHA solved, allow signInWithPhoneNumber.
-                // handleOTP();
-            },
-        });
-    }, []);
+    // useEffect(() => {
+    //     // @ts-ignore
+    //     window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-otp", {
+    //         size: "invisible",
+    //         callback: (response: any) => {
+    //             // reCAPTCHA solved, allow signInWithPhoneNumber.
+    //             // handleOTP();
+    //         },
+    //     });
+    // }, []);
 
-    const handleOTP = async () => {
-        try {
-            setIsLoading(true);
-            // @ts-ignore
-            const appVerifier = window.recaptchaVerifier;
-            const phoneNumber = "+91" + mobileNumber;
-            const confirmationResult = await signInWithPhoneNumber(
-                auth,
-                phoneNumber,
-                appVerifier
-            );
+    // const handleOTP = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         // @ts-ignore
+    //         const appVerifier = window.recaptchaVerifier;
+    //         const phoneNumber = "+91" + mobileNumber;
+    //         const confirmationResult = await signInWithPhoneNumber(
+    //             auth,
+    //             phoneNumber,
+    //             appVerifier
+    //         );
 
-            setConfirmationResult(confirmationResult);
-            setOtpSent(true);
-            // @ts-ignore
-            // window.recaptchaVerifier = null;
-            toast.success("OTP Sent");
-            setIsLoading(false);
-        } catch (err) {
-            console.error(err);
-            toast.error("Too many requests, try again later.");
-            setIsLoading(false);
-        }
-    };
+    //         setConfirmationResult(confirmationResult);
+    //         setOtpSent(true);
+    //         // @ts-ignore
+    //         // window.recaptchaVerifier = null;
+    //         toast.success("OTP Sent");
+    //         setIsLoading(false);
+    //     } catch (err) {
+    //         console.error(err);
+    //         toast.error("Too many requests, try again later.");
+    //         setIsLoading(false);
+    //     }
+    // };
 
-    const confirmOTP = async () => {};
+    // const confirmOTP = async () => {};
 
     const handleOptions = (data: string) => {
+        console.log(data);
         setCollege(data);
     };
 
@@ -105,31 +106,39 @@ export default function SignupPage() {
     const signup: SubmitHandler<FormFields> = async (data) => {
         try {
             setIsLoading(true);
-            if (confirmationResult) {
-                await confirmationResult.confirm(otp);
-                setOptVerified(true);
-            } else {
-                toast.error("Erong OTP");
-                return;
-            }
+            // if (confirmationResult) {
+            //     await confirmationResult.confirm(otp);
+            //     setOptVerified(true);
+            // } else {
+            //     toast.error("Erong OTP");
+            //     return;
+            // }
 
             // Signup user
             try {
+                if (college === "") {
+                    toast.error("Please select the college");
+                    return;
+                }
                 const response = await dispatch(
                     signupUser({
-                        mobileNo: data.mobileNumber,
+                        // mobileNo: data.mobileNumber,
                         password: data.password,
                         enrollmentNo: data.enrollmentNumber,
                         collegeName: college,
                     })
                 );
+
+                if (response.meta.requestStatus === "rejected")
+                    throw new Error(response.payload);
+
                 toast.success("Signed up successfully");
+                router.push("/home");
                 console.log(response);
-                setTimeout(() => {
-                    router.push("/create-avatar");
-                }, 1500);
+                console.log(response.meta.requestStatus);
+                console.log(response.payload);
             } catch (error: any) {
-                toast.error(error);
+                toast.error(error.message);
             }
 
             setIsLoading(false);
@@ -152,7 +161,7 @@ export default function SignupPage() {
             >
                 {/* Mobile Number Section */}
                 <div className="flex flex-col gap-6">
-                    <div className="w-full flex items-center gap-4">
+                    {/* <div className="w-full flex items-center gap-4">
                         <div className="border-1 h-12 w-16 flex items-center justify-center rounded-lg border-black box-shadow">
                             <span className="font-bold font-secondary">
                                 +91
@@ -177,7 +186,30 @@ export default function SignupPage() {
                                 </div>
                             )}
                         </div>
+                    </div> */}
+                    <div className="input-group w-full">
+                        <input
+                            {...register("enrollmentNumber")}
+                            type="text"
+                            id="enrollmentNumber"
+                            className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
+                            required
+                            autoComplete="false"
+                        />
+                        <label htmlFor="enrollmentNumber">
+                            Enrollment Number
+                        </label>
+                        {errors.enrollmentNumber && (
+                            <div className="text-red-600 font-medium text-sm mt-2">
+                                {errors.enrollmentNumber.message}
+                            </div>
+                        )}
                     </div>
+
+                    <Dropdown
+                        handleOptions={handleOptions}
+                        options={collegesOptions}
+                    />
                     {/* Password */}
                     <div className="input-group">
                         <input
@@ -205,43 +237,21 @@ export default function SignupPage() {
                             />
                         )}
                     </div>
-                    <div className="input-group w-full">
-                        <input
-                            {...register("enrollmentNumber")}
-                            type="text"
-                            id="enrollmentNumber"
-                            className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
-                            required
-                            autoComplete="false"
-                        />
-                        <label htmlFor="enrollmentNumber">
-                            Enrollment Number
-                        </label>
-                        {errors.enrollmentNumber && (
-                            <div className="text-red-600 font-medium text-sm mt-2">
-                                {errors.enrollmentNumber.message}
-                            </div>
-                        )}
-                    </div>
 
-                    <Dropdown
-                        handleOptions={handleOptions}
-                        options={collegesOptions}
-                    />
-                    <Button
-                        bgColor="#fdd800"
+                    {/* <Button
+                        bgColor="bg-[#fdd800]"
                         textColor="text-college-gray"
                         type="button"
                         id="sign-in-otp"
                         onClick={handleOTP}
                     >
                         {loading ? "Fetching" : "Get OTP"}
-                    </Button>
+                    </Button> */}
                 </div>
-                <div className="w-full h-[1px] bg-black"></div>
+                {/* <div className="w-full h-[1px] bg-black"></div> */}
                 {/* OTP Section */}
                 <div className="flex flex-col gap-6">
-                    <div className="">
+                    {/* <div className="">
                         <span className="text-sm">Enter OTP</span>
                         <OTPInput
                             value={otp}
@@ -264,10 +274,10 @@ export default function SignupPage() {
                                     "6px 6px 0px 0px rgba(221, 221, 221, 0.75)",
                             }}
                         />
-                    </div>
+                    </div> */}
                     <Button
-                        bgColor="#313236"
-                        textColor="text-white"
+                        bgColor="bg-[#ffdd00]"
+                        textColor="text-black"
                         disabled={loading}
                         type="submit"
                     >

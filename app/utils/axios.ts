@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://college-khabar-backend.vercel.app/api/v1",
+    baseURL: "https://gossipcamp-backend.vercel.app/api/v1",
 });
 
 axiosInstance.interceptors.request.use(
@@ -10,7 +10,6 @@ axiosInstance.interceptors.request.use(
         if (accessToken) {
             request.headers.Authorization = `Bearer ${accessToken}`;
         }
-        // request.withCredentials = true;
         return request;
     },
     (error) => {}

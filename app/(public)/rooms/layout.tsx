@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 // icons
 import {
@@ -23,37 +24,38 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     };
 
     function handleChange(e: any) {
-        console.log(e.target.files);
+        // console.log(e.target.files);
         // setFile(URL.createObjectURL(e.target.files[0]));
     }
+
     return (
-        <div className="relative bg-[#F1F2F5] w-full">
-            {children}
-            <div
-                className={`bg-white w-full  ${
-                    !isActive ? "bottom-0 h-[60px]" : "bottom-0 h-[500px]"
-                }  sticky  rounded-t-2xl border-1 border-black transition-all duration-300 ease-in-out flex flex-col px-3 pt-2`}
-            >
-                <div className="flex items-center gap-4 w-full h-fit">
-                    <div className="flex items-center gap-2">
-                        <button>
-                            <VideoCameraIcon className="w-7 h-7" />
-                        </button>
-                        <button>
-                            <PhotoIcon className="w-7 h-7" />
+        <>
+            <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%]"></div>
+            <div className="min-h-screen relative w-full border-box">
+                {children}
+                <div
+                    className={`bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
+                >
+                    <div className="flex items-center gap-4 w-full">
+                        {/* <div className="flex items-center gap-2">
+                            <button>
+                                <VideoCameraIcon className="w-7 h-7" />
+                            </button>
+                            <button>
+                                <PhotoIcon className="w-7 h-7" />
+                            </button>
+                        </div> */}
+                        <TextareaAutosize
+                            className="flex-1 p-3 px-4 bg-white rounded-xl border-1 border-stone-800 outline-none resize-none font-secondary"
+                            placeholder="Write your thoughts"
+                            // onFocus={handleFocus}
+                            // onBlur={handleBlur}
+                        />
+                        <button onClick={handleChange}>
+                            <PaperAirplaneIcon className="w-8 h-8 fill-white" />
                         </button>
                     </div>
-                    <input
-                        className="flex-1 p-2 px-4 bg-[#F1F2F5] border-black rounded-full outline-none "
-                        placeholder="Write your thoughts"
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                    />
-                    <button>
-                        <PaperAirplaneIcon className="w-7 h-7" />
-                    </button>
-                </div>
-                <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>
+                    {/* <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>
                     <div className="border-2 border-dashed border-black rounded-lg  h-full w-full cursor-pointer bg-[#F1F2F5]">
                         <label
                             htmlFor="inputTag"
@@ -69,9 +71,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         </label>
                         <img src={file} />
                     </div>
+                </div> */}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
