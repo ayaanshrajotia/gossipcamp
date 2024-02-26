@@ -5,8 +5,8 @@ export const getAllRooms = createAsyncThunk(
     "room/getAllRooms",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/rooms`);
-            return response.data.data.rooms;
+            const response = await axiosInstance.get(`/rooms/all-rooms`);
+            return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -41,11 +41,13 @@ const initialState: {
     loading: boolean;
     privateRoom: any;
     publicRooms: any;
+    allRooms: any;
     error: boolean;
 } = {
     loading: false,
     privateRoom: {},
     publicRooms: [],
+    allRooms: [],
     error: false,
 };
 
@@ -60,6 +62,8 @@ const roomSlice = createSlice({
             })
             .addCase(getAllRooms.fulfilled, (state, action) => {
                 state.loading = false;
+                state.allRooms = action.payload.docs;
+                console.log(action.payload);
             })
             .addCase(getAllRooms.rejected, (state, action) => {
                 state.loading = false;

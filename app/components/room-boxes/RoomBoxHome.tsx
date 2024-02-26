@@ -10,7 +10,7 @@ import PeopleCount from "../PeopleCount";
 function RoomBoxHome({
     roomName,
     roomId,
-    bgColor = "bg-blue-600",
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     totalParticipants = 0,

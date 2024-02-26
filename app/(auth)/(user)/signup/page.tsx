@@ -20,7 +20,7 @@ import OTPInput from "react-otp-input";
 import { z } from "zod";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { signupUser } from "@/lib/slices/userSlice";
+import { signupUser } from "@/lib/slices/authSlice";
 
 const schema = z.object({
     // mobileNumber: z
@@ -51,7 +51,7 @@ export default function SignupPage() {
     const [otpVerified, setOptVerified] = useState(false);
     const [mobileNumber, setMobileNumber] = useState("");
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, error } = useSelector((state: RootState) => state.user);
+    const { loading, error } = useSelector((state: RootState) => state.auth);
 
     const {
         register,
@@ -98,7 +98,6 @@ export default function SignupPage() {
     // const confirmOTP = async () => {};
 
     const handleOptions = (data: string) => {
-        console.log(data);
         setCollege(data);
     };
 
@@ -134,9 +133,6 @@ export default function SignupPage() {
 
                 toast.success("Signed up successfully");
                 router.push("/home");
-                console.log(response);
-                console.log(response.meta.requestStatus);
-                console.log(response.payload);
             } catch (error: any) {
                 toast.error(error.message);
             }
@@ -239,7 +235,7 @@ export default function SignupPage() {
                     </div>
 
                     {/* <Button
-                        bgColor="bg-[#fdd800]"
+                        bgcolor="bg-[#fdd800]"
                         textColor="text-college-gray"
                         type="button"
                         id="sign-in-otp"
@@ -276,7 +272,7 @@ export default function SignupPage() {
                         />
                     </div> */}
                     <Button
-                        bgColor="bg-[#ffdd00]"
+                        bgcolor="bg-[#ffdd00]"
                         textColor="text-black"
                         disabled={loading}
                         type="submit"

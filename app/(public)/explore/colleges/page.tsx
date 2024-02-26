@@ -7,7 +7,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}
@@ -15,7 +15,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}
@@ -23,7 +23,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}
@@ -31,7 +31,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}
@@ -39,7 +39,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}
@@ -47,7 +47,7 @@ function page() {
             <RoomBoxBigger
                 roomName="Harry Potter"
                 roomId="harrypotter"
-                bgColor="bg-college-yellow"
+                bgcolor="bg-college-yellow"
                 textColor="black"
                 className="box-shadow-yellow"
                 isPrivate={false}

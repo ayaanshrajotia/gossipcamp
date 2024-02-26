@@ -3,7 +3,7 @@ import { BtnPropsType } from "../utils/definitions";
 function Button({
     children,
     type = "button",
-    bgColor = "bg-blue-600",
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     ...props
@@ -17,7 +17,7 @@ function Button({
         >
             {children}
             <div
-                className={`btn-inner absolute w-full h-12 rounded-lg translate-x-1.5 translate-y-1.5 z-[-999] ${bgColor}`}
+                className={`btn-inner absolute w-full h-12 rounded-lg translate-x-1.5 translate-y-1.5 z-[-999] ${bgcolor}`}
             ></div>
         </button>
     );

@@ -10,10 +10,13 @@ import PeopleCount from "../PeopleCount";
 function RoomBoxBigger({
     roomName,
     roomId,
-    bgColor = "bg-blue-600",
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     isPrivate,
+    roomDescription,
+    totalParticipants,
+    roomDP,
     ...props
 }: RoomBoxBiggerPropsType) {
     return (
@@ -29,10 +32,10 @@ function RoomBoxBigger({
                         <div>
                             <div className="relative h-[100px] w-[100px]">
                                 <Image
-                                    src="/images/avatar-1.png"
+                                    src={roomDP}
                                     alt="avatar-1"
                                     fill
-                                    className="object-cover rounded-full border-1 border-black"
+                                    className="object-cover rounded-full"
                                 />
                             </div>
                         </div>
@@ -41,17 +44,14 @@ function RoomBoxBigger({
                 {/* Details */}
                 <div className="flex flex-1 flex-col justify-between">
                     <div className="flex flex-col">
-                        <span className="font-secondary font-bold text-2xl">
+                        <span className="font-secondary font-extrabold text-2xl">
                             {roomName}
                         </span>
                         <span className="font-secondary text-gray-500 text-base">
                             @{roomId}
                         </span>
                     </div>
-                    <p className="leading-tight mt-2">
-                        This room is for the Harry Potter fans. Join this room
-                        to diversify the mantras of the magical...
-                    </p>
+                    <p className="leading-tight mt-2">{roomDescription}</p>
                     {isPrivate && (
                         <LockClosedIcon className="w-6 h-6 text-red-500" />
                     )}
@@ -59,9 +59,10 @@ function RoomBoxBigger({
                 {/* Join */}
                 <div className="flex flex-col justify-between gap-6">
                     <PeopleCount
-                        width="w-[50px]"
-                        height="h-[50px]"
-                        margin="-ml-7"
+                        width="w-[40px]"
+                        height="h-[40px]"
+                        margin="-ml-5"
+                        totalParticipants={totalParticipants}
                     />
                     <Link
                         href={`/rooms/${roomId}`}

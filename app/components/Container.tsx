@@ -2,7 +2,7 @@ import { BtnPropsType, ContainerPropsType } from "../utils/definitions";
 
 function Container({
     children,
-    bgColor = "bg-blue-600",
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     ...props
@@ -15,7 +15,7 @@ function Container({
         >
             {children}
             {/* <div
-                className={`absolute w-full h-12 rounded-lg translate-x-1 translate-y-1 z-[-1] ${bgColor}`}
+                className={`absolute w-full h-12 rounded-lg translate-x-1 translate-y-1 z-[-1] ${bgcolor}`}
             ></div> */}
         </div>
     );

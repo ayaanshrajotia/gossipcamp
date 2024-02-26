@@ -2,7 +2,7 @@ import { PostBoxPropsType } from "@/app/utils/definitions";
 import Image from "next/image";
 
 function PostBox({
-    bgColor = "bg-white",
+    bgcolor = "bg-white",
     textColor,
     className = "",
     date,
@@ -12,7 +12,6 @@ function PostBox({
     description,
     ...props
 }: PostBoxPropsType) {
-    console.log(postimgurl);
     return (
         <div
             className={`relative w-[450px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pb-2 my-6`}

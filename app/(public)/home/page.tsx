@@ -31,7 +31,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -39,7 +39,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Albus Dumbledore"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -47,7 +47,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -55,7 +55,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -70,7 +70,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -78,7 +78,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -86,7 +86,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
@@ -94,7 +94,7 @@ const Home = () => {
                             <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}

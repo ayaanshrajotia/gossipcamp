@@ -7,11 +7,13 @@ import Link from "next/link";
 
 function UserBox({
     userName,
+    followers,
     userId,
-    bgColor = "bg-blue-600",
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     isPrivate,
+    avatar,
     ...props
 }: UserBoxPropsType) {
     return (
@@ -26,7 +28,7 @@ function UserBox({
                     <div>
                         <div className="relative h-[80px] w-[80px]">
                             <Image
-                                src="/images/avatar-1.png"
+                                src={avatar}
                                 alt="avatar-1"
                                 fill
                                 className="object-cover rounded-full"
@@ -38,13 +40,13 @@ function UserBox({
                             {userName}
                         </p>
                         <span className="font-secondary text-gray-500 text-sm truncate text-center">
-                            @{userId}
+                            {followers}k Followers
                         </span>
                     </div>
                 </div>
                 {/* Lower Div */}
                 <Link
-                    href={`/rooms/${userId}`}
+                    href={`/users/${userId}`}
                     className="bg-black text-white text-sm rounded-xl p-1.5 px-3 flex items-center justify-center w-full"
                 >
                     Follow

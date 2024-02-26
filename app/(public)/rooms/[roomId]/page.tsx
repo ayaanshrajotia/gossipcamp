@@ -17,7 +17,7 @@ export default function Room() {
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const { fName, lName, avatar } = useSelector(
-        (state: RootState) => state.user.profile || ""
+        (state: RootState) => state.auth.profile || ""
     );
     useLayoutEffect(() => {
         setFirstName(fName);
@@ -46,14 +46,6 @@ export default function Room() {
                             @{roomId}
                         </span>
                     </div>
-                </div>
-                <div className="flex flex-col">
-                    <span className="font-secondary font-bold text-lg">
-                        {roomId}
-                    </span>
-                    <span className="font-secondary text-gray-500 text-sm">
-                        @{roomId}
-                    </span>
                 </div>
             </div>
             <div className="w-full my-6 mb-10 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">

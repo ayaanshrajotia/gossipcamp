@@ -16,6 +16,7 @@ const config: Config = {
                 "college-yellow": "#fdd800",
                 "college-grey": "#313236",
                 "college-grey-2": "rgba(221, 221, 221, 0.75)",
+                "college-bg-grey": "#F6F6F9",
             },
             fontFamily: {
                 primary: ["Lato", "sans-serif"],

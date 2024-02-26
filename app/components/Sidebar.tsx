@@ -20,7 +20,7 @@ export default function Sidebar() {
     const [imgUrl, setImgUrl] = useState("");
 
     const { fName, lName, avatar } = useSelector(
-        (state: RootState) => state.user.profile || ""
+        (state: RootState) => state.auth.profile || ""
     );
     const { privateRoom, publicRooms } = useSelector(
         (state: RootState) => state.rooms
@@ -34,9 +34,6 @@ export default function Sidebar() {
         dispatch(getPrivateJoinedRooms());
         dispatch(getPublicJoinedRooms());
     }, [fName, lName, avatar]);
-
-    console.log(publicRooms);
-    console.log(privateRoom);
 
     return (
         <div className="fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4">
@@ -89,7 +86,7 @@ export default function Sidebar() {
                                     privateRoom?.roomDP ||
                                     "/images/avatar-1.png"
                                 }
-                                bgColor="bg-college-yellow"
+                                bgcolor="bg-college-yellow"
                                 textColor="black"
                                 isPrivate={true}
                                 totalParticipants={
@@ -113,7 +110,7 @@ export default function Sidebar() {
                                         textColor="black"
                                         isPrivate={false}
                                         imgUrl="/images/avatar-1.png"
-                                        bgColor="bg-college-yellow-static"
+                                        bgcolor="bg-college-yellow-static"
                                     />
                                 ))
                             ) : (

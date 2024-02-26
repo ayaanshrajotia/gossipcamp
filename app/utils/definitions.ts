@@ -1,6 +1,6 @@
 export type BtnPropsType = {
     children: string;
-    bgColor: string;
+    bgcolor: string;
     textColor: string;
     // type: string;
     className?: string;
@@ -8,7 +8,7 @@ export type BtnPropsType = {
 
 export type ContainerPropsType = {
     children: string;
-    bgColor: string;
+    bgcolor: string;
     textColor: string;
     className?: string;
 } & Record<string, any>;
@@ -26,7 +26,7 @@ export type RoomPropsType = {
 export type PrivateRoomPropsType = {
     roomName: string;
     roomId: string;
-    bgColor: string;
+    bgcolor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;
@@ -37,7 +37,7 @@ export type PrivateRoomPropsType = {
 export type RoomBoxPropsType = {
     roomName: string;
     roomId: string;
-    bgColor: string;
+    bgcolor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;
@@ -46,19 +46,25 @@ export type RoomBoxPropsType = {
 export type UserBoxPropsType = {
     userName: string;
     userId: string;
-    bgColor: string;
+    followers: number;
+    bgcolor: string;
     textColor: string;
+    bio?: string;
     className?: string;
     isPrivate: boolean;
+    avatar: string;
 } & Record<string, any>;
 
 export type RoomBoxBiggerPropsType = {
     roomName: string;
     roomId: string;
-    bgColor: string;
+    roomDP: string;
+    roomDescription: string;
+    bgcolor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;
+    totalParticipants: number;
 } & Record<string, any>;
 
 export type DropdownPropsType = {
@@ -69,7 +75,7 @@ export type DropdownPropsType = {
 
 export type PostBoxPropsType = {
     // children: any;
-    bgColor?: string;
+    bgcolor?: string;
     textColor?: string;
     className?: string;
     date: string;

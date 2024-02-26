@@ -21,7 +21,7 @@ import {
 import { capitalizeFirstLetter } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { createAvatar } from "@/lib/slices/userSlice";
+import { createAvatar } from "@/lib/slices/authSlice";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { any } from "zod";
@@ -45,8 +45,7 @@ function CreateAvatar() {
     });
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-    const { user } = useSelector((state: RootState) => state.user || "");
-    console.log(userDetails);
+    const { user } = useSelector((state: RootState) => state.auth || "");
 
     useLayoutEffect(() => {
         setUserDetails(user);
@@ -389,7 +388,7 @@ function CreateAvatar() {
             </div>
 
             <Button
-                bgColor="bg-[#fdd800]"
+                bgcolor="bg-[#fdd800]"
                 textColor="#000000"
                 type="submit"
                 className=""

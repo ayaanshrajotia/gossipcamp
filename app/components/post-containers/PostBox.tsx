@@ -8,7 +8,7 @@ import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
 function PostBox({
-    bgColor = "bg-white",
+    bgcolor = "bg-white",
     textColor,
     className = "",
     date,
@@ -48,10 +48,23 @@ function PostBox({
                         />
                     </div>
                 </div>
-                <div className="flex flex-col">
-                    <h2 className="font-bold text-[17px]">@{user}</h2>
+                <div className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <h2 className="font-bold text-[17px]">@{user}</h2>
+                        <div
+                            className="bg-white text-black translate-y-[-100%]  text-xs py-1 px-3 rounded-full flex items-center gap-1 cursor-pointer border-1 border-red-500"
+                            onClick={() => setIsLiked((prev) => !prev)}
+                        >
+                            {isLiked ? (
+                                <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />
+                            ) : (
+                                <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
+                            )}
+                            <span className="font-bold">100+</span>
+                        </div>
+                    </div>
                     <p className="leading-tight">{description}</p>
-                    <div className="">
+                    <>
                         {postImgUrl && (
                             <div className="relative w-full h-[200px] mt-3">
                                 <Image
@@ -62,23 +75,14 @@ function PostBox({
                                 />
                             </div>
                         )}
-                    </div>
-                </div>
-                <div>
-                    {isLiked ? (
-                        <HeartIconFilled
-                            className="h-6 w-6 text-red-500 cursor-pointer"
-                            onClick={() => setIsLiked(false)}
-                        />
-                    ) : (
-                        <HeartIcon
-                            className="h-6 w-6 text-red-500 cursor-pointer"
-                            onClick={() => setIsLiked(true)}
-                        />
-                    )}
+                    </>
                 </div>
             </div>
             <span className="text-xs text-right mt-1">{date}</span>
+            {/* <div className="bg-stone-800 absolute bottom-0 right-14  text-white translate-y-[50%] text-xs py-1 px-3 rounded-full flex items-center gap-1">
+                <span>❤️</span>
+                <span>100+</span>
+            </div> */}
         </div>
     );
 }

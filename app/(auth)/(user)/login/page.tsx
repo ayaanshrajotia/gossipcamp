@@ -14,7 +14,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { loginUser } from "@/lib/slices/userSlice";
+import { loginUser } from "@/lib/slices/authSlice";
 
 const schema = z.object({
     userId: z.string(),
@@ -33,7 +33,7 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, user } = useSelector((state: RootState) => state.user);
+    const { loading, user } = useSelector((state: RootState) => state.auth);
     const {
         register,
         handleSubmit,
@@ -44,7 +44,6 @@ const LoginPage = () => {
     const login: SubmitHandler<FormFields> = async (data) => {
         try {
             const response = await dispatch(loginUser(data));
-            console.log(response);
             if (response.meta.requestStatus === "rejected")
                 throw new Error(response.payload);
 
@@ -121,7 +120,7 @@ const LoginPage = () => {
                     </Link>
                 </div>
                 <Button
-                    bgColor="bg-[#fdd800]"
+                    bgcolor="bg-[#fdd800]"
                     textColor="#000000"
                     type="submit"
                     disabled={isSubmitting}

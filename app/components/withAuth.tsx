@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function withAuth(Component: any) {
     return function WithAuth(props: any) {
-        const { user } = useSelector((state: RootState) => state.user);
+        const { user } = useSelector((state: RootState) => state.auth);
 
         useEffect(() => {
             if (!user) {
