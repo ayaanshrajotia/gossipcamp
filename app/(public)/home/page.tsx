@@ -28,7 +28,7 @@ const Home = () => {
                             Trending Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            <RoomBoxHome
+                            {/* <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
                                 bgcolor="bg-college-yellow"
@@ -59,7 +59,7 @@ const Home = () => {
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
-                            />
+                            /> */}
                         </div>
                     </div>
                     <div className="flex flex-col">
@@ -67,7 +67,7 @@ const Home = () => {
                             Recently Added Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            <RoomBoxHome
+                            {/* <RoomBoxHome
                                 roomName="Harry Potter"
                                 roomId="harrypotter"
                                 bgcolor="bg-college-yellow"
@@ -98,7 +98,7 @@ const Home = () => {
                                 textColor="black"
                                 className="box-shadow-yellow"
                                 isPrivate={false}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
