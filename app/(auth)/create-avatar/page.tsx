@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/app/ui/Button";
-import Dropdown from "@/app/ui/Dropdown";
+import Button from "@/app/components/Button";
+import Dropdown from "@/app/components/Dropdown";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
     accessoriesTypeOptions,
     clotheTypeOptions,
@@ -19,14 +19,17 @@ import {
     topTypeOptions,
 } from "../../utils/customOptions";
 import { capitalizeFirstLetter } from "../../utils/helper";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import { createAvatar } from "@/lib/slices/userSlice";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { any } from "zod";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
     const [lastName, setlastName] = useState("Choose Last Name");
+    const [userDetails, setUserDetails] = useState<any>({});
     const [avatarParams, setAvatarParams] = useState({
         avatarStyle: "Circle",
         topType: "LongHairStraight",
@@ -42,14 +45,35 @@ function CreateAvatar() {
     });
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const { user } = useSelector((state: RootState) => state.user || "");
+    console.log(userDetails);
+
+    useLayoutEffect(() => {
+        setUserDetails(user);
+    }, [userDetails]);
 
     const url = `https://avataaars.io/?avatarStyle=Circle&${avatarParams.accessoriesType}&topType=${avatarParams.topType}&accessoriesType=${avatarParams.accessoriesType}&hairColor=${avatarParams.hairColor}&facialHairType=${avatarParams.facialHairType}&clotheType=${avatarParams.clotheType}&eyebrowType=${avatarParams.eyebrowType}&mouthType=${avatarParams.mouthType}&skinColor=${avatarParams.skinColor}&eyeType=${avatarParams.eyeType}`;
 
     const handleCreateProfile = async () => {
-        await dispatch(
-            createAvatar({ fName: firstName, lName: lastName, avatarUrl: url })
-        );
-        router.push("/home");
+        try {
+            if (
+                firstName === "Choose First Name" ||
+                lastName === "Choose Last Name"
+            ) {
+                toast.error("Please select your name");
+                return;
+            }
+            await dispatch(
+                createAvatar({
+                    fName: firstName,
+                    lName: lastName,
+                    avatarUrl: url,
+                })
+            );
+            router.push("/home");
+        } catch (error) {
+            toast.error("Something went wrong");
+        }
     };
 
     return (
@@ -66,10 +90,20 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) => setFirstName(e.target.value)}
                             >
-                                {firstNames?.map((item) => (
+                                {firstNames?.slice(0, 1).map((item) => (
+                                    <option
+                                        key={item.id}
+                                        value={""}
+                                        disabled={true}
+                                        selected={true}
+                                    >
+                                        {capitalizeFirstLetter(item.name)}
+                                    </option>
+                                ))}
+                                {firstNames?.slice(1).map((item) => (
                                     <option key={item.id} value={item.name}>
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -78,10 +112,20 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) => setlastName(e.target.value)}
                             >
-                                {lastNames?.map((item) => (
+                                {lastNames?.slice(0, 1).map((item) => (
+                                    <option
+                                        key={item.id}
+                                        value={""}
+                                        disabled={true}
+                                        selected={true}
+                                    >
+                                        {capitalizeFirstLetter(item.name)}
+                                    </option>
+                                ))}
+                                {lastNames?.slice(1).map((item) => (
                                     <option key={item.id} value={item.name}>
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -97,7 +141,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -114,7 +158,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -138,7 +182,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -155,7 +199,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -179,7 +223,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-none outline-none text-sm"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-none outline-none text-sm"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -196,7 +240,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -220,7 +264,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -237,7 +281,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow-yellow-static border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -278,7 +322,7 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -297,9 +341,11 @@ function CreateAvatar() {
                 </div>
                 {/* Right Side */}
                 <div className="w-1/2 flex justify-end">
-                    <div className="relative w-[420px] text-base gap-x-1.5 rounded-3xl bg-gray-200 p-7 pt-14 text-gray-900 cursor-pointer">
-                        <div className="h-[100px] w-[60px] bg-black absolute -top-[70px] left-0 right-0 mx-auto"></div>
-                        <div className="bg-white rounded-2xl p-4 h-full flex flex-col items-center gap-6">
+                    {/* <div className="relative w-[420px] text-base gap-x-1.5 rounded-3xl bg-gray-200 p-7 pt-14 text-gray-900 cursor-pointer"> */}
+                    {/* <div className="h-[100px] w-[60px] bg-black absolute -top-[70px] left-0 right-0 mx-auto"></div> */}
+                    <div className="relative rounded-2xl h-full p-10 w-[500px] border-1">
+                        <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-contain h-full w-full absolute top-0 left-0 invert-[20%]"></div>
+                        <div className="relative h-full bg-white flex flex-col items-center gap-6 p-6 rounded-2xl border-1">
                             <div className="relative h-[160px] w-[160px]">
                                 <Image
                                     src={url}
@@ -308,8 +354,8 @@ function CreateAvatar() {
                                     className="object-contain"
                                 />
                             </div>
-                            <div className="flex flex-col items-center">
-                                <span className="text-4xl font-bold mb-3">
+                            <div className="flex flex-col items-center gap-6 w-full">
+                                <span className="text-4xl font-extrabold mb-3">
                                     {firstName !== "Choose First Name"
                                         ? capitalizeFirstLetter(firstName)
                                         : "Black"}
@@ -317,34 +363,33 @@ function CreateAvatar() {
                                         ? capitalizeFirstLetter(lastName)
                                         : "Bear"}
                                 </span>
-                                <div className="flex flex-col items-center">
-                                    <span className="text-lg">
-                                        <span className="font-medium">
-                                            Enrollment No:{" "}
+                                <div className="flex flex-col gap-2 w-full">
+                                    <div className="flex justify-between">
+                                        <span className="font-medium text-lg">
+                                            Enrollment No:
                                         </span>
-                                        0176CD211033
-                                    </span>
-                                    <span className="text-lg">
-                                        <span className="font-medium">
-                                            Mobile No:{" "}
-                                        </span>{" "}
-                                        90120XXXXX
-                                    </span>
-                                    <span className="text-lg">
-                                        <span className="font-medium">
-                                            College Name:{" "}
-                                        </span>{" "}
-                                        LNCT Bhopal
-                                    </span>
+                                        <span className="text-right text-lg">
+                                            {userDetails.enrollmentNo?.toUpperCase()}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="font-medium text-lg">
+                                            College Name:
+                                        </span>
+                                        <span className="text-right text-lg">
+                                            {userDetails.collegeName}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {/* </div> */}
                 </div>
             </div>
 
             <Button
-                bgColor="#fdd800"
+                bgColor="bg-[#fdd800]"
                 textColor="#000000"
                 type="submit"
                 className=""

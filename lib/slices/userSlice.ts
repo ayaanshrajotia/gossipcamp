@@ -7,8 +7,9 @@ export const signupUser = createAsyncThunk(
     "user/signupUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
+            console.log(userCredentials);
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/signup`,
+                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
                 userCredentials
             );
             localStorage.setItem("accessToken", response.data.data.accessToken);
@@ -16,8 +17,15 @@ export const signupUser = createAsyncThunk(
                 "refreshToken",
                 response.data.data.refreshToken
             );
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.data.user)
+            );
+            document.cookie = `accessToken=${response.data.data.accessToken}`;
+            document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+            document.cookie = `profile=null`;
 
-            return response.data.data.user;
+            return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -33,7 +41,8 @@ export const loginUser = createAsyncThunk(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 // { mobileNo: "7880049324", password: "nehakumari" }
                 // { mobileNo: "8109774963", password: "adi@1234" }
-                { mobileNo: "9336339270", password: "pulkitgupta" }
+                { userId: "0176CD211033", password: "ayaanshrajotia" }
+                // { mobileNo: "9399823477", password: "ayaanshrajotia" }
             );
             document.cookie = `accessToken=${response.data.data.accessToken}`;
             document.cookie = `refreshToken=${response.data.data.refreshToken}`;
@@ -73,7 +82,6 @@ export const createAvatar = createAsyncThunk(
             );
             localStorage.setItem("profile", JSON.stringify(response.data.data));
             document.cookie = `profile=${JSON.stringify(response.data.data)}`;
-            console.log(response.data.data);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -123,6 +131,20 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(signupUser.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(signupUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload.user;
+                state.error = false;
+            })
+            .addCase(signupUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+                console.log(action.payload);
+            })
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.user = null;
@@ -131,16 +153,13 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload.user;
-                console.log(action.payload.user);
                 state.profile = action.payload.profile;
-                console.log(action.payload.profile);
                 state.error = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = true;
-                console.log(action);
             })
             .addCase(createAvatar.pending, (state) => {
                 state.loading = true;

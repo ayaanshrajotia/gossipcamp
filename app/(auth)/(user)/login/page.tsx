@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/app/ui/Button";
+import Button from "@/app/components/Button";
 import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/userSlice";
 
 const schema = z.object({
-    mobileNo: z.string(),
+    username: z.string(),
     // .refine((value) => value.length === 10, {
     //     message: "Mobile number must be exactly 10 digits long",
     // })
@@ -43,11 +43,15 @@ const LoginPage = () => {
     // Login Function
     const login: SubmitHandler<FormFields> = async (data) => {
         try {
-            await dispatch(loginUser(data));
+            const response = await dispatch(loginUser(data));
+            console.log(response);
+            if (response.meta.requestStatus === "rejected")
+                throw new Error(response.payload);
+
             toast.success("Logged in successfully");
             router.push("/home");
         } catch (error: any) {
-            toast.error(error);
+            toast.error(error.message);
         }
     };
 
@@ -65,17 +69,17 @@ const LoginPage = () => {
                 {/* Mobile Number */}
                 <div className="input-group">
                     <input
-                        {...register("mobileNo")}
+                        {...register("username")}
                         type="text"
-                        id="mobileNo"
+                        id="username"
                         className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                         required
                         autoComplete="false"
                     />
-                    <label htmlFor="mobileNo">Mobile Number</label>
-                    {errors.mobileNo && (
+                    <label htmlFor="username">Enrollment or Username</label>
+                    {errors.username && (
                         <div className="text-red-600 font-medium text-sm mt-2">
-                            {errors.mobileNo.message}
+                            {errors.username.message}
                         </div>
                     )}
                 </div>
@@ -112,11 +116,10 @@ const LoginPage = () => {
                     </span>
                     <Link href={"#"}>
                         <span className="text-college-grey text-sm">
-                            Forget Password?
+                            Forgot Password?
                         </span>
                     </Link>
                 </div>
-
                 <Button
                     bgColor="bg-[#fdd800]"
                     textColor="#000000"

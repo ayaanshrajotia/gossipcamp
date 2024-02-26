@@ -23,7 +23,12 @@ export default function Dropdown({
             onChange={(e) => handleOptions(e.target.value)}
         >
             {options?.slice(0, 1).map((item) => (
-                <option key={item.id} value="" disabled={true}>
+                <option
+                    key={item.id}
+                    value={item.name}
+                    disabled={true}
+                    selected={true}
+                >
                     {capitalizeFirstLetter(item.name)}
                 </option>
             ))}

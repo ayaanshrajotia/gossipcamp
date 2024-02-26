@@ -26,7 +26,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
-    
+
     const handleLogout = async () => {
         try {
             await dispatch(logoutUser());
@@ -38,21 +38,21 @@ export default function Navbar() {
         }
     };
     return (
-        <header className="h-screen w-[240px] top-0 bg-white border-black fixed pt-4 flex flex-col">
+        <header className="h-screen w-[240px] top-0 bg-[#ffffff] border-black fixed pt-4 flex flex-col light-shadow z-[999]">
             <div className="h-[70px] px-4 flex items-center">
                 <h1 className="text-2xl font-primary font-bold p-2 flex gap-3">
                     <UserGroupIcon className={`w-8 h-8 `} />
                     CK
                 </h1>
             </div>
-            <nav className="flex flex-1 flex-col justify-between p-4">
+            <nav className="flex flex-1 flex-col justify-between p-4 mb-2">
                 <div className="">
                     <ul className="flex flex-col w-full gap-2">
                         <li className="flex gap-4 items-center cursor-pointer">
                             <Link
                                 href={"/home"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
-                                    pathname === "/home" ? "font-bold" : ""
+                                    pathname === "/home" ? "font-extrabold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
@@ -67,12 +67,14 @@ export default function Navbar() {
                             <Link
                                 href={"/explore/people"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
-                                    pathname === "/explore" ? "font-bold" : ""
+                                    pathname.includes("/explore")
+                                        ? "font-extrabold"
+                                        : ""
                                 }`}
                             >
                                 <MagnifyingGlassIcon
                                     className={`w-8 h-8 ${
-                                        pathname === "/explore"
+                                        pathname.includes("/explore")
                                             ? "stroke-[3]"
                                             : ""
                                     }`}
@@ -85,7 +87,7 @@ export default function Navbar() {
                                 href={"/notifications"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
                                     pathname === "/notifications"
-                                        ? "font-bold"
+                                        ? "font-extrabold"
                                         : ""
                                 }`}
                             >
@@ -101,7 +103,7 @@ export default function Navbar() {
                 </div>
                 <button
                     onClick={handleLogout}
-                    className="bg-college-bg-grey rounded-xl flex items-center px-3 py-3 font-secondary font-semibold text-sm gap-2"
+                    className="bg-college-yellow rounded-xl flex items-center px-3 py-3 font-secondary font-semibold text-sm gap-2"
                 >
                     <ArrowRightStartOnRectangleIcon className="w-6 h-6" />
                     Logout

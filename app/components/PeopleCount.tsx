@@ -6,29 +6,30 @@ function PeopleCount({
     width = "w-[50px]",
     height = "h-[50px]",
     margin = "-ml-7",
+    totalParticipants,
 }: PeopleCountPropType) {
     return (
         <div className="flex">
             <div className={`relative ${width} ${height}`}>
                 <Image
-                    src="/avatar-1.png"
-                    alt="avatar-1"
+                    src="/images/avatar-1.png"
+                    alt="images/avatar-1"
                     fill
                     className="object-cover rounded-full"
                 />
             </div>
             <div className={`relative ${width} ${height} ${margin}`}>
                 <Image
-                    src="/avatar-2.png"
-                    alt="avatar-2"
+                    src="/images/avatar-2.png"
+                    alt="images/avatar-2"
                     fill
                     className="object-cover rounded-full"
                 />
             </div>
             <div className={`relative ${width} ${height} ${margin}`}>
                 <Image
-                    src="/avatar-3.jpg"
-                    alt="avatar-3"
+                    src="/images/avatar-3.jpg"
+                    alt="images/avatar-3"
                     fill
                     className="object-cover rounded-full"
                 />
@@ -36,7 +37,9 @@ function PeopleCount({
             <div
                 className={`bg-gray-200 relative ${width} ${height} rounded-full ${margin} flex items-center justify-center`}
             >
-                <span className="font-semibold text-sm">+100</span>
+                <span className="font-semibold text-sm">
+                    +{totalParticipants}
+                </span>
             </div>
         </div>
     );

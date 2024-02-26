@@ -11,10 +11,5 @@ export default function Home() {
         router.push("/home");
     }, [router]);
 
-    return (
-        <>
-            <h1>College Khabar</h1>
-            <div className="homepage-pattern w-[400px] p-8"></div>
-        </>
-    );
+    return <></>;
 }

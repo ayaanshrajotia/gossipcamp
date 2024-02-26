@@ -20,6 +20,19 @@ export type RoomPropsType = {
     textColor: string;
     className?: string;
     isPrivate: boolean;
+    imgUrl: string;
+    totalParticipants: number;
+} & Record<string, any>;
+
+export type PrivateRoomPropsType = {
+    roomName: string;
+    roomId: string;
+    bgColor: string;
+    textColor: string;
+    className?: string;
+    isPrivate: boolean;
+    imgUrl: string;
+    totalParticipants: number;
 } & Record<string, any>;
 
 export type RoomBoxPropsType = {
@@ -76,4 +89,5 @@ export type PeopleCountPropType = {
     width: string;
     height: string;
     margin: string;
+    totalParticipants: number;
 };
