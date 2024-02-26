@@ -6,7 +6,7 @@ function PeopleCount({
     width = "w-[50px]",
     height = "h-[50px]",
     margin = "-ml-7",
-    totalParticipants,
+    totalParticipants = 0,
 }: PeopleCountPropType) {
     return (
         <div className="flex">

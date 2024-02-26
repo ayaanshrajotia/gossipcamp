@@ -89,5 +89,5 @@ export type PeopleCountPropType = {
     width: string;
     height: string;
     margin: string;
-    totalParticipants: number;
+    totalParticipants?: number;
 };
