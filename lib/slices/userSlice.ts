@@ -1,5 +1,3 @@
-"use client";
-
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -39,15 +37,20 @@ export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
+            console.log(userCredentials)
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 // { mobileNo: "7880049324", password: "nehakumari" }
                 // { mobileNo: "8109774963", password: "adi@1234" }
-                { userId: "0176CD211033", password: "ayaanshrajotia" }
-                // { mobileNo: "9399823477", password: "ayaanshrajotia" }
+                // { userId: "0176CD211033", password: "ayaanshrajotia" }
+                // { userId: "0157cs211145", password: "pulkitgupta" }
+                userCredentials
             );
             document.cookie = `accessToken=${response.data.data.accessToken}`;
             document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+            document.cookie = `profile=${JSON.stringify(
+                response.data.data.profile
+            )}`;
 
             localStorage.setItem("accessToken", response.data.data.accessToken);
             localStorage.setItem(
@@ -98,10 +101,12 @@ export const logoutUser = createAsyncThunk(
                 "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie =
                 "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+                "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            console.log("Logged out");
+            localStorage.removeItem("profile");
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -115,8 +120,13 @@ const initialState = {
         typeof window !== "undefined" && localStorage.getItem("user")
             ? JSON.parse(localStorage.getItem("user")!)
             : null,
+    profile:
+        typeof window !== "undefined" && localStorage.getItem("profile")
+            ? JSON.parse(localStorage.getItem("profile")!)
+            : null,
     error: false,
 };
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -174,6 +184,7 @@ const userSlice = createSlice({
             .addCase(logoutUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = null;
+                state.profile = null;
                 state.error = false;
             })
             .addCase(logoutUser.rejected, (state, action) => {

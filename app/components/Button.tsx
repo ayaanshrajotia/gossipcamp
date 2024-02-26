@@ -17,8 +17,7 @@ function Button({
         >
             {children}
             <div
-                className={`btn-inner absolute w-full h-12 rounded-lg translate-x-1.5 translate-y-1.5 z-[-999]`}
-                style={{ backgroundColor: bgColor }}
+                className={`btn-inner absolute w-full h-12 rounded-lg translate-x-1.5 translate-y-1.5 z-[-999] ${bgColor}`}
             ></div>
         </button>
     );

@@ -113,6 +113,7 @@ export default function Sidebar() {
                                         textColor="black"
                                         isPrivate={false}
                                         imgUrl="/images/avatar-1.png"
+                                        bgColor="bg-college-yellow-static"
                                     />
                                 ))
                             ) : (

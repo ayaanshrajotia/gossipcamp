@@ -98,6 +98,13 @@ input:focus {
     transition: all 0.2s ease-in-out;
 }
 
+.box-shadow-yellow-static {
+    -webkit-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+    -moz-box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+    box-shadow: 6px 6px 0px 0px rgba(253, 216, 0, 0.75);
+    transition: all 0.2s ease-in-out;
+}
+
 .box-shadow-black {
     -webkit-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);
     -moz-box-shadow: 5px 5px 0px 0px rgba(49, 50, 54, 0.75);

@@ -14,7 +14,7 @@ export default function PublicLayout({
                     {children}
                 </div>
                 <Sidebar />
-            </div>
+            </main>
         </div>
     );
 }

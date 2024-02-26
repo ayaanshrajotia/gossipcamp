@@ -393,6 +393,7 @@ function CreateAvatar() {
                 textColor="#000000"
                 type="submit"
                 className=""
+                onClick={handleCreateProfile}
             >
                 Enter
             </Button>

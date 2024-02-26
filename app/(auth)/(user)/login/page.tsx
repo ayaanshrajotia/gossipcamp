@@ -15,10 +15,9 @@ import { AppDispatch, RootState } from "@/lib/store";
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/userSlice";
-import withAuth from "@/app/ui/withAuth";
 
 const schema = z.object({
-    username: z.string(),
+    userId: z.string(),
     // .refine((value) => value.length === 10, {
     //     message: "Mobile number must be exactly 10 digits long",
     // })
@@ -70,17 +69,17 @@ const LoginPage = () => {
                 {/* Mobile Number */}
                 <div className="input-group">
                     <input
-                        {...register("username")}
+                        {...register("userId")}
                         type="text"
-                        id="username"
+                        id="userId"
                         className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                         required
                         autoComplete="false"
                     />
-                    <label htmlFor="username">Enrollment or Username</label>
-                    {errors.username && (
+                    <label htmlFor="userId">Enrollment or Username</label>
+                    {errors.userId && (
                         <div className="text-red-600 font-medium text-sm mt-2">
-                            {errors.username.message}
+                            {errors.userId.message}
                         </div>
                     )}
                 </div>
@@ -122,7 +121,7 @@ const LoginPage = () => {
                     </Link>
                 </div>
                 <Button
-                    bgColor="#fdd800"
+                    bgColor="bg-[#fdd800]"
                     textColor="#000000"
                     type="submit"
                     disabled={isSubmitting}

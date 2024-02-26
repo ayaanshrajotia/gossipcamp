@@ -10,7 +10,6 @@ import PeopleCount from "../PeopleCount";
 function RoomBox({
     roomName = "",
     roomId = "",
-    bgColor = "bg-blue-600",
     textColor,
     className = "",
     isPrivate,

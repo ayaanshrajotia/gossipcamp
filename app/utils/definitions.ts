@@ -16,7 +16,6 @@ export type ContainerPropsType = {
 export type RoomPropsType = {
     roomName: string;
     roomId: string;
-    bgColor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;
