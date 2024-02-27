@@ -6,11 +6,31 @@ import { EmblaOptionsType } from "embla-carousel";
 import RoomBox from "@/app/components/room-boxes/RoomBox";
 import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { getAllRooms } from "@/lib/slices/roomSlice";
+import { useEffect, useState } from "react";
+import { capitalizeFirstLetter } from "@/app/utils/helper";
+import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
     const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
     const SLIDE_COUNT = 5;
     const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+    const [pageLoading, setPageLoading] = useState(true);
+    const { allRooms, loading } = useSelector(
+        (state: RootState) => state.rooms
+    );
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        const getDetails = async () => {
+            await dispatch(getAllRooms());
+        };
+        getDetails();
+        setPageLoading(false);
+    }, [dispatch]);
+
     return (
         <div className="min-h-screen relative w-full font-secondary boreder-r-1">
             <div className="pt-4 sticky w-full top-0 z-[999]">
@@ -28,38 +48,41 @@ const Home = () => {
                             Trending Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            {/* <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Albus Dumbledore"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            /> */}
+                            {pageLoading || loading ? (
+                                <>
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                </>
+                            ) : (
+                                allRooms?.map((room: any) => (
+                                    <RoomBoxHome
+                                        key={room?._id}
+                                        roomId={room?._id}
+                                        roomName={room?.roomName}
+                                        roomType="User"
+                                        roomUsername={
+                                            room?.roomUsername
+                                                ? room?.roomUsername
+                                                : capitalizeFirstLetter(
+                                                      room?.adminProfile?.fName
+                                                  ) +
+                                                  capitalizeFirstLetter(
+                                                      room?.adminProfile?.lName
+                                                  )
+                                        }
+                                        roomDP={room?.roomDP}
+                                        roomDescription={room?.description}
+                                        bgcolor="bg-college-yellow"
+                                        textColor="black"
+                                        isPrivate={false}
+                                        totalParticipants={
+                                            room?.totalParticipants
+                                        }
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-col">
@@ -67,38 +90,41 @@ const Home = () => {
                             Recently Added Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            {/* <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            />
-                            <RoomBoxHome
-                                roomName="Harry Potter"
-                                roomId="harrypotter"
-                                bgcolor="bg-college-yellow"
-                                textColor="black"
-                                className="box-shadow-yellow"
-                                isPrivate={false}
-                            /> */}
+                            {pageLoading || loading ? (
+                                <>
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                    <Skeleton count={4} />
+                                </>
+                            ) : (
+                                allRooms?.map((room: any) => (
+                                    <RoomBoxHome
+                                        key={room?._id}
+                                        roomId={room?._id}
+                                        roomName={room?.roomName}
+                                        roomType="User"
+                                        roomUsername={
+                                            room?.roomUsername
+                                                ? room?.roomUsername
+                                                : capitalizeFirstLetter(
+                                                      room?.adminProfile?.fName
+                                                  ) +
+                                                  capitalizeFirstLetter(
+                                                      room?.adminProfile?.lName
+                                                  )
+                                        }
+                                        roomDP={room?.roomDP}
+                                        roomDescription={room?.description}
+                                        bgcolor="bg-college-yellow"
+                                        textColor="black"
+                                        isPrivate={false}
+                                        totalParticipants={
+                                            room?.totalParticipants
+                                        }
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>

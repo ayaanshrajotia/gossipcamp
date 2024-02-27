@@ -93,7 +93,7 @@ function RoomBox({
                     />
                     {
                         <Link
-                            className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
+                            className="bg-black text-white text-base rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
                             href={`/rooms/${roomId}`}
                         >
                             Open

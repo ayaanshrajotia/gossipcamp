@@ -15,6 +15,8 @@ function RoomBoxHome({
     className = "",
     totalParticipants = 0,
     isPrivate,
+    roomUsername,
+    roomDP,
     ...props
 }: RoomBoxBiggerPropsType) {
     return (
@@ -30,10 +32,10 @@ function RoomBoxHome({
                         <div className="">
                             <div className="relative h-[80px] w-[80px]">
                                 <Image
-                                    src="/images/avatar-1.png"
+                                    src={roomDP}
                                     alt="avatar-1"
                                     fill
-                                    className="object-cover rounded-full border-1 border-black"
+                                    className="object-cover rounded-full "
                                 />
                             </div>
                         </div>
@@ -44,11 +46,11 @@ function RoomBoxHome({
                         {/* Details */}
                         <div className="flex justify-between w-full">
                             <div className="flex flex-col">
-                                <span className="font-secondary font-extrabold text-xl truncate w-[140px]">
+                                <span className="font-secondary font-extrabold text-xl overflow-ellipsis w-[140px]">
                                     {roomName}
                                 </span>
-                                <span className="font-secondary text-gray-500 text-base">
-                                    @{roomId}
+                                <span className="font-secondary text-gray-500 text-base overflow-ellipsis w-[140px]">
+                                    @{roomUsername}
                                 </span>
                             </div>
                             {isPrivate && (
@@ -66,7 +68,7 @@ function RoomBoxHome({
                     <div className="flex flex-col justify-between gap-6">
                         <Link
                             href={`/rooms/${roomId}`}
-                            className="bg-black text-white text-base font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1.5 px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 flex items-center justify-center"
                         >
                             Join Room
                         </Link>
