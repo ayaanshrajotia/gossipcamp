@@ -1,15 +1,26 @@
 import React from "react";
 import { RoomBoxBiggerPropsType } from "../../utils/definitions";
 import Image from "next/image";
+import PeopleCount from "../PeopleCount";
+import { AppDispatch } from "@/lib/store";
+import { useDispatch } from "react-redux";
+import {
+    addPublicJoinedRoom,
+    getAllRooms,
+    removePublicJoinedRoom,
+    toggleFollowRoom,
+} from "@/lib/slices/roomSlice";
+import toast from "react-hot-toast";
 
 // icons
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
-import PeopleCount from "../PeopleCount";
+import { useRouter } from "next/navigation";
 
 function RoomBoxBigger({
-    roomName,
     roomId,
+    roomType,
+    roomName,
+    roomUsername,
     bgcolor = "bg-blue-600",
     textColor,
     className = "",
@@ -19,6 +30,38 @@ function RoomBoxBigger({
     roomDP,
     ...props
 }: RoomBoxBiggerPropsType) {
+    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleJoinRoom = async () => {
+        try {
+            dispatch(
+                addPublicJoinedRoom({
+                    roomId,
+                    roomType,
+                    roomName,
+                    roomUsername,
+                    roomDP,
+                    roomDescription,
+                    totalParticipants,
+                })
+            );
+            dispatch(removePublicJoinedRoom(roomId));
+            const response = await dispatch(toggleFollowRoom(roomId));
+
+            if (response.meta.requestStatus === "rejected") {
+                throw new Error(response.payload);
+            } else {
+                // await dispatch(toggleFollowRoom(roomId));
+                router.push(`/rooms/${roomId}`);
+            }
+
+            // redirect to room page
+        } catch (err: any) {
+            toast.error(err.message);
+        }
+    };
+
     return (
         <div
             className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-fit`}
@@ -48,7 +91,7 @@ function RoomBoxBigger({
                             {roomName}
                         </span>
                         <span className="font-secondary text-gray-500 text-base">
-                            @{roomId}
+                            @{roomUsername}
                         </span>
                     </div>
                     <p className="leading-tight mt-2">{roomDescription}</p>
@@ -64,12 +107,16 @@ function RoomBoxBigger({
                         margin="-ml-5"
                         totalParticipants={totalParticipants}
                     />
-                    <Link
-                        href={`/rooms/${roomId}`}
-                        className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
-                    >
-                        Join Room
-                    </Link>
+                    {roomType === "User" ? (
+                        <button
+                            className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
+                            onClick={() => handleJoinRoom()}
+                        >
+                            Join Room
+                        </button>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </div>

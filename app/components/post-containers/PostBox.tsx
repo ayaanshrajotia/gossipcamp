@@ -48,7 +48,7 @@ function PostBox({
                         />
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
                     <div className="flex justify-between items-center">
                         <h2 className="font-bold text-[17px]">@{user}</h2>
                         <div

@@ -37,10 +37,15 @@ export type PrivateRoomPropsType = {
 export type RoomBoxPropsType = {
     roomName: string;
     roomId: string;
+    roomType: string;
+    roomUsername: string;
+    roomDP: string;
+    roomDescription: string;
     bgcolor: string;
     textColor: string;
     className?: string;
     isPrivate: boolean;
+    totalParticipants: number;
 } & Record<string, any>;
 
 export type UserBoxPropsType = {
@@ -58,6 +63,8 @@ export type UserBoxPropsType = {
 export type RoomBoxBiggerPropsType = {
     roomName: string;
     roomId: string;
+    roomType: string;
+    roomUsername: string;
     roomDP: string;
     roomDescription: string;
     bgcolor: string;

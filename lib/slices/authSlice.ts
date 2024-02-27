@@ -142,7 +142,6 @@ const authSlice = createSlice({
             .addCase(signupUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
-                console.log(action.payload);
             })
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
@@ -172,7 +171,6 @@ const authSlice = createSlice({
             .addCase(createAvatar.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
-                console.log(action);
             })
             .addCase(logoutUser.pending, (state) => {
                 state.loading = true;
@@ -188,8 +186,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.user = null;
                 state.error = true;
-
-                console.log(action);
             });
     },
 });

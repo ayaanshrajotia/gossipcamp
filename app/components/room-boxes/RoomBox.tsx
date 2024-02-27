@@ -8,15 +8,48 @@ import Link from "next/link";
 import PeopleCount from "../PeopleCount";
 
 function RoomBox({
-    roomName = "",
-    roomId = "",
+    roomId,
+    roomType,
+    roomName,
+    roomUsername,
+    bgcolor = "bg-blue-600",
     textColor,
     className = "",
     isPrivate,
-    imgUrl,
-    totalParticipants = 0,
+    roomDescription,
+    totalParticipants,
+    roomDP,
     ...props
 }: RoomBoxPropsType) {
+    // const dispatch = useDispatch<AppDispatch>();
+    // const handleJoinRoom = async () => {
+    //     try {
+    //         dispatch(
+    //             addPublicJoinedRoom({
+    //                 roomId,
+    //                 roomType,
+    //                 roomName,
+    //                 roomUsername,
+    //                 roomDP,
+    //                 roomDescription,
+    //                 totalParticipants,
+    //             })
+    //         );
+    //         dispatch(removePublicJoinedRoom(roomId));
+    //         dispatch(removePublicJoinedRoom(roomId));
+    //         const response = await dispatch(toggleFollowRoom(roomId));
+
+    //         if (response.meta.requestStatus === "rejected") {
+    //             throw new Error(response.payload);
+    //         } else {
+    //             // await dispatch(toggleFollowRoom(roomId));
+    //         }
+
+    //         // redirect to room page
+    //     } catch (err: any) {
+    //         toast.error(err.message);
+    //     }
+    // };
     return (
         <div
             className={`relative border-1 border-college-bg-grey rounded-xl font-secondary ${textColor} ${className} bg-white p-3 min-w-[200px] transition-all cursor-pointer`}
@@ -30,7 +63,7 @@ function RoomBox({
                         <div>
                             <div className="relative h-[45px] w-[45px]">
                                 <Image
-                                    src={imgUrl}
+                                    src={roomDP}
                                     alt="avatar-1"
                                     fill
                                     className="object-cover rounded-full"
@@ -42,7 +75,7 @@ function RoomBox({
                                 {roomName}
                             </span>
                             <span className="font-secondary text-gray-500 text-sm">
-                                @{roomId}
+                                @{roomUsername}
                             </span>
                         </div>
                     </div>
@@ -58,12 +91,14 @@ function RoomBox({
                         margin="-ml-5"
                         totalParticipants={totalParticipants}
                     />
-                    <Link
-                        href={`/rooms/${roomId}`}
-                        className="bg-black text-white text-sm font-semibold rounded-full px-4 flex h-[30px] items-center justify-center"
-                    >
-                        View
-                    </Link>
+                    {
+                        <Link
+                            className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
+                            href={`/rooms/${roomId}`}
+                        >
+                            Open
+                        </Link>
+                    }
                 </div>
             </div>
         </div>
