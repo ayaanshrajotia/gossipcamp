@@ -40,9 +40,9 @@ export default function Navbar() {
     return (
         <header className="h-screen w-[240px] top-0 bg-[#ffffff] border-black fixed pt-4 flex flex-col light-shadow z-[999]">
             <div className="h-[70px] px-4 flex items-center">
-                <h1 className="text-2xl font-primary font-bold p-2 flex gap-3">
-                    <UserGroupIcon className={`w-8 h-8 `} />
-                    CK
+                <h1 className="text-2xl font-secondary font-bold p-2 flex gap-3">
+                    {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
+                    GossipCamp
                 </h1>
             </div>
             <nav className="flex flex-1 flex-col justify-between p-4 mb-2">
@@ -52,7 +52,7 @@ export default function Navbar() {
                             <Link
                                 href={"/home"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
-                                    pathname === "/home" ? "font-extrabold" : ""
+                                    pathname === "/home" ? "font-bold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
@@ -68,7 +68,7 @@ export default function Navbar() {
                                 href={"/explore/people"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
                                     pathname.includes("/explore")
-                                        ? "font-extrabold"
+                                        ? "font-bold"
                                         : ""
                                 }`}
                             >
@@ -87,7 +87,7 @@ export default function Navbar() {
                                 href={"/notifications"}
                                 className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
                                     pathname === "/notifications"
-                                        ? "font-extrabold"
+                                        ? "font-bold"
                                         : ""
                                 }`}
                             >

@@ -78,7 +78,7 @@ function CreateAvatar() {
 
     return (
         <div className="w-[1200px] flex flex-col gap-10 items-center font-secondary">
-            <h1 className="font-primary font-extrabold text-5xl text-college-grey">
+            <h1 className="font-primary font-bold text-5xl text-college-grey">
                 Create your Avatar!
             </h1>
             <div className="flex w-full gap-14">
@@ -360,7 +360,7 @@ function CreateAvatar() {
                             </div>
                             <div className="flex flex-col items-center gap-6 w-full">
                                 <div className="relative flex justify-center mb-3 w-full">
-                                    <span className="text-4xl font-extrabold">
+                                    <span className="text-4xl font-bold">
                                         {firstName !== "Choose First Name"
                                             ? capitalizeFirstLetter(firstName)
                                             : "Black"}

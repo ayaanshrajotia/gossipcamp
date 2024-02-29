@@ -82,7 +82,7 @@ export default function SignupPage() {
 
     return (
         <div className="max-w-[450px] w-full flex flex-col font-secondary">
-            <h1 className="font-primary font-extrabold text-4xl text-college-grey mb-8">
+            <h1 className="font-primary font-bold text-4xl text-college-grey mb-8">
                 Signup Anonymously!
             </h1>
             {/* Form Content */}

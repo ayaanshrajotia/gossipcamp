@@ -36,7 +36,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 <div
                     className={`bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
                 >
-                    <div className="flex items-center gap-4 w-full">
+                    <div className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-stone-800">
                         {/* <div className="flex items-center gap-2">
                             <button>
                                 <VideoCameraIcon className="w-7 h-7" />
@@ -46,13 +46,13 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             </button>
                         </div> */}
                         <TextareaAutosize
-                            className="flex-1 p-3 px-4 bg-white rounded-xl border-1 border-stone-800 outline-none resize-none font-secondary"
+                            className="flex-1 bg-white outline-none resize-none font-secondary"
                             placeholder="Write your thoughts"
                             // onFocus={handleFocus}
                             // onBlur={handleBlur}
                         />
                         <button onClick={handleChange}>
-                            <PaperAirplaneIcon className="w-8 h-8 fill-white" />
+                            <PaperAirplaneIcon className="w-6 h-6 fill-white" />
                         </button>
                     </div>
                     {/* <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>

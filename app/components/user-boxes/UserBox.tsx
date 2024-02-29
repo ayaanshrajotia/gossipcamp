@@ -47,7 +47,7 @@ function UserBox({
                 {/* Lower Div */}
                 <Link
                     href={`/users/${userId}`}
-                    className="bg-black text-white text-sm rounded-xl p-1.5 px-3 flex items-center justify-center w-full"
+                    className="bg-black text-white text-sm font-bold rounded-xl p-1.5 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-1 border-black transition-all"
                 >
                     Follow
                 </Link>

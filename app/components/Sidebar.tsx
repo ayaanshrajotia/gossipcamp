@@ -90,7 +90,7 @@ export default function Sidebar() {
                 </div>
                 <div className="flex flex-col mt-2 gap-6 box-border">
                     <div className="flex flex-col gap-6 bg-white border-1 px-6 py-6 rounded-xl box-border box-shadow-yellow-static">
-                        <h1 className="text-2xl font-semibold font-secondary">
+                        <h1 className="text-2xl font-extrabold font-secondary">
                             Private Rooms
                         </h1>
                         <div>
@@ -119,7 +119,7 @@ export default function Sidebar() {
                     </div>
 
                     <div className="flex flex-col gap-6 bg-white border-1 rounded-xl py-6 box-shadow-yellow-static px-6">
-                        <h1 className="text-2xl font-semibold font-secondary">
+                        <h1 className="text-2xl font-extrabold font-secondary">
                             Public Rooms
                         </h1>
                         <div className="flex flex-col gap-6">
@@ -159,7 +159,7 @@ export default function Sidebar() {
                                     </span>
                                     <Link
                                         href={"/explore/rooms"}
-                                        className="font-semibold text-lg bg-black text-white text-center rounded-full px-4 py-1 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all"
+                                        className="font-bold text-lg bg-black text-white text-center rounded-full px-4 py-1 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all"
                                     >
                                         Explore!
                                     </Link>

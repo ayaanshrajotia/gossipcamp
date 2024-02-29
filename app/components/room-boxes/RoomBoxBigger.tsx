@@ -76,7 +76,7 @@ function RoomBoxBigger({
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
                         <div>
-                            <div className="relative h-[90px] w-[90px]">
+                            <div className="relative h-[70px] w-[70px]">
                                 <Image
                                     src={roomDP}
                                     alt="avatar-1"
@@ -90,20 +90,20 @@ function RoomBoxBigger({
                 {/* Details */}
                 <div className="flex flex-1 flex-col justify-between">
                     <div className="flex flex-col">
-                        <span className="font-secondary font-extrabold text-2xl">
+                        <span className="font-secondary font-extrabold text-xl">
                             {roomName}
                         </span>
-                        <span className="font-secondary text-gray-500 text-base">
+                        <span className="font-secondary text-gray-500 text-sm">
                             @{roomUsername}
                         </span>
                     </div>
-                    <p className="leading-tight">{roomDescription}</p>
+                    <p className="leading-tight text-sm">{roomDescription}</p>
                     {isPrivate && (
                         <LockClosedIcon className="w-6 h-6 text-red-500" />
                     )}
                 </div>
                 {/* Join */}
-                <div className="flex flex-col justify-between gap-6">
+                <div className="flex flex-col justify-between gap-4">
                     <PeopleCount
                         width="w-[40px]"
                         height="h-[40px]"
@@ -112,7 +112,7 @@ function RoomBoxBigger({
                     />
                     {roomType === "User" ? (
                         <button
-                            className="bg-black text-white text-base rounded-xl py-1.5 px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm font-bold rounded-xl py-1.5 px-3 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all"
                             onClick={() => handleJoinRoom()}
                         >
                             Join Room

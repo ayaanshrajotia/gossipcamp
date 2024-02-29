@@ -84,7 +84,7 @@ function RoomBoxHome({
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-4 w-full">
+                <div className="flex flex-1 flex-col gap-3 w-full">
                     <div className="flex w-full">
                         {/* Details */}
                         <div className="flex justify-between w-full">
@@ -92,7 +92,7 @@ function RoomBoxHome({
                                 <span className="font-secondary font-extrabold text-xl overflow-ellipsis w-[140px]">
                                     {roomName}
                                 </span>
-                                <span className="font-secondary text-gray-500 text-base overflow-ellipsis w-[140px]">
+                                <span className="font-secondary text-gray-500 text-sm overflow-ellipsis w-[140px]">
                                     @{roomUsername}
                                 </span>
                             </div>

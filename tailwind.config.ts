@@ -20,7 +20,7 @@ const config: Config = {
             },
             fontFamily: {
                 primary: ["Lato", "sans-serif"],
-                secondary: ["Lato", "sans-serif"],
+                secondary: ["Source Sans 3", "sans-serif"],
             },
             borderWidth: {
                 "1": "1.5px",

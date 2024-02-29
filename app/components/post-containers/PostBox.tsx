@@ -50,7 +50,7 @@ function PostBox({
                 </div>
                 <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                        <h2 className="font-bold text-[17px]">@{user}</h2>
+                        <h2 className="font-extrabold text-[17px]">@{user}</h2>
                         <div
                             className="bg-white text-black translate-y-[-100%]  text-xs py-1 px-3 rounded-full flex items-center gap-1 cursor-pointer border-1 border-red-500"
                             onClick={() => setIsLiked((prev) => !prev)}

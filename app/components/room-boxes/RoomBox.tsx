@@ -99,7 +99,7 @@ function RoomBox({
                     />
                     {profile === null ? (
                         <button
-                            className="bg-black text-white text-base rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
                             onClick={() =>
                                 toast.error("Please create your profile")
                             }
@@ -108,7 +108,7 @@ function RoomBox({
                         </button>
                     ) : (
                         <Link
-                            className="bg-black text-white text-base rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
                             href={`/rooms/${roomId}`}
                         >
                             Open

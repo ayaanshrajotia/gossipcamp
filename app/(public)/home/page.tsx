@@ -47,9 +47,9 @@ const Home = () => {
                 <div className="px-6">
                     <EmblaCarousel slides={SLIDES} options={OPTIONS} />
                 </div>
-                <div className="flex flex-col gap-14 mt-4 px-6">
+                <div className="flex flex-col gap-14 mt-8 px-6">
                     <div className="flex flex-col">
-                        <h1 className="text-2xl font-bold font-secondary">
+                        <h1 className="text-3xl font-extrabold font-secondary">
                             Trending Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
@@ -80,6 +80,7 @@ const Home = () => {
                                         roomDP={room?.roomDP}
                                         roomDescription={room?.description}
                                         bgcolor="bg-college-yellow"
+                                        className="box-shadow-yellow-static"
                                         textColor="black"
                                         isPrivate={false}
                                         totalParticipants={
@@ -91,7 +92,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="flex flex-col">
-                        <h1 className="text-2xl font-bold">
+                        <h1 className="text-3xl font-extrabold">
                             Recently Added Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
@@ -122,6 +123,7 @@ const Home = () => {
                                         roomDP={room?.roomDP}
                                         roomDescription={room?.description}
                                         bgcolor="bg-college-yellow"
+                                        className="box-shadow-yellow"
                                         textColor="black"
                                         isPrivate={false}
                                         totalParticipants={
