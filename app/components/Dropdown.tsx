@@ -26,8 +26,8 @@ export default function Dropdown({
                 <option
                     key={item.id}
                     value={item.name}
-                    disabled={true}
-                    selected={true}
+                    // disabled={true}
+                    defaultValue={item.name}
                 >
                     {capitalizeFirstLetter(item.name)}
                 </option>

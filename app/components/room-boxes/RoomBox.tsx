@@ -6,6 +6,9 @@ import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import PeopleCount from "../PeopleCount";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import toast from "react-hot-toast";
 
 function RoomBox({
     roomId,
@@ -21,6 +24,8 @@ function RoomBox({
     roomDP,
     ...props
 }: RoomBoxPropsType) {
+    const { profile, loading } = useSelector((state: RootState) => state.auth);
+
     // const dispatch = useDispatch<AppDispatch>();
     // const handleJoinRoom = async () => {
     //     try {
@@ -50,6 +55,7 @@ function RoomBox({
     //         toast.error(err.message);
     //     }
     // };
+    console.log(profile);
     return (
         <div
             className={`relative border-1 border-college-bg-grey rounded-xl font-secondary ${textColor} ${className} bg-white p-3 min-w-[200px] transition-all cursor-pointer`}
@@ -91,14 +97,23 @@ function RoomBox({
                         margin="-ml-5"
                         totalParticipants={totalParticipants}
                     />
-                    {
+                    {profile === null ? (
+                        <button
+                            className="bg-black text-white text-base rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                            onClick={() =>
+                                toast.error("Please create your profile")
+                            }
+                        >
+                            Open
+                        </button>
+                    ) : (
                         <Link
                             className="bg-black text-white text-base rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
                             href={`/rooms/${roomId}`}
                         >
                             Open
                         </Link>
-                    }
+                    )}
                 </div>
             </div>
         </div>

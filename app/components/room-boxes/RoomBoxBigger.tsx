@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import {
     addPublicJoinedRoom,
     getAllRooms,
+    getPublicJoinedRooms,
     removePublicJoinedRoom,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
@@ -35,25 +36,27 @@ function RoomBoxBigger({
 
     const handleJoinRoom = async () => {
         try {
-            dispatch(
-                addPublicJoinedRoom({
-                    roomId,
-                    roomType,
-                    roomName,
-                    roomUsername,
-                    roomDP,
-                    roomDescription,
-                    totalParticipants,
-                })
-            );
-            dispatch(removePublicJoinedRoom(roomId));
+            // dispatch(
+            //     addPublicJoinedRoom({
+            //         roomId,
+            //         roomType,
+            //         roomName,
+            //         roomUsername,
+            //         roomDP,
+            //         roomDescription,
+            //         totalParticipants,
+            //     })
+            // );
+            // dispatch(removePublicJoinedRoom(roomId));
             const response = await dispatch(toggleFollowRoom(roomId));
 
             if (response.meta.requestStatus === "rejected") {
                 throw new Error(response.payload);
             } else {
                 // await dispatch(toggleFollowRoom(roomId));
+                dispatch(getPublicJoinedRooms());
                 router.push(`/rooms/${roomId}`);
+                toast.success("Joined Room");
             }
 
             // redirect to room page
@@ -73,7 +76,7 @@ function RoomBoxBigger({
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
                         <div>
-                            <div className="relative h-[100px] w-[100px]">
+                            <div className="relative h-[90px] w-[90px]">
                                 <Image
                                     src={roomDP}
                                     alt="avatar-1"
@@ -94,7 +97,7 @@ function RoomBoxBigger({
                             @{roomUsername}
                         </span>
                     </div>
-                    <p className="leading-tight mt-2">{roomDescription}</p>
+                    <p className="leading-tight">{roomDescription}</p>
                     {isPrivate && (
                         <LockClosedIcon className="w-6 h-6 text-red-500" />
                     )}

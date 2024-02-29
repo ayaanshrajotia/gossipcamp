@@ -13,6 +13,20 @@ export const getAllRooms = createAsyncThunk(
     }
 );
 
+export const getAllCollegeRooms = createAsyncThunk(
+    "room/getAllCollegeRooms",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/rooms/all-college-rooms`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
 export const getRoomDetails = createAsyncThunk(
     "room/getRoomDetails",
     async (roomId: string, { rejectWithValue }) => {
@@ -51,6 +65,30 @@ export const getPublicJoinedRooms = createAsyncThunk(
     }
 );
 
+export const getTrendingRooms = createAsyncThunk(
+    "room/getTrendingRooms",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`/rooms/trending-rooms`);
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getRecentlyAddedRooms = createAsyncThunk(
+    "room/getRecentlyAddedRooms",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`/rooms/recent-rooms`);
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
 export const toggleFollowRoom = createAsyncThunk(
     "room/toggleFollowRoom",
     async (roomId: string, { rejectWithValue }) => {
@@ -68,18 +106,34 @@ export const toggleFollowRoom = createAsyncThunk(
 const initialState: {
     privateLoading: boolean;
     publicLoading: boolean;
+    trendingLoading: boolean;
+    recentlyAddedLoading: boolean;
+    collegeRoomsLoading: boolean;
+    collegeRooms: any;
     loading: boolean;
+    getRoomDetailsLoading: boolean;
     privateRoom: any;
     publicRooms: any;
+    trendingRooms: any;
+    recentlyAddedRooms: any;
     allRooms: any;
+    roomDetails: any;
     error: boolean;
 } = {
     privateLoading: false,
-    publicLoading: false,
-    loading: false,
     privateRoom: {},
+    trendingLoading: false,
+    trendingRooms: [],
+    recentlyAddedLoading: false,
+    recentlyAddedRooms: [],
+    collegeRoomsLoading: false,
+    collegeRooms: [],
+    publicLoading: false,
     publicRooms: [],
+    getRoomDetailsLoading: false,
+    roomDetails: {},
     allRooms: [],
+    loading: false,
     error: false,
 };
 
@@ -136,6 +190,30 @@ const roomSlice = createSlice({
                 state.publicLoading = false;
                 state.error = true;
             })
+            .addCase(getTrendingRooms.pending, (state) => {
+                state.trendingLoading = true;
+            })
+            .addCase(getTrendingRooms.fulfilled, (state, action) => {
+                state.trendingLoading = false;
+                state.trendingRooms = action.payload.rooms;
+                state.error = false;
+            })
+            .addCase(getTrendingRooms.rejected, (state, action) => {
+                state.trendingLoading = false;
+                state.error = true;
+            })
+            .addCase(getRecentlyAddedRooms.pending, (state) => {
+                state.recentlyAddedLoading = true;
+            })
+            .addCase(getRecentlyAddedRooms.fulfilled, (state, action) => {
+                state.recentlyAddedLoading = false;
+                state.recentlyAddedRooms = action.payload.rooms;
+                state.error = false;
+            })
+            .addCase(getRecentlyAddedRooms.rejected, (state, action) => {
+                state.recentlyAddedLoading = false;
+                state.error = true;
+            })
             .addCase(toggleFollowRoom.pending, (state) => {})
             .addCase(toggleFollowRoom.fulfilled, (state, action) => {
                 state.error = false;
@@ -144,14 +222,27 @@ const roomSlice = createSlice({
                 state.error = true;
             })
             .addCase(getRoomDetails.pending, (state) => {
-                state.loading = true;
+                state.getRoomDetailsLoading = true;
             })
             .addCase(getRoomDetails.fulfilled, (state, action) => {
-                state.loading = false;
+                state.getRoomDetailsLoading = false;
+                state.roomDetails = action.payload;
                 state.error = false;
             })
             .addCase(getRoomDetails.rejected, (state, action) => {
-                state.loading = false;
+                state.getRoomDetailsLoading = false;
+                state.error = true;
+            })
+            .addCase(getAllCollegeRooms.pending, (state) => {
+                state.collegeRoomsLoading = true;
+            })
+            .addCase(getAllCollegeRooms.fulfilled, (state, action) => {
+                state.collegeRoomsLoading = false;
+                state.collegeRooms = action.payload.docs;
+                state.error = false;
+            })
+            .addCase(getAllCollegeRooms.rejected, (state, action) => {
+                state.collegeRoomsLoading = false;
                 state.error = true;
             });
     },

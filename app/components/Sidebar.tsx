@@ -43,11 +43,18 @@ export default function Sidebar() {
             <div className=" pt-4 mb-4 mr-6">
                 <div className="h-[70px] w-full flex items-center">
                     <div className="flex-1 flex items-center justify-between gap-6">
-                        {pageLoading || loading ? (
+                        {pageLoading || loading || profile === null ? (
+                            <Link
+                                href={"/create-avatar"}
+                                className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse"
+                            >
+                                Create Your Profile
+                            </Link>
+                        ) : pageLoading || loading ? (
                             <Skeleton count={2} width={200} />
                         ) : (
                             <div className="flex justify-between cursor-pointer">
-                                <div className="flex gap-2">
+                                <Link href={"/profile"} className="flex gap-2">
                                     <div>
                                         <div className="relative h-[45px] w-[45px]">
                                             <Image
@@ -70,7 +77,7 @@ export default function Sidebar() {
                                             Profile
                                         </span>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         )}
 

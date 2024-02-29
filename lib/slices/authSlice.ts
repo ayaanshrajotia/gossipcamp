@@ -7,6 +7,7 @@ export const signupUser = createAsyncThunk(
     "user/signupUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
+            console.log(userCredentials);
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
                 userCredentials
@@ -38,10 +39,6 @@ export const loginUser = createAsyncThunk(
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
-                // { mobileNo: "7880049324", password: "nehakumari" }
-                // { mobileNo: "8109774963", password: "adi@1234" }
-                // { userId: "0176CD211033", password: "ayaanshrajotia" }
-                // { userId: "0157cs211145", password: "pulkitgupta" }
                 userCredentials
             );
             document.cookie = `accessToken=${response.data.data.accessToken}`;

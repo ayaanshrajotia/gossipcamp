@@ -57,8 +57,14 @@ function Page() {
                         roomName={room?.roomName}
                         roomType="User"
                         roomUsername={
-                            capitalizeFirstLetter(room?.adminProfile.fName) +
-                            capitalizeFirstLetter(room?.adminProfile.lName)
+                            room?.roomUsername
+                                ? room?.roomUsername
+                                : capitalizeFirstLetter(
+                                      room?.adminProfile.fName
+                                  ) +
+                                  capitalizeFirstLetter(
+                                      room?.adminProfile.lName
+                                  )
                         }
                         roomDP={room?.roomDP}
                         roomDescription={room?.description}

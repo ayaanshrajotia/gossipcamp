@@ -8,24 +8,33 @@ import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { getAllRooms } from "@/lib/slices/roomSlice";
+import {
+    getAllRooms,
+    getRecentlyAddedRooms,
+    getTrendingRooms,
+} from "@/lib/slices/roomSlice";
 import { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import Skeleton from "react-loading-skeleton";
+import Header from "@/app/components/Header";
 
 const Home = () => {
     const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
     const SLIDE_COUNT = 5;
     const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
     const [pageLoading, setPageLoading] = useState(true);
-    const { allRooms, loading } = useSelector(
-        (state: RootState) => state.rooms
-    );
+    const {
+        trendingLoading,
+        trendingRooms,
+        recentlyAddedLoading,
+        recentlyAddedRooms,
+    } = useSelector((state: RootState) => state.rooms);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         const getDetails = async () => {
-            await dispatch(getAllRooms());
+            await dispatch(getTrendingRooms());
+            await dispatch(getRecentlyAddedRooms());
         };
         getDetails();
         setPageLoading(false);
@@ -33,13 +42,9 @@ const Home = () => {
 
     return (
         <div className="min-h-screen relative w-full font-secondary boreder-r-1">
-            <div className="pt-4 sticky w-full top-0 z-[999]">
-                <div className="bg-stone-800 text-white flex items-center gap-4 h-[65px] px-4 rounded-xl mx-6 ">
-                    <h1 className="font-secondary font-bold text-2xl">Home</h1>
-                </div>
-            </div>
+            <Header>Home</Header>
             <div className="my-6">
-                <div className=" px-6">
+                <div className="px-6">
                     <EmblaCarousel slides={SLIDES} options={OPTIONS} />
                 </div>
                 <div className="flex flex-col gap-14 mt-4 px-6">
@@ -48,7 +53,7 @@ const Home = () => {
                             Trending Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            {pageLoading || loading ? (
+                            {pageLoading || trendingLoading ? (
                                 <>
                                     <Skeleton count={4} />
                                     <Skeleton count={4} />
@@ -56,7 +61,7 @@ const Home = () => {
                                     <Skeleton count={4} />
                                 </>
                             ) : (
-                                allRooms?.map((room: any) => (
+                                trendingRooms?.map((room: any) => (
                                     <RoomBoxHome
                                         key={room?._id}
                                         roomId={room?._id}
@@ -90,7 +95,7 @@ const Home = () => {
                             Recently Added Rooms
                         </h1>
                         <div className="mt-4 grid grid-cols-2 gap-6">
-                            {pageLoading || loading ? (
+                            {pageLoading || recentlyAddedLoading ? (
                                 <>
                                     <Skeleton count={4} />
                                     <Skeleton count={4} />
@@ -98,7 +103,7 @@ const Home = () => {
                                     <Skeleton count={4} />
                                 </>
                             ) : (
-                                allRooms?.map((room: any) => (
+                                recentlyAddedRooms?.map((room: any) => (
                                     <RoomBoxHome
                                         key={room?._id}
                                         roomId={room?._id}

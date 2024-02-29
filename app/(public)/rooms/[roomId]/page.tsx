@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import {
     addPublicJoinedRoom,
+    getPublicJoinedRooms,
     getRoomDetails,
     removePublicJoinedRoom,
     toggleFollowRoom,
@@ -23,11 +24,11 @@ export default function Room() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");
-    const [roomDetails, setRoomDetails] = useState<RoomPropsType | null>(null);
     const [pageLoading, setPageLoading] = useState(true);
 
-    const { profile, loading } = useSelector(
-        (state: RootState) => state.auth || ""
+    const { profile } = useSelector((state: RootState) => state.auth);
+    const { getRoomDetailsLoading, roomDetails } = useSelector(
+        (state: RootState) => state.rooms
     );
     const dispatch = useDispatch<AppDispatch>();
 
@@ -39,25 +40,27 @@ export default function Room() {
 
     useEffect(() => {
         const getDetails = async () => {
-            const response = await dispatch(getRoomDetails(roomId.toString()));
-            setRoomDetails(response.payload);
+            await dispatch(getRoomDetails(roomId.toString()));
         };
         getDetails();
         setPageLoading(false);
     }, [roomId, dispatch]);
 
-    console.log(roomDetails);
+    console.log("roomDetails", roomDetails);
 
     const handleRemoveRoom = async () => {
-        dispatch(removePublicJoinedRoom(roomId));
+        // dispatch(removePublicJoinedRoom(roomId));
         await dispatch(toggleFollowRoom(roomId.toString()));
+        await dispatch(getPublicJoinedRooms());
         router.push("/explore/rooms");
     };
     return (
         <>
             <div className="pt-4 sticky w-full top-0 z-[999]">
                 <div className="bg-stone-800 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2">
-                    {pageLoading ? (
+                    {pageLoading ||
+                    getRoomDetailsLoading ||
+                    profile === null ? (
                         <Skeleton count={2} width={600} baseColor="#464646" />
                     ) : (
                         <>

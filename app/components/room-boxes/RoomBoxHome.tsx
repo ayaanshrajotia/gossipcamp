@@ -6,19 +6,62 @@ import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import PeopleCount from "../PeopleCount";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
+import {
+    addPublicJoinedRoom,
+    removePublicJoinedRoom,
+    toggleFollowRoom,
+} from "@/lib/slices/roomSlice";
+import toast from "react-hot-toast";
 
 function RoomBoxHome({
-    roomName,
     roomId,
+    roomType,
+    roomName,
+    roomUsername,
     bgcolor = "bg-blue-600",
     textColor,
     className = "",
-    totalParticipants = 0,
     isPrivate,
-    roomUsername,
+    roomDescription,
+    totalParticipants,
     roomDP,
     ...props
 }: RoomBoxBiggerPropsType) {
+    const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleJoinRoom = async () => {
+        try {
+            dispatch(
+                addPublicJoinedRoom({
+                    roomId,
+                    roomType,
+                    roomName,
+                    roomUsername,
+                    roomDP,
+                    roomDescription,
+                    totalParticipants,
+                })
+            );
+            dispatch(removePublicJoinedRoom(roomId));
+            const response = await dispatch(toggleFollowRoom(roomId));
+
+            if (response.meta.requestStatus === "rejected") {
+                throw new Error(response.payload);
+            } else {
+                // await dispatch(toggleFollowRoom(roomId));
+                router.push(`/rooms/${roomId}`);
+                toast.success("Joined Room");
+            }
+
+            // redirect to room page
+        } catch (err: any) {
+            toast.error(err.message);
+        }
+    };
     return (
         <div
             className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] w-full`}
@@ -66,12 +109,12 @@ function RoomBoxHome({
                     </div>
                     {/* Join */}
                     <div className="flex flex-col justify-between gap-6">
-                        <Link
-                            href={`/rooms/${roomId}`}
+                        <button
                             className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 flex items-center justify-center"
+                            onClick={() => handleJoinRoom()}
                         >
                             Join Room
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
