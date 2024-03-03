@@ -13,9 +13,113 @@ export const getAllUsers = createAsyncThunk(
     }
 );
 
-const initialState = {
+export const getSingleUser = createAsyncThunk(
+    "user/getSingleUser",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/profiles/user-profile/${userId}`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getSingleUserPosts = createAsyncThunk(
+    "user/getSingleUserPosts",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/profile/${userId}/posts`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getSingleUserRooms = createAsyncThunk(
+    "user/getSingleUserRooms",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/profile/${userId}/rooms`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getSingleUserFollowers = createAsyncThunk(
+    "user/getSingleUserFollowers",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/profile/${userId}/followers`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getSingleUserFollowing = createAsyncThunk(
+    "user/getSingleUserFollowing",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`/following`);
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const toggleFollowUser = createAsyncThunk(
+    "user/toggleFollowUser",
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/users/toggle-follow/${userId}`
+            );
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+const initialState: {
+    user: any;
+    roomsLoading: boolean;
+    postsLoading: boolean;
+    followersLoading: boolean;
+    followingLoading: boolean;
+    rooms: any[];
+    posts: any[];
+    followers: any[];
+    following: any[];
+    loading: boolean;
+    users: any[];
+    error: boolean;
+} = {
+    roomsLoading: false,
+    postsLoading: false,
+    followersLoading: false,
+    followingLoading: false,
+    rooms: [],
+    posts: [],
+    followers: [],
+    following: [],
     loading: false,
     users: [],
+    user: {},
     error: false,
 };
 
@@ -35,7 +139,67 @@ const userSlice = createSlice({
             .addCase(getAllUsers.rejected, (state) => {
                 state.loading = false;
                 state.error = true;
-            });
+            })
+            .addCase(getSingleUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getSingleUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(getSingleUser.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
+            })
+            .addCase(getSingleUserPosts.pending, (state) => {
+                state.postsLoading = true;
+            })
+            .addCase(getSingleUserPosts.fulfilled, (state, action) => {
+                state.postsLoading = false;
+                state.posts = action.payload;
+            })
+            .addCase(getSingleUserPosts.rejected, (state) => {
+                state.postsLoading = false;
+                state.error = true;
+            })
+            .addCase(getSingleUserRooms.pending, (state) => {
+                state.roomsLoading = true;
+            })
+            .addCase(getSingleUserRooms.fulfilled, (state, action) => {
+                state.roomsLoading = false;
+                state.rooms = action.payload;
+            })
+            .addCase(getSingleUserRooms.rejected, (state) => {
+                state.roomsLoading = false;
+                state.error = true;
+            })
+            .addCase(getSingleUserFollowers.pending, (state) => {
+                state.followersLoading = true;
+            })
+            .addCase(getSingleUserFollowers.fulfilled, (state, action) => {
+                state.followersLoading = false;
+                state.followers = action.payload;
+            })
+            .addCase(getSingleUserFollowers.rejected, (state) => {
+                state.followersLoading = false;
+                state.error = true;
+            })
+            .addCase(getSingleUserFollowing.pending, (state) => {
+                state.followingLoading = true;
+            })
+            .addCase(getSingleUserFollowing.fulfilled, (state, action) => {
+                state.followingLoading = false;
+                state.following = action.payload;
+            })
+            .addCase(getSingleUserFollowing.rejected, (state) => {
+                state.followingLoading = false;
+                state.error = true;
+            })
+            .addCase(toggleFollowUser.pending, (state) => {})
+            .addCase(toggleFollowUser.fulfilled, (state, action) => {
+                console.log(action.payload);
+            })
+            .addCase(toggleFollowUser.rejected, (state) => {});
     },
 });
 

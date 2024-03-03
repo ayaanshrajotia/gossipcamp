@@ -55,10 +55,9 @@ function RoomBox({
     //         toast.error(err.message);
     //     }
     // };
-    console.log(profile);
     return (
         <div
-            className={`relative border-1 border-college-bg-grey rounded-xl font-secondary ${textColor} ${className} bg-white p-3 min-w-[200px] transition-all cursor-pointer`}
+            className={`relative border-1 rounded-xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[200px] transition-all cursor-pointer`}
             style={{ color: textColor }}
             {...props}
         >
@@ -76,7 +75,7 @@ function RoomBox({
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col self-start">
                             <span className="font-secondary font-extrabold text-lg w-[130px] truncate -mb-1">
                                 {roomName}
                             </span>
@@ -92,8 +91,8 @@ function RoomBox({
                 {/* Lower Div */}
                 <div className="flex justify-between items-end">
                     <PeopleCount
-                        width="w-[40px]"
-                        height="h-[40px]"
+                        width="w-[35px]"
+                        height="h-[35px]"
                         margin="-ml-5"
                         totalParticipants={totalParticipants}
                     />

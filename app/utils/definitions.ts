@@ -57,6 +57,8 @@ export type UserBoxPropsType = {
     bio?: string;
     className?: string;
     isPrivate: boolean;
+    isFollowing: boolean;
+    profileId: string;
     avatar: string;
 } & Record<string, any>;
 

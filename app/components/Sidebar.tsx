@@ -21,7 +21,9 @@ export default function Sidebar() {
     const [imgUrl, setImgUrl] = useState("");
     const [pageLoading, setPageLoading] = useState(true);
 
-    const { profile, loading } = useSelector((state: RootState) => state.auth);
+    const { profile, loading, user } = useSelector(
+        (state: RootState) => state.auth
+    );
     const { privateRoom, publicRooms, privateLoading, publicLoading } =
         useSelector((state: RootState) => state.rooms);
     const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +39,7 @@ export default function Sidebar() {
         setImgUrl(profile?.avatar);
         setPageLoading(false);
     }, [profile, dispatch]);
+
 
     return (
         <div className="fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4">
@@ -54,7 +57,10 @@ export default function Sidebar() {
                             <Skeleton count={2} width={200} />
                         ) : (
                             <div className="flex justify-between cursor-pointer">
-                                <Link href={"/profile"} className="flex gap-2">
+                                <Link
+                                    href={`/profile/${user?._id}`}
+                                    className="flex gap-2"
+                                >
                                     <div>
                                         <div className="relative h-[45px] w-[45px]">
                                             <Image

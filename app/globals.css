@@ -99,9 +99,9 @@ input:focus {
 }
 
 .box-shadow-static {
-    -webkit-box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
-    -moz-box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
-    box-shadow: 5px 5px 0px 0px rgba(172, 172, 172, 0.75);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
+    box-shadow: 5px 5px 0px 0px rgba(221, 221, 221, 0.75);
     transition: all 0.1s ease-in-out;
 }
 
@@ -223,7 +223,7 @@ input:focus {
 .embla {
     /* max-width: 48rem; */
     margin: auto;
-    --slide-height: 19rem;
+    --slide-height: 18rem;
     --slide-spacing: 1rem;
     --slide-size: 100%;
 }

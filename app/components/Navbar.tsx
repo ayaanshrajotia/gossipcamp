@@ -38,27 +38,27 @@ export default function Navbar() {
         }
     };
     return (
-        <header className="h-screen w-[240px] top-0 bg-[#ffffff] border-black fixed pt-4 flex flex-col light-shadow z-[999]">
-            <div className="h-[70px] px-4 flex items-center">
-                <h1 className="text-2xl font-secondary font-bold p-2 flex gap-3">
+        <header className="light-shadow fixed top-0 z-[999] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4">
+            <div className="flex h-[70px] items-center px-4">
+                <h1 className="font-secondary flex gap-3 p-2 text-2xl font-bold">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
                 </h1>
             </div>
-            <nav className="flex flex-1 flex-col justify-between p-4 mb-2">
+            <nav className="mb-2 flex flex-1 flex-col justify-between p-4">
                 <div className="">
-                    <ul className="flex flex-col w-full gap-2">
-                        <li className="flex gap-4 items-center cursor-pointer">
+                    <ul className="flex w-full flex-col gap-2">
+                        <li className="flex cursor-pointer items-center gap-4">
                             <Link
                                 href={"/home"}
-                                className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5]  rounded-lg transition ease-in-out box-border ${
+                                className={`font-secondary box-border flex w-full items-center gap-4 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname === "/home" ? "font-bold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
-                                    <HomeIconFilled className={`w-8 h-8`} />
+                                    <HomeIconFilled className={`h-8 w-8`} />
                                 ) : (
-                                    <HomeIcon className={`w-8 h-8`} />
+                                    <HomeIcon className={`h-8 w-8`} />
                                 )}
                                 Home
                             </Link>
@@ -66,14 +66,14 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/explore/people"}
-                                className={`flex gap-4 items-center font-secondary w-full p-2  hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                className={`font-secondary flex w-full items-center gap-4 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname.includes("/explore")
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 <MagnifyingGlassIcon
-                                    className={`w-8 h-8 ${
+                                    className={`h-8 w-8 ${
                                         pathname.includes("/explore")
                                             ? "stroke-[3]"
                                             : ""
@@ -85,16 +85,16 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/notifications"}
-                                className={`flex gap-4 items-center font-secondary w-full p-2 hover:bg-[#F1F2F5] rounded-lg transition ease-in-out ${
+                                className={`font-secondary flex w-full items-center gap-4 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname === "/notifications"
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 {pathname === "/notifications" ? (
-                                    <BellIconFilled className={`w-8 h-8`} />
+                                    <BellIconFilled className={`h-8 w-8`} />
                                 ) : (
-                                    <BellIcon className={`w-8 h-8`} />
+                                    <BellIcon className={`h-8 w-8`} />
                                 )}
                                 Notifications
                             </Link>
@@ -103,9 +103,9 @@ export default function Navbar() {
                 </div>
                 <button
                     onClick={handleLogout}
-                    className="bg-college-yellow rounded-xl flex items-center px-3 py-3 font-secondary font-semibold text-sm gap-2"
+                    className="bg-college-yellow font-secondary flex items-center gap-2 rounded-full px-4 py-2.5 text-base font-bold"
                 >
-                    <ArrowRightStartOnRectangleIcon className="w-6 h-6" />
+                    <ArrowRightStartOnRectangleIcon className="h-6 w-6 stroke-[2]" />
                     Logout
                 </button>
             </nav>

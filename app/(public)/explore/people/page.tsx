@@ -21,6 +21,8 @@ function Page() {
         setPageLoading(false);
     }, [dispatch]);
 
+    console.log(users);
+
     return (
         <>
             {pageLoading || loading ? (
@@ -55,13 +57,15 @@ function Page() {
                                 capitalizeFirstLetter(user?.fName) +
                                 capitalizeFirstLetter(user?.lName)
                             }
-                            followers={Math.floor(Math.random() * 100) + 1}
-                            userId={user?.username}
+                            profileId={user?._id}
+                            userId={user?.user}
                             bgcolor="bg-college-yellow"
                             textColor="black"
                             className="box-shadow-yellow"
                             isPrivate={false}
                             avatar={user?.avatar}
+                            isFollowing={user?.isFollowing}
+                            followers={user?.followers}
                         />
                     ))}
                 </div>
