@@ -54,7 +54,7 @@ function RoomBoxBigger({
                 throw new Error(response.payload);
             } else {
                 // await dispatch(toggleFollowRoom(roomId));
-                dispatch(getPublicJoinedRooms());
+                await dispatch(getPublicJoinedRooms());
                 router.push(`/rooms/${roomId}`);
                 toast.success("Joined Room");
             }

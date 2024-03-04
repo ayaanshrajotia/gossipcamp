@@ -96,6 +96,7 @@ export const toggleFollowUser = createAsyncThunk(
 );
 
 const initialState: {
+    userLoading: boolean;
     user: any;
     roomsLoading: boolean;
     postsLoading: boolean;
@@ -120,6 +121,7 @@ const initialState: {
     loading: false,
     users: [],
     user: {},
+    userLoading: false,
     error: false,
 };
 
@@ -141,14 +143,14 @@ const userSlice = createSlice({
                 state.error = true;
             })
             .addCase(getSingleUser.pending, (state) => {
-                state.loading = true;
+                state.userLoading = true;
             })
             .addCase(getSingleUser.fulfilled, (state, action) => {
-                state.loading = false;
+                state.userLoading = false;
                 state.user = action.payload;
             })
             .addCase(getSingleUser.rejected, (state) => {
-                state.loading = false;
+                state.userLoading = false;
                 state.error = true;
             })
             .addCase(getSingleUserPosts.pending, (state) => {

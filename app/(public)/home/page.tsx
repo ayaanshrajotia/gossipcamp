@@ -1,15 +1,11 @@
 "use client";
 
-import HomeCard from "@/app/components/cards/HomeCard";
 import EmblaCarousel from "../../components/carousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
-import RoomBox from "@/app/components/room-boxes/RoomBox";
-import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import {
-    getAllRooms,
     getRecentlyAddedRooms,
     getTrendingRooms,
 } from "@/lib/slices/roomSlice";

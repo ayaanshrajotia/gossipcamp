@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import {
     addPublicJoinedRoom,
+    getAllRooms,
     getPublicJoinedRooms,
     getRoomDetails,
     removePublicJoinedRoom,
@@ -46,12 +47,11 @@ export default function Room() {
         setPageLoading(false);
     }, [roomId, dispatch]);
 
-    console.log("roomDetails", roomDetails);
-
     const handleRemoveRoom = async () => {
         // dispatch(removePublicJoinedRoom(roomId));
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
+        await dispatch(getAllRooms());
         router.push("/explore/rooms");
     };
     return (

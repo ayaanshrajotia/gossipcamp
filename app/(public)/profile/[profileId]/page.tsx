@@ -2,7 +2,11 @@
 
 import Header from "@/app/components/Header";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
-import { getSingleUser, toggleFollowUser } from "@/lib/slices/userSlice";
+import {
+    getAllUsers,
+    getSingleUser,
+    toggleFollowUser,
+} from "@/lib/slices/userSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,21 +42,19 @@ function Page() {
     const pathname = usePathname();
     const { profileId } = useParams();
     const dispatch = useDispatch<AppDispatch>();
-    const { user, loading } = useSelector((state: RootState) => state.users);
+    const { user, userLoading } = useSelector((state: RootState) => state.users);
     const [pageLoading, setPageLoading] = useState(true);
     const [isFollow, setIsFollow] = useState(false);
 
     const handleToggleFollow = async () => {
         try {
-            await dispatch(toggleFollowUser(user?.user));
             setIsFollow((prev: any) => !prev);
+            await dispatch(toggleFollowUser(user?.user));
+            await dispatch(getAllUsers());
         } catch (error) {
             console.log(error);
         }
     };
-
-    // useLayoutEffect(() => {
-    // }, [user]);
 
     useEffect(() => {
         const getDetails = async () => {
@@ -63,15 +65,12 @@ function Page() {
         setPageLoading(false);
     }, [profileId, dispatch, user?.isFollowing]);
 
-    console.log(user);
-    console.log(isFollow);
-
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>
             <div className="my-6 px-6 flex flex-col gap-8">
                 <div className="bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7">
-                    {loading || pageLoading ? (
+                    {userLoading || pageLoading ? (
                         <>
                             <Skeleton count={4} />
                             <Skeleton count={2} />

@@ -23,32 +23,35 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
         if (error.response.status === 401) {
-        try {
-            const refreshToken = localStorage?.getItem("refreshToken");
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
-                { refreshToken }
-            );
-            document.cookie = `accessToken=${response.data.data.accessToken}`;
-            document.cookie = `refreshToken=${response.data.data.refreshToken}`;
-            localStorage.setItem("accessToken", response.data.data.accessToken);
-            localStorage.setItem(
-                "refreshToken",
-                response.data.data.refreshToken
-            );
-            return axiosInstance(originalRequest);
-        } catch (error: any) {
-            document.cookie =
-                "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie =
-                "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie =
-                "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            localStorage.removeItem("user");
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            window.location.href = "/login";
-        }
+            try {
+                const refreshToken = localStorage?.getItem("refreshToken");
+                const response = await axios.post(
+                    `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
+                    { refreshToken }
+                );
+                document.cookie = `accessToken=${response.data.data.accessToken}`;
+                document.cookie = `refreshToken=${response.data.data.refreshTokenNew}`;
+                localStorage.setItem(
+                    "accessToken",
+                    response.data.data.accessToken
+                );
+                localStorage.setItem(
+                    "refreshToken",
+                    response.data.data.refreshTokenNew
+                );
+                return axiosInstance(originalRequest);
+            } catch (error: any) {
+                document.cookie =
+                    "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie =
+                    "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie =
+                    "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                localStorage.removeItem("user");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                window.location.href = "/login";
+            }
         }
         return Promise.reject(error);
     }
