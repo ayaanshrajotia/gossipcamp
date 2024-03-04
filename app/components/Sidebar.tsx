@@ -30,8 +30,10 @@ export default function Sidebar() {
 
     useEffect(() => {
         const getDetails = async () => {
-            await dispatch(getPrivateJoinedRooms());
-            await dispatch(getPublicJoinedRooms());
+            await Promise.all([
+                dispatch(getPrivateJoinedRooms()),
+                dispatch(getPublicJoinedRooms()),
+            ]);
         };
         getDetails();
         setFirstName(profile?.fName);
@@ -39,7 +41,6 @@ export default function Sidebar() {
         setImgUrl(profile?.avatar);
         setPageLoading(false);
     }, [profile, dispatch]);
-
 
     return (
         <div className="fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4">
@@ -58,7 +59,7 @@ export default function Sidebar() {
                         ) : (
                             <div className="flex justify-between cursor-pointer">
                                 <Link
-                                    href={`/profile/${user?._id}`}
+                                    href={`/profile/${user?.username.toString()}`}
                                     className="flex gap-2"
                                 >
                                     <div>

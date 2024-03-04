@@ -4,7 +4,7 @@ import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { getAllCollegeRooms } from "@/lib/slices/roomSlice";
 import { AppDispatch, RootState } from "@/lib/store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,11 +15,15 @@ function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const [pageLoading, setPageLoading] = useState(true);
 
-    useEffect(() => {
+    const fetchData = useMemo(() => {
         const getDetails = async () => {
             await dispatch(getAllCollegeRooms());
         };
-        getDetails();
+        return getDetails;
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (collegeRooms.length === 0) fetchData();
         setPageLoading(false);
     }, [dispatch]);
     return (

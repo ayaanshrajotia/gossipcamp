@@ -5,7 +5,6 @@ import { UserBoxPropsType } from "../../utils/definitions";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
-import { toggleFollowUser } from "@/lib/slices/userSlice";
 import Link from "next/link";
 
 // icons
@@ -57,7 +56,7 @@ function UserBox({
                     {/* Lower Div */}
 
                     <Link
-                        href={`/profile/${userId}`}
+                        href={`/profile/${userName.toLowerCase()}`}
                         className="bg-black text-white text-sm font-bold rounded-full p-1.5 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-1 border-black transition-all"
                     >
                         View

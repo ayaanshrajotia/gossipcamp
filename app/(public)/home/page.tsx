@@ -13,7 +13,7 @@ import {
     getRecentlyAddedRooms,
     getTrendingRooms,
 } from "@/lib/slices/roomSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import Skeleton from "react-loading-skeleton";
 import Header from "@/app/components/Header";
@@ -31,14 +31,21 @@ const Home = () => {
     } = useSelector((state: RootState) => state.rooms);
     const dispatch = useDispatch<AppDispatch>();
 
-    useEffect(() => {
+    const fetchData = useMemo(() => {
         const getDetails = async () => {
-            await dispatch(getTrendingRooms());
-            await dispatch(getRecentlyAddedRooms());
+            await Promise.all([
+                dispatch(getTrendingRooms()),
+                dispatch(getRecentlyAddedRooms()),
+            ]);
         };
-        getDetails();
-        setPageLoading(false);
+        return getDetails;
     }, [dispatch]);
+
+    useEffect(() => {
+        if (trendingRooms.length === 0 || recentlyAddedRooms.length === 0)
+            fetchData();
+        setPageLoading(false);
+    }, [dispatch, trendingRooms, recentlyAddedRooms]);
 
     return (
         <div className="min-h-screen relative w-full font-secondary boreder-r-1">

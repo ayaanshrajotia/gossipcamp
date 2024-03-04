@@ -15,10 +15,10 @@ export const getAllUsers = createAsyncThunk(
 
 export const getSingleUser = createAsyncThunk(
     "user/getSingleUser",
-    async (userId: string, { rejectWithValue }) => {
+    async (username: string, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(
-                `/profiles/user-profile/${userId}`
+                `/profiles/user-profile/${username}`
             );
             return response.data.data;
         } catch (error: any) {

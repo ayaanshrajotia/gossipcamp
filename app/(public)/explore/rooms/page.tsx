@@ -6,7 +6,7 @@ import { getAllRooms } from "@/lib/slices/roomSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,11 +17,15 @@ function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const [pageLoading, setPageLoading] = useState(true);
 
-    useEffect(() => {
+    const fetchData = useMemo(() => {
         const getDetails = async () => {
             await dispatch(getAllRooms());
         };
-        getDetails();
+        return getDetails;
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (allRooms.length === 0) fetchData();
         setPageLoading(false);
     }, [dispatch]);
     return (

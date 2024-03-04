@@ -44,24 +44,24 @@ function Page() {
 
     const handleToggleFollow = async () => {
         try {
-            setIsFollow((prev: any) => !prev);
             await dispatch(toggleFollowUser(user?.user));
+            setIsFollow((prev: any) => !prev);
         } catch (error) {
             console.log(error);
         }
     };
 
-    useLayoutEffect(() => {
-        setIsFollow(user?.isFollowing);
-    }, [user]);
+    // useLayoutEffect(() => {
+    // }, [user]);
 
     useEffect(() => {
         const getDetails = async () => {
             await dispatch(getSingleUser(profileId.toString()));
         };
         getDetails();
+        setIsFollow(user?.isFollowing);
         setPageLoading(false);
-    }, [profileId, dispatch]);
+    }, [profileId, dispatch, user?.isFollowing]);
 
     console.log(user);
     console.log(isFollow);

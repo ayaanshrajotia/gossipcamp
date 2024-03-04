@@ -4,7 +4,7 @@ import UserBox from "@/app/components/user-boxes/UserBox";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { getAllUsers } from "@/lib/slices/userSlice";
 import { AppDispatch, RootState } from "@/lib/store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,13 +13,17 @@ function Page() {
     const [pageLoading, setPageLoading] = useState(true);
     const dispatch = useDispatch<AppDispatch>();
 
-    useEffect(() => {
+    const fetchData = useMemo(() => {
         const getDetails = async () => {
             await dispatch(getAllUsers());
         };
-        getDetails();
-        setPageLoading(false);
+        return getDetails;
     }, [dispatch]);
+
+    useEffect(() => {
+        if (users.length === 0) fetchData();
+        setPageLoading(false);
+    }, [dispatch, users]);
 
     console.log(users);
 
