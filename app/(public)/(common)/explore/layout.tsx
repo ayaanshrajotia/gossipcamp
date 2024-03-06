@@ -1,7 +1,6 @@
 "use client";
 
 import Header from "@/app/components/Header";
-import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

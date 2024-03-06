@@ -55,6 +55,7 @@ function RoomBoxBigger({
             } else {
                 // await dispatch(toggleFollowRoom(roomId));
                 await dispatch(getPublicJoinedRooms());
+                await dispatch(getAllRooms());
                 router.push(`/rooms/${roomId}`);
                 toast.success("Joined Room");
             }
@@ -67,7 +68,7 @@ function RoomBoxBigger({
 
     return (
         <div
-            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-fit`}
+            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden`}
             style={{ color: textColor }}
             {...props}
         >
@@ -75,51 +76,59 @@ function RoomBoxBigger({
                 {/* Image */}
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
-                        <div>
-                            <div className="relative h-[70px] w-[70px]">
+                        <div className="">
+                            <div className="relative h-[80px] w-[80px]">
                                 <Image
                                     src={roomDP}
                                     alt="avatar-1"
                                     fill
-                                    className="object-cover rounded-full"
+                                    className="object-cover rounded-full "
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* Details */}
-                <div className="flex flex-1 flex-col justify-between">
-                    <div className="flex flex-col">
-                        <span className="font-secondary font-extrabold text-xl">
-                            {roomName}
-                        </span>
-                        <span className="font-secondary text-gray-500 text-sm">
-                            @{roomUsername}
-                        </span>
+                <div className="flex flex-1 flex-col gap-1 w-full">
+                    <div className="flex w-full">
+                        {/* Details */}
+                        <div className="flex w-full gap-4">
+                            <div className="flex flex-col">
+                                <span className="font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1">
+                                    {roomName}
+                                </span>
+                                <span className="font-secondary text-gray-500 text-sm text-ellipsis overflow-hidden line-clamp-1">
+                                    @{roomUsername}
+                                </span>
+                            </div>
+                            {isPrivate && (
+                                <LockClosedIcon className="w-5 h-5 text-red-500 mt-1.5" />
+                            )}
+                        </div>
+                        <PeopleCount
+                            width="w-[35px]"
+                            height="h-[35px]"
+                            margin="-ml-4"
+                            totalParticipants={totalParticipants}
+                        />
                     </div>
-                    <p className="leading-tight text-sm">{roomDescription}</p>
-                    {isPrivate && (
-                        <LockClosedIcon className="w-6 h-6 text-red-500" />
-                    )}
-                </div>
-                {/* Join */}
-                <div className="flex flex-col justify-between gap-4">
-                    <PeopleCount
-                        width="w-[40px]"
-                        height="h-[40px]"
-                        margin="-ml-5"
-                        totalParticipants={totalParticipants}
-                    />
-                    {roomType === "User" ? (
-                        <button
-                            className="bg-black text-white text-sm font-bold rounded-xl py-1.5 px-3 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all"
-                            onClick={() => handleJoinRoom()}
-                        >
-                            Join Room
-                        </button>
-                    ) : (
-                        <></>
-                    )}
+                    {/* Join */}
+                    <div className="flex justify-between items-center gap-6 w-full">
+                        <p className="text-ellipsis overflow-hidden line-clamp-1">
+                            {roomDescription}
+                        </p>
+                        {isPrivate ? (
+                            <button className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end">
+                                View Room
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
+                                onClick={() => handleJoinRoom()}
+                            >
+                                Join Room
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

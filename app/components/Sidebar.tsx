@@ -115,6 +115,7 @@ export default function Sidebar() {
                                     roomType="College"
                                     roomUsername={privateRoom?.roomUsername}
                                     bgcolor="bg-college-yellow"
+                                    className="box-shadow-static"
                                     textColor="black"
                                     isPrivate={true}
                                     totalParticipants={
@@ -153,6 +154,7 @@ export default function Sidebar() {
                                         roomDescription={room?.description}
                                         bgcolor="bg-college-yellow"
                                         textColor="black"
+                                        className="box-shadow-static"
                                         isPrivate={false}
                                         totalParticipants={
                                             room?.totalParticipants

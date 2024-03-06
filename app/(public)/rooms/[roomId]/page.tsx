@@ -1,6 +1,5 @@
 "use client";
 
-import { RoomPropsType } from "@/app/utils/definitions";
 import PostBox from "@/app/components/post-containers/PostBox";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -9,14 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import {
-    addPublicJoinedRoom,
     getAllRooms,
     getPublicJoinedRooms,
     getRoomDetails,
-    removePublicJoinedRoom,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
-import { set } from "react-hook-form";
 import Skeleton from "react-loading-skeleton";
 
 export default function Room() {

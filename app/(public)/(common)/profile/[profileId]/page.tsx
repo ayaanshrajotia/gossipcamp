@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 
@@ -42,14 +42,17 @@ function Page() {
     const pathname = usePathname();
     const { profileId } = useParams();
     const dispatch = useDispatch<AppDispatch>();
-    const { user, userLoading } = useSelector((state: RootState) => state.users);
+    const { userProfile, userLoading } = useSelector(
+        (state: RootState) => state.users
+    );
+    const { user } = useSelector((state: RootState) => state.auth);
     const [pageLoading, setPageLoading] = useState(true);
     const [isFollow, setIsFollow] = useState(false);
 
     const handleToggleFollow = async () => {
         try {
             setIsFollow((prev: any) => !prev);
-            await dispatch(toggleFollowUser(user?.user));
+            await dispatch(toggleFollowUser(userProfile?.user));
             await dispatch(getAllUsers());
         } catch (error) {
             console.log(error);
@@ -61,9 +64,11 @@ function Page() {
             await dispatch(getSingleUser(profileId.toString()));
         };
         getDetails();
-        setIsFollow(user?.isFollowing);
+        setIsFollow(userProfile?.isFollowing);
         setPageLoading(false);
-    }, [profileId, dispatch, user?.isFollowing]);
+    }, [profileId, dispatch, userProfile?.isFollowing]);
+
+    console.log(userProfile, user);
 
     return (
         <div className="min-h-screen relative w-full font-secondary">
@@ -81,7 +86,7 @@ function Page() {
                                 <div className="flex items-center">
                                     <div className="relative w-[110px] h-[110px]">
                                         <Image
-                                            src={user?.avatar}
+                                            src={userProfile?.avatar}
                                             alt="profile-pic"
                                             className="absolute object-cover rounded-full"
                                             fill
@@ -90,21 +95,31 @@ function Page() {
                                 </div>
                                 <div className="flex flex-col">
                                     <h1 className="font-secondary font-extrabold text-2xl mb-1">
-                                        {capitalizeFirstLetter(user?.fName)}
-                                        {capitalizeFirstLetter(user?.lName)}
+                                        {capitalizeFirstLetter(
+                                            userProfile?.fName
+                                        )}
+                                        {capitalizeFirstLetter(
+                                            userProfile?.lName
+                                        )}
                                     </h1>
+
                                     <p className="text-justify line-clamp-2 text-sm leading-snug text-gray-500 mb-4">
-                                        {user?.bio}
+                                        {userProfile?.bio}
                                     </p>
+
                                     <div className="flex gap-2">
-                                        <button
-                                            className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
-                                            onClick={handleToggleFollow}
-                                        >
-                                            {isFollow ? "Following" : "Follow"}
-                                        </button>
+                                        {userProfile?.user !== user._id && (
+                                            <button
+                                                className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
+                                                onClick={handleToggleFollow}
+                                            >
+                                                {isFollow
+                                                    ? "Following"
+                                                    : "Follow"}
+                                            </button>
+                                        )}
                                         <button className="font-bold text-sm bg-gray-400 text-white rounded-full w-fit px-3 py-1">
-                                            {user?.collegeName}
+                                            {userProfile?.collegeName}
                                         </button>
                                     </div>
                                 </div>
@@ -124,13 +139,13 @@ function Page() {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="font-bold text-2xl">
-                                        {user?.followers}
+                                        {userProfile?.followers}
                                     </span>
                                     <span>Followers</span>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="font-bold text-2xl">
-                                        {user?.following}
+                                        {userProfile?.following}
                                     </span>
                                     <span>Following</span>
                                 </div>

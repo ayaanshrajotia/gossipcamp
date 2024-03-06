@@ -97,7 +97,7 @@ export const toggleFollowUser = createAsyncThunk(
 
 const initialState: {
     userLoading: boolean;
-    user: any;
+    userProfile: any;
     roomsLoading: boolean;
     postsLoading: boolean;
     followersLoading: boolean;
@@ -120,7 +120,7 @@ const initialState: {
     following: [],
     loading: false,
     users: [],
-    user: {},
+    userProfile: {},
     userLoading: false,
     error: false,
 };
@@ -147,7 +147,7 @@ const userSlice = createSlice({
             })
             .addCase(getSingleUser.fulfilled, (state, action) => {
                 state.userLoading = false;
-                state.user = action.payload;
+                state.userProfile = action.payload;
             })
             .addCase(getSingleUser.rejected, (state) => {
                 state.userLoading = false;

@@ -35,7 +35,7 @@ function UserBox({
                     {/* Upper div */}
                     <div className="flex flex-col items-center gap-3 w-full">
                         <div>
-                            <div className="relative h-[80px] w-[80px]">
+                            <div className="relative h-[75px] w-[75px]">
                                 <Image
                                     src={avatar}
                                     alt="avatar-1"
@@ -57,7 +57,7 @@ function UserBox({
 
                     <Link
                         href={`/profile/${userName.toLowerCase()}`}
-                        className="bg-black text-white text-sm font-bold rounded-full p-1.5 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-1 border-black transition-all"
+                        className="bg-black text-white text-sm font-bold rounded-full p-1 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-1 border-black transition-all duration-75"
                     >
                         View
                     </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import EmblaCarousel from "../../components/carousel/EmblaCarousel";
+import EmblaCarousel from "../../../components/carousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +15,8 @@ import Skeleton from "react-loading-skeleton";
 import Header from "@/app/components/Header";
 
 const Home = () => {
-    const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
-    const SLIDE_COUNT = 5;
+    const OPTIONS: EmblaOptionsType = { dragFree: false, loop: true };
+    const SLIDE_COUNT = 2;
     const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
     const [pageLoading, setPageLoading] = useState(true);
     const {

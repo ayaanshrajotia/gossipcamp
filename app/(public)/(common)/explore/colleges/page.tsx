@@ -2,16 +2,14 @@
 
 import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
-import { getAllRooms } from "@/lib/slices/roomSlice";
+import { getAllCollegeRooms } from "@/lib/slices/roomSlice";
 import { AppDispatch, RootState } from "@/lib/store";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
 function Page() {
-    const { allRooms, loading } = useSelector(
+    const { collegeRooms, collegeRoomsLoading } = useSelector(
         (state: RootState) => state.rooms
     );
     const dispatch = useDispatch<AppDispatch>();
@@ -19,18 +17,18 @@ function Page() {
 
     const fetchData = useMemo(() => {
         const getDetails = async () => {
-            await dispatch(getAllRooms());
+            await dispatch(getAllCollegeRooms());
         };
         return getDetails;
     }, [dispatch]);
 
     useEffect(() => {
-        if (allRooms.length === 0) fetchData();
+        if (collegeRooms.length === 0) fetchData();
         setPageLoading(false);
     }, [dispatch]);
     return (
         <div className="my-4 flex flex-col gap-7">
-            {pageLoading || loading ? (
+            {pageLoading || collegeRoomsLoading ? (
                 <div className="flex flex-col gap-4">
                     <Skeleton
                         count={4}
@@ -54,12 +52,12 @@ function Page() {
                     />
                 </div>
             ) : (
-                allRooms?.map((room: any) => (
+                collegeRooms?.map((room: any) => (
                     <RoomBoxBigger
                         key={room?._id}
                         roomId={room?._id}
                         roomName={room?.roomName}
-                        roomType="User"
+                        roomType={room?.roomType}
                         roomUsername={
                             room?.roomUsername
                                 ? room?.roomUsername
@@ -74,8 +72,8 @@ function Page() {
                         roomDescription={room?.description}
                         bgcolor="bg-college-yellow"
                         textColor="black"
-                        className="box-shadow-yellow"
-                        isPrivate={false}
+                        className="box-shadow-static"
+                        isPrivate={true}
                         totalParticipants={room?.totalParticipants}
                     />
                 ))

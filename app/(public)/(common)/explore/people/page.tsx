@@ -53,7 +53,7 @@ function Page() {
                     />
                 </div>
             ) : (
-                <div className="mt-4 grid grid-cols-4 gap-6">
+                <div className="mt-4 grid grid-cols-5 gap-8">
                     {users?.map((user: any) => (
                         <UserBox
                             key={user._id}
@@ -65,7 +65,7 @@ function Page() {
                             userId={user?.user}
                             bgcolor="bg-college-yellow"
                             textColor="black"
-                            className="box-shadow-yellow"
+                            className="box-shadow-static"
                             isPrivate={false}
                             avatar={user?.avatar}
                             isFollowing={user?.isFollowing}

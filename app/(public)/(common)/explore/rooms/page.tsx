@@ -2,14 +2,14 @@
 
 import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
-import { getAllCollegeRooms } from "@/lib/slices/roomSlice";
+import { getAllRooms } from "@/lib/slices/roomSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
 function Page() {
-    const { collegeRooms, collegeRoomsLoading } = useSelector(
+    const { allRooms, loading } = useSelector(
         (state: RootState) => state.rooms
     );
     const dispatch = useDispatch<AppDispatch>();
@@ -17,18 +17,18 @@ function Page() {
 
     const fetchData = useMemo(() => {
         const getDetails = async () => {
-            await dispatch(getAllCollegeRooms());
+            await dispatch(getAllRooms());
         };
         return getDetails;
     }, [dispatch]);
 
     useEffect(() => {
-        if (collegeRooms.length === 0) fetchData();
+        if (allRooms.length === 0) fetchData();
         setPageLoading(false);
     }, [dispatch]);
     return (
         <div className="my-4 flex flex-col gap-7">
-            {pageLoading || collegeRoomsLoading ? (
+            {pageLoading || loading ? (
                 <div className="flex flex-col gap-4">
                     <Skeleton
                         count={4}
@@ -52,12 +52,12 @@ function Page() {
                     />
                 </div>
             ) : (
-                collegeRooms?.map((room: any) => (
+                allRooms?.map((room: any) => (
                     <RoomBoxBigger
                         key={room?._id}
                         roomId={room?._id}
                         roomName={room?.roomName}
-                        roomType={room?.roomType}
+                        roomType="User"
                         roomUsername={
                             room?.roomUsername
                                 ? room?.roomUsername
@@ -72,7 +72,7 @@ function Page() {
                         roomDescription={room?.description}
                         bgcolor="bg-college-yellow"
                         textColor="black"
-                        className="box-shadow-yellow"
+                        className="box-shadow-static"
                         isPrivate={false}
                         totalParticipants={room?.totalParticipants}
                     />

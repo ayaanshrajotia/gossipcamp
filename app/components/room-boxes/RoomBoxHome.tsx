@@ -64,7 +64,7 @@ function RoomBoxHome({
     };
     return (
         <div
-            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] w-full`}
+            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden`}
             style={{ color: textColor }}
             {...props}
         >
@@ -84,15 +84,15 @@ function RoomBoxHome({
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-3 w-full">
+                <div className="flex flex-1 flex-col gap-1 w-full">
                     <div className="flex w-full">
                         {/* Details */}
                         <div className="flex justify-between w-full">
                             <div className="flex flex-col">
-                                <span className="font-secondary font-extrabold text-xl overflow-ellipsis w-[140px]">
+                                <span className="font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1">
                                     {roomName}
                                 </span>
-                                <span className="font-secondary text-gray-500 text-sm overflow-ellipsis w-[140px]">
+                                <span className="font-secondary text-gray-500 text-sm text-ellipsis overflow-hidden line-clamp-1">
                                     @{roomUsername}
                                 </span>
                             </div>
@@ -101,16 +101,19 @@ function RoomBoxHome({
                             )}
                         </div>
                         <PeopleCount
-                            width="w-[40px]"
-                            height="h-[40px]"
-                            margin="-ml-5"
+                            width="w-[35px]"
+                            height="h-[35px]"
+                            margin="-ml-4"
                             totalParticipants={totalParticipants}
                         />
                     </div>
                     {/* Join */}
-                    <div className="flex flex-col justify-between gap-6">
+                    <div className="flex justify-between items-center gap-6 w-full">
+                        <p className="text-ellipsis overflow-hidden line-clamp-1">
+                            {roomDescription}
+                        </p>
                         <button
-                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 flex items-center justify-center"
+                            className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
                             onClick={() => handleJoinRoom()}
                         >
                             Join Room

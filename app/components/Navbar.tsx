@@ -48,17 +48,17 @@ export default function Navbar() {
             <nav className="mb-2 flex flex-1 flex-col justify-between p-4">
                 <div className="">
                     <ul className="flex w-full flex-col gap-2">
-                        <li className="flex cursor-pointer items-center gap-4">
+                        <li className="cursor-pointer">
                             <Link
                                 href={"/home"}
-                                className={`font-secondary box-border flex w-full items-center gap-4 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
+                                className={`font-secondary box-border flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname === "/home" ? "font-bold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
-                                    <HomeIconFilled className={`h-8 w-8`} />
+                                    <HomeIconFilled className={`h-7 w-7`} />
                                 ) : (
-                                    <HomeIcon className={`h-8 w-8`} />
+                                    <HomeIcon className={`h-7 w-7`} />
                                 )}
                                 Home
                             </Link>
@@ -66,14 +66,14 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/explore/people"}
-                                className={`font-secondary flex w-full items-center gap-4 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
+                                className={`font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname.includes("/explore")
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 <MagnifyingGlassIcon
-                                    className={`h-8 w-8 ${
+                                    className={`h-7 w-7 ${
                                         pathname.includes("/explore")
                                             ? "stroke-[3]"
                                             : ""
@@ -85,16 +85,16 @@ export default function Navbar() {
                         <li className="cursor-pointer">
                             <Link
                                 href={"/notifications"}
-                                className={`font-secondary flex w-full items-center gap-4 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
+                                className={`font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] ${
                                     pathname === "/notifications"
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 {pathname === "/notifications" ? (
-                                    <BellIconFilled className={`h-8 w-8`} />
+                                    <BellIconFilled className={`h-7 w-7`} />
                                 ) : (
-                                    <BellIcon className={`h-8 w-8`} />
+                                    <BellIcon className={`h-7 w-7`} />
                                 )}
                                 Notifications
                             </Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
                 </div>
                 <button
                     onClick={handleLogout}
-                    className="bg-college-yellow font-secondary flex items-center gap-2 rounded-full px-4 py-2.5 text-base font-bold"
+                    className=" font-secondary flex items-center gap-2 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] px-4 py-2.5 text-base font-bold"
                 >
                     <ArrowRightStartOnRectangleIcon className="h-6 w-6 stroke-[2]" />
                     Logout
