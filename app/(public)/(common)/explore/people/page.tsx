@@ -25,7 +25,6 @@ function Page() {
         setPageLoading(false);
     }, [dispatch, users]);
 
-    console.log(users);
 
     return (
         <>

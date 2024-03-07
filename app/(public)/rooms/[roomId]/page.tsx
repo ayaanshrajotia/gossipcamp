@@ -14,6 +14,9 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
+import { openRoom, welcomeMessageListener } from "@/lib/slices/socketSlice";
+
+let count = 1;
 
 export default function Room() {
     const router = useRouter();
@@ -24,6 +27,9 @@ export default function Room() {
     const [pageLoading, setPageLoading] = useState(true);
 
     const { profile } = useSelector((state: RootState) => state.auth);
+    const { publicRooms, privateRoom } = useSelector(
+        (state: RootState) => state.rooms
+    );
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
@@ -36,20 +42,39 @@ export default function Room() {
     }, [profile]);
 
     useEffect(() => {
+        // checking if the user is the participant of the room
+        const isPublicParticipant = publicRooms.find(
+            (room: any) => room._id === roomId
+        );
+        const isPrivateParticipant = privateRoom?._id === roomId;
+        const isParticipant = isPublicParticipant || isPrivateParticipant;
+
+        if (!isParticipant) {
+            return router.push("/explore/rooms");
+        }
+
         const getDetails = async () => {
             await dispatch(getRoomDetails(roomId.toString()));
+            await dispatch(
+                openRoom({
+                    roomId: roomId.toString(),
+                    userId: profile._id,
+                })
+            );
+            dispatch(welcomeMessageListener());
         };
+
         getDetails();
         setPageLoading(false);
-    }, [roomId, dispatch]);
+    }, [roomId, dispatch, publicRooms, privateRoom]);
 
     const handleRemoveRoom = async () => {
-        // dispatch(removePublicJoinedRoom(roomId));
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
         await dispatch(getAllRooms());
         router.push("/explore/rooms");
     };
+
     return (
         <>
             <div className="pt-4 sticky w-full top-0 z-[999]">

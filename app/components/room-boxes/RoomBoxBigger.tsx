@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 // icons
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { joinRoomEmitter } from "@/lib/slices/socketSlice";
 
 function RoomBoxBigger({
     roomId,
@@ -57,6 +58,13 @@ function RoomBoxBigger({
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
                 router.push(`/rooms/${roomId}`);
+                dispatch(
+                    joinRoomEmitter({
+                        roomId,
+                        username: "Pulkit Ji",
+                    })
+                );
+                
                 toast.success("Joined Room");
             }
 

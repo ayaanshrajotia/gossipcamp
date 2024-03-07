@@ -7,7 +7,6 @@ export const signupUser = createAsyncThunk(
     "user/signupUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
-            console.log(userCredentials);
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
                 userCredentials
