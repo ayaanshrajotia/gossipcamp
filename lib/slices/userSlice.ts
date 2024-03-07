@@ -199,7 +199,7 @@ const userSlice = createSlice({
             })
             .addCase(toggleFollowUser.pending, (state) => {})
             .addCase(toggleFollowUser.fulfilled, (state, action) => {
-                console.log(action.payload);
+                // console.log(action.payload);
             })
             .addCase(toggleFollowUser.rejected, (state) => {});
     },
