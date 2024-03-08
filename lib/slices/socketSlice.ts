@@ -28,7 +28,6 @@ export const welcomeMessageListener = createAsyncThunk(
     // i need to get dispatch here
     async (_, { rejectWithValue, dispatch }) => {
         let x;
-        console.log("welcomeMessageListener");
         socket.on("welcome-user", (data: any) => {
             x = data;
             // dispatch()
@@ -39,21 +38,49 @@ export const welcomeMessageListener = createAsyncThunk(
 export const joinRoomEmitter = createAsyncThunk(
     "socket/joinRoomEmitter",
     async (data: any, { rejectWithValue }) => {
-        console.log("joinRoomEmitter");
         socket.emit("join-room", data);
+    }
+);
+
+export const leaveRoomEmitter = createAsyncThunk(
+    "socket/leaveRoomEmitter",
+    async (data: any, { rejectWithValue }) => {
+        socket.emit("leave-room", data);
+    }
+);
+
+export const messageListener = createAsyncThunk(
+    "socket/messageListener",
+    async (_, { rejectWithValue, dispatch }) => {
+        socket.on("message", (data: any) => {
+            // dispatch(addMessage(data));
+        });
+    }
+);
+
+export const sendMessageEmitter = createAsyncThunk(
+    "socket/sendMessageEmitter",
+    async (data: any, { rejectWithValue }) => {
+        socket.emit("send-message", data);
     }
 );
 
 const initialState: {
     isConnected: boolean;
+    message: any[];
 } = {
     isConnected: false,
+    message: [],
 };
 
 const socketSlice = createSlice({
     name: "socket",
     initialState,
-    reducers: {},
+    reducers: {
+        addMessage: (state, action) => {
+            state.message.push(action.payload);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(connectSocket.fulfilled, (state) => {
@@ -73,6 +100,6 @@ const socketSlice = createSlice({
     },
 });
 
-export const {} = socketSlice.actions;
+export const { addMessage } = socketSlice.actions;
 
 export default socketSlice.reducer;
