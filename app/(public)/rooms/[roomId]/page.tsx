@@ -15,8 +15,7 @@ import {
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
 import { messageListener, openRoom } from "@/lib/slices/socketSlice";
-
-let count = 1;
+import MessagesContainer from "../../../components/MessagesContainer";
 
 export default function Room() {
     const router = useRouter();
@@ -116,82 +115,7 @@ export default function Room() {
                     )}
                 </div>
             </div>
-            <div className="w-full my-6 mb-10 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-                <PostBox
-                    className="box-shadow-black"
-                    date="8 Jan"
-                    profileUrl="/images/avatar-2.png"
-                    user="Nightranger"
-                    description="What do you guys think about this course on Web development by CollegeKhabar? Please vote in the poll."
-                    postImgUrl="/thumbnail.jpg"
-                    isUser={false}
-                />
-                <PostBox
-                    className="box-shadow-black"
-                    date="8 Jan"
-                    profileUrl="/images/avatar-2.png"
-                    user="Nightranger"
-                    description="What do you guys think about this course on Web development by CollegeKhabar? Please vote in the poll."
-                    postImgUrl="/thumbnail.jpg"
-                    isUser={false}
-                />
-                <PostBox
-                    className="box-shadow-black"
-                    date="8 Jan"
-                    profileUrl={imgUrl || "/images/avatar-1.png"}
-                    user={
-                        capitalizeFirstLetter(firstName) +
-                        capitalizeFirstLetter(lastName)
-                    }
-                    description="I know a guy who can help in hacking the instagram accounts"
-                    isUser={true}
-                />
-                <PostBox
-                    className="box-shadow-black"
-                    date="8 Jan"
-                    profileUrl="/images/avatar-1.png"
-                    user="BurgerEater"
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={false}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl={imgUrl || "/images/avatar-1.png"}
-                    user={
-                        capitalizeFirstLetter(firstName) +
-                        capitalizeFirstLetter(lastName)
-                    }
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={true}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl={imgUrl || "/images/avatar-1.png"}
-                    user={
-                        capitalizeFirstLetter(firstName) +
-                        capitalizeFirstLetter(lastName)
-                    }
-                    description="I know a guy who can help in hacking the instagram accounts"
-                    isUser={true}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl="/images/avatar-1.png"
-                    user="BurgerEater"
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={false}
-                />
-                <PostBox
-                    date="8 Jan"
-                    profileUrl={imgUrl || "/images/avatar-1.png"}
-                    user={
-                        capitalizeFirstLetter(firstName) +
-                        capitalizeFirstLetter(lastName)
-                    }
-                    description="This app is so coooooool 🔥. Best social media app for College students."
-                    isUser={true}
-                />
-            </div>
+            <MessagesContainer roomId = {roomId.toString()} />
         </>
     );
 }

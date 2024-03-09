@@ -106,3 +106,7 @@ export type PeopleCountPropType = {
     margin: string;
     totalParticipants?: number;
 };
+
+export type MessagesContainerProps = {
+    roomId: string; // this is becuase of the nextjs useParam hook
+};
