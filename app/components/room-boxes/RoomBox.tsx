@@ -71,6 +71,7 @@ function RoomBox({
                                     src={roomDP}
                                     alt="avatar-1"
                                     fill
+                                    sizes="33vw"
                                     className="object-cover rounded-full"
                                 />
                             </div>

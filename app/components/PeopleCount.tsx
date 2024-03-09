@@ -14,6 +14,7 @@ function PeopleCount({
                 <Image
                     src="/images/avatar-1.png"
                     alt="images/avatar-1"
+                    sizes="33vw"
                     fill
                     className="object-cover rounded-full"
                 />
@@ -22,6 +23,7 @@ function PeopleCount({
                 <Image
                     src="/images/avatar-2.png"
                     alt="images/avatar-2"
+                    sizes="33vw"
                     fill
                     className="object-cover rounded-full"
                 />
@@ -30,6 +32,7 @@ function PeopleCount({
                 <Image
                     src="/images/avatar-3.jpg"
                     alt="images/avatar-3"
+                    sizes="33vw"
                     fill
                     className="object-cover rounded-full"
                 />

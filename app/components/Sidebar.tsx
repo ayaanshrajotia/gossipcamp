@@ -69,6 +69,7 @@ export default function Sidebar() {
                                                     imgUrl ||
                                                     "/images/avatar-1.png"
                                                 }
+                                                sizes="33vw"
                                                 alt="avatar-1"
                                                 fill
                                                 className="object-cover rounded-full"

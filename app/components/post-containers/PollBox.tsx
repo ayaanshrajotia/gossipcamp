@@ -24,6 +24,7 @@ function PostBox({
                         <Image
                             src={postimgurl}
                             alt="avatar-1"
+                            sizes="33vw"
                             fill
                             className="object-cover rounded-full border-1 border-black"
                         />
@@ -37,6 +38,7 @@ function PostBox({
                             <Image
                                 src={profileUrl}
                                 alt="avatar-1"
+                                sizes="33vw"
                                 fill
                                 className="object-cover rounded-full border-1 border-black"
                             />

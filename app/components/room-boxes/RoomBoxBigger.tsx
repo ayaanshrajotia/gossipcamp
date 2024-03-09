@@ -5,10 +5,8 @@ import PeopleCount from "../PeopleCount";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    addPublicJoinedRoom,
     getAllRooms,
     getPublicJoinedRooms,
-    removePublicJoinedRoom,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import toast from "react-hot-toast";
@@ -40,24 +38,11 @@ function RoomBoxBigger({
 
     const handleJoinRoom = async () => {
         try {
-            // dispatch(
-            //     addPublicJoinedRoom({
-            //         roomId,
-            //         roomType,
-            //         roomName,
-            //         roomUsername,
-            //         roomDP,
-            //         roomDescription,
-            //         totalParticipants,
-            //     })
-            // );
-            // dispatch(removePublicJoinedRoom(roomId));
             const response = await dispatch(toggleFollowRoom(roomId));
 
             if (response.meta.requestStatus === "rejected") {
                 throw new Error(response.payload);
             } else {
-                // await dispatch(toggleFollowRoom(roomId));
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
                 router.push(`/rooms/${roomId}`);
@@ -92,7 +77,8 @@ function RoomBoxBigger({
                             <div className="relative h-[80px] w-[80px]">
                                 <Image
                                     src={roomDP}
-                                    alt="avatar-1"
+                                    sizes="33vw"
+                                    alt="avatar-1" 
                                     fill
                                     className="object-cover rounded-full "
                                 />
