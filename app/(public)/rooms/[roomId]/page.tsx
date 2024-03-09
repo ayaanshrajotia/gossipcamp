@@ -1,6 +1,5 @@
 "use client";
 
-import PostBox from "@/app/components/post-containers/PostBox";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -42,15 +41,15 @@ export default function Room() {
 
     useEffect(() => {
         // checking if the user is the participant of the room
-        const isPublicParticipant = publicRooms.find(
-            (room: any) => room._id === roomId
-        );
-        const isPrivateParticipant = privateRoom?._id === roomId;
-        const isParticipant = isPublicParticipant || isPrivateParticipant;
+        // const isPublicParticipant = publicRooms.find(
+        //     (room: any) => room._id === roomId
+        // );
+        // const isPrivateParticipant = privateRoom?._id === roomId;
+        // const isParticipant = isPublicParticipant || isPrivateParticipant;
 
-        if (!isParticipant) {
-            return router.push("/explore/rooms");
-        }
+        // if (!isParticipant) {
+        //     return router.push("/explore/rooms");
+        // }
 
         const getDetails = async () => {
             await dispatch(getRoomDetails(roomId.toString()));
@@ -115,7 +114,7 @@ export default function Room() {
                     )}
                 </div>
             </div>
-            <MessagesContainer roomId = {roomId.toString()} />
+            <MessagesContainer roomId={roomId.toString()} />
         </>
     );
 }

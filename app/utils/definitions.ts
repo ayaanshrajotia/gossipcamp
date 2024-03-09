@@ -85,7 +85,36 @@ export type DropdownPropsType = {
 export type PostBoxPropsType = {
     // children: any;
     bgcolor?: string;
+    messageType: string;
     textColor?: string;
+    className?: string;
+    date: string;
+    profileUrl: string;
+    postImgUrl?: string;
+    user: string;
+    description: string;
+    isUser: boolean;
+} & Record<string, any>;
+
+export type JoinLeaveBoxPropsType = {
+    // children: any;
+    bgcolor?: string;
+    textColor?: string;
+    messageType: string;
+    className?: string;
+    date: string;
+    profileUrl: string;
+    postImgUrl?: string;
+    user: string;
+    description: string;
+    isUser: boolean;
+} & Record<string, any>;
+
+export type MessagesBoxPropsType = {
+    // children: any;
+    bgcolor?: string;
+    textColor?: string;
+    messageType: string;
     className?: string;
     date: string;
     profileUrl: string;

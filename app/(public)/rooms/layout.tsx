@@ -31,7 +31,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%]"></div>
-            <div className="min-h-screen relative w-full border-box">
+            <div className="min-h-screen relative w-full">
                 {children}
                 <div
                     className={`bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
