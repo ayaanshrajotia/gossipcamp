@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
 import {
-    addPublicJoinedRoom,
-    removePublicJoinedRoom,
+    getAllRooms,
+    getPublicJoinedRooms,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import toast from "react-hot-toast";
@@ -35,24 +35,13 @@ function RoomBoxHome({
 
     const handleJoinRoom = async () => {
         try {
-            dispatch(
-                addPublicJoinedRoom({
-                    roomId,
-                    roomType,
-                    roomName,
-                    roomUsername,
-                    roomDP,
-                    roomDescription,
-                    totalParticipants,
-                })
-            );
-            dispatch(removePublicJoinedRoom(roomId));
             const response = await dispatch(toggleFollowRoom(roomId));
 
             if (response.meta.requestStatus === "rejected") {
                 throw new Error(response.payload);
             } else {
-                // await dispatch(toggleFollowRoom(roomId));
+                await dispatch(getPublicJoinedRooms());
+                await dispatch(getAllRooms());
                 router.push(`/rooms/${roomId}`);
                 toast.success("Joined Room");
             }
@@ -77,6 +66,7 @@ function RoomBoxHome({
                                 <Image
                                     src={roomDP}
                                     alt="avatar-1"
+                                    sizes="33vw"
                                     fill
                                     className="object-cover rounded-full "
                                 />

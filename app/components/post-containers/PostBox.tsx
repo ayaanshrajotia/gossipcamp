@@ -42,6 +42,7 @@ function PostBox({
                     <div className="relative h-[50px] w-[50px]">
                         <Image
                             src={profileUrl}
+                            sizes="33vw"
                             alt="avatar-1"
                             fill
                             className="object-cover rounded-full"
@@ -70,6 +71,7 @@ function PostBox({
                                 <Image
                                     src={postImgUrl!}
                                     alt="avatar-1"
+                                    sizes="33vw"
                                     fill
                                     className="object-cover rounded-xl"
                                 />

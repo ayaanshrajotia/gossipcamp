@@ -91,6 +91,7 @@ export default function Room() {
                                         <Image
                                             src={roomDetails?.roomDP}
                                             alt="avatar-1"
+                                            sizes="33vw"
                                             fill
                                             className="object-cover rounded-full"
                                         />

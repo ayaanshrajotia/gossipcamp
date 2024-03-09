@@ -11,7 +11,8 @@ function HomeCard() {
                     <Image
                         src={"/images/bg-1.jpg"}
                         alt="avatar-1"
-                        fill
+                        sizes="33vw"
+                        fill 
                         className="object-cover rounded-xl"
                     />
                 </div>

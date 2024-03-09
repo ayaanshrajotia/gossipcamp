@@ -351,6 +351,7 @@ function CreateAvatar() {
                                 <div className="relative h-[160px] w-[160px]">
                                     <Image
                                         src={url}
+                                        sizes="33vw"
                                         alt="avatar-1"
                                         fill
                                         className="object-contain"

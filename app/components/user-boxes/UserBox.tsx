@@ -1,6 +1,4 @@
 "use client";
-
-import React, { useState } from "react";
 import { UserBoxPropsType } from "../../utils/definitions";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
@@ -38,7 +36,8 @@ function UserBox({
                             <Image
                                 src={avatar}
                                 alt="avatar-1"
-                                fill
+                                    sizes="33vw"
+                                    fill 
                                 className="object-cover rounded-full"
                             />
                         </div>
