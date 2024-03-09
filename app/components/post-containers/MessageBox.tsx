@@ -24,8 +24,11 @@ function JoinLeaveBox({
     ...props
 }: JoinLeaveBoxPropsType) {
     return (
-        <div className="bg-gray-300 flex text-sm w-fit px-4 py-2 self-center rounded-xl">
-            {user} {description}
+        <div
+            className="bg-gray-300 flex text-sm w-fit px-4 py-2 self-center rounded-xl"
+            {...props}
+        >
+            {description}
         </div>
     );
 }
