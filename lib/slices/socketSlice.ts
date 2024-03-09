@@ -54,6 +54,7 @@ export const messageListener = createAsyncThunk(
     async (_, { rejectWithValue, dispatch }) => {
         socket.on("message", (data: any) => {
             // dispatch(addMessage(data));
+            console.log(data);
         });
     }
 );
