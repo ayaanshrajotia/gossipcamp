@@ -68,20 +68,14 @@ export const sendMessageEmitter = createAsyncThunk(
 
 const initialState: {
     isConnected: boolean;
-    message: any[];
 } = {
     isConnected: false,
-    message: [],
 };
 
 const socketSlice = createSlice({
     name: "socket",
     initialState,
-    reducers: {
-        addMessage: (state, action) => {
-            state.message.push(action.payload);
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(connectSocket.fulfilled, (state) => {
@@ -101,6 +95,6 @@ const socketSlice = createSlice({
     },
 });
 
-export const { addMessage } = socketSlice.actions;
+export const {} = socketSlice.actions;
 
 export default socketSlice.reducer;

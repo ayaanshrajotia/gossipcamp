@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://gossipcamp-backend.vercel.app/api/v1",
+    baseURL: process.env.NEXT_PUBLIC_SERVER_ORIGIN,
 });
 
 axiosInstance.interceptors.request.use(
