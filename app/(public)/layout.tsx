@@ -15,6 +15,10 @@ export default function PublicLayout({
 
     useEffect(() => {
         dispatch(connectSocket());
+        window.addEventListener("beforeunload", () => {
+            dispatch(disconnectSocket());
+        });
+
         return () => {
             dispatch(disconnectSocket());
         };

@@ -14,7 +14,7 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
-import { openRoom, welcomeMessageListener } from "@/lib/slices/socketSlice";
+import { messageListener, openRoom } from "@/lib/slices/socketSlice";
 
 let count = 1;
 
@@ -61,7 +61,7 @@ export default function Room() {
                     userId: profile._id,
                 })
             );
-            dispatch(welcomeMessageListener());
+            await dispatch(messageListener());
         };
 
         getDetails();

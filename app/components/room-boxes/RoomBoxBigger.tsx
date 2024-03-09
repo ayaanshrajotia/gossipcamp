@@ -2,8 +2,8 @@ import React from "react";
 import { RoomBoxBiggerPropsType } from "../../utils/definitions";
 import Image from "next/image";
 import PeopleCount from "../PeopleCount";
-import { AppDispatch } from "@/lib/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
 import {
     getAllRooms,
     getPublicJoinedRooms,
@@ -32,6 +32,9 @@ function RoomBoxBigger({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const { _id: profileId, username } = useSelector(
+        (state: RootState) => state.auth.profile
+    );
 
     const handleJoinRoom = async () => {
         try {
@@ -45,8 +48,9 @@ function RoomBoxBigger({
                 router.push(`/rooms/${roomId}`);
                 dispatch(
                     joinRoomEmitter({
+                        profileId,
                         roomId,
-                        username: "Pulkit Ji",
+                        username,
                     })
                 );
 
