@@ -25,19 +25,21 @@ export default function Sidebar() {
     const { profile, loading, user } = useSelector(
         (state: RootState) => state.auth
     );
+
     const { privateRoom, publicRooms, privateLoading, publicLoading } =
         useSelector((state: RootState) => state.rooms);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
+        console.log("connecting");
         dispatch(connectSocket());
-        // window.addEventListener("beforeunload", () => {
-        //     dispatch(disconnectSocket());
-        // });
+        window.addEventListener("beforeunload", () => {
+            dispatch(disconnectSocket());
+        });
 
-        // return () => {
-        //     dispatch(disconnectSocket());
-        // };
+        return () => {
+            dispatch(disconnectSocket());
+        };
     }, [dispatch]);
 
     useEffect(() => {

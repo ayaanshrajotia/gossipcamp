@@ -15,6 +15,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import {
     closeRoom,
+    connectSocket,
     leaveRoomEmitter,
     openRoom,
 } from "@/lib/slices/socketSlice";
@@ -35,6 +36,8 @@ export default function Room() {
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
+
+    const { isConnected } = useSelector((state: RootState) => state.socket);
     const dispatch = useDispatch<AppDispatch>();
 
     useLayoutEffect(() => {
@@ -56,11 +59,12 @@ export default function Room() {
         // }
 
         const getDetails = async () => {
-            await dispatch(getRoomDetails(roomId.toString()));
+            await dispatch(getRoomDetails(roomId.toString()));        
+            // await dispatch(connectSocket()); 
             await dispatch(
                 openRoom({
                     roomId: roomId.toString(),
-                    profileId : profile._id,
+                    profileId: profile._id,
                 })
             );
         };
