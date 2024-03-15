@@ -44,6 +44,7 @@ function PostBox({
     user,
     description,
     isUser,
+    messageType,
     ...props
 }: PostBoxPropsType) {
     const [isLiked, setIsLiked] = useState(false);

@@ -15,6 +15,8 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { sendMessageEmitter } from "@/lib/slices/socketSlice";
 import axiosInstance from "@/app/utils/axios";
 import { useParams } from "next/navigation";
+import { socket } from "@/app/StoreProvider";
+import { addMessage } from "@/lib/slices/chatSlice";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isActive, setIsActive] = useState(false);
@@ -46,11 +48,31 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         setLoading(true);
         try {
             const response = await axiosInstance.post(
-                "messages/send-message/" + roomId
+                "messages/send-message/" + roomId,
+                {
+                    text: messageText,
+                    messageType: "Text",
+                    profileId: profile._id,
+                }
             );
-            
-            
-            setLoading(false);
+
+            if (response.status >= 200) {
+                let message = {
+                    roomId: roomId,
+                    text: messageText,
+                    messageType: "Text",
+                    profile: {
+                        _id: profile._id,
+                        fName: profile.fName,
+                        lName: profile.lName,
+                        avatar: profile.avatar,
+                    },
+                };
+
+                socket.emit("send-message", message);
+                dispatch(addMessage(message));
+                setLoading(false);
+            }
         } catch (err) {
             console.log(err);
             setLoading(false);
