@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 // icons
@@ -10,10 +10,24 @@ import {
     VideoCameraIcon,
     CameraIcon,
 } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { sendMessageEmitter } from "@/lib/slices/socketSlice";
+import axiosInstance from "@/app/utils/axios";
+import { useParams } from "next/navigation";
+import { socket } from "@/app/StoreProvider";
+import { addMessage } from "@/lib/slices/chatSlice";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isActive, setIsActive] = useState(false);
     const [file, setFile] = useState();
+    const [messageText, setMessageText] = useState("");
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+
+    let { roomId } = useParams();
+
+    const { profile } = useSelector((state: RootState) => state.auth);
 
     const handleFocus = () => {
         setIsActive(true);
@@ -27,6 +41,45 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         // console.log(e.target.files);
         // setFile(URL.createObjectURL(e.target.files[0]));
     }
+
+    const handleSendMessage = async () => {
+        console.log("message sent");
+        // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
+        setLoading(true);
+        try {
+            const response = await axiosInstance.post(
+                "messages/send-message/" + roomId,
+                {
+                    text: messageText,
+                    messageType: "Text",
+                    profileId: profile._id,
+                }
+            );
+
+            if (response.status >= 200) {
+                let message = {
+                    roomId: roomId,
+                    text: messageText,
+                    messageType: "Text",
+                    profile: {
+                        _id: profile._id,
+                        fName: profile.fName,
+                        lName: profile.lName,
+                        avatar: profile.avatar,
+                    },
+                };
+
+                socket.emit("send-message", message);
+                dispatch(addMessage(message));
+                setLoading(false);
+            }
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+
+        setMessageText("");
+    };
 
     return (
         <>
@@ -48,10 +101,12 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         <TextareaAutosize
                             className="flex-1 bg-white outline-none resize-none font-secondary"
                             placeholder="Write your thoughts"
+                            value={messageText}
+                            onChange={(e) => setMessageText(e.target.value)}
                             // onFocus={handleFocus}
                             // onBlur={handleBlur}
                         />
-                        <button onClick={handleChange}>
+                        <button onClick={handleSendMessage}>
                             <PaperAirplaneIcon className="w-6 h-6 fill-white" />
                         </button>
                     </div>

@@ -21,6 +21,7 @@ function JoinLeaveBox({
     user,
     description,
     isUser,
+    messageType,
     ...props
 }: JoinLeaveBoxPropsType) {
     return (
@@ -43,6 +44,7 @@ function PostBox({
     user,
     description,
     isUser,
+    messageType,
     ...props
 }: PostBoxPropsType) {
     const [isLiked, setIsLiked] = useState(false);

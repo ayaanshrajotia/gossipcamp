@@ -11,12 +11,12 @@ export const getAllMessages = createAsyncThunk(
             const response = await axiosInstance.get(
                 `messages/${roomId}/all?page=${page}`
             );
-            console.log(response.data.data.docs)
+            console.log(response.data.data.docs);
             return response.data.data;
         } catch (error) {
             console.log(error);
             return rejectWithValue(error);
-        } 
+        }
     }
 );
 

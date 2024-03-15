@@ -18,8 +18,15 @@ export const disconnectSocket = createAsyncThunk(
 export const openRoom = createAsyncThunk(
     "socket/openRoom",
     async (data: any, { rejectWithValue }) => {
-        console.log("emitted");
+        // console.log("emitted");
         socket.emit("open-room", data);
+    }
+);
+
+export const closeRoom = createAsyncThunk(
+    "socket/closeRoom",
+    async (data: any, { rejectWithValue }) => {
+        socket.emit("close-room", data);
     }
 );
 
@@ -46,16 +53,6 @@ export const leaveRoomEmitter = createAsyncThunk(
     "socket/leaveRoomEmitter",
     async (data: any, { rejectWithValue }) => {
         socket.emit("leave-room", data);
-    }
-);
-
-export const messageListener = createAsyncThunk(
-    "socket/messageListener",
-    async (_, { rejectWithValue, dispatch }) => {
-        socket.on("message", (data: any) => {
-            // dispatch(addMessage(data));
-            console.log(data);
-        });
     }
 );
 

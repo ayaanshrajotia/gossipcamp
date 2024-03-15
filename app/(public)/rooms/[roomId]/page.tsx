@@ -13,7 +13,11 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
-import { messageListener, openRoom } from "@/lib/slices/socketSlice";
+import {
+    closeRoom,
+    leaveRoomEmitter,
+    openRoom,
+} from "@/lib/slices/socketSlice";
 import MessagesContainer from "../../../components/MessagesContainer";
 
 export default function Room() {
@@ -56,20 +60,30 @@ export default function Room() {
             await dispatch(
                 openRoom({
                     roomId: roomId.toString(),
-                    userId: profile._id,
+                    profileId : profile._id,
                 })
             );
-            await dispatch(messageListener());
         };
 
         getDetails();
         setPageLoading(false);
+
+        return () => {
+            dispatch(closeRoom({ roomId: roomId.toString() }));
+        };
     }, [roomId, dispatch, publicRooms, privateRoom]);
 
     const handleRemoveRoom = async () => {
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
         await dispatch(getAllRooms());
+        await dispatch(
+            leaveRoomEmitter({
+                roomId: roomId.toString(),
+                profileId: profile._id,
+                username: profile.username,
+            })
+        );
         router.push("/explore/rooms");
     };
 
