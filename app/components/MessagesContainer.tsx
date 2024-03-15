@@ -10,9 +10,10 @@ import { useParams } from "next/navigation";
 import axiosInstance from "../utils/axios";
 import { socket } from "../StoreProvider";
 import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
+import { connectSocket } from "@/lib/slices/socketSlice";
 
 export default function MessagesContainer({ roomId }: MessagesContainerProps) {
-    const { user } = useSelector((state: RootState) => state.auth);
+    const { user, profile } = useSelector((state: RootState) => state.auth);
     // const [messages, setMessages] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -21,6 +22,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     let { page, messages, messageLoading, hasNextPage } = useSelector(
         (state: RootState) => state.chat
     );
+
+    let { isConnected } = useSelector((state: RootState) => state.socket);
 
     // const getAllMessages = async () => {
     //     try {
@@ -37,13 +40,22 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     //         console.log(error);
     //     }
     // };
-
+        
     useEffect(() => {
-        socket.on("message", (data: any) => {
-            dispatch(addMessage(data));
-            console.log(data);
-        });
-    }, []);
+        if (!isConnected) {
+            dispatch(connectSocket()).then(() => {
+                socket.on("message", (data: any) => {
+                    dispatch(addMessage(data));
+                    console.log(data);
+                });
+            });
+        } else {
+            socket.on("message", (data: any) => {
+                dispatch(addMessage(data));
+                console.log(data);
+            });
+        }
+    }, [dispatch]);
 
     useEffect(() => {
         // getAllMessages();
@@ -64,7 +76,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                             capitalizeFirstLetter(message.profile.lName)
                         }
                         description={message.text}
-                        isUser={message.profile._id === user._id}
+                        isUser={message.profile._id === profile._id}
                     />
                 );
             })}
