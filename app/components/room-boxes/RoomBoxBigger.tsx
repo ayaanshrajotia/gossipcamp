@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { joinRoomEmitter } from "@/lib/slices/socketSlice";
-import { capitalizeFirstLetter } from "@/app/utils/helper";
 
 function RoomBoxBigger({
     roomId,
@@ -33,13 +32,9 @@ function RoomBoxBigger({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-    const {
-        _id: profileId,
-        username,
-        fName,
-        lName,
-    } = useSelector((state: RootState) => state.auth.profile);
-    const name = capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
+    const { _id: profileId, username } = useSelector(
+        (state: RootState) => state.auth.profile
+    );
 
     const handleJoinRoom = async () => {
         try {
@@ -55,7 +50,7 @@ function RoomBoxBigger({
                     joinRoomEmitter({
                         profileId,
                         roomId,
-                        username: name,
+                        username,
                     })
                 );
 
@@ -83,7 +78,7 @@ function RoomBoxBigger({
                                 <Image
                                     src={roomDP}
                                     sizes="33vw"
-                                    alt="avatar-1"
+                                    alt="avatar-1" 
                                     fill
                                     className="object-cover rounded-full "
                                 />
