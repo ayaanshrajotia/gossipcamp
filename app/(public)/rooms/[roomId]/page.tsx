@@ -37,7 +37,6 @@ export default function Room() {
         (state: RootState) => state.rooms
     );
 
-    const { isConnected } = useSelector((state: RootState) => state.socket);
     const dispatch = useDispatch<AppDispatch>();
 
     useLayoutEffect(() => {
@@ -59,8 +58,8 @@ export default function Room() {
         // }
 
         const getDetails = async () => {
-            await dispatch(getRoomDetails(roomId.toString()));        
-            // await dispatch(connectSocket()); 
+            await dispatch(getRoomDetails(roomId.toString()));
+            // await dispatch(connectSocket());
             await dispatch(
                 openRoom({
                     roomId: roomId.toString(),
