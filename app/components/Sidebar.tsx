@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 
 export default function Sidebar() {
     const [firstName, setFirstName] = useState("");
@@ -27,6 +28,17 @@ export default function Sidebar() {
     const { privateRoom, publicRooms, privateLoading, publicLoading } =
         useSelector((state: RootState) => state.rooms);
     const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        dispatch(connectSocket());
+        // window.addEventListener("beforeunload", () => {
+        //     dispatch(disconnectSocket());
+        // });
+
+        // return () => {
+        //     dispatch(disconnectSocket());
+        // };
+    }, [dispatch]);
 
     useEffect(() => {
         const getDetails = async () => {

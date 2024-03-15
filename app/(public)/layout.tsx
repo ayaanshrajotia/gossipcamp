@@ -11,18 +11,7 @@ export default function PublicLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const dispatch = useDispatch<AppDispatch>();
-
-    useEffect(() => {
-        dispatch(connectSocket());
-        window.addEventListener("beforeunload", () => {
-            dispatch(disconnectSocket());
-        });
-
-        return () => {
-            dispatch(disconnectSocket());
-        };
-    }, [dispatch]);
+   
 
     return (
         <div className="flex relative">
