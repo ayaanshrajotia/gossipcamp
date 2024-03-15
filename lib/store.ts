@@ -3,7 +3,6 @@ import authReducer from "./slices/authSlice";
 import roomReducer from "./slices/roomSlice";
 import userReducer from "./slices/userSlice";
 import socketReducer from "./slices/socketSlice";
-import chatReducer from "./slices/chatSlice";
 
 export const makeStore = () => {
     return configureStore({
@@ -12,7 +11,6 @@ export const makeStore = () => {
             rooms: roomReducer,
             users: userReducer,
             socket: socketReducer,
-            chat: chatReducer,
         },
     });
 };

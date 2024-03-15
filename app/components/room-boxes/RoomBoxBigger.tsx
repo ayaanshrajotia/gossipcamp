@@ -55,7 +55,7 @@ function RoomBoxBigger({
                     joinRoomEmitter({
                         profileId,
                         roomId,
-                        name,
+                        username: name,
                     })
                 );
 

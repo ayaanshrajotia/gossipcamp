@@ -21,6 +21,7 @@ function JoinLeaveBox({
     user,
     description,
     isUser,
+    messageType,
     ...props
 }: JoinLeaveBoxPropsType) {
     return (
