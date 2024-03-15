@@ -23,7 +23,9 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
         (state: RootState) => state.chat
     );
 
-    let { isConnected } = useSelector((state: RootState) => state.socket);
+    let { isConnected = undefined } = useSelector(
+        (state: RootState) => state.socket
+    );
 
     // const getAllMessages = async () => {
     //     try {
@@ -40,7 +42,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     //         console.log(error);
     //     }
     // };
-        
+
     useEffect(() => {
         if (!isConnected) {
             dispatch(connectSocket()).then(() => {
