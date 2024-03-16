@@ -5,9 +5,7 @@ import toast from "react-hot-toast";
 
 export const connectSocket = createAsyncThunk(
     "socket/connectSocket",
-    async (_, { rejectWithValue }) => {
-        await socket.connect();
-    }
+    async (_, { rejectWithValue }) => await socket.connect()
 );
 
 export const disconnectSocket = createAsyncThunk(
@@ -64,7 +62,7 @@ export const sendMessageEmitter = createAsyncThunk(
 );
 
 const initialState: {
-    isConnected: boolean;
+    isConnected: boolean | null | undefined;
 } = {
     isConnected: false,
 };

@@ -42,6 +42,13 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         // setFile(URL.createObjectURL(e.target.files[0]));
     }
 
+    function scrollToBottom(divId: string) {
+        const div = document.getElementById(divId);
+        if (div) {
+            div.scrollTop = div.scrollHeight - div.clientHeight;
+        }
+    }
+
     const handleSendMessage = async () => {
         console.log("message sent");
         // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
@@ -72,6 +79,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 socket.emit("send-message", message);
                 dispatch(addMessage(message));
                 setLoading(false);
+                scrollToBottom("message-box");
             }
         } catch (err) {
             console.log(err);

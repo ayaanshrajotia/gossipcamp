@@ -23,9 +23,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
         (state: RootState) => state.chat
     );
 
-    let { isConnected = undefined } = useSelector(
-        (state: RootState) => state.socket
-    );
+    let { isConnected = false } = useSelector((state: RootState) => state.socket || {});
 
     // const getAllMessages = async () => {
     //     try {
@@ -65,7 +63,10 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, []);
 
     return (
-        <div className="min-h-[calc(100vh-200px)] w-full my-6 max-w-[1400px] mx-auto flex flex-col-reverse gap-8 z-[-1] px-6">
+        <div
+            id={"message-box"}
+            className="message-box min-h-[calc(100vh-200px)] w-full my-6 max-w-[1400px] mx-auto flex flex-col-reverse gap-8 z-[-1] px-6"
+        >
             {messages?.toReversed().map((message: any) => {
                 return (
                     <MessageBox
