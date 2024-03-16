@@ -33,9 +33,6 @@ export default function Sidebar() {
     useEffect(() => {
         console.log("connecting");
         dispatch(connectSocket());
-        window.addEventListener("beforeunload", () => {
-            dispatch(disconnectSocket());
-        });
 
         return () => {
             dispatch(disconnectSocket());
