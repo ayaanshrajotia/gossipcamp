@@ -16,10 +16,15 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/authSlice";
 
 const schema = z.object({
-    userId: z.string(),
-    // .refine((value) => value.length === 10, {
-    //     message: "Mobile number must be exactly 10 digits long",
-    // })
+    userId: z.string().refine((val) => {
+        if (val.includes("@")) {
+            return z.string().email("Please enter a valid email address");
+        } else {
+            return z
+                .string()
+                .min(3, "Username must contain at least 3 character(s)");
+        }
+    }),
     // .transform((value) => parseInt(value)),
     password: z
         .string()
@@ -75,7 +80,7 @@ const LoginPage = () => {
                         required
                         autoComplete="false"
                     />
-                    <label htmlFor="userId">Enrollment or Username</label>
+                    <label htmlFor="userId">Email or Username</label>
                     {errors.userId && (
                         <div className="mt-2 text-sm font-medium text-red-600">
                             {errors.userId.message}

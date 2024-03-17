@@ -20,9 +20,7 @@ const schema = z.object({
     password: z
         .string()
         .min(8, "Password must contain at least 8 character(s)"),
-    enrollmentNumber: z
-        .string()
-        .min(8, "Enrollment number must contain at least 4 character(s)"),
+    email: z.string().email("Please enter a valid email address"),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -58,7 +56,7 @@ export default function SignupPage() {
                 const response = await dispatch(
                     signupUser({
                         password: data.password,
-                        enrollmentNo: data.enrollmentNumber,
+                        email: data.email,
                         collegeName: college,
                     })
                 );
@@ -94,7 +92,7 @@ export default function SignupPage() {
                 <div className="flex flex-col gap-6">
                     <div className="input-group w-full">
                         <input
-                            {...register("enrollmentNumber")}
+                            {...register("email")}
                             type="text"
                             id="enrollmentNumber"
                             className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
@@ -104,9 +102,9 @@ export default function SignupPage() {
                         <label htmlFor="enrollmentNumber">
                             Enrollment Number
                         </label>
-                        {errors.enrollmentNumber && (
+                        {errors.email && (
                             <div className="text-red-600 font-medium text-sm mt-2">
-                                {errors.enrollmentNumber.message}
+                                {errors.email.message}
                             </div>
                         )}
                     </div>
