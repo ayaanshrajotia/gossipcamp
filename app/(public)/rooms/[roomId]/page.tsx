@@ -24,9 +24,6 @@ import MessagesContainer from "../../../components/MessagesContainer";
 export default function Room() {
     const router = useRouter();
     const { roomId } = useParams();
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [imgUrl, setImgUrl] = useState("");
     const [pageLoading, setPageLoading] = useState(true);
 
     const { profile } = useSelector((state: RootState) => state.auth);
@@ -39,11 +36,7 @@ export default function Room() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    useLayoutEffect(() => {
-        setFirstName(profile.fName);
-        setLastName(profile.lName);
-        setImgUrl(profile.avatar);
-    }, [profile]);
+    useLayoutEffect(() => {}, [profile]);
 
     useEffect(() => {
         // checking if the user is the participant of the room
@@ -80,11 +73,13 @@ export default function Room() {
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
         await dispatch(getAllRooms());
+        
+        const capitalizedName = capitalizeFirstLetter(profile.fName) + capitalizeFirstLetter(profile.lName);
         await dispatch(
             leaveRoomEmitter({
                 roomId: roomId.toString(),
                 profileId: profile._id,
-                username: profile.username,
+                username: capitalizedName,
             })
         );
         router.push("/explore/rooms");
