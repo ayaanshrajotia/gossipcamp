@@ -35,7 +35,6 @@ export const welcomeMessageListener = createAsyncThunk(
         let x;
         socket.on("welcome-user", (data: any) => {
             x = data;
-            // dispatch()
         });
     }
 );

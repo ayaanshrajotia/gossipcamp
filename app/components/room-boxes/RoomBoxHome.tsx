@@ -7,14 +7,16 @@ import { LockClosedIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import PeopleCount from "../PeopleCount";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import {
     getAllRooms,
     getPublicJoinedRooms,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import toast from "react-hot-toast";
+import { capitalizeFirstLetter } from "@/app/utils/helper";
+import { joinRoomEmitter } from "@/lib/slices/socketSlice";
 
 function RoomBoxHome({
     roomId,
@@ -32,6 +34,11 @@ function RoomBoxHome({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const {
+        _id: profileId,
+        fName,
+        lName,
+    } = useSelector((state: RootState) => state.auth.profile);
 
     const handleJoinRoom = async () => {
         try {
@@ -43,6 +50,15 @@ function RoomBoxHome({
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
                 router.push(`/rooms/${roomId}`);
+                const capitalizedName =
+                    capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
+                dispatch(
+                    joinRoomEmitter({
+                        profileId,
+                        roomId,
+                        username: capitalizedName,
+                    })
+                );
                 toast.success("Joined Room");
             }
 
