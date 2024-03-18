@@ -53,7 +53,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [dispatch]);
 
     useEffect(() => {
-        if (hasNextPage && !messageLoading && timer === null) {
+        if (hasNextPage && !messageLoading) {
             dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
                 if (pageNo == 1) {
                     window.scrollTo({
@@ -72,15 +72,21 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     useEffect(() => {
         const handleScroll: any = () => {
+            // console.log(window.scrollY - window.innerHeight);
             if (
                 !messageLoading &&
                 timer === null &&
                 hasNextPage &&
-                window.scrollY - window.innerHeight < 2
+                window.scrollY - window.innerHeight < -800
             ) {
                 setPageNo((oldPage) => {
                     return oldPage + 1;
                 });
+
+                timer = setTimeout(() => {
+                    clearTimeout(timer);
+                    timer = null;
+                }, 2000);
             }
         };
 
@@ -109,6 +115,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
+            {messageLoading && (<h1>Loading..</h1>)}
             {messages.map((message: any) => {
                 return (
                     <MessageBox
