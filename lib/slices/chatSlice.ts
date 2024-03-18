@@ -9,10 +9,10 @@ export const getAllMessages = createAsyncThunk(
     ) => {
         try {
             const response = await axiosInstance.get(
-                `messages/${roomId}/all?page=${page}`
+                `messages/${roomId}/all?page=${page}&limit=30`
             );
             console.log(response.data.data.docs);
-            return response.data.data;
+            return { ...response.data.data, append: page > 1 };
         } catch (error) {
             console.log(error);
             return rejectWithValue(error);
@@ -47,6 +47,9 @@ const chatSlice = createSlice({
         addMessage: (state, action) => {
             state.messages.push(action.payload);
         },
+        setLoadingFalse: (state, action) => {
+            state.messageLoading = false;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -55,7 +58,14 @@ const chatSlice = createSlice({
             })
             .addCase(getAllMessages.fulfilled, (state, action) => {
                 // console.log(action.payload);
-                state.messages = action.payload.docs;
+                if (action.payload.append) {
+                    state.messages = [
+                        ...state.messages,
+                        ...action.payload.docs,
+                    ];
+                } else {
+                    state.messages = action.payload.docs;
+                }
                 state.page = action.payload.page;
                 state.hasNextPage = action.payload.hasNextPage;
                 state.hasPrevPage = action.payload.hasPrevPage;
@@ -69,6 +79,6 @@ const chatSlice = createSlice({
     },
 });
 
-export const { addMessage } = chatSlice.actions;
+export const { addMessage, setLoadingFalse } = chatSlice.actions;
 
 export default chatSlice.reducer;
