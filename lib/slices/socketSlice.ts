@@ -1,7 +1,5 @@
 import { socket } from "@/app/StoreProvider";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { formatRevalidate } from "next/dist/server/lib/revalidate";
-import toast from "react-hot-toast";
 
 export const connectSocket = createAsyncThunk(
     "socket/connectSocket",

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { useState } from "react";
+import { PostBoxPropsType } from "@/app/utils/definitions";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 // icons
-import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import { PostBoxPropsType } from "@/app/utils/definitions";
+import { HeartIcon } from "@heroicons/react/24/outline";
+
 function PostBox({
     bgcolor = "bg-white",
     textColor,
@@ -18,10 +21,14 @@ function PostBox({
     messageType,
     ...props
 }: PostBoxPropsType) {
+    dayjs.extend(relativeTime); // use relative time plugin
+    const relativeDate = dayjs(date).fromNow();
+
     const [isLiked, setIsLiked] = useState(false);
+
     return (
         <div
-            className={`border-box relative max-w-[450px] min-w-[200px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 ${
+            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 ${
                 isUser
                     ? "self-end box-shadow-yellow-static"
                     : "self-start box-shadow-static"
@@ -40,13 +47,6 @@ function PostBox({
                 )}
                 <span className="font-bold">100+</span>
             </div>
-            {/* <div
-                className={`post-heart absolute w-6 h-6 text-red-500  ${
-                    isUser ? "-left-9" : "-right-10"
-                } top-1/2 -translate-y-1/2`}
-            >
-                <HeartIcon />{" "}
-            </div> */}
             <div className="flex gap-3">
                 <div>
                     <div className="relative h-[50px] w-[50px]">
@@ -79,11 +79,9 @@ function PostBox({
                     </>
                 </div>
             </div>
-            <span className="text-xs text-right mt-1">{date}</span>
-            {/* <div className="bg-stone-800 absolute bottom-0 right-14  text-white translate-y-[50%] text-xs py-1 px-3 rounded-full flex items-center gap-1">
-                <span>❤️</span>
-                <span>100+</span>
-            </div> */}
+            <span className="text-xs text-right mt-1 tracking-tight text-gray-500">
+                {relativeDate}
+            </span>
         </div>
     );
 }

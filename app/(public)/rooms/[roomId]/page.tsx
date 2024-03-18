@@ -36,8 +36,6 @@ export default function Room() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    useLayoutEffect(() => {}, [profile]);
-
     useEffect(() => {
         // checking if the user is the participant of the room
         // const isPublicParticipant = publicRooms.find(
@@ -51,6 +49,7 @@ export default function Room() {
         // }
 
         const getDetails = async () => {
+            console.log("fetched data");
             await dispatch(getRoomDetails(roomId.toString()));
             // await dispatch(connectSocket());
             await dispatch(
@@ -73,8 +72,10 @@ export default function Room() {
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
         await dispatch(getAllRooms());
-        
-        const capitalizedName = capitalizeFirstLetter(profile.fName) + capitalizeFirstLetter(profile.lName);
+
+        const capitalizedName =
+            capitalizeFirstLetter(profile.fName) +
+            capitalizeFirstLetter(profile.lName);
         await dispatch(
             leaveRoomEmitter({
                 roomId: roomId.toString(),
@@ -86,7 +87,7 @@ export default function Room() {
     };
 
     return (
-        <>
+        <div className="min-h-sreen">
             <div className="pt-4 sticky w-full top-0 z-[999]">
                 <div className="bg-stone-800 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2">
                     {pageLoading ||
@@ -127,6 +128,6 @@ export default function Room() {
                 </div>
             </div>
             <MessagesContainer roomId={roomId.toString()} />
-        </>
+        </div>
     );
 }

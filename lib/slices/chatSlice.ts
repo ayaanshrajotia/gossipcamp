@@ -12,7 +12,6 @@ export const getAllMessages = createAsyncThunk(
             const response = await axiosInstance.get(
                 `messages/${roomId}/all?page=${page}&limit=30`
             );
-            console.log(response.data.data.docs);
             return { ...response.data.data, append: page > 1 };
         } catch (error) {
             console.log(error);
@@ -58,7 +57,7 @@ const chatSlice = createSlice({
                 state.messageLoading = true;
             })
             .addCase(getAllMessages.fulfilled, (state, action) => {
-                // console.log(action.payload);
+                console.log(action.payload);
                 if (action.payload.append) {
                     state.messages = [
                         ...action.payload.docs,
