@@ -9,6 +9,8 @@ import { socket } from "../StoreProvider";
 import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 
+var timer: any = null;
+
 export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     const { user, profile } = useSelector((state: RootState) => state.auth);
     // const [messages, setMessages] = useState<any[]>([]);
@@ -50,17 +52,30 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
-            window.scrollTo({
-                top: document.body.scrollHeight, // Scroll to the bottom
-                behavior: "smooth",
+        if (hasNextPage && !messageLoading && timer === null) {
+            dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
+                if (pageNo == 1) {
+                    window.scrollTo({
+                        top: document.body.scrollHeight, // Scroll to the bottom
+                    });
+                }
+                timer = setTimeout(() => {
+                    setLoading(false);
+                    clearTimeout(timer);
+                    timer = null;
+                }, 3000);
             });
-        });
-    }, [dispatch, roomId]);
+        }
+    }, [dispatch, roomId, pageNo]);
 
     useEffect(() => {
         const handleScroll: any = () => {
-            if (!messageLoading && window.innerHeight + window.scrollY < 2) {
+            if (
+                !messageLoading &&
+                timer === null &&
+                hasNextPage &&
+                window.scrollY - window.innerHeight < 2
+            ) {
                 setPageNo((oldPage) => {
                     return oldPage + 1;
                 });
@@ -75,8 +90,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [messageLoading]);
 
     return (
-        <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col-reverse gap-8 z-[-1] px-6">
-            {messages?.toReversed().map((message: any) => {
+        <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
+            {messages.map((message: any) => {
                 return (
                     <MessageBox
                         key={message._id}

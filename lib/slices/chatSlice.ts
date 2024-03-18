@@ -8,6 +8,7 @@ export const getAllMessages = createAsyncThunk(
         { rejectWithValue }
     ) => {
         try {
+            console.log(page);
             const response = await axiosInstance.get(
                 `messages/${roomId}/all?page=${page}&limit=30`
             );
@@ -35,7 +36,7 @@ const initialState: {
     messageError: null,
     messageLoading: false,
     page: 0,
-    hasNextPage: false,
+    hasNextPage: true,
     hasPrevPage: false,
     totalPages: 0,
 };
@@ -60,8 +61,8 @@ const chatSlice = createSlice({
                 // console.log(action.payload);
                 if (action.payload.append) {
                     state.messages = [
-                        ...state.messages,
                         ...action.payload.docs,
+                        ...state.messages,
                     ];
                 } else {
                     state.messages = action.payload.docs;
