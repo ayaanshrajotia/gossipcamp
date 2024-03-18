@@ -11,6 +11,7 @@ import { connectSocket } from "@/lib/slices/socketSlice";
 
 var timer: any = null;
 
+
 export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     const { user, profile } = useSelector((state: RootState) => state.auth);
     // const [messages, setMessages] = useState<any[]>([]);
@@ -64,6 +65,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     clearTimeout(timer);
                     timer = null;
                 }, 3000);
+
             });
         }
     }, [dispatch, roomId, pageNo]);
@@ -76,6 +78,22 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 hasNextPage &&
                 window.scrollY - window.innerHeight < 2
             ) {
+                setPageNo((oldPage) => {
+                    return oldPage + 1;
+                });
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [messageLoading]);
+
+    useEffect(() => {
+        const handleScroll: any = () => {
+            if (!messageLoading && window.innerHeight + window.scrollY < 2) {
                 setPageNo((oldPage) => {
                     return oldPage + 1;
                 });
