@@ -10,7 +10,7 @@ export const getAllMessages = createAsyncThunk(
         try {
             console.log(page);
             const response = await axiosInstance.get(
-                `messages/${roomId}/all?page=${page}&limit=30`
+                `messages/${roomId}/all?page=${page}&limit=10`
             );
             return { ...response.data.data, append: page > 1 };
         } catch (error) {
