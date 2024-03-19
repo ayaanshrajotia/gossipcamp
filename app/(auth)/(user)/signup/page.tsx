@@ -1,14 +1,12 @@
-"use client";
-
+"use client";;
 import { collegesOptions } from "@/app/utils/customOptions";
-import auth from "@/app/utils/firebase";
 import Button from "@/app/components/Button";
 import Dropdown from "@/app/components/Dropdown";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
