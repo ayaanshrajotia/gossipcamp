@@ -17,6 +17,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="">
             <body
+                id="scrollableDiv"
                 className="bg-white min-w-screen min-h-screen box-border"
                 suppressHydrationWarning={true}
             >

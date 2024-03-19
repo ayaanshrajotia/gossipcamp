@@ -42,7 +42,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         // setFile(URL.createObjectURL(e.target.files[0]));
     }
 
-    const handleSendMessage = async () => {
+    const handleSendMessage = async (e: any) => {
+        e.preventDefault();
         console.log("message sent");
         // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
         setLoading(true);
@@ -70,8 +71,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     },
                 };
 
+                dispatch(addMessage(message));
                 socket.emit("send-message", message);
-                await dispatch(addMessage(message));
                 window.scrollTo({
                     top: document.body.scrollHeight, // Scroll to the bottom
                     behavior: "smooth",
@@ -93,7 +94,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 <div
                     className={`bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
                 >
-                    <div className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-stone-800">
+                    <form
+                        onSubmit={handleSendMessage}
+                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-stone-800"
+                    >
                         {/* <div className="flex items-center gap-2">
                             <button>
                                 <VideoCameraIcon className="w-7 h-7" />
@@ -102,18 +106,24 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                 <PhotoIcon className="w-7 h-7" />
                             </button>
                         </div> */}
-                        <TextareaAutosize
+                        {/* <TextareaAutosize
                             className="flex-1 bg-white outline-none resize-none font-secondary"
                             placeholder="Write your thoughts"
                             value={messageText}
                             onChange={(e) => setMessageText(e.target.value)}
                             // onFocus={handleFocus}
                             // onBlur={handleBlur}
+                        /> */}
+                        <input
+                            type="text"
+                            value={messageText}
+                            className="flex-1 bg-white outline-none resize-none font-secondary"
+                            onChange={(e) => setMessageText(e.target.value)}
                         />
-                        <button onClick={handleSendMessage}>
+                        <button type="submit">
                             <PaperAirplaneIcon className="w-6 h-6 fill-white" />
                         </button>
-                    </div>
+                    </form>
                     {/* <div className={`py-2 h-full ${isActive ? "" : "hidden"}`}>
                     <div className="border-2 border-dashed border-black rounded-lg  h-full w-full cursor-pointer bg-[#F1F2F5]">
                         <label
