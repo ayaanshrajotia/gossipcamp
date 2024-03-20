@@ -117,7 +117,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 messages.map((message: any) => {
                     return (
                         <MessageBox
-                            key={message._id}
+                            key={message?._id}
                             messageType={message.messageType}
                             date={message.updatedAt}
                             profileUrl={message.profile?.avatar}

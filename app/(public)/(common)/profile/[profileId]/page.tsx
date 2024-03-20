@@ -108,7 +108,7 @@ function Page() {
                                     </p>
 
                                     <div className="flex gap-2">
-                                        {userProfile?.user !== user._id && (
+                                        {userProfile?.user !== user?._id && (
                                             <button
                                                 className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
                                                 onClick={handleToggleFollow}
