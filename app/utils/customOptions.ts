@@ -15,7 +15,20 @@ const firstNames = [
     { id: 3, name: "handsome" },
     { id: 4, name: "legendary" },
     { id: 5, name: "kawaii" },
-    { id: 6, name: "Awesome" },
+    { id: 6, name: "awesome" },
+    { id: 7, name: "fat" },
+    { id: 8, name: "slow" },
+    { id: 9, name: "ugly" },
+    { id: 10, name: "alistair" },
+    { id: 11, name: "beaumont" },
+    { id: 12, name: "evander" },
+    { id: 13, name: "elodie" },
+    { id: 14, name: "isadora" },
+    { id: 15, name: "leander" },
+    { id: 16, name: "octavia" },
+    { id: 17, name: "persephone" },
+    { id: 18, name: "seraphina" },
+    { id: 19, name: "zephyr" },
 ];
 
 const lastNames = [
@@ -25,6 +38,17 @@ const lastNames = [
     { id: 3, name: "bear" },
     { id: 4, name: "bunny" },
     { id: 5, name: "kakarot" },
+    { id: 6, name: "piggy" },
+    { id: 7, name: "blackwood" },
+    { id: 8, name: "delacroix" },
+    { id: 9, name: "evermore" },
+    { id: 10, name: "hawthorne" },
+    { id: 11, name: "kingsley" },
+    { id: 12, name: "montrose" },
+    { id: 13, name: "silverton" },
+    { id: 14, name: "stardust" },
+    { id: 15, name: "whitlock" },
+    { id: 16, name: "winterbourne" },
 ];
 
 const topTypeOptions = [
