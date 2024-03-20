@@ -374,10 +374,10 @@ function CreateAvatar() {
                                 <div className="flex flex-col gap-2 w-full">
                                     <div className="flex justify-between">
                                         <span className="font-bold text-lg">
-                                            Enrollment No:
+                                            Email:
                                         </span>
                                         <span className="text-right text-lg">
-                                            {userDetails.enrollmentNo?.toUpperCase()}
+                                            {userDetails?.email}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
