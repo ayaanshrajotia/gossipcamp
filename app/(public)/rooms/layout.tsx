@@ -71,7 +71,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     },
                 };
 
-                dispatch(addMessage(message));
+                await dispatch(addMessage(message));
                 socket.emit("send-message", message);
                 window.scrollTo({
                     top: document.body.scrollHeight, // Scroll to the bottom
