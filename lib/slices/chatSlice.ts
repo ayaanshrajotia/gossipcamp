@@ -74,7 +74,8 @@ const chatSlice = createSlice({
             })
             .addCase(getAllMessages.rejected, (state, action) => {
                 state.messageLoading = false;
-                state.messageError = action.payload;
+                // state.messageError = action.payload;
+                console.log(action.payload);
             });
     },
 });

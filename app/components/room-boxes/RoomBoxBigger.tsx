@@ -33,12 +33,9 @@ function RoomBoxBigger({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-    const {
-        _id: profileId,
-        username,
-        fName,
-        lName,
-    } = useSelector((state: RootState) => state.auth.profile);
+    const { _id, username, fName, lName } = useSelector(
+        (state: RootState) => state.auth.profile
+    );
 
     const handleJoinRoom = async () => {
         try {
@@ -54,7 +51,7 @@ function RoomBoxBigger({
                     capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
                 dispatch(
                     joinRoomEmitter({
-                        profileId,
+                        profileId: _id,
                         roomId,
                         username: capitalizedName,
                     })
