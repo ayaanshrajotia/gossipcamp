@@ -1,22 +1,15 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
+import React, { useState } from "react";
 
 // icons
-import {
-    PhotoIcon,
-    PaperAirplaneIcon,
-    VideoCameraIcon,
-    CameraIcon,
-} from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { sendMessageEmitter } from "@/lib/slices/socketSlice";
 import axiosInstance from "@/app/utils/axios";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import { addMessage } from "@/lib/slices/chatSlice";
+import { v4 as uuidv4, v4 } from "uuid";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isActive, setIsActive] = useState(false);
@@ -48,6 +41,26 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
         setLoading(true);
         try {
+            let message = {
+                _id: v4(),
+                roomId: roomId,
+                text: messageText,
+                messageType: "Text",
+                profile: {
+                    _id: profile?._id,
+                    fName: profile.fName,
+                    lName: profile.lName,
+                    avatar: profile.avatar,
+                },
+            };
+
+            await dispatch(addMessage(message));
+            setMessageText("");
+
+            window.scrollTo({
+                top: document.body.scrollHeight, // Scroll to the bottom
+                behavior: "smooth",
+            });
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
                 {
@@ -58,32 +71,14 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
 
             if (response.status >= 200) {
-                let message = {
-                    _id: response.data.data?._id,
-                    roomId: roomId,
-                    text: messageText,
-                    messageType: "Text",
-                    profile: {
-                        _id: profile?._id,
-                        fName: profile.fName,
-                        lName: profile.lName,
-                        avatar: profile.avatar,
-                    },
-                };
-
-                await dispatch(addMessage(message));
                 socket.emit("send-message", message);
-                window.scrollTo({
-                    top: document.body.scrollHeight, // Scroll to the bottom
-                    behavior: "smooth",
-                });
+
                 setLoading(false);
             }
         } catch (err) {
             console.log(err);
             setLoading(false);
         }
-        setMessageText("");
     };
 
     return (
