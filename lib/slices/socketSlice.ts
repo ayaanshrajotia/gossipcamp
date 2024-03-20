@@ -40,6 +40,7 @@ export const welcomeMessageListener = createAsyncThunk(
 export const joinRoomEmitter = createAsyncThunk(
     "socket/joinRoomEmitter",
     async (data: any, { rejectWithValue }) => {
+        console.log("join room called");
         socket.emit("join-room", data);
     }
 );
@@ -47,6 +48,7 @@ export const joinRoomEmitter = createAsyncThunk(
 export const leaveRoomEmitter = createAsyncThunk(
     "socket/leaveRoomEmitter",
     async (data: any, { rejectWithValue }) => {
+        console.log("leave room called");
         socket.emit("leave-room", data);
     }
 );

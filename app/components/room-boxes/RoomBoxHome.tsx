@@ -35,7 +35,7 @@ function RoomBoxHome({
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
     const { _id, fName, lName } = useSelector(
-        (state: RootState) => state.auth.profile
+        (state: RootState) => state.auth.profile || {}
     );
 
     const handleJoinRoom = async () => {

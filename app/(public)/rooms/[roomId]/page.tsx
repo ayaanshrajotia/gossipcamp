@@ -49,7 +49,6 @@ export default function Room() {
         // }
 
         const getDetails = async () => {
-            console.log("fetched data");
             await dispatch(getRoomDetails(roomId.toString()));
             // await dispatch(connectSocket());
             await dispatch(

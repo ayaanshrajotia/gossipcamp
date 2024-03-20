@@ -9,6 +9,7 @@ import { socket } from "../StoreProvider";
 import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { useParams, useRouter } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
 
 var timer: any = null;
 let prevheight = 0;
@@ -55,24 +56,22 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     useEffect(() => {
         console.log("fetching messages");
-        if (hasNextPage && !messageLoading) {
-            dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
-                if (pageNo == 1) {
-                    window.scrollTo({
-                        top: document.body.scrollHeight, // Scroll to the bottom
-                    });
-                } else {
-                    window.scrollTo({
-                        top: document.body.scrollHeight - prevheight, // Scroll to the bottom
-                    });
-                }
-                timer = setTimeout(() => {
-                    setLoading(false);
-                    clearTimeout(timer);
-                    timer = null;
-                }, 3000);
-            });
-        }
+        dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
+            if (pageNo == 1) {
+                window.scrollTo({
+                    top: document.body.scrollHeight, // Scroll to the bottom
+                });
+            } else {
+                window.scrollTo({
+                    top: document.body.scrollHeight - prevheight, // Scroll to the bottom
+                });
+            }
+            timer = setTimeout(() => {
+                setLoading(false);
+                clearTimeout(timer);
+                timer = null;
+            }, 3000);
+        });
     }, [dispatch, roomId, pageNo]);
 
     useEffect(() => {
@@ -105,23 +104,36 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-            {messageLoading && <h1>Loading..</h1>}
-            {messages.map((message: any) => {
-                return (
-                    <MessageBox
-                        key={message._id}
-                        messageType={message.messageType}
-                        date={message.updatedAt}
-                        profileUrl={message.profile?.avatar}
-                        user={
-                            capitalizeFirstLetter(message.profile?.fName) +
-                            capitalizeFirstLetter(message.profile?.lName)
-                        }
-                        description={message.text}
-                        isUser={message.profile?._id === profile?._id}
-                    />
-                );
-            })}
+            {messageLoading && <Skeleton count={3} baseColor="#e6e6e6" />}
+            {pageNo === 1 && messageLoading ? (
+                <div className="flex flex-col-reverse gap-4 h-full">
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton count={3} baseColor="#e6e6e6" />
+                </div>
+            ) : (
+                messages.map((message: any) => {
+                    return (
+                        <MessageBox
+                            key={message._id}
+                            messageType={message.messageType}
+                            date={message.updatedAt}
+                            profileUrl={message.profile?.avatar}
+                            user={
+                                capitalizeFirstLetter(message.profile?.fName) +
+                                capitalizeFirstLetter(message.profile?.lName)
+                            }
+                            description={message.text}
+                            isUser={message.profile?._id === profile?._id}
+                        />
+                    );
+                })
+            )}
         </div>
     );
 }
