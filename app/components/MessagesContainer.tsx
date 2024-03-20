@@ -132,6 +132,7 @@ import MessageBox from "./post-containers/MessageBox";
 import { socket } from "../StoreProvider";
 import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
+import { useParams, useRouter } from "next/navigation";
 
 var timer: any = null;
 let prevheight = 0;
@@ -235,13 +236,13 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                         key={message._id}
                         messageType={message.messageType}
                         date={message.updatedAt}
-                        profileUrl={message.profile.avatar}
+                        profileUrl={message.profile?.avatar}
                         user={
-                            capitalizeFirstLetter(message.profile.fName) +
-                            capitalizeFirstLetter(message.profile.lName)
+                            capitalizeFirstLetter(message.profile?.fName) +
+                            capitalizeFirstLetter(message.profile?.lName)
                         }
                         description={message.text}
-                        isUser={message.profile._id === profile?._id}
+                        isUser={message.profile?._id === profile?._id}
                     />
                 );
             })}

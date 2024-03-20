@@ -93,14 +93,14 @@ export default function SignupPage() {
                     <div className="input-group w-full">
                         <input
                             {...register("email")}
-                            type="text"
-                            id="enrollmentNumber"
+                            type="email"
+                            id="email"
                             className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
                             required
                             autoComplete="false"
                         />
-                        <label htmlFor="enrollmentNumber">
-                            Enrollment Number
+                        <label htmlFor="email">
+                            Email
                         </label>
                         {errors.email && (
                             <div className="text-red-600 font-medium text-sm mt-2">
