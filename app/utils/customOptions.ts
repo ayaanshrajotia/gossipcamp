@@ -15,6 +15,7 @@ const firstNames = [
     { id: 3, name: "handsome" },
     { id: 4, name: "legendary" },
     { id: 5, name: "kawaii" },
+    { id: 6, name: "Awesome" },
 ];
 
 const lastNames = [

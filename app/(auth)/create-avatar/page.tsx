@@ -63,16 +63,19 @@ function CreateAvatar() {
                 toast.error("Please select your name");
                 return;
             }
-            await dispatch(
+            const response = await dispatch(
                 createAvatar({
                     fName: firstName,
                     lName: lastName,
                     avatarUrl: url,
                 })
             );
-            router.push("/home");
-        } catch (error) {
-            toast.error("Something went wrong");
+            if (response.meta.requestStatus === "fulfilled") {
+                router.push("/home");
+            } else throw new Error(response.payload);
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error.message);
         }
     };
 
