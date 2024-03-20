@@ -53,18 +53,18 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 {
                     text: messageText,
                     messageType: "Text",
-                    profileId: profile._id,
+                    profileId: profile?._id,
                 }
             );
 
             if (response.status >= 200) {
                 let message = {
-                    _id: response.data.data._id,
+                    _id: response.data.data?._id,
                     roomId: roomId,
                     text: messageText,
                     messageType: "Text",
                     profile: {
-                        _id: profile._id,
+                        _id: profile?._id,
                         fName: profile.fName,
                         lName: profile.lName,
                         avatar: profile.avatar,

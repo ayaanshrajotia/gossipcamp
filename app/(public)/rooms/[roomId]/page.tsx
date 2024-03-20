@@ -54,7 +54,7 @@ export default function Room() {
             await dispatch(
                 openRoom({
                     roomId: roomId.toString(),
-                    profileId: profile._id,
+                    profileId: profile?._id,
                 })
             );
         };
@@ -78,7 +78,7 @@ export default function Room() {
         await dispatch(
             leaveRoomEmitter({
                 roomId: roomId.toString(),
-                profileId: profile._id,
+                profileId: profile?._id,
                 username: capitalizedName,
             })
         );
