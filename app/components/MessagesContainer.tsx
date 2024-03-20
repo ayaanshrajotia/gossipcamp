@@ -31,28 +31,25 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     );
 
     useEffect(() => {
-        if (!isConnected) {
-            dispatch(connectSocket()).then(() => {
-                socket.on("message", (data: any) => {
-                    let f = async () => {
-                        dispatch(addMessage(data));
-                        window.scrollTo({
-                            top: document.body.scrollHeight, // Scroll to the bottom
-                            behavior: "smooth",
-                        });
-                    };
-                    f();
-                    console.log(data);
-                });
-            });
-        } else {
+        console.log(12);
+        dispatch(connectSocket()).then(() => {
             socket.on("message", (data: any) => {
-                dispatch(addMessage(data));
-
+                let f = async () => {
+                    await dispatch(addMessage(data));
+                    window.scrollTo({
+                        top: document.body.scrollHeight, // Scroll to the bottom
+                        behavior: "smooth",
+                    });
+                };
+                f();
                 console.log(data);
             });
+        });
+
+        return () => {
+            socket.off("message")
         }
-    }, [dispatch, isConnected]);
+    }, [dispatch]);
 
     useEffect(() => {
         console.log("fetching messages");

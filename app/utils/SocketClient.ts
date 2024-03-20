@@ -9,6 +9,10 @@ class SocketClient {
     }
 
     connect() {
+        if (this.socket !== null) {
+            return;
+        }
+
         this.socket = io(process.env.NEXT_PUBLIC_SOCKET_ORIGIN!, {
             auth: {
                 token: localStorage.getItem("accessToken") || "",
@@ -63,6 +67,24 @@ class SocketClient {
         }
 
         this.socket?.emit(event, data);
+    }
+
+    sendMessage(roomId: string, message: any) {
+        if (this.socket === null) {
+            console.error("Socket is not connected");
+            return;
+        }
+
+        // this.socket.to(roomId).emit("message", message);
+    }
+
+    off(event: any) {
+        if (this.socket === null) {
+            console.error("Socket is not connected");
+            return;
+        }
+
+        this.socket?.off(event);
     }
 }
 
