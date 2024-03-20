@@ -5,7 +5,7 @@ export const getAllUsers = createAsyncThunk(
     "user/getAllUsers",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/profiles/all-users`);
+            const response = await axiosInstance.get(`/profiles/all-users?limit=50`);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);

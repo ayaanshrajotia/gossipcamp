@@ -24,6 +24,7 @@ const lastNames = [
     { id: 2, name: "musician" },
     { id: 3, name: "bear" },
     { id: 4, name: "bunny" },
+    { id: 5, name: "kakarot" },
 ];
 
 const topTypeOptions = [
