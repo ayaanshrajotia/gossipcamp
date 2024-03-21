@@ -121,6 +121,7 @@ export default function Room() {
                 </div>
             </div>
             <MessagesContainer roomId={roomId.toString()} />
+            
         </div>
     );
 }
