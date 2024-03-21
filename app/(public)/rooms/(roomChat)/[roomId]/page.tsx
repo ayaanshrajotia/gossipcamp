@@ -1,8 +1,7 @@
-"use client";
-
+"use client";;
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
@@ -13,13 +12,9 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
-import {
-    closeRoom,
-    connectSocket,
-    leaveRoomEmitter,
-    openRoom,
-} from "@/lib/slices/socketSlice";
-import MessagesContainer from "../../../components/MessagesContainer";
+import { closeRoom, leaveRoomEmitter, openRoom } from "@/lib/slices/socketSlice";
+import MessagesContainer from "../../../../components/MessagesContainer";
+import Link from "next/link";
 
 export default function Room() {
     const router = useRouter();
@@ -95,33 +90,32 @@ export default function Room() {
                         <Skeleton count={2} width={600} baseColor="#464646" />
                     ) : (
                         <>
-                            <div className="flex gap-4">
-                                <div>
-                                    <div className="relative h-[45px] w-[45px]">
-                                        <Image
-                                            src={roomDetails?.roomDP}
-                                            alt="avatar-1"
-                                            sizes="33vw"
-                                            fill
-                                            className="object-cover rounded-full"
-                                        />
+                            <Link
+                                href={`/rooms/profile/${roomId}`}
+                                className="flex"
+                            >
+                                <div className="flex gap-4">
+                                    <div>
+                                        <div className="relative h-[45px] w-[45px]">
+                                            <Image
+                                                src={roomDetails?.roomDP}
+                                                alt="avatar-1"
+                                                sizes="33vw"
+                                                fill
+                                                className="object-cover rounded-full"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-secondary font-extrabold text-lg">
+                                            {roomDetails?.roomName}
+                                        </span>
+                                        <p className="font-secondary text-gray-400 text-sm w-full overflow-ellipsis line-clamp-1">
+                                            {roomDetails?.description}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <span className="font-secondary font-extrabold text-lg">
-                                        {roomDetails?.roomName}
-                                    </span>
-                                    <p className="font-secondary text-gray-400 text-sm w-full overflow-ellipsis line-clamp-1">
-                                        {roomDetails?.description}
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={handleRemoveRoom}
-                                className="bg-white text-stone-800 font-secondary font-bold px-4 py-1 rounded-lg transition-all"
-                            >
-                                Leave
-                            </button>
+                            </Link>
                         </>
                     )}
                 </div>

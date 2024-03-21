@@ -16,6 +16,7 @@ import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { joinRoomEmitter } from "@/lib/slices/socketSlice";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
+import Link from "next/link";
 
 function RoomBoxBigger({
     roomId,
@@ -118,9 +119,12 @@ function RoomBoxBigger({
                             {roomDescription}
                         </p>
                         {isPrivate ? (
-                            <button className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end">
+                            <Link
+                                href={`/rooms/profile/${roomId}`}
+                                className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
+                            >
                                 View Room
-                            </button>
+                            </Link>
                         ) : (
                             <button
                                 className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
