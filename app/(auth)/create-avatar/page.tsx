@@ -72,6 +72,7 @@ function CreateAvatar() {
             );
             if (response.meta.requestStatus === "fulfilled") {
                 router.push("/home");
+                toast.success("Avatar created successfully")
             } else throw new Error(response.payload);
         } catch (error: any) {
             console.log(error);

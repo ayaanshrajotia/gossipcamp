@@ -5,7 +5,9 @@ export const getAllUsers = createAsyncThunk(
     "user/getAllUsers",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/profiles/all-users?limit=50`);
+            const response = await axiosInstance.get(
+                `/profiles/all-users?limit=50`
+            );
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -20,6 +22,7 @@ export const getSingleUser = createAsyncThunk(
             const response = await axiosInstance.get(
                 `/profiles/user-profile/${username}`
             );
+            console.log(response);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -148,6 +151,7 @@ const userSlice = createSlice({
             .addCase(getSingleUser.fulfilled, (state, action) => {
                 state.userLoading = false;
                 state.userProfile = action.payload;
+                console.log(action.payload);
             })
             .addCase(getSingleUser.rejected, (state) => {
                 state.userLoading = false;
