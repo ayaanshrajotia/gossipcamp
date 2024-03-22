@@ -15,12 +15,14 @@ import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
+import { useTheme } from "next-themes";
 
 export default function Sidebar() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const [pageLoading, setPageLoading] = useState(true);
+    const { theme } = useTheme();
 
     const { profile, loading, user } = useSelector(
         (state: RootState) => state.auth
@@ -31,7 +33,6 @@ export default function Sidebar() {
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        console.log("connecting");
         dispatch(connectSocket());
 
         return () => {
@@ -66,7 +67,16 @@ export default function Sidebar() {
                                 Create Your Profile
                             </Link>
                         ) : pageLoading || loading ? (
-                            <Skeleton count={2} width={200} />
+                            <Skeleton
+                                count={2}
+                                width={200}
+                                baseColor={
+                                    theme === "dark" ? "#202020" : "#ebebeb"
+                                }
+                                highlightColor={
+                                    theme === "dark" ? "#444" : "#f2f2f2"
+                                }
+                            />
                         ) : (
                             <div className="flex justify-between cursor-pointer">
                                 <Link
@@ -88,11 +98,11 @@ export default function Sidebar() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-secondary font-extrabold text-base">
+                                        <span className="font-secondary font-extrabold text-base dark:text-college-dark-white">
                                             @{capitalizeFirstLetter(firstName)}
                                             {capitalizeFirstLetter(lastName)}
                                         </span>
-                                        <span className="font-secondary text-gray-500 text-sm">
+                                        <span className="font-secondary text-sm text-college-dark-white-2">
                                             Profile
                                         </span>
                                     </div>
@@ -100,7 +110,7 @@ export default function Sidebar() {
                             </div>
                         )}
 
-                        <div className="border-1 border-gray-200 rounded-full w-[45px] h-[45px] flex items-center justify-center">
+                        <div className="border-1 border-gray-200 rounded-full w-[45px] h-[45px] flex items-center justify-center dark:border-college-dark-gray-3">
                             <Link href={"/notifications"}>
                                 <BellIcon className="w-6 h-6" />
                             </Link>
@@ -108,13 +118,28 @@ export default function Sidebar() {
                     </div>
                 </div>
                 <div className="flex flex-col mt-2 gap-6 box-border">
-                    <div className="flex flex-col gap-6 bg-white border-1 px-6 py-6 rounded-xl box-border box-shadow-yellow-static">
-                        <h1 className="text-2xl font-extrabold font-secondary">
+                    <div
+                        className={`flex flex-col gap-6 bg-white border-1 px-6 py-6 rounded-xl box-border ${
+                            theme === "dark"
+                                ? "box-shadow-yellow-static-dark"
+                                : "box-shadow-yellow-static"
+                        } dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+                    >
+                        <h1 className="text-2xl font-extrabold font-secondary dark:text-college-dark-white">
                             Private Rooms
                         </h1>
                         <div>
                             {pageLoading || privateLoading ? (
-                                <Skeleton count={4} height={16} />
+                                <Skeleton
+                                    count={4}
+                                    height={16}
+                                    baseColor={
+                                        theme === "dark" ? "#202020" : "#ebebeb"
+                                    }
+                                    highlightColor={
+                                        theme === "dark" ? "#444" : "#f2f2f2"
+                                    }
+                                />
                             ) : (
                                 <RoomBox
                                     roomName={privateRoom?.roomName}
@@ -127,7 +152,11 @@ export default function Sidebar() {
                                     roomType="College"
                                     roomUsername={privateRoom?.roomUsername}
                                     bgcolor="bg-college-yellow"
-                                    className="box-shadow-static"
+                                    className={
+                                        theme === "dark"
+                                            ? "box-shadow-static-dark"
+                                            : "box-shadow-static"
+                                    }
                                     textColor="black"
                                     isPrivate={true}
                                     totalParticipants={
@@ -138,13 +167,28 @@ export default function Sidebar() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-6 bg-white border-1 rounded-xl py-6 box-shadow-yellow-static px-6">
-                        <h1 className="text-2xl font-extrabold font-secondary">
+                    <div
+                        className={`flex flex-col gap-6 bg-white border-1 border-college-dark-white rounded-xl py-6 ${
+                            theme === "dark"
+                                ? "box-shadow-yellow-static-dark"
+                                : "box-shadow-yellow-static"
+                        } px-6 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+                    >
+                        <h1 className="text-2xl font-extrabold font-secondary dark:text-college-dark-white ">
                             Public Rooms
                         </h1>
                         <div className="flex flex-col gap-6">
                             {pageLoading || publicLoading ? (
-                                <Skeleton count={4} height={16} />
+                                <Skeleton
+                                    count={4}
+                                    height={16}
+                                    baseColor={
+                                        theme === "dark" ? "#202020" : "#ebebeb"
+                                    }
+                                    highlightColor={
+                                        theme === "dark" ? "#444" : "#f2f2f2"
+                                    }
+                                />
                             ) : publicRooms?.length > 0 ? (
                                 publicRooms?.map((room: any) => (
                                     <RoomBox
@@ -166,7 +210,11 @@ export default function Sidebar() {
                                         roomDescription={room?.description}
                                         bgcolor="bg-college-yellow"
                                         textColor="black"
-                                        className="box-shadow-static"
+                                        className={
+                                            theme === "dark"
+                                                ? "box-shadow-static-dark"
+                                                : "box-shadow-static"
+                                        }
                                         isPrivate={false}
                                         totalParticipants={
                                             room?.totalParticipants

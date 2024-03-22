@@ -57,7 +57,7 @@ function RoomBox({
     // };
     return (
         <div
-            className={`relative border-1 rounded-xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[200px] transition-all cursor-pointer`}
+            className={`relative border-1 rounded-xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[200px] transition-all cursor-pointer dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >
@@ -77,10 +77,10 @@ function RoomBox({
                             </div>
                         </div>
                         <div className="flex flex-col self-start">
-                            <span className="font-secondary font-extrabold text-lg w-[130px] truncate -mb-1">
+                            <span className="font-secondary font-extrabold text-lg w-[130px] truncate -mb-1 dark:text-college-dark-white">
                                 {roomName}
                             </span>
-                            <span className="font-secondary text-gray-500 text-sm">
+                            <span className="font-secondary text-sm  text-college-dark-white-2">
                                 @{roomUsername}
                             </span>
                         </div>
@@ -108,7 +108,7 @@ function RoomBox({
                         </button>
                     ) : (
                         <Link
-                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white"
                             href={`/rooms/${roomId}`}
                         >
                             Open

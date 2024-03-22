@@ -100,11 +100,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             setMessageText(newText);
                             setIsEmojiPicker(false);
                         }}
-
                     />
                     <form
                         onSubmit={handleSendMessage}
-                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-stone-800"
+                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1"
                     >
                         <FaceSmileIcon
                             className="w-6 h-6 cursor-pointer"
@@ -112,7 +111,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         />
                         <input
                             ref={inputRef}
-
                             type="text"
                             value={messageText}
                             className="flex-1 bg-white outline-none resize-none font-secondary"

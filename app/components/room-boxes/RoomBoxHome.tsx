@@ -67,7 +67,7 @@ function RoomBoxHome({
     };
     return (
         <div
-            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden`}
+            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >
@@ -93,10 +93,10 @@ function RoomBoxHome({
                         {/* Details */}
                         <div className="flex justify-between w-full">
                             <div className="flex flex-col">
-                                <span className="font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1">
+                                <span className="font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                                     {roomName}
                                 </span>
-                                <span className="font-secondary text-gray-500 text-sm text-ellipsis overflow-hidden line-clamp-1">
+                                <span className="font-secondary text-sm text-ellipsis overflow-hidden line-clamp-1 text-college-dark-white-2">
                                     @{roomUsername}
                                 </span>
                             </div>
@@ -113,11 +113,11 @@ function RoomBoxHome({
                     </div>
                     {/* Join */}
                     <div className="flex justify-between items-center gap-6 w-full">
-                        <p className="text-ellipsis overflow-hidden line-clamp-1">
+                        <p className="text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                             {roomDescription}
                         </p>
                         <button
-                            className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
+                            className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white"
                             onClick={() => handleJoinRoom()}
                         >
                             Join Room

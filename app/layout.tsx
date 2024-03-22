@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import StoreProvider from "./StoreProvider";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
     title: "GossipCamp",
@@ -15,13 +16,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className="">
+        <html lang="en">
             <body
-                id="scrollableDiv"
-                className="bg-white min-w-screen min-h-screen box-border"
+                className={`bg-[#F6F6F9] min-w-screen min-h-screen box-border dark:bg-college-dark-gray-2`}
                 suppressHydrationWarning={true}
             >
-                <StoreProvider>{children}</StoreProvider>
+                <ThemeProvider attribute="class">
+                    <StoreProvider>{children}</StoreProvider>
+                </ThemeProvider>
                 <Toaster />
             </body>
         </html>

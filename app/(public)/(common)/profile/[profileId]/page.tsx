@@ -68,6 +68,8 @@ function Page() {
         setPageLoading(false);
     }, [profileId, dispatch, userProfile?.isFollowing]);
 
+    console.log(userProfile);
+
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>
@@ -80,46 +82,55 @@ function Page() {
                         </>
                     ) : (
                         <>
-                            <div className="flex basis-[60%] gap-5 h-full">
-                                <div className="flex items-center">
-                                    <div className="relative w-[110px] h-[110px]">
-                                        <Image
-                                            src={userProfile?.avatar}
-                                            alt="profile-pic"
-                                            className="absolute object-cover rounded-full"
-                                            fill
-                                        />
+                            <div className="flex">
+                                <div className="flex flex-1 gap-5 h-full">
+                                    <div className="flex items-center">
+                                        <div className="relative w-[110px] h-[110px]">
+                                            <Image
+                                                src={userProfile?.avatar}
+                                                alt="profile-pic"
+                                                className="absolute object-cover rounded-full"
+                                                fill
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <h1 className="font-secondary font-extrabold text-2xl mb-1">
+                                            {capitalizeFirstLetter(
+                                                userProfile?.fName
+                                            )}
+                                            {capitalizeFirstLetter(
+                                                userProfile?.lName
+                                            )}
+                                        </h1>
+
+                                        <p className="text-justify line-clamp-2 text-sm leading-snug text-gray-500 mb-4">
+                                            {userProfile?.bio ||
+                                                "No bio available"}
+                                        </p>
+
+                                        <div className="flex gap-2">
+                                            {userProfile?.user !==
+                                                user?._id && (
+                                                <button
+                                                    className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
+                                                    onClick={handleToggleFollow}
+                                                >
+                                                    {isFollow
+                                                        ? "Following"
+                                                        : "Follow"}
+                                                </button>
+                                            )}
+                                            <button className="font-bold text-sm bg-gray-400 text-white rounded-full w-fit px-3 py-1">
+                                                {userProfile?.collegeName}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <h1 className="font-secondary font-extrabold text-2xl mb-1">
-                                        {capitalizeFirstLetter(
-                                            userProfile?.fName
-                                        )}
-                                        {capitalizeFirstLetter(
-                                            userProfile?.lName
-                                        )}
+                                <div className="flex items-center">
+                                    <h1 className="font-primary font-black text-3xl p-6">
+                                        {userProfile?.position}
                                     </h1>
-
-                                    <p className="text-justify line-clamp-2 text-sm leading-snug text-gray-500 mb-4">
-                                        {userProfile?.bio}
-                                    </p>
-
-                                    <div className="flex gap-2">
-                                        {userProfile?.user !== user?._id && (
-                                            <button
-                                                className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
-                                                onClick={handleToggleFollow}
-                                            >
-                                                {isFollow
-                                                    ? "Following"
-                                                    : "Follow"}
-                                            </button>
-                                        )}
-                                        <button className="font-bold text-sm bg-gray-400 text-white rounded-full w-fit px-3 py-1">
-                                            {userProfile?.collegeName}
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                             <div className="flex w-full gap-8 justify-evenly">
@@ -131,7 +142,7 @@ function Page() {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="font-bold text-2xl">
-                                        1252
+                                        {userProfile?.interactiveScore}
                                     </span>
                                     <span>Messages</span>
                                 </div>
@@ -157,9 +168,9 @@ function Page() {
                         {options.map((option) => (
                             <Link href={option.slug} key={option.id}>
                                 <li
-                                    className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800 hover:text-white ${
+                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white ${
                                         pathname.includes(option.slug)
-                                            ? "bg-stone-800 text-white"
+                                            ? "bg-college-dark-gray-1 text-white"
                                             : "bg-white"
                                     }`}
                                 >

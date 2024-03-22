@@ -4,6 +4,7 @@ import UserBox from "@/app/components/user-boxes/UserBox";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { getAllUsers } from "@/lib/slices/userSlice";
 import { AppDispatch, RootState } from "@/lib/store";
+import { useTheme } from "next-themes";
 import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ function Page() {
     const { users, loading } = useSelector((state: RootState) => state.users);
     const [pageLoading, setPageLoading] = useState(true);
     const dispatch = useDispatch<AppDispatch>();
+    const { theme } = useTheme();
 
     const fetchData = useMemo(() => {
         const getDetails = async () => {
@@ -25,7 +27,6 @@ function Page() {
         setPageLoading(false);
     }, [dispatch, users]);
 
-
     return (
         <>
             {pageLoading || loading ? (
@@ -34,25 +35,40 @@ function Page() {
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={4}
+                        height={25}
+                        style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                 </div>
             ) : (
-                <div className="mt-4 grid grid-cols-5 gap-8">
+                <div className="mt-4 grid grid-cols-4 gap-8">
                     {users?.map((user: any) => (
                         <UserBox
                             key={user._id}
@@ -64,7 +80,11 @@ function Page() {
                             userId={user?.user}
                             bgcolor="bg-college-yellow"
                             textColor="black"
-                            className="box-shadow-static"
+                            className={
+                                theme === "dark"
+                                    ? "box-shadow-static-dark"
+                                    : "box-shadow-static"
+                            }
                             isPrivate={false}
                             avatar={user?.avatar}
                             isFollowing={user?.isFollowing}

@@ -38,7 +38,7 @@ function PeopleCount({
                 />
             </div>
             <div
-                className={`bg-gray-200 relative ${width} ${height} rounded-full ${margin} flex items-center justify-center`}
+                className={`bg-gray-200 relative ${width} ${height} rounded-full ${margin} flex items-center justify-center dark:bg-college-dark-gray-2 dark:text-college-dark-white`}
             >
                 <span className="font-semibold text-sm">
                     +{totalParticipants}

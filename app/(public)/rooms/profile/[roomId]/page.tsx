@@ -176,9 +176,9 @@ function Page() {
                         {options.map((option) => (
                             <Link href={option.slug} key={option.id}>
                                 <li
-                                    className={`border-1 cursor-pointer rounded-2xl border-stone-800  p-1 px-4 font-semibold transition-all hover:bg-stone-800 hover:text-white ${
+                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white ${
                                         pathname.includes(option.slug)
-                                            ? "bg-stone-800 text-white"
+                                            ? "bg-college-dark-gray-1 text-white"
                                             : "bg-white"
                                     }`}
                                 >

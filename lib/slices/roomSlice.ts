@@ -29,7 +29,7 @@ export const getAllCollegeRooms = createAsyncThunk(
 
 export const getRoomDetails = createAsyncThunk(
     "room/getRoomDetails",
-    async (roomId: string, { rejectWithValue }) => {
+    async (roomId: string, { rejectWithValue }) => {;
         try {
             const response = await axiosInstance.get(
                 `/rooms/room-details/${roomId}`
@@ -227,6 +227,7 @@ const roomSlice = createSlice({
             .addCase(getRoomDetails.fulfilled, (state, action) => {
                 state.getRoomDetailsLoading = false;
                 state.roomDetails = action.payload;
+                console.log(action.payload);
                 state.error = false;
             })
             .addCase(getRoomDetails.rejected, (state, action) => {

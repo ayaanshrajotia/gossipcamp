@@ -14,7 +14,7 @@ export default function PublicLayout({
     return (
         <div className="flex relative">
             <Navbar />
-            <main className="min-h-screen relative flex w-[calc(100%-240px)] ml-auto bg-college-bg-grey items-start gap-6">
+            <main className="min-h-screen relative flex w-[calc(100%-240px)] ml-auto bg-college-bg-grey dark:bg-college-dark-gray-2 items-start gap-6">
                 <div className="relative flex gap-2 w-[calc(100%-340px)]">
                     {children}
                 </div>

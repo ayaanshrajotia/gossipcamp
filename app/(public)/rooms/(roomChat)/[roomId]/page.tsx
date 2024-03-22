@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,7 +12,11 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
-import { closeRoom, leaveRoomEmitter, openRoom } from "@/lib/slices/socketSlice";
+import {
+    closeRoom,
+    leaveRoomEmitter,
+    openRoom,
+} from "@/lib/slices/socketSlice";
 import MessagesContainer from "../../../../components/MessagesContainer";
 import Link from "next/link";
 
@@ -22,9 +26,6 @@ export default function Room() {
     const [pageLoading, setPageLoading] = useState(true);
 
     const { profile } = useSelector((state: RootState) => state.auth);
-    const { publicRooms, privateRoom } = useSelector(
-        (state: RootState) => state.rooms
-    );
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
@@ -60,7 +61,7 @@ export default function Room() {
         return () => {
             dispatch(closeRoom({ roomId: roomId.toString() }));
         };
-    }, [roomId, dispatch, publicRooms, privateRoom]);
+    }, [roomId, dispatch]);
 
     const handleRemoveRoom = async () => {
         await dispatch(toggleFollowRoom(roomId.toString()));
@@ -80,10 +81,12 @@ export default function Room() {
         router.push("/explore/rooms");
     };
 
+    console.log(roomDetails);
+
     return (
         <div className="min-h-sreen">
             <div className="pt-4 sticky w-full top-0 z-[999]">
-                <div className="bg-stone-800 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2">
+                <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2">
                     {pageLoading ||
                     getRoomDetailsLoading ||
                     profile === null ? (
@@ -121,7 +124,6 @@ export default function Room() {
                 </div>
             </div>
             <MessagesContainer roomId={roomId.toString()} />
-            
         </div>
     );
 }

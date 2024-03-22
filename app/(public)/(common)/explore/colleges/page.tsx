@@ -4,6 +4,7 @@ import RoomBoxBigger from "@/app/components/room-boxes/RoomBoxBigger";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { getAllCollegeRooms } from "@/lib/slices/roomSlice";
 import { AppDispatch, RootState } from "@/lib/store";
+import { useTheme } from "next-themes";
 import React, { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ function Page() {
     );
     const dispatch = useDispatch<AppDispatch>();
     const [pageLoading, setPageLoading] = useState(true);
+    const { theme } = useTheme();
 
     const fetchData = useMemo(() => {
         const getDetails = async () => {
@@ -34,21 +36,29 @@ function Page() {
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={4}
                         height={25}
                         style={{ marginTop: "10px" }}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                 </div>
             ) : (
@@ -72,7 +82,11 @@ function Page() {
                         roomDescription={room?.description}
                         bgcolor="bg-college-yellow"
                         textColor="black"
-                        className="box-shadow-static"
+                        className={
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        }
                         isPrivate={true}
                         totalParticipants={room?.totalParticipants}
                     />
