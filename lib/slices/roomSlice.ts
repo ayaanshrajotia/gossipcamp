@@ -29,10 +29,24 @@ export const getAllCollegeRooms = createAsyncThunk(
 
 export const getRoomDetails = createAsyncThunk(
     "room/getRoomDetails",
-    async (roomId: string, { rejectWithValue }) => {;
+    async (roomId: string, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(
                 `/rooms/room-details/${roomId}`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getRoomProfileDetails = createAsyncThunk(
+    "room/getRoomProfileDetails",
+    async (roomId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/rooms/room-profile/${roomId}`
             );
             return response.data.data;
         } catch (error: any) {
@@ -112,11 +126,13 @@ const initialState: {
     collegeRooms: any;
     loading: boolean;
     getRoomDetailsLoading: boolean;
+    getRoomProfileDetailsLoading: boolean;
     privateRoom: any;
     publicRooms: any;
     trendingRooms: any;
     recentlyAddedRooms: any;
     allRooms: any;
+    roomProfileDetails: any;
     roomDetails: any;
     error: boolean;
 } = {
@@ -131,7 +147,9 @@ const initialState: {
     publicLoading: false,
     publicRooms: [],
     getRoomDetailsLoading: false,
+    getRoomProfileDetailsLoading: false,
     roomDetails: {},
+    roomProfileDetails: {},
     allRooms: [],
     loading: false,
     error: false,
@@ -227,11 +245,22 @@ const roomSlice = createSlice({
             .addCase(getRoomDetails.fulfilled, (state, action) => {
                 state.getRoomDetailsLoading = false;
                 state.roomDetails = action.payload;
-                console.log(action.payload);
                 state.error = false;
             })
             .addCase(getRoomDetails.rejected, (state, action) => {
                 state.getRoomDetailsLoading = false;
+                state.error = true;
+            })
+            .addCase(getRoomProfileDetails.pending, (state) => {
+                state.getRoomProfileDetailsLoading = true;
+            })
+            .addCase(getRoomProfileDetails.fulfilled, (state, action) => {
+                state.getRoomProfileDetailsLoading = false;
+                state.roomProfileDetails = action.payload;
+                state.error = false;
+            })
+            .addCase(getRoomProfileDetails.rejected, (state, action) => {
+                state.getRoomProfileDetailsLoading = false;
                 state.error = true;
             })
             .addCase(getAllCollegeRooms.pending, (state) => {

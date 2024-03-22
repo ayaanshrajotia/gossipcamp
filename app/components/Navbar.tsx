@@ -34,6 +34,7 @@ export default function Navbar() {
             await dispatch(logoutUser());
             toast.success("Logged out successfully");
             router.push("/login");
+            setTheme("light");
         } catch (error) {
             console.error("Logout error:", error);
             // Handle logout error, if needed

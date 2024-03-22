@@ -12,20 +12,24 @@ import Skeleton from "react-loading-skeleton";
 import {
     getAllRooms,
     getPublicJoinedRooms,
+    getRecentlyAddedRooms,
     getRoomDetails,
+    getRoomProfileDetails,
+    getTrendingRooms,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import { leaveRoomEmitter } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
 
 const options = [
+    { id: 1, title: "Gossips", slug: "/profile/gossips" },
     {
-        id: 1,
+        id: 2,
         title: "Posts",
         slug: "/profile/posts",
     },
     {
-        id: 2,
+        id: 3,
         title: "Members",
         slug: "/profile/followers",
     },
@@ -39,7 +43,7 @@ function Page() {
     const { user } = useSelector((state: RootState) => state.auth);
     const { profile } = useSelector((state: RootState) => state.auth);
     const [pageLoading, setPageLoading] = useState(true);
-    const { getRoomDetailsLoading, roomDetails } = useSelector(
+    const { getRoomProfileDetailsLoading, roomProfileDetails } = useSelector(
         (state: RootState) => state.rooms
     );
     const { theme } = useTheme();
@@ -58,6 +62,8 @@ function Page() {
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
         await dispatch(getAllRooms());
+        await dispatch(getTrendingRooms());
+        await dispatch(getRecentlyAddedRooms());
 
         const capitalizedName =
             capitalizeFirstLetter(profile.fName) +
@@ -75,14 +81,14 @@ function Page() {
     useEffect(() => {
         console.log("room details fetching");
         const getDetails = async () => {
-            await dispatch(getRoomDetails(roomId.toString()));
+            await dispatch(getRoomProfileDetails(roomId.toString()));
         };
 
         getDetails();
         setPageLoading(false);
     }, [roomId, dispatch]);
 
-    console.log(roomDetails);
+    console.log(roomProfileDetails);
 
     return (
         <div className="min-h-screen relative w-full font-secondary">
@@ -95,7 +101,7 @@ function Page() {
                             : "box-shadow-static"
                     } gap-7 dark:bg-college-dark-gray-1`}
                 >
-                    {getRoomDetailsLoading || pageLoading ? (
+                    {getRoomProfileDetailsLoading || pageLoading ? (
                         <>
                             <Skeleton
                                 count={2}
@@ -124,7 +130,7 @@ function Page() {
                                 <div className="flex items-center">
                                     <div className="relative w-[110px] h-[110px]">
                                         <Image
-                                            src={roomDetails?.roomDP}
+                                            src={roomProfileDetails?.roomDP}
                                             alt="profile-pic"
                                             className="absolute object-cover rounded-full"
                                             fill
@@ -135,20 +141,20 @@ function Page() {
                                     <div className="flex flex-col mb-1">
                                         <h1 className="font-secondary font-extrabold text-2xl dark:text-college-dark-white">
                                             {capitalizeFirstLetter(
-                                                roomDetails?.roomName
+                                                roomProfileDetails?.roomName
                                             )}
                                         </h1>
                                         <span className="text-gray-500">
-                                            @{roomDetails?.roomUsername}
+                                            @{roomProfileDetails?.roomUsername}
                                         </span>
                                     </div>
 
                                     <p className="text-justify line-clamp-2 text-sm leading-snug  mb-4 dark:text-college-dark-white">
-                                        {roomDetails?.description}
+                                        {roomProfileDetails?.description}
                                     </p>
 
                                     <div className="flex gap-2">
-                                        {roomDetails?.roomType !==
+                                        {roomProfileDetails?.roomType !==
                                             "College" && (
                                             <button
                                                 className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
@@ -158,7 +164,7 @@ function Page() {
                                             </button>
                                         )}
                                         <button className="font-bold text-sm bg-college-dark-white-2 text-white rounded-full w-fit px-3 py-1">
-                                            {roomDetails?.roomType}
+                                            {roomProfileDetails?.roomType}
                                         </button>
                                     </div>
                                 </div>
@@ -172,13 +178,13 @@ function Page() {
                                 </div>
                                 <div className="flex flex-col items-center dark:text-college-dark-white">
                                     <span className="font-bold text-2xl">
-                                        1252
+                                        {roomProfileDetails?.totalMessages}
                                     </span>
                                     <span>Messages</span>
                                 </div>
                                 <div className="flex flex-col items-center dark:text-college-dark-white">
                                     <span className="font-bold text-2xl">
-                                        18
+                                        {roomProfileDetails?.totalParticipants}
                                     </span>
                                     <span>Members</span>
                                 </div>

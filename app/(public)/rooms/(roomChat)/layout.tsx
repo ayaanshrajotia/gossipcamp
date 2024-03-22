@@ -43,14 +43,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 },
             };
 
-            await dispatch(addMessage(message));
-            setMessageText("");
-            setIsEmojiPicker(false);
-
-            window.scrollTo({
-                top: document.body.scrollHeight, // Scroll to the bottom
-                behavior: "smooth",
-            });
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
                 {
@@ -62,6 +54,14 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
             if (response.status >= 200) {
                 socket.emit("send-message", message);
+                await dispatch(addMessage(message));
+                setMessageText("");
+                setIsEmojiPicker(false);
+
+                window.scrollTo({
+                    top: document.body.scrollHeight, // Scroll to the bottom
+                    behavior: "smooth",
+                });
 
                 setLoading(false);
             }
