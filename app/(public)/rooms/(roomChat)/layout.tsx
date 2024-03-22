@@ -20,6 +20,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const { profile } = useSelector((state: RootState) => state.auth);
     let { roomId } = useParams();
 
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
         console.log("message sent");
@@ -83,9 +85,22 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         height={400}
                         // className="absolute top-0"
                         style={{ position: "absolute", bottom: "60px" }}
-                        onEmojiClick={(e) =>
-                            setMessageText(messageText + e.emoji)
-                        }
+                        onEmojiClick={(e) => {
+                            const curPosition =
+                                inputRef.current?.selectionStart;
+                            if (
+                                curPosition === undefined ||
+                                curPosition == null
+                            )
+                                return;
+                            const text = messageText;
+                            const newText =
+                                text.slice(0, curPosition) +
+                                e.emoji +
+                                text.slice(curPosition);
+                            setMessageText(newText);
+                            setIsEmojiPicker(false);
+                        }}
                     />
                     <form
                         onSubmit={handleSendMessage}
@@ -96,6 +111,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             onClick={() => setIsEmojiPicker((prev) => !prev)}
                         />
                         <input
+                            ref={inputRef}
                             type="text"
                             value={messageText}
                             className="flex-1 bg-white outline-none resize-none font-secondary"
