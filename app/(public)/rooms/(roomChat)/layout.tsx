@@ -11,6 +11,8 @@ import { socket } from "@/app/StoreProvider";
 import { addMessage } from "@/lib/slices/chatSlice";
 import { v4 as uuidv4, v4 } from "uuid";
 import EmojiPicker from "emoji-picker-react";
+import { useTheme } from "next-themes";
+import { Theme } from "emoji-picker-react";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [messageText, setMessageText] = useState("");
@@ -19,6 +21,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const dispatch = useDispatch<AppDispatch>();
     const { profile } = useSelector((state: RootState) => state.auth);
     let { roomId } = useParams();
+    const { theme } = useTheme();
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
@@ -72,7 +75,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%]"></div>
+            <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%]"></div>
             <div className="min-h-screen h-full relative w-full">
                 {children}
                 <div
@@ -82,6 +85,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         open={isEmojiPicker}
                         width={400}
                         height={400}
+                        theme={theme as Theme}
                         // className="absolute top-0"
                         style={{ position: "absolute", bottom: "60px" }}
                         onEmojiClick={(e) => {
@@ -103,7 +107,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     />
                     <form
                         onSubmit={handleSendMessage}
-                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1"
+                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1 dark:bg-college-dark-gray-1"
                     >
                         <FaceSmileIcon
                             className="w-6 h-6 cursor-pointer"
@@ -113,7 +117,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             ref={inputRef}
                             type="text"
                             value={messageText}
-                            className="flex-1 bg-white outline-none resize-none font-secondary"
+                            className="flex-1 bg-transparent outline-none resize-none font-secondary"
                             onChange={(e) => setMessageText(e.target.value)}
                         />
                         <button type="submit">

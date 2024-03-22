@@ -19,6 +19,7 @@ import {
 } from "@/lib/slices/socketSlice";
 import MessagesContainer from "../../../../components/MessagesContainer";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 export default function Room() {
     const router = useRouter();
@@ -29,7 +30,7 @@ export default function Room() {
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
-
+    const { theme } = useTheme();
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -86,11 +87,20 @@ export default function Room() {
     return (
         <div className="min-h-sreen">
             <div className="pt-4 sticky w-full top-0 z-[999]">
-                <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2">
+                <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2 dark:text-college-dark-gray-1 dark:bg-college-dark-white">
                     {pageLoading ||
                     getRoomDetailsLoading ||
                     profile === null ? (
-                        <Skeleton count={2} width={600} baseColor="#464646" />
+                        <Skeleton
+                            count={2}
+                            width={600}
+                            baseColor={
+                                theme === "light" ? "#202020" : "#ebebeb"
+                            }
+                            highlightColor={
+                                theme === "light" ? "#444" : "#f2f2f2"
+                            }
+                        />
                     ) : (
                         <>
                             <Link
@@ -113,7 +123,7 @@ export default function Room() {
                                         <span className="font-secondary font-extrabold text-lg">
                                             {roomDetails?.roomName}
                                         </span>
-                                        <p className="font-secondary text-gray-400 text-sm w-full overflow-ellipsis line-clamp-1">
+                                        <p className="font-secondary text-college-dark-white-2 text-sm w-full overflow-ellipsis line-clamp-1">
                                             {roomDetails?.description}
                                         </p>
                                     </div>

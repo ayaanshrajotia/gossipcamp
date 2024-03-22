@@ -10,6 +10,7 @@ import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { useParams, useRouter } from "next/navigation";
 import Skeleton from "react-loading-skeleton";
+import { useTheme } from "next-themes";
 
 var timer: any = null;
 let prevheight = 0;
@@ -21,6 +22,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     const [hasMore, setHasMore] = useState(true);
     const [pageNo, setPageNo] = useState(1);
     const dispatch = useDispatch<AppDispatch>();
+    const { theme } = useTheme();
 
     let { page, messages, messageLoading, hasNextPage } = useSelector(
         (state: RootState) => state.chat
@@ -47,8 +49,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
         });
 
         return () => {
-            socket.off("message")
-        }
+            socket.off("message");
+        };
     }, [dispatch]);
 
     useEffect(() => {
@@ -101,17 +103,45 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-            {messageLoading && <Skeleton count={3} baseColor="#e6e6e6" />}
+            {messageLoading && (
+                <Skeleton
+                    count={3}
+                    baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                    highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                />
+            )}
             {pageNo === 1 && messageLoading ? (
                 <div className="flex flex-col-reverse gap-4 h-full">
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
-                    <Skeleton count={3} baseColor="#e6e6e6" />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={3}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
                 </div>
             ) : (
                 messages.map((message: any) => {

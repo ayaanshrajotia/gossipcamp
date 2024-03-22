@@ -7,6 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 // icons
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
+import { useTheme } from "next-themes";
 
 function PostBox({
     bgcolor = "bg-white",
@@ -25,11 +26,15 @@ function PostBox({
     const relativeDate = dayjs(date).fromNow();
 
     const [isLiked, setIsLiked] = useState(false);
-
+    const { theme } = useTheme();
     return (
         <div
-            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 ${
-                isUser
+            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-1 ${
+                theme === "dark"
+                    ? isUser
+                        ? "self-end box-shadow-yellow-static-dark"
+                        : "self-start box-shadow-static-dark"
+                    : isUser
                     ? "self-end box-shadow-yellow-static"
                     : "self-start box-shadow-static"
             }`}
@@ -61,7 +66,9 @@ function PostBox({
                 </div>
                 <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                        <h2 className="font-extrabold">@{user}</h2>
+                        <h2 className="font-extrabold dark:text-college-dark-white">
+                            @{user}
+                        </h2>
                     </div>
                     <p className="leading-tight">{description}</p>
                     <>
@@ -79,7 +86,7 @@ function PostBox({
                     </>
                 </div>
             </div>
-            <span className="text-xs text-right mt-1 tracking-tight text-gray-500">
+            <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
                 {relativeDate}
             </span>
         </div>

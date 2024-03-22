@@ -39,7 +39,7 @@ function Page({ children }: { children: React.ReactNode }) {
                     <MagnifyingGlassIcon className="h-7 w-7 dark:stroke-college-dark-white" />
                     <input
                         type="text"
-                        className="mx-3 h-10 w-full outline-none bg-white dark:bg-college-dark-gray-1"
+                        className="mx-3 h-10 w-full outline-none bg-transparent"
                     />
                 </div>
                 <div className="py-5">

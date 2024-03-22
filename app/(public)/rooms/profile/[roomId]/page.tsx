@@ -16,6 +16,7 @@ import {
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import { leaveRoomEmitter } from "@/lib/slices/socketSlice";
+import { useTheme } from "next-themes";
 
 const options = [
     {
@@ -25,18 +26,8 @@ const options = [
     },
     {
         id: 2,
-        title: "Rooms",
-        slug: "/profile/rooms",
-    },
-    {
-        id: 3,
-        title: "Followers",
+        title: "Members",
         slug: "/profile/followers",
-    },
-    {
-        id: 4,
-        title: "Following",
-        slug: "/profile/following",
     },
 ];
 
@@ -51,6 +42,7 @@ function Page() {
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
+    const { theme } = useTheme();
 
     // const handleToggleFollow = async () => {
     //     try {
@@ -95,12 +87,36 @@ function Page() {
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>
-            <div className="my-6 px-6 flex flex-col gap-8">
-                <div className="bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7">
+            <div className="my-6 px-6 flex flex-col gap-8 ">
+                <div
+                    className={`bg-white flex flex-col rounded-xl p-6 ${
+                        theme === "dark"
+                            ? "box-shadow-static-dark"
+                            : "box-shadow-static"
+                    } gap-7 dark:bg-college-dark-gray-1`}
+                >
                     {getRoomDetailsLoading || pageLoading ? (
                         <>
-                            <Skeleton count={4} />
-                            <Skeleton count={2} />
+                            <Skeleton
+                                count={2}
+                                style={{ marginTop: "10px" }}
+                                baseColor={
+                                    theme === "dark" ? "#202020" : "#ebebeb"
+                                }
+                                highlightColor={
+                                    theme === "dark" ? "#444" : "#f2f2f2"
+                                }
+                            />
+                            <Skeleton
+                                count={4}
+                                style={{ marginTop: "10px" }}
+                                baseColor={
+                                    theme === "dark" ? "#202020" : "#ebebeb"
+                                }
+                                highlightColor={
+                                    theme === "dark" ? "#444" : "#f2f2f2"
+                                }
+                            />
                         </>
                     ) : (
                         <>
@@ -117,7 +133,7 @@ function Page() {
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="flex flex-col mb-1">
-                                        <h1 className="font-secondary font-extrabold text-2xl">
+                                        <h1 className="font-secondary font-extrabold text-2xl dark:text-college-dark-white">
                                             {capitalizeFirstLetter(
                                                 roomDetails?.roomName
                                             )}
@@ -127,7 +143,7 @@ function Page() {
                                         </span>
                                     </div>
 
-                                    <p className="text-justify line-clamp-2 text-sm leading-snug  mb-4">
+                                    <p className="text-justify line-clamp-2 text-sm leading-snug  mb-4 dark:text-college-dark-white">
                                         {roomDetails?.description}
                                     </p>
 
@@ -141,26 +157,26 @@ function Page() {
                                                 Leave Room
                                             </button>
                                         )}
-                                        <button className="font-bold text-sm bg-gray-400 text-white rounded-full w-fit px-3 py-1">
+                                        <button className="font-bold text-sm bg-college-dark-white-2 text-white rounded-full w-fit px-3 py-1">
                                             {roomDetails?.roomType}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex w-full gap-8 justify-evenly">
-                                <div className="flex flex-col items-center">
+                                <div className="flex flex-col items-center dark:text-college-dark-white">
                                     <span className="font-bold text-2xl">
                                         #1
                                     </span>
                                     <span>Popularity</span>
                                 </div>
-                                <div className="flex flex-col items-center">
+                                <div className="flex flex-col items-center dark:text-college-dark-white">
                                     <span className="font-bold text-2xl">
                                         1252
                                     </span>
                                     <span>Messages</span>
                                 </div>
-                                <div className="flex flex-col items-center">
+                                <div className="flex flex-col items-center dark:text-college-dark-white">
                                     <span className="font-bold text-2xl">
                                         18
                                     </span>
@@ -178,8 +194,8 @@ function Page() {
                                 <li
                                     className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white ${
                                         pathname.includes(option.slug)
-                                            ? "bg-college-dark-gray-1 text-white"
-                                            : "bg-white"
+                                            ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
+                                            : "bg-white dark:bg-college-dark-gray-1 dark:text-college-dark-white"
                                     }`}
                                 >
                                     {option.title}
@@ -188,7 +204,13 @@ function Page() {
                         ))}
                     </ul>
                 </div>
-                <div className="bg-white p-6 rounded-xl box-shadow-static"></div>
+                <div
+                    className={`bg-white p-6 rounded-xl ${
+                        theme === "dark"
+                            ? "box-shadow-static-dark"
+                            : "box-shadow-static"
+                    } dark:bg-college-dark-gray-1`}
+                ></div>
             </div>
         </div>
     );

@@ -14,6 +14,7 @@ import { useParams, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
+import { useTheme } from "next-themes";
 
 const options = [
     {
@@ -48,7 +49,7 @@ function Page() {
     const { user } = useSelector((state: RootState) => state.auth);
     const [pageLoading, setPageLoading] = useState(true);
     const [isFollow, setIsFollow] = useState(false);
-
+    const { theme } = useTheme();
     const handleToggleFollow = async () => {
         try {
             setIsFollow((prev: any) => !prev);
@@ -74,11 +75,35 @@ function Page() {
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>
             <div className="my-6 px-6 flex flex-col gap-8">
-                <div className="bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7">
+                <div
+                    className={`bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7 ${
+                        theme === "dark"
+                            ? "box-shadow-static-dark"
+                            : "box-shadow-static"
+                    } dark:bg-college-dark-gray-1 dark:text-college-dark-white`}
+                >
                     {userLoading || pageLoading ? (
                         <>
-                            <Skeleton count={4} />
-                            <Skeleton count={2} />
+                            <Skeleton
+                                count={2}
+                                style={{ marginTop: "10px" }}
+                                baseColor={
+                                    theme === "dark" ? "#202020" : "#ebebeb"
+                                }
+                                highlightColor={
+                                    theme === "dark" ? "#444" : "#f2f2f2"
+                                }
+                            />
+                            <Skeleton
+                                count={4}
+                                style={{ marginTop: "10px" }}
+                                baseColor={
+                                    theme === "dark" ? "#202020" : "#ebebeb"
+                                }
+                                highlightColor={
+                                    theme === "dark" ? "#444" : "#f2f2f2"
+                                }
+                            />
                         </>
                     ) : (
                         <>
@@ -95,7 +120,7 @@ function Page() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <h1 className="font-secondary font-extrabold text-2xl mb-1">
+                                        <h1 className="font-secondary font-extrabold text-2xl mb-1 dark:text-college-dark-white">
                                             {capitalizeFirstLetter(
                                                 userProfile?.fName
                                             )}
@@ -104,7 +129,7 @@ function Page() {
                                             )}
                                         </h1>
 
-                                        <p className="text-justify line-clamp-2 text-sm leading-snug text-gray-500 mb-4">
+                                        <p className="text-justify line-clamp-2 text-sm leading-snug text-college-dark-white-2 mb-4 ">
                                             {userProfile?.bio ||
                                                 "No bio available"}
                                         </p>
@@ -121,7 +146,7 @@ function Page() {
                                                         : "Follow"}
                                                 </button>
                                             )}
-                                            <button className="font-bold text-sm bg-gray-400 text-white rounded-full w-fit px-3 py-1">
+                                            <button className="font-bold text-sm bg-college-dark-white-2 text-white rounded-full w-fit px-3 py-1">
                                                 {userProfile?.collegeName}
                                             </button>
                                         </div>
@@ -170,8 +195,8 @@ function Page() {
                                 <li
                                     className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white ${
                                         pathname.includes(option.slug)
-                                            ? "bg-college-dark-gray-1 text-white"
-                                            : "bg-white"
+                                            ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
+                                            : "bg-white dark:bg-college-dark-gray-1 dark:text-college-dark-white"
                                     }`}
                                 >
                                     {option.title}
@@ -180,7 +205,13 @@ function Page() {
                         ))}
                     </ul>
                 </div>
-                <div className="bg-white p-6 rounded-xl box-shadow-static"></div>
+                <div
+                    className={`bg-white p-6 rounded-xl ${
+                        theme === "dark"
+                            ? "box-shadow-static-dark"
+                            : "box-shadow-static"
+                    } dark:bg-college-dark-gray-1`}
+                ></div>
             </div>
         </div>
     );
