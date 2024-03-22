@@ -21,7 +21,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     let { roomId } = useParams();
 
     const inputRef = React.useRef<HTMLInputElement>(null);
-
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
         console.log("message sent");
@@ -101,6 +100,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             setMessageText(newText);
                             setIsEmojiPicker(false);
                         }}
+
                     />
                     <form
                         onSubmit={handleSendMessage}
@@ -112,6 +112,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         />
                         <input
                             ref={inputRef}
+
                             type="text"
                             value={messageText}
                             className="flex-1 bg-white outline-none resize-none font-secondary"
