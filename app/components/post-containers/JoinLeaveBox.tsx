@@ -18,7 +18,7 @@ function JoinLeaveBox({
     ...props
 }: JoinLeaveBoxPropsType) {
     return (
-        <div className="bg-gray-200 flex text-sm w-fit px-4 py-2 self-center rounded-xl">
+        <div className="bg-gray-200 flex text-sm w-fit px-4 py-2 self-center rounded-xl dark:bg-college-dark-gray-2">
             {description}
         </div>
     );
