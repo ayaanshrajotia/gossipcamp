@@ -11,8 +11,6 @@ export default function PublicLayout({
 }: {
     children: React.ReactNode;
 }) {
-   
-
     return (
         <div className="flex relative">
             <Navbar />
