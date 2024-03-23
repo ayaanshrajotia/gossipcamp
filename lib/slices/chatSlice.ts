@@ -139,6 +139,17 @@ const chatSlice = createSlice({
             })
             .addCase(toggleLikeMessage.fulfilled, (state, action) => {
                 state.likesLoading = false;
+                // check if likes count property is present and if not add it
+                state.messages[
+                    state.messagesKeyIndexPair[action.payload._id]
+                ].likesCount = state.messages[
+                    state.messagesKeyIndexPair[action.payload._id]
+                ].likesCount
+                    ? state.messages[
+                          state.messagesKeyIndexPair[action.payload._id]
+                      ].likesCount
+                    : 0;
+
                 if (action.payload.isLiked) {
                     state.messages[
                         state.messagesKeyIndexPair[action.payload._id]
