@@ -9,7 +9,7 @@ import {
 
 import Image from "next/image";
 import { useState } from "react";
-import { PostBoxPropsType } from "@/app/utils/definitions";
+import { PollBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -29,7 +29,7 @@ function PollBox({
     isUser,
     messageType,
     ...props
-}: PostBoxPropsType) {
+}: PollBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
     const [vote, setVote] = useState(5);

@@ -23,7 +23,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const { messages } = useSelector((state: RootState) => state.chat);
     let { roomId } = useParams();
     const { theme } = useTheme();
-    const { messages } = useSelector((state: RootState) => state.chat);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {

@@ -98,6 +98,20 @@ export type PostBoxPropsType = {
     isLiked: boolean;
 } & Record<string, any>;
 
+export type PollBoxPropsType = {
+    // children: any;
+    bgcolor?: string;
+    messageType: string;
+    textColor?: string;
+    className?: string;
+    date: string;
+    profileUrl: string;
+    postImgUrl?: string;
+    user: string;
+    description: string;
+    isUser: boolean;
+} & Record<string, any>;
+
 export type JoinLeaveBoxPropsType = {
     // children: any;
     bgcolor?: string;
