@@ -12,6 +12,9 @@ function MessageBox({
     user,
     description,
     isUser,
+    likesCount,
+    id,
+    isLiked,
     messageType,
     ...props
 }: MessagesBoxPropsType) {
@@ -35,14 +38,17 @@ function MessageBox({
         return (
             <PostBox
                 bgcolor={bgcolor}
+                id={id}
                 textColor={textColor}
                 className={className}
                 date={date}
                 profileUrl={profileUrl}
+                isLiked={isLiked}
                 postImgUrl={postImgUrl}
                 user={user}
                 description={description}
                 isUser={isUser}
+                likesCount={likesCount}
                 messageType={messageType}
                 {...props}
             />

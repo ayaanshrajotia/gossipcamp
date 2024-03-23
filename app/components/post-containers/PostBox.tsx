@@ -8,6 +8,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { toggleLikeMessage } from "@/lib/slices/chatSlice";
+import { useParams } from "next/navigation";
+import { socket } from "@/app/StoreProvider";
 
 function PostBox({
     bgcolor = "bg-white",
@@ -17,15 +22,35 @@ function PostBox({
     profileUrl,
     postImgUrl,
     user,
+    id,
     description,
     isUser,
+    isLiked,
     messageType,
+    likesCount,
     ...props
 }: PostBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
 
-    const [isLiked, setIsLiked] = useState(false);
+    const { likesLoading } = useSelector((state: RootState) => state.chat);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const roomId = useParams().roomId;
+
+    console.log(isLiked, "likesLoading");
+    const likeMessageHandler = async () => {
+        if (likesLoading) return;
+        await dispatch(toggleLikeMessage({ id, isLiked: !isLiked }));
+        // connect statement
+        socket.emit("like-message", {
+            roomId,
+            messageId: id,
+            isLiked: !isLiked,
+        });
+    };
+
     const { theme } = useTheme();
     return (
         <div
@@ -43,14 +68,14 @@ function PostBox({
         >
             <div
                 className="absolute right-4 top-0 -translate-y-1/2 bg-white text-black text-xs py-0.5 px-3 rounded-full flex items-center gap-1 cursor-pointer border-1 border-red-500"
-                onClick={() => setIsLiked((prev) => !prev)}
+                onClick={likeMessageHandler}
             >
                 {isLiked ? (
                     <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />
                 ) : (
                     <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
                 )}
-                <span className="font-bold">100+</span>
+                <span className="font-bold">{likesCount}</span>
             </div>
             <div className="flex gap-3">
                 <div>

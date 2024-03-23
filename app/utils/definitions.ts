@@ -94,6 +94,8 @@ export type PostBoxPropsType = {
     user: string;
     description: string;
     isUser: boolean;
+    likesCount: number;
+    isLiked: boolean;
 } & Record<string, any>;
 
 export type JoinLeaveBoxPropsType = {
@@ -122,6 +124,8 @@ export type MessagesBoxPropsType = {
     user: string;
     description: string;
     isUser: boolean;
+    isLiked: boolean;
+    likesCount: number;
 } & Record<string, any>;
 
 export type optionType = {

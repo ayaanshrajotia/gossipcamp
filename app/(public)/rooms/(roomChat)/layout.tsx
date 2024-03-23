@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import axiosInstance from "@/app/utils/axios";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
-import { addMessage } from "@/lib/slices/chatSlice";
+import { addMessage, updateMessage } from "@/lib/slices/chatSlice";
 import { v4 as uuidv4, v4 } from "uuid";
 import EmojiPicker from "emoji-picker-react";
 import { useTheme } from "next-themes";
@@ -22,6 +22,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const { profile } = useSelector((state: RootState) => state.auth);
     let { roomId } = useParams();
     const { theme } = useTheme();
+
+    const { messages } = useSelector((state: RootState) => state.chat);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
@@ -41,7 +43,20 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     lName: profile.lName,
                     avatar: profile.avatar,
                 },
+                likesCount: 0,
+                isLiked: false,
             };
+
+            socket.emit("send-message", message);
+            const index = messages.length;
+            await dispatch(addMessage(message));
+            setMessageText("");
+            setIsEmojiPicker(false);
+
+            window.scrollTo({
+                top: document.body.scrollHeight, // Scroll to the bottom
+                behavior: "smooth",
+            });
 
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
@@ -53,16 +68,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
 
             if (response.status >= 200) {
-                socket.emit("send-message", message);
-                await dispatch(addMessage(message));
-                setMessageText("");
-                setIsEmojiPicker(false);
-
-                window.scrollTo({
-                    top: document.body.scrollHeight, // Scroll to the bottom
-                    behavior: "smooth",
-                });
-
+                dispatch(updateMessage({ index, message: response.data.data }));
                 setLoading(false);
             }
         } catch (err) {
