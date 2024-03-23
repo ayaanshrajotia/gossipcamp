@@ -140,31 +140,31 @@ const chatSlice = createSlice({
             .addCase(toggleLikeMessage.fulfilled, (state, action) => {
                 state.likesLoading = false;
                 // check if likes count property is present and if not add it
-                state.messages[
-                    state.messagesKeyIndexPair[action.payload._id]
-                ].likesCount = state.messages[
-                    state.messagesKeyIndexPair[action.payload._id]
-                ].likesCount
-                    ? state.messages[
-                          state.messagesKeyIndexPair[action.payload._id]
-                      ].likesCount
-                    : 0;
+                // state.messages[
+                //     state.messagesKeyIndexPair[action.payload._id]
+                // ].likesCount = state.messages[
+                //     state.messagesKeyIndexPair[action.payload._id]
+                // ].likesCount
+                //     ? state.messages[
+                //           state.messagesKeyIndexPair[action.payload._id]
+                //       ].likesCount
+                //     : 0;
 
-                if (action.payload.isLiked) {
-                    state.messages[
-                        state.messagesKeyIndexPair[action.payload._id]
-                    ].likesCount += 1;
-                } else {
-                    state.messages[
-                        state.messagesKeyIndexPair[action.payload._id]
-                    ].likesCount -= 1;
-                }
-                state.messages[
-                    state.messagesKeyIndexPair[action.payload._id]
-                ].isLiked =
-                    !state.messages[
-                        state.messagesKeyIndexPair[action.payload._id]
-                    ].isLiked;
+                // if (action.payload.isLiked) {
+                //     state.messages[
+                //         state.messagesKeyIndexPair[action.payload._id]
+                //     ].likesCount += 1;
+                // } else {
+                //     state.messages[
+                //         state.messagesKeyIndexPair[action.payload._id]
+                //     ].likesCount -= 1;
+                // }
+                // state.messages[
+                //     state.messagesKeyIndexPair[action.payload._id]
+                // ].isLiked =
+                //     !state.messages[
+                //         state.messagesKeyIndexPair[action.payload._id]
+                //     ].isLiked;
             })
             .addCase(toggleLikeMessage.rejected, (state, action) => {
                 state.likesLoading = false;

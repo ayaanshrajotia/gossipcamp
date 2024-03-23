@@ -15,10 +15,12 @@ import {
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { toggleLikeMessage } from "@/lib/slices/chatSlice";
+import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import Dropdown from "../Dropdown";
+import { set } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 
 const menuOptions = [
     {
@@ -59,17 +61,18 @@ function PostBox({
     // const { likesLoading } = useSelector((state: RootState) => state.chat);
     const [likesLoading, setLikesLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const [liked, setLinked] = useState(isLiked);
+    const [liked, setLiked] = useState(isLiked);
     console.log(liked);
 
     const roomId = useParams().roomId;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // console.log(isLiked, "likesLoading");
-    const likeMessageHandler = async () => {
-        setLinked(!liked);
-        if (likesLoading) return;
+    // need to use debouncing for like message
+
+    const likeMessageHandlerDebounced = useDebouncedCallback(async () => {
         setLikesLoading(true);
+        if (liked == isLiked) return;
         await dispatch(toggleLikeMessage({ id, isLiked: !isLiked }));
         // connect statement
         setLikesLoading(false);
@@ -78,6 +81,12 @@ function PostBox({
             messageId: id,
             isLiked: !isLiked,
         });
+    }, 1500);
+
+    const likeClickHandler = () => {
+        setLiked((prev) => !prev);
+        dispatch(updateLikeMessage({ messageId: id, isLiked: !liked }));
+        likeMessageHandlerDebounced();
     };
 
     const { theme } = useTheme();
@@ -113,7 +122,7 @@ function PostBox({
 
             <div
                 className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white"
-                onClick={likeMessageHandler}
+                onClick={likeClickHandler}
             >
                 {liked ? (
                     <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />

@@ -119,15 +119,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                 />
             )}
-            {/* <MessageBox
-                key={123}
-                messageType={"Poll"}
-                date={"12 June"}
-                profileUrl={"/public/images/avatar-1.png"}
-                user={"AyaanshRajotia"}
-                description={"Did you know about this?"}
-                isUser={true}
-            /> */}
+
             {pageNo === 1 && messageLoading ? (
                 <div className="flex flex-col-reverse gap-4 h-full">
                     <Skeleton
@@ -162,25 +154,42 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     />
                 </div>
             ) : (
-                messages.map((message: any) => {
-                    return (
-                        <MessageBox
-                            key={message?._id}
-                            id={message?._id}
-                            isLiked={message?.isLiked}
-                            messageType={message.messageType}
-                            date={message.updatedAt}
-                            profileUrl={message.profile?.avatar}
-                            user={
-                                capitalizeFirstLetter(message.profile?.fName) +
-                                capitalizeFirstLetter(message.profile?.lName)
-                            }
-                            description={message.text}
-                            likesCount={message.likesCount || 0}
-                            isUser={message.profile?._id === profile?._id}
-                        />
-                    );
-                })
+                <>
+                    {messages.map((message: any) => {
+                        return (
+                            <MessageBox
+                                key={message?._id}
+                                id={message?._id}
+                                isLiked={message?.isLiked}
+                                messageType={message.messageType}
+                                date={message.updatedAt}
+                                profileUrl={message.profile?.avatar}
+                                user={
+                                    capitalizeFirstLetter(
+                                        message.profile?.fName
+                                    ) +
+                                    capitalizeFirstLetter(
+                                        message.profile?.lName
+                                    )
+                                }
+                                description={message.text}
+                                likesCount={message.likesCount || 0}
+                                isUser={message.profile?._id === profile?._id}
+                            />
+                        );
+                    })}
+                    <MessageBox
+                        key={123}
+                        messageType={"Poll"}
+                        date={"12 June"}
+                        profileUrl={"/public/images/avatar-1.png"}
+                        user={"AyaanshRajotia"}
+                        description={"Did you know about this?"}
+                        isUser={true}
+                        likesCount={0}
+                        isLiked={false}
+                    />
+                </>
             )}
         </div>
     );
