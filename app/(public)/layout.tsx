@@ -1,10 +1,6 @@
-"use client";
-import { useEffect } from "react";
+"use client";;
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
-import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 
 export default function PublicLayout({
     children,

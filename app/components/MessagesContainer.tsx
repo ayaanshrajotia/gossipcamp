@@ -110,6 +110,15 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                 />
             )}
+            {/* <MessageBox
+                key={123}
+                messageType={"Poll"}
+                date={"12 June"}
+                profileUrl={"/public/images/avatar-1.png"}
+                user={"AyaanshRajotia"}
+                description={"Did you know about this?"}
+                isUser={true}
+            /> */}
             {pageNo === 1 && messageLoading ? (
                 <div className="flex flex-col-reverse gap-4 h-full">
                     <Skeleton

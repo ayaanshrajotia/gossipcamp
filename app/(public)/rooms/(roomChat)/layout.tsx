@@ -20,13 +20,14 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const { profile } = useSelector((state: RootState) => state.auth);
+    const { messages } = useSelector((state: RootState) => state.chat);
     let { roomId } = useParams();
     const { theme } = useTheme();
+    const [isSend, setIsSend] = useState(true);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
-        console.log("message sent");
         // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
         setLoading(true);
         try {
@@ -42,7 +43,16 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     avatar: profile.avatar,
                 },
             };
+            setIsSend(true);
+            await dispatch(addMessage(message));
+            const index = messages.length - 1;
+            setMessageText("");
+            setIsEmojiPicker(false);
 
+            window.scrollTo({
+                top: document.body.scrollHeight, // Scroll to the bottom
+                behavior: "smooth",
+            });
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
                 {
@@ -54,15 +64,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
             if (response.status >= 200) {
                 socket.emit("send-message", message);
-                await dispatch(addMessage(message));
-                setMessageText("");
-                setIsEmojiPicker(false);
-
-                window.scrollTo({
-                    top: document.body.scrollHeight, // Scroll to the bottom
-                    behavior: "smooth",
-                });
-
+                setIsSend(false);
                 setLoading(false);
             }
         } catch (err) {
@@ -70,8 +72,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     };
-
-    console.log(messageText);
 
     return (
         <>
