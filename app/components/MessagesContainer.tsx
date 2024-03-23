@@ -178,17 +178,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                             />
                         );
                     })}
-                    <MessageBox
-                        key={123}
-                        messageType={"Poll"}
-                        date={"12 June"}
-                        profileUrl={"/public/images/avatar-1.png"}
-                        user={"AyaanshRajotia"}
-                        description={"Did you know about this?"}
-                        isUser={true}
-                        likesCount={0}
-                        isLiked={false}
-                    />
                 </>
             )}
         </div>
