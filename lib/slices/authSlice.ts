@@ -7,7 +7,7 @@ export const signupUser = createAsyncThunk(
     "user/signupUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
                 userCredentials
             );
@@ -36,7 +36,7 @@ export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 userCredentials
             );
