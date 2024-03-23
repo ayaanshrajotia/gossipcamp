@@ -45,7 +45,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 isLiked: false,
             };
 
-            socket.emit("send-message", message);
             const index = messages.length;
             await dispatch(addMessage(message));
             setMessageText("");
@@ -65,6 +64,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
 
             if (response.status >= 200) {
+                socket.emit("send-message", {
+                    ...message,
+                    _id: response.data.data._id,
+                });
                 dispatch(updateMessage({ index, message: response.data.data }));
                 setLoading(false);
             }
