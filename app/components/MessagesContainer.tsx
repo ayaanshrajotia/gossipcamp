@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MessageBox from "./post-containers/MessageBox";
 import { socket } from "../StoreProvider";
-import { addMessage, getAllMessages } from "@/lib/slices/chatSlice";
+import { addMessage, getAllMessages, updateLikeMessage } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { useParams, useRouter } from "next/navigation";
 import Skeleton from "react-loading-skeleton";
@@ -46,10 +46,15 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 f();
                 console.log(data);
             });
+            socket.on("send-like-message", (data: any) => {
+                console.log(data, "like-message");
+                dispatch(updateLikeMessage(data));
+            });
         });
 
         return () => {
             socket.off("message");
+            socket.off("send-like-message");
         };
     }, [dispatch]);
 
@@ -157,6 +162,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     return (
                         <MessageBox
                             key={message?._id}
+                            id={message?._id}
+                            isLiked={message?.isLiked}
                             messageType={message.messageType}
                             date={message.updatedAt}
                             profileUrl={message.profile?.avatar}
@@ -165,6 +172,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 capitalizeFirstLetter(message.profile?.lName)
                             }
                             description={message.text}
+                            likesCount={message.likesCount || 0}
                             isUser={message.profile?._id === profile?._id}
                         />
                     );

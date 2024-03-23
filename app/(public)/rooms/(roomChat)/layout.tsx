@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 import axiosInstance from "@/app/utils/axios";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
-import { addMessage } from "@/lib/slices/chatSlice";
+import { addMessage, updateMessage } from "@/lib/slices/chatSlice";
 import { v4 as uuidv4, v4 } from "uuid";
 import EmojiPicker from "emoji-picker-react";
 import { useTheme } from "next-themes";
@@ -23,7 +23,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const { messages } = useSelector((state: RootState) => state.chat);
     let { roomId } = useParams();
     const { theme } = useTheme();
-    const [isSend, setIsSend] = useState(true);
+    const { messages } = useSelector((state: RootState) => state.chat);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
@@ -42,10 +42,13 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     lName: profile.lName,
                     avatar: profile.avatar,
                 },
+                likesCount: 0,
+                isLiked: false,
             };
-            setIsSend(true);
+
+            socket.emit("send-message", message);
+            const index = messages.length;
             await dispatch(addMessage(message));
-            const index = messages.length - 1;
             setMessageText("");
             setIsEmojiPicker(false);
 
@@ -63,8 +66,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
 
             if (response.status >= 200) {
-                socket.emit("send-message", message);
-                setIsSend(false);
+                dispatch(updateMessage({ index, message: response.data.data }));
                 setLoading(false);
             }
         } catch (err) {
