@@ -111,7 +111,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     />
                     <form
                         onSubmit={handleSendMessage}
-                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1 dark:bg-college-dark-gray-1"
+                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1 dark:bg-college-dark-gray-3"
                     >
                         <FaceSmileIcon
                             className="w-6 h-6 cursor-pointer"

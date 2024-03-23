@@ -56,18 +56,23 @@ function PostBox({
 }: PostBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
-    const { likesLoading } = useSelector((state: RootState) => state.chat);
-
+    // const { likesLoading } = useSelector((state: RootState) => state.chat);
+    const [likesLoading, setLikesLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const [liked, setLinked] = useState(isLiked);
+    console.log(liked);
 
     const roomId = useParams().roomId;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // console.log(isLiked, "likesLoading");
     const likeMessageHandler = async () => {
+        setLinked(!liked);
         if (likesLoading) return;
+        setLikesLoading(true);
         await dispatch(toggleLikeMessage({ id, isLiked: !isLiked }));
         // connect statement
+        setLikesLoading(false);
         socket.emit("like-message", {
             roomId,
             messageId: id,
@@ -78,7 +83,7 @@ function PostBox({
     const { theme } = useTheme();
     return (
         <div
-            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3 ${
+            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                 theme === "dark"
                     ? isUser
                         ? "self-end box-shadow-yellow-static-dark"
@@ -107,15 +112,15 @@ function PostBox({
             )}
 
             <div
-                className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3 dark:text-college-dark-white"
+                className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white"
                 onClick={likeMessageHandler}
             >
-                {isLiked ? (
+                {liked ? (
                     <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />
                 ) : (
                     <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
                 )}
-                <span className="">{likesCount}</span>
+                {likesCount > 0 && <span className="">{likesCount}</span>}
             </div>
             <div className="flex gap-3">
                 <div>
@@ -155,9 +160,6 @@ function PostBox({
                 <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
                     {relativeDate}
                 </span>
-                {isUser && (
-                    <CheckIcon className="w-3 h-3 text-college-dark-white-2 mb-[2px]" />
-                )}
             </div>
         </div>
     );

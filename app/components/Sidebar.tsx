@@ -123,7 +123,7 @@ export default function Sidebar() {
                             theme === "dark"
                                 ? "box-shadow-yellow-static-dark"
                                 : "box-shadow-yellow-static"
-                        } dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+                        } dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
                     >
                         <h1 className="text-2xl font-extrabold font-secondary dark:text-college-dark-white">
                             Private Rooms
@@ -172,7 +172,7 @@ export default function Sidebar() {
                             theme === "dark"
                                 ? "box-shadow-yellow-static-dark"
                                 : "box-shadow-yellow-static"
-                        } px-6 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+                        } px-6 dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
                     >
                         <h1 className="text-2xl font-extrabold font-secondary dark:text-college-dark-white ">
                             Public Rooms
