@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MessageBox from "./post-containers/MessageBox";
 import { socket } from "../StoreProvider";
-import { addMessage, getAllMessages, updateLikeMessage } from "@/lib/slices/chatSlice";
+import {
+    addMessage,
+    getAllMessages,
+    updateLikeMessage,
+} from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { useParams, useRouter } from "next/navigation";
 import Skeleton from "react-loading-skeleton";
@@ -33,7 +37,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     );
 
     useEffect(() => {
-        console.log(12);
+        // console.log(12);
         dispatch(connectSocket()).then(() => {
             socket.on("message", (data: any) => {
                 let f = async () => {
@@ -44,7 +48,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     });
                 };
                 f();
-                console.log(data);
+                // console.log(data);
             });
             socket.on("send-like-message", (data: any) => {
                 console.log(data, "like-message");
@@ -59,7 +63,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log("fetching messages");
+        // console.log("fetching messages");
         dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
             if (pageNo == 1) {
                 window.scrollTo({

@@ -82,7 +82,7 @@ export default function Room() {
         router.push("/explore/rooms");
     };
 
-    console.log(roomDetails);
+    // console.log(roomDetails);
 
     return (
         <div className="min-h-sreen">

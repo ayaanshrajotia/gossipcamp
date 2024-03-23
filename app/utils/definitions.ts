@@ -77,10 +77,10 @@ export type RoomBoxBiggerPropsType = {
 } & Record<string, any>;
 
 export type DropdownPropsType = {
-    options?: optionType[];
+    options?: any[];
     className?: string;
     handleOptions: (data: string) => void;
-};
+} & Record<string, any>;
 
 export type PostBoxPropsType = {
     // children: any;

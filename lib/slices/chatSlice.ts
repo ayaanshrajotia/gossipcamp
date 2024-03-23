@@ -8,7 +8,7 @@ export const getAllMessages = createAsyncThunk(
         { rejectWithValue }
     ) => {
         try {
-            console.log(page);
+            // console.log(page);
             const response = await axiosInstance.get(
                 `messages/${roomId}/all?page=${page}&limit=50`
             );
@@ -99,7 +99,7 @@ const chatSlice = createSlice({
                 state.messageLoading = true;
             })
             .addCase(getAllMessages.fulfilled, (state, action) => {
-                console.log(action.payload);
+                // console.log(action.payload);
                 if (action.payload.append) {
                     let addIndex = state.messages.length;
                     state.messages = [
@@ -132,7 +132,7 @@ const chatSlice = createSlice({
             .addCase(getAllMessages.rejected, (state, action) => {
                 state.messageLoading = false;
                 // state.messageError = action.payload;
-                console.log(action.payload);
+                // console.log(action.payload);
             })
             .addCase(toggleLikeMessage.pending, (state) => {
                 state.likesLoading = true;

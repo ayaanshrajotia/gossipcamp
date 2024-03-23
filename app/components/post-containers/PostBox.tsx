@@ -6,13 +6,36 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 // icons
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import { CheckIcon, HeartIcon, TicketIcon } from "@heroicons/react/24/outline";
+import {
+    CheckIcon,
+    EllipsisVerticalIcon,
+    HeartIcon,
+    TicketIcon,
+} from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { toggleLikeMessage } from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
+import Dropdown from "../Dropdown";
+
+const menuOptions = [
+    {
+        name: "Delete",
+        icon: <TicketIcon className="h-5 w-5" />,
+        action: () => {
+            console.log("delete");
+        },
+    },
+    {
+        name: "Edit",
+        icon: <TicketIcon className="h-5 w-5" />,
+        action: () => {
+            console.log("edit");
+        },
+    },
+];
 
 function PostBox({
     isSend,
@@ -33,14 +56,14 @@ function PostBox({
 }: PostBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
-
     const { likesLoading } = useSelector((state: RootState) => state.chat);
 
     const dispatch = useDispatch<AppDispatch>();
 
     const roomId = useParams().roomId;
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    console.log(isLiked, "likesLoading");
+    // console.log(isLiked, "likesLoading");
     const likeMessageHandler = async () => {
         if (likesLoading) return;
         await dispatch(toggleLikeMessage({ id, isLiked: !isLiked }));
@@ -55,7 +78,7 @@ function PostBox({
     const { theme } = useTheme();
     return (
         <div
-            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-1 border-black rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-1 ${
+            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3 ${
                 theme === "dark"
                     ? isUser
                         ? "self-end box-shadow-yellow-static-dark"
@@ -67,8 +90,24 @@ function PostBox({
             style={{ color: textColor }}
             {...props}
         >
+            {isUser && (
+                <EllipsisVerticalIcon
+                    className="w-5 h-5 absolute right-1.5 top-2 cursor-pointer"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                />
+            )}
+
+            {isUser && isMenuOpen && (
+                <Dropdown
+                    handleOptions={() => {}}
+                    options={menuOptions}
+                    className="absolute -right-4 top-7"
+                    onClick={() => setIsMenuOpen(false)}
+                />
+            )}
+
             <div
-                className="absolute right-4 top-0 -translate-y-1/2 bg-white text-black text-xs py-0.5 px-3 rounded-full flex items-center gap-1 cursor-pointer border-1 border-red-500"
+                className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3 dark:text-college-dark-white"
                 onClick={likeMessageHandler}
             >
                 {isLiked ? (
@@ -76,7 +115,7 @@ function PostBox({
                 ) : (
                     <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
                 )}
-                <span className="font-bold">{likesCount}</span>
+                <span className="">{likesCount}</span>
             </div>
             <div className="flex gap-3">
                 <div>

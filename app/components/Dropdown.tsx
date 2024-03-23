@@ -14,29 +14,22 @@ export default function Dropdown({
     options,
     handleOptions,
     className,
+    ...props
 }: DropdownPropsType) {
     return (
-        <select
-            name=""
-            id=""
-            className="flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none"
-            onChange={(e) => handleOptions(e.target.value)}
+        <ul
+            className={`flex flex-col justify-between text-sm w-[120px] gap-y-1.5 rounded-lg bg-white py-1.5 px-1.5 text-gray-900 border-1 border-stone-400 transition ease-in-out duration-200 hover:shadow-non outline-none dark:bg-college-dark-gray-1 dark:text-college-dark-white dark:border-college-dark-gray-2 ${className}`}
+            {...props}
         >
-            {options?.slice(0, 1).map((item) => (
-                <option
-                    key={item.id}
-                    value={item.name}
-                    // disabled={true}
-                    defaultValue={item.name}
+            {options?.map((option) => (
+                <li
+                    key={option.id}
+                    className="cursor-pointer hover:bg-gray-200 px-2 py-0.5 rounded-lg dark:hover:bg-college-dark-gray-3"
+                    onClick={option.action}
                 >
-                    {capitalizeFirstLetter(item.name)}
-                </option>
+                    {option.name}
+                </li>
             ))}
-            {options?.slice(1).map((item) => (
-                <option key={item.id} value={item.name}>
-                    {capitalizeFirstLetter(item.name)}
-                </option>
-            ))}
-        </select>
+        </ul>
     );
 }

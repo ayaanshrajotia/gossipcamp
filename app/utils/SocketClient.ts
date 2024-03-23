@@ -21,7 +21,7 @@ class SocketClient {
 
         return new Promise((resolve, reject) => {
             this.socket?.on("connect", () => {
-                console.log("connected");
+                // console.log("connected");
                 resolve("connected");
             });
             this.socket?.on("connect_error", async (error) => {
