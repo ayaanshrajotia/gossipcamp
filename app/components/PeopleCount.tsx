@@ -7,9 +7,10 @@ function PeopleCount({
     height = "h-[50px]",
     margin = "-ml-7",
     totalParticipants = 0,
+    className = "",
 }: PeopleCountPropType) {
     return (
-        <div className="flex">
+        <div className={`flex ${className}`}>
             <div className={`relative ${width} ${height}`}>
                 <Image
                     src="/images/avatar-1.png"

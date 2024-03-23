@@ -6,7 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 // icons
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import { HeartIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, HeartIcon, TicketIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -15,6 +15,7 @@ import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 
 function PostBox({
+    isSend,
     bgcolor = "bg-white",
     textColor,
     className = "",
@@ -111,9 +112,14 @@ function PostBox({
                     </>
                 </div>
             </div>
-            <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
-                {relativeDate}
-            </span>
+            <div className="flex items-end justify-end gap-1">
+                <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
+                    {relativeDate}
+                </span>
+                {isUser && (
+                    <CheckIcon className="w-3 h-3 text-college-dark-white-2 mb-[2px]" />
+                )}
+            </div>
         </div>
     );
 }

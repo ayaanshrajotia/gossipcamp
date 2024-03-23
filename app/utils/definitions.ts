@@ -138,6 +138,7 @@ export type PeopleCountPropType = {
     height: string;
     margin: string;
     totalParticipants?: number;
+    className?: string;
 };
 
 export type MessagesContainerProps = {

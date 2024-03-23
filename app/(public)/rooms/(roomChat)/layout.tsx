@@ -20,15 +20,14 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const { profile } = useSelector((state: RootState) => state.auth);
+    const { messages } = useSelector((state: RootState) => state.chat);
     let { roomId } = useParams();
     const { theme } = useTheme();
-
     const { messages } = useSelector((state: RootState) => state.chat);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
-        console.log("message sent");
         // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
         setLoading(true);
         try {
@@ -57,7 +56,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 top: document.body.scrollHeight, // Scroll to the bottom
                 behavior: "smooth",
             });
-
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
                 {
@@ -76,8 +74,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     };
-
-    console.log(messageText);
 
     return (
         <>
