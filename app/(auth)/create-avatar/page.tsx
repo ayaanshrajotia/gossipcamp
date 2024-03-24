@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { any } from "zod";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useTheme } from "next-themes";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
@@ -47,6 +48,7 @@ function CreateAvatar() {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
     const { user } = useSelector((state: RootState) => state.auth || "");
+    const { theme } = useTheme();
 
     useLayoutEffect(() => {
         setUserDetails(user);
@@ -72,7 +74,7 @@ function CreateAvatar() {
             );
             if (response.meta.requestStatus === "fulfilled") {
                 router.push("/home");
-                toast.success("Avatar created successfully")
+                toast.success("Avatar created successfully");
             } else throw new Error(response.payload);
         } catch (error: any) {
             console.log(error);
@@ -82,7 +84,7 @@ function CreateAvatar() {
 
     return (
         <div className="w-[1200px] flex flex-col gap-10 items-center font-secondary">
-            <h1 className="font-primary font-bold text-5xl text-college-grey">
+            <h1 className="font-secondary font-bold text-5xl text-college-grey dark:text-college-dark-white">
                 Create your Avatar!
             </h1>
             <div className="flex w-full gap-14">
@@ -94,7 +96,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) => setFirstName(e.target.value)}
                             >
                                 {firstNames?.slice(0, 1).map((item) => (
@@ -116,7 +122,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) => setlastName(e.target.value)}
                             >
                                 {lastNames?.slice(0, 1).map((item) => (
@@ -145,7 +155,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -162,7 +176,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -186,7 +204,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -203,7 +225,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -227,7 +253,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-none outline-none text-sm"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -244,7 +274,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -268,7 +302,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -285,7 +323,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -309,7 +351,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -326,7 +372,11 @@ function CreateAvatar() {
                             <select
                                 name=""
                                 id=""
-                                className="flex justify-between items-center w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 text-gray-900 box-shadow border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none text-sm cursor-pointer"
+                                className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                    theme === "dark"
+                                        ? "box-shadow-dark"
+                                        : "box-shadow"
+                                }`}
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
@@ -347,10 +397,10 @@ function CreateAvatar() {
                 <div className="w-1/2 flex justify-end">
                     {/* <div className="relative w-[420px] text-base gap-x-1.5 rounded-3xl bg-gray-200 p-7 pt-14 text-gray-900 cursor-pointer"> */}
                     {/* <div className="h-[100px] w-[60px] bg-black absolute -top-[70px] left-0 right-0 mx-auto"></div> */}
-                    <div className="relative rounded-2xl h-full p-10 w-[500px] border-1">
+                    <div className="relative rounded-2xl h-full p-10 w-[500px] border-1 dark:border-college-dark-gray-3">
                         <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-contain h-full w-full absolute top-0 left-0 invert-[20%]"></div>
 
-                        <div className="relative h-full bg-white flex flex-col items-center gap-6 p-6 rounded-2xl border-1">
+                        <div className="relative h-full bg-white flex flex-col items-center gap-6 p-6 rounded-2xl border-1 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-3">
                             <div className="relative w-full flex justify-center">
                                 <div className="relative h-[160px] w-[160px]">
                                     <Image

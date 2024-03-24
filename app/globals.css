@@ -87,6 +87,12 @@ input:focus {
     transition: all 0.1s ease-in-out;
 }
 
+.box-shadow-dark {
+    box-shadow: 5px 5px 0px 0px rgba(50, 50, 50, 0.964);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(50, 50, 50, 0.964);
+    transition: all 0.1s ease-in-out;
+}
+
 .box-shadow-inverse {
     box-shadow: 0px 0px 0px 0px rgba(221, 221, 221, 0.75);
     transition: all 0.1s ease-in-out;
@@ -206,11 +212,28 @@ input:focus {
     position: relative;
 }
 
+.input-group-dark {
+    position: relative;
+}
+
 .input-group label {
     position: absolute;
     top: 50%;
     left: 8px;
     color: #000;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 100;
+    padding: 0 5px;
+    transition: 0.2s;
+}
+
+.input-group-dark label {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    color: #fff;
     transform: translateY(-50%);
     font-size: 1rem;
     pointer-events: none;
@@ -225,7 +248,16 @@ input:focus {
     left: 10px;
     font-size: 0.8rem;
     color: #757575;
-    background-color: #fff;
+    /* background-color: #fff; */
+}
+
+.input-group-dark input:focus ~ label,
+.input-group-dark input:valid ~ label {
+    top: 4px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #757575;
+    /* background-color: #fff; */
 }
 
 .text-trim {

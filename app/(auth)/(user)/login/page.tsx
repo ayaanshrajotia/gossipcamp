@@ -14,6 +14,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { loginUser } from "@/lib/slices/authSlice";
+import { useTheme } from "next-themes";
 
 const schema = z.object({
     userId: z.string().refine((val) => {
@@ -44,6 +45,7 @@ const LoginPage = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({ resolver: zodResolver(schema) });
+    const { theme } = useTheme();
 
     // Login Function
     const login: SubmitHandler<FormFields> = async (data) => {
@@ -60,8 +62,8 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="font-secondary flex w-full max-w-[400px] flex-col">
-            <h1 className="font-secondary text-college-grey mb-8 text-4xl font-extrabold">
+        <div className="font-secondary flex w-full max-w-[400px] flex-col dark:text-college-dark-white">
+            <h1 className="font-secondary text-college-grey mb-8 text-4xl font-extrabold dark:text-college-dark-white ">
                 Login Anonymously!
             </h1>
             {/* Form Content */}
@@ -71,16 +73,27 @@ const LoginPage = () => {
                 noValidate
             >
                 {/* Mobile Number */}
-                <div className="input-group">
+                <div
+                    className={`${
+                        theme === "dark" ? "input-group-dark" : "input-group"
+                    }`}
+                >
                     <input
                         {...register("userId")}
                         type="text"
                         id="userId"
-                        className="border-1 font-secondary box-shadow mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none"
+                        className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                        }`}
                         required
                         autoComplete="false"
                     />
-                    <label htmlFor="userId">Email or Username</label>
+                    <label
+                        htmlFor="userId"
+                        className="dark:text-college-dark-white"
+                    >
+                        Email or Username
+                    </label>
                     {errors.userId && (
                         <div className="mt-2 text-sm font-medium text-red-600">
                             {errors.userId.message}
@@ -88,15 +101,26 @@ const LoginPage = () => {
                     )}
                 </div>
                 {/* Password */}
-                <div className="input-group">
+                <div
+                    className={`${
+                        theme === "dark" ? "input-group-dark" : "input-group"
+                    }`}
+                >
                     <input
                         {...register("password")}
                         id="password"
                         type={showPassword ? "text" : "password"}
-                        className="border-1 font-secondary box-shadow mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none"
+                        className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                        }`}
                         required
                     />
-                    <label htmlFor="password">Password</label>
+                    <label
+                        htmlFor="password"
+                        className="dark:text-college-dark-white"
+                    >
+                        Password
+                    </label>
                     {errors.password && (
                         <div className="mt-2 text-sm font-medium text-red-600">
                             {errors.password.message}
@@ -114,12 +138,12 @@ const LoginPage = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-between">
-                    <span className="text-college-grey flex items-center gap-1 text-sm">
+                <div className="flex justify-between ">
+                    <span className="text-college-grey flex items-center gap-1 text-sm dark:text-college-dark-white">
                         Remember Me
                     </span>
                     <Link href={"#"}>
-                        <span className="text-college-grey text-sm">
+                        <span className="text-college-grey text-sm dark:text-college-dark-white">
                             Forgot Password?
                         </span>
                     </Link>

@@ -3,10 +3,10 @@ import Image from "next/image";
 export default function layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="h-screen w-full flex flex-1 p-4">
-            <div className="w-1/2 flex items-center justify-center">
+            <div className="max-[900px]:w-full w-1/2 flex items-center justify-center">
                 {children}
             </div>
-            <div className="doodle relative w-1/2 rounded-r-2xl">
+            <div className="max-[900px]:hidden doodle relative w-1/2 rounded-r-2xl">
                 <Image
                     src={"/images/login-1.png"}
                     alt="thought photo"

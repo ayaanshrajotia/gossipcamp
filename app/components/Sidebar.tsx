@@ -64,7 +64,7 @@ export default function Sidebar() {
                 />
             </div>
             <div
-                className={`max-[1160px]:bg-black max-[1160px]:z-[999] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-200 ${
+                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-black max-[1160px]:z-[1001] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-200 ${
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"
@@ -76,7 +76,7 @@ export default function Sidebar() {
                             {pageLoading || loading || profile === null ? (
                                 <Link
                                     href={"/create-avatar"}
-                                    className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse"
+                                    className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse dark:text-black"
                                 >
                                     Create Your Profile
                                 </Link>
@@ -263,7 +263,7 @@ export default function Sidebar() {
                                         </span>
                                         <Link
                                             href={"/explore/rooms"}
-                                            className="font-bold text-lg bg-black text-white text-center rounded-full px-4 py-1 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all"
+                                            className="font-bold text-lg bg-black text-white text-center rounded-full px-4 py-1 flex items-center justify-center hover:bg-white hover:text-black border-1 border-black transition-all dark:bg-college-dark-white dark:text-college-dark-gray-1"
                                         >
                                             Explore!
                                         </Link>

@@ -34,7 +34,7 @@ export default function Navbar() {
             await dispatch(logoutUser());
             toast.success("Logged out successfully");
             router.push("/login");
-            setTheme("light");
+            // setTheme("light");
         } catch (error) {
             console.error("Logout error:", error);
             // Handle logout error, if needed
@@ -42,84 +42,74 @@ export default function Navbar() {
     };
 
     return (
-        <header className="max-[1330px]:w-[70px] light-shadow fixed top-0 z-[999] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
-            <div className="flex h-[70px] items-center px-4">
+        <header className="max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
+            <div className="max-[700px]:hidden flex h-[70px] items-center px-4">
                 <h1 className="max-[1330px]:hidden font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
                 </h1>
             </div>
-            <nav className="max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
-                <div className="">
-                    <ul className="flex w-full flex-col gap-2">
-                        <li className="cursor-pointer dark:text-college-dark-white">
-                            <Link
-                                href={"/home"}
-                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
-                                    pathname === "/home" ? "font-bold" : ""
-                                }`}
-                            >
-                                {pathname === "/home" ? (
-                                    <HomeIconFilled
-                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
-                                    />
-                                ) : (
-                                    <HomeIcon
-                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
-                                    />
-                                )}
-                                <span className="max-[1330px]:hidden">
-                                    Home
-                                </span>
-                            </Link>
-                        </li>
-                        <li className="cursor-pointer dark:text-college-dark-white">
-                            <Link
-                                href={"/explore/people"}
-                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
-                                    pathname.includes("/explore")
-                                        ? "font-bold"
-                                        : ""
-                                }`}
-                            >
-                                <MagnifyingGlassIcon
-                                    className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7 ${
-                                        pathname.includes("/explore")
-                                            ? "stroke-[3]"
-                                            : ""
-                                    }`}
+            <nav className="max-[700px]:px-4 max-[700px]:flex-0 max-[700px]:mb-0 max-[700px]:items-center max-[700px]:p-0 max-[700px]:flex-row  max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
+                <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex w-full flex-col gap-2">
+                    <li className="cursor-pointer dark:text-college-dark-white">
+                        <Link
+                            href={"/home"}
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                pathname === "/home" ? "font-bold" : ""
+                            }`}
+                        >
+                            {pathname === "/home" ? (
+                                <HomeIconFilled
+                                    className={` h-7 w-7`}
                                 />
-                                <span className="max-[1330px]:hidden">
-                                    Explore
-                                </span>
-                            </Link>
-                        </li>
-                        <li className="cursor-pointer dark:text-college-dark-white">
-                            <Link
-                                href={"/notifications"}
-                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
-                                    pathname === "/notifications"
-                                        ? "font-bold"
+                            ) : (
+                                <HomeIcon
+                                    className={` h-7 w-7`}
+                                />
+                            )}
+                            <span className="max-[1330px]:hidden">Home</span>
+                        </Link>
+                    </li>
+                    <li className="cursor-pointer dark:text-college-dark-white">
+                        <Link
+                            href={"/explore/people"}
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                pathname.includes("/explore") ? "font-bold" : ""
+                            }`}
+                        >
+                            <MagnifyingGlassIcon
+                                className={` h-7 w-7 ${
+                                    pathname.includes("/explore")
+                                        ? "stroke-[3]"
                                         : ""
                                 }`}
-                            >
-                                {pathname === "/notifications" ? (
-                                    <BellIconFilled
-                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
-                                    />
-                                ) : (
-                                    <BellIcon
-                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
-                                    />
-                                )}
-                                <span className="max-[1330px]:hidden">
-                                    Notifications
-                                </span>
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <ul className="flex flex-col gap-2">
+                            />
+                            <span className="max-[1330px]:hidden">Explore</span>
+                        </Link>
+                    </li>
+                    <li className="cursor-pointer dark:text-college-dark-white">
+                        <Link
+                            href={"/notifications"}
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                pathname === "/notifications" ? "font-bold" : ""
+                            }`}
+                        >
+                            {pathname === "/notifications" ? (
+                                <BellIconFilled
+                                    className={` h-7 w-7`}
+                                />
+                            ) : (
+                                <BellIcon
+                                    className={` h-7 w-7`}
+                                />
+                            )}
+                            <span className="max-[1330px]:hidden">
+                                Notifications
+                            </span>
+                        </Link>
+                    </li>
+                </ul>
+                <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex flex-col gap-2">
                     <li
                         onClick={() =>
                             theme == "dark"
@@ -130,14 +120,14 @@ export default function Navbar() {
                     >
                         {theme === "light" ? (
                             <>
-                                <MoonIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                                <MoonIcon className=" h-7 w-7" />
                                 <span className="max-[1330px]:hidden">
                                     Dark Mode
                                 </span>
                             </>
                         ) : (
                             <>
-                                <SunIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                                <SunIcon className=" h-7 w-7" />
                                 <span className="max-[1330px]:hidden">
                                     Light Mode
                                 </span>
@@ -148,7 +138,7 @@ export default function Navbar() {
                         onClick={handleLogout}
                         className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2 cursor-pointer"
                     >
-                        <ArrowRightStartOnRectangleIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                        <ArrowRightStartOnRectangleIcon className=" h-7 w-7" />
                         <span className="max-[1330px]:hidden">Logout</span>
                     </li>
                 </ul>

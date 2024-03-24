@@ -94,7 +94,7 @@ function RoomBoxBigger({
                     <div className="max-[550px]:items-center max-[550px]:flex-col max-[550px]:gap-2 flex w-full">
                         {/* Details */}
                         <div className="max-[550px]:justify-center flex w-full gap-4">
-                            <div className="max-[550px]:gap-0 max-[550px]:flex-col  max-[550px]:items-baseline flex flex-col">
+                            <div className="max-[550px]:gap-0 max-[550px]:flex-col  max-[550px]:items-center flex flex-col">
                                 <span className="max-[550px]:text-2xl font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                                     {roomName}
                                 </span>
@@ -102,9 +102,9 @@ function RoomBoxBigger({
                                     @{roomUsername}
                                 </span>
                             </div>
-                            {isPrivate && (
+                            {/* {isPrivate && (
                                 <LockClosedIcon className="w-5 h-5 text-red-500 mt-1.5" />
-                            )}
+                            )} */}
                         </div>
                         <PeopleCount
                             width="w-[35px]"
@@ -115,8 +115,8 @@ function RoomBoxBigger({
                         />
                     </div>
                     {/* Join */}
-                    <div className="max-[550px]:mt-2 max-[550px]:gap-2 max-[550px]:flex-col flex justify-between gap-6 w-full">
-                        <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
+                    <div className="max-[550px]:mt-2 max-[550px]:gap-2 max-[550px]:flex-col flex justify-between gap-6 w-full items-end">
+                        <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white ">
                             {roomDescription}
                         </p>
                         {isPrivate ? (

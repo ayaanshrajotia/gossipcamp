@@ -85,9 +85,9 @@ function RoomBox({
                             </span>
                         </div>
                     </div>
-                    {isPrivate && (
+                    {/* {isPrivate && (
                         <LockClosedIcon className="w-6 h-6 text-red-500" />
-                    )}
+                    )} */}
                 </div>
                 {/* Lower Div */}
                 <div className="flex justify-between items-end">
@@ -99,7 +99,7 @@ function RoomBox({
                     />
                     {profile === null ? (
                         <button
-                            className="bg-black text-white text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white"
                             onClick={() =>
                                 toast.error("Please create your profile")
                             }

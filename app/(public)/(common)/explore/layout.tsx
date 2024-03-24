@@ -34,7 +34,7 @@ function Page({ children }: { children: React.ReactNode }) {
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Explore</Header>
-            <div className="my-6 px-6">
+            <div className="max-[1130px]:pr-0 my-6 pl-6 pr-6">
                 <div className="border-1 font-secondary mt-1 flex h-12 w-full items-center rounded-xl border-college-dark-gray-3 bg-white p-3 text-lg dark:bg-college-dark-gray-3">
                     <MagnifyingGlassIcon className="h-7 w-7 dark:stroke-college-dark-white" />
                     <input

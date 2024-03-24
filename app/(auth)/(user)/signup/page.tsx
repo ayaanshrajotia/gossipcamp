@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { collegesOptions } from "@/app/utils/customOptions";
 import Button from "@/app/components/Button";
 import Dropdown from "@/app/components/Dropdown";
@@ -13,6 +13,8 @@ import { z } from "zod";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { signupUser } from "@/lib/slices/authSlice";
+import { capitalizeFirstLetter } from "@/app/utils/helper";
+import { useTheme } from "next-themes";
 
 const schema = z.object({
     password: z
@@ -30,6 +32,7 @@ export default function SignupPage() {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
     const { loading, error } = useSelector((state: RootState) => state.auth);
+    const { theme } = useTheme();
 
     const {
         register,
@@ -78,7 +81,7 @@ export default function SignupPage() {
 
     return (
         <div className="max-w-[450px] w-full flex flex-col font-secondary">
-            <h1 className="font-primary font-bold text-4xl text-college-grey mb-8">
+            <h1 className="font-primary font-bold text-4xl text-college-grey mb-8 dark:text-college-dark-white">
                 Signup Anonymously!
             </h1>
             {/* Form Content */}
@@ -88,18 +91,26 @@ export default function SignupPage() {
             >
                 {/* Enrollment No Section */}
                 <div className="flex flex-col gap-6">
-                    <div className="input-group w-full">
+                    <div
+                        className={`${
+                            theme === "dark"
+                                ? "input-group-dark"
+                                : "input-group"
+                        }`}
+                    >
                         <input
                             {...register("email")}
                             type="email"
                             id="email"
-                            className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
+                            className={`w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                theme === "dark"
+                                    ? "box-shadow-dark"
+                                    : "box-shadow "
+                            }`}
                             required
                             autoComplete="false"
                         />
-                        <label htmlFor="email">
-                            Email
-                        </label>
+                        <label htmlFor="email">Email</label>
                         {errors.email && (
                             <div className="text-red-600 font-medium text-sm mt-2">
                                 {errors.email.message}
@@ -107,17 +118,47 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    <Dropdown
-                        handleOptions={handleOptions}
-                        options={collegesOptions}
-                    />
+                    <select
+                        name=""
+                        id=""
+                        className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                        }`}
+                        onChange={(e) => handleOptions(e.target.value)}
+                    >
+                        {collegesOptions?.slice(0, 1).map((item) => (
+                            <option
+                                key={item.id}
+                                value={item.name}
+                                // disabled={true}
+                                defaultValue={item.name}
+                            >
+                                {capitalizeFirstLetter(item.name)}
+                            </option>
+                        ))}
+                        {collegesOptions?.slice(1).map((item) => (
+                            <option key={item.id} value={item.name}>
+                                {capitalizeFirstLetter(item.name)}
+                            </option>
+                        ))}
+                    </select>
                     {/* Password */}
-                    <div className="input-group">
+                    <div
+                        className={`${
+                            theme === "dark"
+                                ? "input-group-dark"
+                                : "input-group"
+                        }`}
+                    >
                         <input
                             {...register("password")}
                             id="password"
                             type={showPassword ? "text" : "password"}
-                            className="w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary box-shadow outline-none"
+                            className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                                theme === "dark"
+                                    ? "box-shadow-dark"
+                                    : "box-shadow "
+                            }`}
                             required
                         />
                         <label htmlFor="password">Password</label>
