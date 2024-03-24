@@ -42,14 +42,18 @@ export default function Navbar() {
     };
 
     return (
-        <header className="max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
-            <div className="max-[700px]:hidden flex h-[70px] items-center px-4">
-                <h1 className="max-[1330px]:hidden font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
+        <header className="max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
+            <div className="max-[1330px]:justify-center max-[1330px]:p-0 flex h-[70px] items-center px-4">
+                <h1 className="max-[1330px]:hidden font-secondary flex gap-3 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
                 </h1>
+                <h1 className="max-[1330px]:block font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
+                    {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
+                    GC
+                </h1>
             </div>
-            <nav className="max-[700px]:px-4 max-[700px]:flex-0 max-[700px]:mb-0 max-[700px]:items-center max-[700px]:p-0 max-[700px]:flex-row  max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
+            <nav className="max-[700px]:pl-2 max-[700px]:px-4 max-[700px]:flex-0 max-[700px]:mb-0 max-[700px]:items-center max-[700px]:p-0 max-[700px]:flex-row  max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
                 <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex w-full flex-col gap-2">
                     <li className="cursor-pointer dark:text-college-dark-white">
                         <Link
@@ -59,13 +63,9 @@ export default function Navbar() {
                             }`}
                         >
                             {pathname === "/home" ? (
-                                <HomeIconFilled
-                                    className={` h-7 w-7`}
-                                />
+                                <HomeIconFilled className={` h-7 w-7`} />
                             ) : (
-                                <HomeIcon
-                                    className={` h-7 w-7`}
-                                />
+                                <HomeIcon className={` h-7 w-7`} />
                             )}
                             <span className="max-[1330px]:hidden">Home</span>
                         </Link>
@@ -95,13 +95,9 @@ export default function Navbar() {
                             }`}
                         >
                             {pathname === "/notifications" ? (
-                                <BellIconFilled
-                                    className={` h-7 w-7`}
-                                />
+                                <BellIconFilled className={` h-7 w-7`} />
                             ) : (
-                                <BellIcon
-                                    className={` h-7 w-7`}
-                                />
+                                <BellIcon className={` h-7 w-7`} />
                             )}
                             <span className="max-[1330px]:hidden">
                                 Notifications
