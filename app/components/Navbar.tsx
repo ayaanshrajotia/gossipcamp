@@ -48,7 +48,7 @@ export default function Navbar() {
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
                 </h1>
-                <h1 className="max-[1330px]:block font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
+                <h1 className="min-[1330px]:hidden max-[1330px]:block font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GC
                 </h1>

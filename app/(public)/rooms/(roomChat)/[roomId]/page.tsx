@@ -123,7 +123,7 @@ export default function Room() {
                                         <span className="font-secondary font-extrabold text-lg">
                                             {roomDetails?.roomName}
                                         </span>
-                                        <p className="font-secondary text-college-dark-white-2 text-sm w-full overflow-ellipsis line-clamp-1">
+                                        <p className="font-secondary text-college-dark-white-2 text-sm w-full overflow-ellipsis line-clamp-1 max-[1330px]:w-[90%]">
                                             {roomDetails?.description}
                                         </p>
                                     </div>

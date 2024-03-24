@@ -80,7 +80,7 @@ function Page() {
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
-                    } dark:bg-college-dark-gray-1 dark:text-college-dark-white`}
+                    } dark:bg-college-dark-gray-3 dark:text-college-dark-white`}
                 >
                     {userLoading || pageLoading ? (
                         <>

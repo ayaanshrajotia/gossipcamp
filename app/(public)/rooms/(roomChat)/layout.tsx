@@ -83,7 +83,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             <div className="min-h-screen h-full relative w-full">
                 {children}
                 <div
-                    className={`bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
+                    className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl transition-all duration-300 ease-in-out flex flex-col mx-6`}
                 >
                     <EmojiPicker
                         open={isEmojiPicker}

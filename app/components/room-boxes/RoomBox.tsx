@@ -22,6 +22,7 @@ function RoomBox({
     roomDescription,
     totalParticipants,
     roomDP,
+    closeMenuFn,
     ...props
 }: RoomBoxPropsType) {
     const { profile, loading } = useSelector((state: RootState) => state.auth);
@@ -110,6 +111,7 @@ function RoomBox({
                         <Link
                             className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white"
                             href={`/rooms/${roomId}`}
+                            onClick={closeMenuFn}
                         >
                             Open
                         </Link>

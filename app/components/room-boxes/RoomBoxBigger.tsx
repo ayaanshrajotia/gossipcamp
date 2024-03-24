@@ -69,13 +69,13 @@ function RoomBoxBigger({
 
     return (
         <div
-            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >
             <div className="max-[550px]:flex-col flex gap-4 max-[550px]:items-center">
                 {/* Image */}
-                <div className="flex justify-between items-center">
+                <div className="max-[550px]:gap-4 flex justify-between items-center">
                     <div className="flex gap-2">
                         <div className="">
                             <div className="relative h-[80px] w-[80px]">
@@ -89,12 +89,20 @@ function RoomBoxBigger({
                             </div>
                         </div>
                     </div>
+                    <div className="max-[300px]:hidden min-[550px]:hidden max-[550px]:gap-0 max-[550px]:flex-col  flex flex-col">
+                        <span className=" max-[550px]:text-2xl font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
+                            {roomName}
+                        </span>
+                        <span className="font-secondary text-sm text-ellipsis overflow-hidden line-clamp-1 text-college-dark-white-2">
+                            @{roomUsername}
+                        </span>
+                    </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 w-full">
                     <div className="max-[550px]:items-center max-[550px]:flex-col max-[550px]:gap-2 flex w-full">
                         {/* Details */}
                         <div className="max-[550px]:justify-center flex w-full gap-4">
-                            <div className="max-[550px]:gap-0 max-[550px]:flex-col  max-[550px]:items-center flex flex-col">
+                            <div className="max-[300px]:flex max-[550px]:hidden max-[550px]:items-center max-[550px]:gap-0 max-[550px]:flex-col  flex flex-col">
                                 <span className="max-[550px]:text-2xl font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                                     {roomName}
                                 </span>

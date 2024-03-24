@@ -212,6 +212,11 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 </div>
             ) : (
                 <>
+                    {messages.length === 0 && (
+                        <h1 className="font-bold text-xl font-secondary text-center">
+                            No chats to show!
+                        </h1>
+                    )}
                     {messages.map((message: any) => {
                         return (
                             <MessageBox

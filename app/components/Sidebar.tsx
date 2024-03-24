@@ -64,7 +64,7 @@ export default function Sidebar() {
                 />
             </div>
             <div
-                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-black max-[1160px]:z-[1001] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-200 ${
+                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-college-dark-gray-1 max-[1160px]:z-[1003] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-200 ${
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"
@@ -92,7 +92,7 @@ export default function Sidebar() {
                                     }
                                 />
                             ) : (
-                                <div className="flex justify-between cursor-pointer">
+                                <div className="flex justify-between cursor-pointer basis-[200px] overflow-hidden">
                                     <Link
                                         href={`/profile/${user?.username.toString()}`}
                                         className="flex gap-2"
@@ -112,7 +112,7 @@ export default function Sidebar() {
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white">
+                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white text-ellipsis overflow-hidden max-[1130px]:w-[128px] w-[182px]">
                                                 @
                                                 {capitalizeFirstLetter(
                                                     firstName
@@ -135,7 +135,7 @@ export default function Sidebar() {
                                 </Link>
                             </div>
                             <Bars3Icon
-                                className={`max-[1130px]:block hidden w-9 h-9 fill-white cursor-pointer`}
+                                className={`w-9 h-9 fill-white cursor-pointer`}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             />
                         </div>
@@ -191,6 +191,7 @@ export default function Sidebar() {
                                         totalParticipants={
                                             privateRoom?.totalParticipants
                                         }
+                                        closeMenuFn={() => setIsMenuOpen(false)}
                                     />
                                 )}
                             </div>
@@ -253,6 +254,9 @@ export default function Sidebar() {
                                             isPrivate={false}
                                             totalParticipants={
                                                 room?.totalParticipants
+                                            }
+                                            closeMenuFn={() =>
+                                                setIsMenuOpen(false)
                                             }
                                         />
                                     ))
