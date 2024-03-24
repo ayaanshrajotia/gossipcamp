@@ -67,25 +67,25 @@ function RoomBoxHome({
     };
     return (
         <div
-            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >
-            <div className="flex gap-4">
+            <div className="flex  gap-4">
                 {/* Image */}
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
-                        <div className="">
-                            <div className="relative h-[80px] w-[80px]">
-                                <Image
-                                    src={roomDP}
-                                    alt="avatar-1"
-                                    sizes="33vw"
-                                    fill
-                                    className="object-cover rounded-full "
-                                />
-                            </div>
+                        {/* <div className=""> */}
+                        <div className="relative h-[80px] w-[80px]">
+                            <Image
+                                src={roomDP}
+                                alt="avatar-1"
+                                sizes="33vw"
+                                fill
+                                className="object-cover rounded-full "
+                            />
                         </div>
+                        {/* </div> */}
                     </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 w-full">

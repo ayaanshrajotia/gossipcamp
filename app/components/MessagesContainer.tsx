@@ -114,7 +114,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
             {messageLoading && (
                 <Skeleton
-                    count={3}
+                    count={2}
+                    width={200}
                     baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
                     highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                 />
@@ -122,36 +123,92 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
             {pageNo === 1 && messageLoading ? (
                 <div className="flex flex-col-reverse gap-4 h-full">
+                    <div className="self-end">
+                        <Skeleton
+                            count={2}
+                            width={200}
+                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            highlightColor={
+                                theme === "dark" ? "#444" : "#f2f2f2"
+                            }
+                        />
+                    </div>
                     <Skeleton
-                        count={3}
+                        count={2}
+                        width={200}
                         baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
-                        count={3}
+                        count={2}
+                        width={200}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <div className="self-end">
+                        <Skeleton
+                            count={2}
+                            width={200}
+                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            highlightColor={
+                                theme === "dark" ? "#444" : "#f2f2f2"
+                            }
+                        />
+                    </div>
+                    <div className="self-end">
+                        <Skeleton
+                            count={2}
+                            width={200}
+                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            highlightColor={
+                                theme === "dark" ? "#444" : "#f2f2f2"
+                            }
+                        />
+                    </div>
+                    <Skeleton
+                        count={2}
+                        width={200}
                         baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
-                        count={3}
+                        count={2}
+                        width={200}
+                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <div className="self-end">
+                        <Skeleton
+                            count={2}
+                            width={200}
+                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            highlightColor={
+                                theme === "dark" ? "#444" : "#f2f2f2"
+                            }
+                        />
+                    </div>
+                    <Skeleton
+                        count={2}
+                        width={200}
                         baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
-                        count={3}
+                        count={2}
+                        width={200}
                         baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
-                    <Skeleton
-                        count={3}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
-                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
-                    />
-                    <Skeleton
-                        count={3}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
-                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
-                    />
+                    <div className="self-end">
+                        <Skeleton
+                            count={2}
+                            width={200}
+                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            highlightColor={
+                                theme === "dark" ? "#444" : "#f2f2f2"
+                            }
+                        />
+                    </div>
                 </div>
             ) : (
                 <>

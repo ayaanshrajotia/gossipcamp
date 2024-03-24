@@ -93,9 +93,9 @@ export default function Room() {
                     profile === null ? (
                         <Skeleton
                             count={2}
-                            width={600}
+                            width={200}
                             baseColor={
-                                theme === "light" ? "#202020" : "#ebebeb"
+                                theme === "light" ? "#202020" : "#c5c3c3"
                             }
                             highlightColor={
                                 theme === "light" ? "#444" : "#f2f2f2"

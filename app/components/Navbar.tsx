@@ -42,98 +42,116 @@ export default function Navbar() {
     };
 
     return (
-        <header className="light-shadow fixed top-0 z-[999] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-black">
+        <header className="max-[1330px]:w-[70px] light-shadow fixed top-0 z-[999] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
             <div className="flex h-[70px] items-center px-4">
-                <h1 className="font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
+                <h1 className="max-[1330px]:hidden font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
                 </h1>
             </div>
-            <nav className="mb-2 flex flex-1 flex-col justify-between p-4">
+            <nav className="max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
                 <div className="">
                     <ul className="flex w-full flex-col gap-2">
                         <li className="cursor-pointer dark:text-college-dark-white">
                             <Link
                                 href={"/home"}
-                                className={`font-secondary box-border flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
                                     pathname === "/home" ? "font-bold" : ""
                                 }`}
                             >
                                 {pathname === "/home" ? (
-                                    <HomeIconFilled className={`h-7 w-7`} />
+                                    <HomeIconFilled
+                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
+                                    />
                                 ) : (
-                                    <HomeIcon className={`h-7 w-7`} />
+                                    <HomeIcon
+                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
+                                    />
                                 )}
-                                Home
+                                <span className="max-[1330px]:hidden">
+                                    Home
+                                </span>
                             </Link>
                         </li>
                         <li className="cursor-pointer dark:text-college-dark-white">
                             <Link
                                 href={"/explore/people"}
-                                className={`font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
                                     pathname.includes("/explore")
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 <MagnifyingGlassIcon
-                                    className={`h-7 w-7 ${
+                                    className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7 ${
                                         pathname.includes("/explore")
                                             ? "stroke-[3]"
                                             : ""
                                     }`}
                                 />
-                                Explore
+                                <span className="max-[1330px]:hidden">
+                                    Explore
+                                </span>
                             </Link>
                         </li>
                         <li className="cursor-pointer dark:text-college-dark-white">
                             <Link
                                 href={"/notifications"}
-                                className={`font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                                className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
                                     pathname === "/notifications"
                                         ? "font-bold"
                                         : ""
                                 }`}
                             >
                                 {pathname === "/notifications" ? (
-                                    <BellIconFilled className={`h-7 w-7`} />
+                                    <BellIconFilled
+                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
+                                    />
                                 ) : (
-                                    <BellIcon className={`h-7 w-7`} />
+                                    <BellIcon
+                                        className={`max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7`}
+                                    />
                                 )}
-                                Notifications
+                                <span className="max-[1330px]:hidden">
+                                    Notifications
+                                </span>
                             </Link>
                         </li>
                     </ul>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <button
+                <ul className="flex flex-col gap-2">
+                    <li
                         onClick={() =>
                             theme == "dark"
                                 ? setTheme("light")
                                 : setTheme("dark")
                         }
-                        className=" font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] px-4 py-2.5 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2 cursor-pointer"
                     >
                         {theme === "light" ? (
                             <>
-                                <MoonIcon className="h-6 w-6 stroke-[2]" />
-                                <span>Dark Mode</span>
+                                <MoonIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                                <span className="max-[1330px]:hidden">
+                                    Dark Mode
+                                </span>
                             </>
                         ) : (
                             <>
-                                <SunIcon className="h-6 w-6 stroke-[2]" />
-                                <span>Light Mode</span>
+                                <SunIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                                <span className="max-[1330px]:hidden">
+                                    Light Mode
+                                </span>
                             </>
                         )}
-                    </button>
-                    <button
+                    </li>
+                    <li
                         onClick={handleLogout}
-                        className=" font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] px-4 py-2.5 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2 cursor-pointer"
                     >
-                        <ArrowRightStartOnRectangleIcon className="h-6 w-6 stroke-[2]" />
-                        Logout
-                    </button>
-                </div>
+                        <ArrowRightStartOnRectangleIcon className="max-[1300px]:h-8 max-[1300px]:w-8 h-7 w-7" />
+                        <span className="max-[1330px]:hidden">Logout</span>
+                    </li>
+                </ul>
             </nav>
         </header>
     );

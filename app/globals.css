@@ -108,7 +108,7 @@ input:focus {
 .box-shadow-static-dark {
     -webkit-box-shadow: 5px 5px 0px 0px rgba(47, 47, 47, 0.75);
     -moz-box-shadow: 5px 5px 0px 0px rgba(47, 47, 47, 0.75);
-    box-shadow: 5px 5px 0px 0px rgba(22, 22, 22, 0.964);
+    box-shadow: 5px 5px 0px 0px rgba(50, 50, 50, 0.964);
     transition: all 0.1s ease-in-out;
 }
 

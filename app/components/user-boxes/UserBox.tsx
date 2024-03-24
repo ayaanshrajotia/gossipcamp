@@ -24,7 +24,7 @@ function UserBox({
 
     return (
         <div
-            className={`relative border-1 rounded-xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[150px] cursor-pointer dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+            className={`relative border-1 rounded-xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[150px] cursor-pointer dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >

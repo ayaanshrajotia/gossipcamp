@@ -107,7 +107,7 @@ function Page() {
                         </>
                     ) : (
                         <>
-                            <div className="flex">
+                            <div className="max-[700px]:flex-col flex">
                                 <div className="flex flex-1 gap-5 h-full">
                                     <div className="flex items-center">
                                         <div className="relative w-[110px] h-[110px]">
@@ -152,13 +152,13 @@ function Page() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center">
+                                <div className="max-[700px]:justify-center flex items-center">
                                     <h1 className="font-primary font-black text-3xl p-6">
                                         {userProfile?.position}
                                     </h1>
                                 </div>
                             </div>
-                            <div className="flex w-full gap-8 justify-evenly">
+                            <div className="max-[700px]:grid max-[700px]:grid-cols-2 flex w-full gap-8 justify-evenly">
                                 <div className="flex flex-col items-center">
                                     <span className="font-bold text-2xl">
                                         #1

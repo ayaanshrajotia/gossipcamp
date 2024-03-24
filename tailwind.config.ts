@@ -20,9 +20,11 @@ const config: Config = {
                 "college-dark-black": "#000000",
                 "college-dark-white": "#E6E9EA",
                 "college-dark-white-2": "#858585",
+                "college-dark-gray-0": "#0f0f0f",
                 "college-dark-gray-1": "#121212",
                 "college-dark-gray-2": "#181818",
                 "college-dark-gray-3": "#262626",
+                "college-dark-gray-4": "",
             },
             fontFamily: {
                 primary: ["Lato", "sans-serif"],

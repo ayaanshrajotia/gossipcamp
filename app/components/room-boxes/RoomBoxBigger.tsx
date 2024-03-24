@@ -69,11 +69,11 @@ function RoomBoxBigger({
 
     return (
         <div
-            className={`relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
+            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-1 dark:border-college-dark-gray-3`}
             style={{ color: textColor }}
             {...props}
         >
-            <div className="flex gap-4">
+            <div className="max-[550px]:flex-col flex gap-4 max-[550px]:items-center">
                 {/* Image */}
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
@@ -91,11 +91,11 @@ function RoomBoxBigger({
                     </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 w-full">
-                    <div className="flex w-full">
+                    <div className="max-[550px]:items-center max-[550px]:flex-col max-[550px]:gap-2 flex w-full">
                         {/* Details */}
-                        <div className="flex w-full gap-4">
-                            <div className="flex flex-col">
-                                <span className="font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
+                        <div className="max-[550px]:justify-center flex w-full gap-4">
+                            <div className="max-[550px]:gap-0 max-[550px]:flex-col  max-[550px]:items-baseline flex flex-col">
+                                <span className="max-[550px]:text-2xl font-secondary font-extrabold text-xl text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                                     {roomName}
                                 </span>
                                 <span className="font-secondary text-college-dark-white-2 text-sm text-ellipsis overflow-hidden line-clamp-1">
@@ -111,23 +111,24 @@ function RoomBoxBigger({
                             height="h-[35px]"
                             margin="-ml-4"
                             totalParticipants={totalParticipants}
+                            className=""
                         />
                     </div>
                     {/* Join */}
-                    <div className="flex justify-between items-center gap-6 w-full">
-                        <p className="text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
+                    <div className="max-[550px]:mt-2 max-[550px]:gap-2 max-[550px]:flex-col flex justify-between gap-6 w-full">
+                        <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                             {roomDescription}
                         </p>
                         {isPrivate ? (
                             <Link
                                 href={`/rooms/profile/${roomId}`}
-                                className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end"
+                                className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white dark:hover:border-college-dark-gray-3"
                             >
                                 View Room
                             </Link>
                         ) : (
                             <button
-                                className="bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end  dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white"
+                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white dark:hover:border-college-dark-gray-3"
                                 onClick={() => handleJoinRoom()}
                             >
                                 Join Room

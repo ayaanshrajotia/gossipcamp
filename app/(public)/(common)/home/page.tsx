@@ -57,7 +57,7 @@ const Home = () => {
                         <h1 className="text-3xl font-extrabold font-secondary dark:text-college-dark-white">
                             Trending Rooms
                         </h1>
-                        <div className="mt-4 grid grid-cols-2 gap-6">
+                        <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
                             {pageLoading || trendingLoading ? (
                                 <>
                                     <Skeleton
@@ -152,7 +152,7 @@ const Home = () => {
                         <h1 className="text-3xl font-extrabold dark:text-college-dark-white">
                             Recently Added Rooms
                         </h1>
-                        <div className="mt-4 grid grid-cols-2 gap-6">
+                        <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
                             {pageLoading || recentlyAddedLoading ? (
                                 <>
                                     <Skeleton

@@ -68,7 +68,7 @@ function Page() {
                     />
                 </div>
             ) : (
-                <div className="mt-4 grid grid-cols-4 gap-8">
+                <div className="max-[500px]:grid-cols-1 max-[600px]:grid-cols-2 max-[800px]:grid-cols-3 mt-4 grid grid-cols-4 gap-8">
                     {users?.map((user: any) => (
                         <UserBox
                             key={user._id}
