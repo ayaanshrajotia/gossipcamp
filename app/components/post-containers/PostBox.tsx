@@ -149,7 +149,7 @@ function PostBox({
                             @{user}
                         </h2>
                     </div>
-                    <p className="leading-tight">{description}</p>
+                    <p className="leading-tight text-base">{description}</p>
                     <>
                         {postImgUrl && (
                             <div className="relative w-full h-[200px] mt-3">

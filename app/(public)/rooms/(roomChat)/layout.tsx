@@ -2,7 +2,13 @@
 import React, { useState } from "react";
 
 // icons
-import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import {
+    FaceSmileIcon,
+    PaperAirplaneIcon,
+    PlusCircleIcon,
+    PlusIcon,
+} from "@heroicons/react/24/outline";
+import { ChartBarIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import axiosInstance from "@/app/utils/axios";
@@ -13,6 +19,8 @@ import { v4 as uuidv4, v4 } from "uuid";
 import EmojiPicker from "emoji-picker-react";
 import { useTheme } from "next-themes";
 import { Theme } from "emoji-picker-react";
+import Dropdown from "@/app/components/Dropdown";
+import PollMenu from "@/app/components/PollMenu";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [messageText, setMessageText] = useState("");
@@ -22,12 +30,32 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const { profile } = useSelector((state: RootState) => state.auth);
     const { messages } = useSelector((state: RootState) => state.chat);
     let { roomId } = useParams();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { theme } = useTheme();
+    const [isPollMenuOpen, setIsPollMenuOpen] = useState(false);
+
+    const menuOptions = [
+        {
+            id: 1,
+            name: "Poll",
+            icon: <ChartBarIcon className="h-6 w-6" />,
+            action: () => {
+                setIsPollMenuOpen((prev) => !prev);
+            },
+        },
+        {
+            id: 2,
+            name: "Image",
+            icon: <PhotoIcon className="h-6 w-6" />,
+            action: () => {
+                console.log("edit");
+            },
+        },
+    ];
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
-        // dispatch(sendMessageEmitter({ roomId: "123", message: messageText, profileId:  }))
         setLoading(true);
         try {
             let message = {
@@ -109,14 +137,31 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             setIsEmojiPicker(false);
                         }}
                     />
+                    {isPollMenuOpen && (
+                        <PollMenu
+                            closePollMenu={() => setIsPollMenuOpen(false)}
+                        />
+                    )}
                     <form
                         onSubmit={handleSendMessage}
-                        className="flex items-center gap-4 p-2.5 px-3 w-full bg-white rounded-xl border-1 border-college-dark-gray-1 dark:bg-college-dark-gray-3"
+                        className="flex items-center gap-2 p-2.5 px-3 w-full bg-white rounded-xl border-[1px] dark:border-college-dark-gray-3 dark:bg-college-dark-gray-3"
                     >
                         <FaceSmileIcon
-                            className="w-6 h-6 cursor-pointer"
+                            className="w-6 h-6 cursor-pointer stroke-[#565759] dark:stroke-college-dark-white-2"
                             onClick={() => setIsEmojiPicker((prev) => !prev)}
                         />
+                        <PlusIcon
+                            className="w-6 h-6 fill-white cursor-pointer stroke-[#565759] dark:stroke-college-dark-white-2"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        />
+                        {isMenuOpen && (
+                            <Dropdown
+                                handleOptions={() => {}}
+                                options={menuOptions}
+                                className="absolute left-0 bottom-14"
+                                onClick={() => setIsMenuOpen(false)}
+                            />
+                        )}
                         <input
                             ref={inputRef}
                             type="text"
@@ -125,7 +170,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             onChange={(e) => setMessageText(e.target.value)}
                         />
                         <button type="submit">
-                            <PaperAirplaneIcon className="w-6 h-6 fill-white" />
+                            <PaperAirplaneIcon className="w-6 h-6 stroke-[#565759] dark:stroke-college-dark-white-2" />
                         </button>
                     </form>
                 </div>

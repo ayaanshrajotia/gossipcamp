@@ -42,7 +42,7 @@ export default function Navbar() {
     };
 
     return (
-        <header className="max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-0 ">
+        <header className="max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1">
             <div className="max-[1330px]:justify-center max-[1330px]:p-0 flex h-[70px] items-center px-4">
                 <h1 className="max-[1330px]:hidden font-secondary flex gap-3 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
@@ -58,7 +58,7 @@ export default function Navbar() {
                     <li className="cursor-pointer dark:text-college-dark-white">
                         <Link
                             href={"/home"}
-                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
                                 pathname === "/home" ? "font-bold" : ""
                             }`}
                         >
@@ -73,7 +73,7 @@ export default function Navbar() {
                     <li className="cursor-pointer dark:text-college-dark-white">
                         <Link
                             href={"/explore/people"}
-                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
                                 pathname.includes("/explore") ? "font-bold" : ""
                             }`}
                         >
@@ -90,7 +90,7 @@ export default function Navbar() {
                     <li className="cursor-pointer dark:text-college-dark-white">
                         <Link
                             href={"/notifications"}
-                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-2 ${
+                            className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
                                 pathname === "/notifications" ? "font-bold" : ""
                             }`}
                         >
@@ -112,7 +112,7 @@ export default function Navbar() {
                                 ? setTheme("light")
                                 : setTheme("dark")
                         }
-                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2 cursor-pointer"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer"
                     >
                         {theme === "light" ? (
                             <>
@@ -132,7 +132,7 @@ export default function Navbar() {
                     </li>
                     <li
                         onClick={handleLogout}
-                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-2 cursor-pointer"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer"
                     >
                         <ArrowRightStartOnRectangleIcon className=" h-7 w-7" />
                         <span className="max-[1330px]:hidden">Logout</span>

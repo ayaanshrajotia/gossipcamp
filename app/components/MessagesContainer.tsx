@@ -112,11 +112,22 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
+            {/* <MessageBox
+                key={123}
+                messageType={"Poll"}
+                date={"12 June"}
+                profileUrl={"/public/images/avatar-1.png"}
+                user={"AyaanshRajotia"}
+                description={"Did you know about this?"}
+                isUser={true}
+                likesCount={1}
+                isLiked={true}
+            /> */}
             {messageLoading && (
                 <Skeleton
                     count={2}
                     width={200}
-                    baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                    baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                     highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                 />
             )}
@@ -127,7 +138,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                         <Skeleton
                             count={2}
                             width={200}
-                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                             highlightColor={
                                 theme === "dark" ? "#444" : "#f2f2f2"
                             }
@@ -136,20 +147,20 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <div className="self-end">
                         <Skeleton
                             count={2}
                             width={200}
-                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                             highlightColor={
                                 theme === "dark" ? "#444" : "#f2f2f2"
                             }
@@ -159,7 +170,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                         <Skeleton
                             count={2}
                             width={200}
-                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                             highlightColor={
                                 theme === "dark" ? "#444" : "#f2f2f2"
                             }
@@ -168,20 +179,20 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <div className="self-end">
                         <Skeleton
                             count={2}
                             width={200}
-                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                             highlightColor={
                                 theme === "dark" ? "#444" : "#f2f2f2"
                             }
@@ -190,20 +201,20 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <Skeleton
                         count={2}
                         width={200}
-                        baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                         highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
                     />
                     <div className="self-end">
                         <Skeleton
                             count={2}
                             width={200}
-                            baseColor={theme === "dark" ? "#202020" : "#ebebeb"}
+                            baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
                             highlightColor={
                                 theme === "dark" ? "#444" : "#f2f2f2"
                             }

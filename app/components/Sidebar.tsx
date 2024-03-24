@@ -76,7 +76,7 @@ export default function Sidebar() {
                             {pageLoading || loading || profile === null ? (
                                 <Link
                                     href={"/create-avatar"}
-                                    className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse dark:text-black"
+                                    className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse dark:text-black text-sm"
                                 >
                                     Create Your Profile
                                 </Link>

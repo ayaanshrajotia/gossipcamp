@@ -248,7 +248,7 @@ input:focus {
     left: 10px;
     font-size: 0.8rem;
     color: #757575;
-    /* background-color: #fff; */
+    background: linear-gradient(0deg, #fff, #f6f6f9);
 }
 
 .input-group-dark input:focus ~ label,
@@ -257,7 +257,7 @@ input:focus {
     left: 10px;
     font-size: 0.8rem;
     color: #757575;
-    /* background-color: #fff; */
+    background: linear-gradient(0deg, #262626, #181818);
 }
 
 .text-trim {
