@@ -80,7 +80,7 @@ function Page() {
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
-                    } dark:bg-college-dark-gray-3 dark:text-college-dark-white`}
+                    } dark:bg-college-dark-gray-2 dark:text-college-dark-white`}
                 >
                     {userLoading || pageLoading ? (
                         <>
@@ -138,7 +138,7 @@ function Page() {
                                             {userProfile?.user !==
                                                 user?._id && (
                                                 <button
-                                                    className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit"
+                                                    className="bg-college-yellow py-1 px-8 font-bold rounded-full w-fit dark:text-college-dark-gray-1"
                                                     onClick={handleToggleFollow}
                                                 >
                                                     {isFollow
@@ -193,10 +193,10 @@ function Page() {
                         {options.map((option) => (
                             <Link href={option.slug} key={option.id}>
                                 <li
-                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white ${
+                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white dark:hover:bg-college-dark-white dark:hover:text-college-dark-gray-1 ${
                                         pathname.includes(option.slug)
                                             ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
-                                            : "bg-white dark:bg-college-dark-gray-1 dark:text-college-dark-white"
+                                            : "bg-white dark:bg-college-dark-gray-3 dark:text-college-dark-white"
                                     }`}
                                 >
                                     {option.title}
@@ -210,7 +210,7 @@ function Page() {
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
-                    } dark:bg-college-dark-gray-1`}
+                    } dark:bg-college-dark-gray-2`}
                 ></div>
             </div>
         </div>

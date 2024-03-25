@@ -125,7 +125,7 @@ function RoomBoxHome({
                             {roomDescription}
                         </p>
                         <button
-                            className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white"
+                            className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2  dark:border-college-dark-white dark:hover:text-college-dark-white"
                             onClick={() => handleJoinRoom()}
                         >
                             Join Room

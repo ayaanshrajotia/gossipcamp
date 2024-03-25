@@ -45,9 +45,9 @@ function RoomBoxBigger({
             if (response.meta.requestStatus === "rejected") {
                 throw new Error(response.payload);
             } else {
+                toast.success("Joined Room");
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
-                router.push(`/rooms/${roomId}`);
                 const capitalizedName =
                     capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
                 dispatch(
@@ -57,8 +57,7 @@ function RoomBoxBigger({
                         username: capitalizedName,
                     })
                 );
-
-                toast.success("Joined Room");
+                router.push(`/rooms/${roomId}`);
             }
 
             // redirect to room page
@@ -69,7 +68,7 @@ function RoomBoxBigger({
 
     return (
         <div
-            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
+            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3 `}
             style={{ color: textColor }}
             {...props}
         >
@@ -130,13 +129,13 @@ function RoomBoxBigger({
                         {isPrivate ? (
                             <Link
                                 href={`/rooms/profile/${roomId}`}
-                                className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white dark:hover:border-college-dark-gray-3"
+                                className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
                             >
                                 View Room
                             </Link>
                         ) : (
                             <button
-                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-black dark:hover:text-college-dark-white dark:hover:border-college-dark-gray-3"
+                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
                                 onClick={() => handleJoinRoom()}
                             >
                                 Join Room

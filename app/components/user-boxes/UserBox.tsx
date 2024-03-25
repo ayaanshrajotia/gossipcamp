@@ -55,7 +55,7 @@ function UserBox({
 
                 <Link
                     href={`/profile/${userName.toLowerCase()}`}
-                    className="bg-black text-white text-sm font-bold rounded-full p-1 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-1 border-black transition-all duration-75 dark:text-college-dark-gray-1 dark:bg-college-dark-white"
+                    className="bg-black text-white text-sm font-bold rounded-full p-1 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-[1px] border-black transition-all duration-75 dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
                 >
                     View
                 </Link>
