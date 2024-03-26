@@ -59,7 +59,7 @@ export default function Sidebar() {
         <>
             <div className="min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002]">
                 <Bars3Icon
-                    className={`w-9 h-9 stroke-white dark:stroke-black cursor-pointer`}
+                    className={`min-[1160px]:hidden w-9 h-9 stroke-white dark:stroke-black cursor-pointer`}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 />
             </div>
@@ -135,7 +135,7 @@ export default function Sidebar() {
                                 </Link>
                             </div>
                             <Bars3Icon
-                                className={`w-9 h-9 fill-white cursor-pointer`}
+                                className={`min-[1160px]:hidden w-9 h-9 fill-white cursor-pointer`}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                             />
                         </div>
