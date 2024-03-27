@@ -1,14 +1,12 @@
 "use client";
-
 import Button from "@/app/components/Button";
-import Dropdown from "@/app/components/Dropdown";
 import Image from "next/image";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import {
     accessoriesTypeOptions,
+    clotheColorOptions,
     clotheTypeOptions,
     eyeTypeOptions,
-    eyebrowTypeOptions,
     facialHairColorOptions,
     facialHairTypeOptions,
     firstNames,
@@ -24,22 +22,22 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { createAvatar } from "@/lib/slices/authSlice";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { any } from "zod";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
-    const [lastName, setlastName] = useState("Choose Last Name");
+    const [lastName, setLastName] = useState("Choose Last Name");
     const [userDetails, setUserDetails] = useState<any>({});
     const [avatarParams, setAvatarParams] = useState({
         avatarStyle: "Circle",
         topType: "LongHairStraight",
         accessoriesType: "Blank",
         hairColor: "BrownDark",
-        facialHairColor: "BlondeGolden",
+        facialHairColor: "Auburn",
         facialHairType: "Blank",
         clotheType: "BlazerShirt",
+        clotheColor: "Black",
         eyeType: "Default",
         eyebrowType: "Default",
         mouthType: "Default",
@@ -47,14 +45,68 @@ function CreateAvatar() {
     });
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-    const { user } = useSelector((state: RootState) => state.auth || "");
+    const { user, loading } = useSelector(
+        (state: RootState) => state.auth || ""
+    );
     const { theme } = useTheme();
+
+    const getRandomIndex = (length: number) => {
+        return Math.floor(Math.random() * length);
+    };
+
+    const getRandomNames = () => {
+        const randomFirstNameIndex = getRandomIndex(firstNames.length);
+        const randomLastNameIndex = getRandomIndex(lastNames.length);
+        const randomFirstName = firstNames[randomFirstNameIndex];
+        const randomLastName = lastNames[randomLastNameIndex];
+
+        setFirstName(randomFirstName.name);
+        setLastName(randomLastName.name);
+    };
+
+    const getRandomAvatarParams = () => {
+        const randomTopTypeIndex = getRandomIndex(topTypeOptions.length);
+        const randomHairColorIndex = getRandomIndex(hairColorOptions.length);
+        const randomAccessoriesTypeIndex = getRandomIndex(
+            accessoriesTypeOptions.length
+        );
+        const randomSkinColorIndex = getRandomIndex(skinColorOptions.length);
+        const randomFacialHairTypeIndex = getRandomIndex(
+            facialHairTypeOptions.length
+        );
+        const randomFacialHairColorIndex = getRandomIndex(
+            facialHairColorOptions.length
+        );
+        const randomClotheTypeIndex = getRandomIndex(clotheTypeOptions.length);
+        const randomClotheColorIndex = getRandomIndex(
+            clotheColorOptions.length
+        );
+        const randomEyeTypeIndex = getRandomIndex(eyeTypeOptions.length);
+        const randomMouthTypeIndex = getRandomIndex(mouthTypeOptions.length);
+
+        setAvatarParams((prev) => ({
+            ...prev,
+            topType: topTypeOptions[randomTopTypeIndex].name,
+            hairColor: hairColorOptions[randomHairColorIndex].name,
+            accessoriesType:
+                accessoriesTypeOptions[randomAccessoriesTypeIndex].name,
+            skinColor: skinColorOptions[randomSkinColorIndex].name,
+            facialHairType:
+                facialHairTypeOptions[randomFacialHairTypeIndex].name,
+            facialHairColor:
+                facialHairColorOptions[randomFacialHairColorIndex].name,
+            clotheType: clotheTypeOptions[randomClotheTypeIndex].name,
+            clotheColor: clotheColorOptions[randomClotheColorIndex].name,
+            eyeType: eyeTypeOptions[randomEyeTypeIndex].name,
+            mouthType: mouthTypeOptions[randomMouthTypeIndex].name,
+        }));
+    };
 
     useLayoutEffect(() => {
         setUserDetails(user);
     }, [userDetails]);
 
-    const url = `https://avataaars.io/?avatarStyle=Circle&${avatarParams.accessoriesType}&topType=${avatarParams.topType}&accessoriesType=${avatarParams.accessoriesType}&hairColor=${avatarParams.hairColor}&facialHairType=${avatarParams.facialHairType}&clotheType=${avatarParams.clotheType}&eyebrowType=${avatarParams.eyebrowType}&mouthType=${avatarParams.mouthType}&skinColor=${avatarParams.skinColor}&eyeType=${avatarParams.eyeType}`;
+    const url = `https://avataaars.io/?avatarStyle=Circle&${avatarParams.accessoriesType}&topType=${avatarParams.topType}&accessoriesType=${avatarParams.accessoriesType}&hairColor=${avatarParams.hairColor}&facialHairType=${avatarParams.facialHairType}&clotheType=${avatarParams.clotheType}&eyebrowType=${avatarParams.eyebrowType}&mouthType=${avatarParams.mouthType}&skinColor=${avatarParams.skinColor}&eyeType=${avatarParams.eyeType}&facialHairColor=${avatarParams.facialHairColor}&clotheColor=${avatarParams.clotheColor}`;
 
     const handleCreateProfile = async () => {
         try {
@@ -74,7 +126,7 @@ function CreateAvatar() {
             );
             if (response.meta.requestStatus === "fulfilled") {
                 router.push("/home");
-                toast.success("Avatar created successfully");
+                toast.success("Welcome to GossipCamp");
             } else throw new Error(response.payload);
         } catch (error: any) {
             console.log(error);
@@ -87,10 +139,10 @@ function CreateAvatar() {
             <h1 className="font-secondary font-bold text-5xl text-college-grey dark:text-college-dark-white">
                 Create your Avatar!
             </h1>
-            <div className="flex w-full gap-14">
+            <div className="flex w-full gap-14 max-[800px]:flex-col-reverse">
                 {/* Left Side */}
-                <div className="w-1/2 flex flex-col gap-5">
-                    <div className="flex flex-col gap-1">
+                <div className="min-[800px]:w-1/2 flex flex-col gap-5">
+                    <div className="flex flex-col gap-1 ">
                         <span className="font-semibold ">Name</span>
                         <div className="flex gap-6">
                             <select
@@ -107,8 +159,7 @@ function CreateAvatar() {
                                     <option
                                         key={item.id}
                                         value={""}
-                                        disabled={true}
-                                        selected={true}
+                                        defaultChecked
                                     >
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -127,14 +178,13 @@ function CreateAvatar() {
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
-                                onChange={(e) => setlastName(e.target.value)}
+                                onChange={(e) => setLastName(e.target.value)}
                             >
                                 {lastNames?.slice(0, 1).map((item) => (
                                     <option
                                         key={item.id}
                                         value={""}
-                                        disabled={true}
-                                        selected={true}
+                                        defaultChecked
                                     >
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -149,7 +199,7 @@ function CreateAvatar() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold ">
-                            Hair Type and Color
+                            Hair Type and Hair Color
                         </span>
                         <div className="flex gap-6">
                             <select
@@ -196,6 +246,7 @@ function CreateAvatar() {
                             </select>
                         </div>
                     </div>
+
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold ">
                             Accessories and Skin Color
@@ -247,7 +298,7 @@ function CreateAvatar() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold ">
-                            Facial Hair Type & Color
+                            Facial Hair Type & Facial Hair Color
                         </span>
                         <div className="flex gap-6">
                             <select
@@ -282,7 +333,7 @@ function CreateAvatar() {
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
-                                        fa: e.target.value,
+                                        facialHairColor: e.target.value,
                                     }))
                                 }
                             >
@@ -296,7 +347,7 @@ function CreateAvatar() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold ">
-                            Cloth Type & Eye Type
+                            Cloth Type & Cloth Color
                         </span>
                         <div className="flex gap-6">
                             <select
@@ -331,11 +382,11 @@ function CreateAvatar() {
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
-                                        eyeType: e.target.value,
+                                        clotheColor: e.target.value,
                                     }))
                                 }
                             >
-                                {eyeTypeOptions?.map((item) => (
+                                {clotheColorOptions?.map((item) => (
                                     <option key={item.id} value={item.name}>
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -345,7 +396,7 @@ function CreateAvatar() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold ">
-                            Eyebrow Type & Mouth Type
+                            Eye Type & Mouth Type
                         </span>
                         <div className="flex gap-6">
                             <select
@@ -359,11 +410,11 @@ function CreateAvatar() {
                                 onChange={(e) =>
                                     setAvatarParams((prev) => ({
                                         ...prev,
-                                        eyebrowType: e.target.value,
+                                        eyeType: e.target.value,
                                     }))
                                 }
                             >
-                                {eyebrowTypeOptions?.map((item) => (
+                                {eyeTypeOptions?.map((item) => (
                                     <option key={item.id} value={item.name}>
                                         {capitalizeFirstLetter(item.name)}
                                     </option>
@@ -394,15 +445,13 @@ function CreateAvatar() {
                     </div>
                 </div>
                 {/* Right Side */}
-                <div className="w-1/2 flex justify-end">
-                    {/* <div className="relative w-[420px] text-base gap-x-1.5 rounded-3xl bg-gray-200 p-7 pt-14 text-gray-900 cursor-pointer"> */}
-                    {/* <div className="h-[100px] w-[60px] bg-black absolute -top-[70px] left-0 right-0 mx-auto"></div> */}
-                    <div className="relative rounded-2xl h-full p-10 w-[500px] border-1 dark:border-college-dark-gray-3">
+                <div className="min-[800px]:w-1/2  flex justify-end max-[800px]:justify-center">
+                    <div className="relative rounded-2xl h-full p-10 w-full max-w-[500px] border-1 dark:border-college-dark-gray-3">
                         <div className="bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-contain h-full w-full absolute top-0 left-0 invert-[20%]"></div>
-
+                        {/* Details */}
                         <div className="relative h-full bg-white flex flex-col items-center gap-6 p-6 rounded-2xl border-1 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-3">
                             <div className="relative w-full flex justify-center">
-                                <div className="relative h-[160px] w-[160px]">
+                                <div className="relative h-[160px] w-[160px] max-md:w-[120px] max-md:h-[120px]">
                                     <Image
                                         src={url}
                                         sizes="33vw"
@@ -411,11 +460,14 @@ function CreateAvatar() {
                                         className="object-contain"
                                     />
                                 </div>
-                                <ArrowPathIcon className="absolute my-auto right-0 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer" />
+                                <ArrowPathIcon
+                                    className="absolute my-auto -right-3 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
+                                    onClick={() => getRandomAvatarParams()}
+                                />
                             </div>
                             <div className="flex flex-col items-center gap-6 w-full">
                                 <div className="relative flex justify-center mb-3 w-full">
-                                    <span className="text-4xl font-bold">
+                                    <span className="text-3xl font-bold">
                                         {firstName !== "Choose First Name"
                                             ? capitalizeFirstLetter(firstName)
                                             : "Black"}
@@ -423,11 +475,14 @@ function CreateAvatar() {
                                             ? capitalizeFirstLetter(lastName)
                                             : "Bear"}
                                     </span>
-                                    <ArrowPathIcon className="absolute my-auto right-0 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer" />
+                                    <ArrowPathIcon
+                                        className="absolute my-auto -right-3 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
+                                        onClick={() => getRandomNames()}
+                                    />
                                 </div>
                                 <div className="flex flex-col gap-2 w-full">
                                     <div className="flex justify-between">
-                                        <span className="font-bold text-lg">
+                                        <span className="font-bold text-lg mr-2">
                                             Email:
                                         </span>
                                         <span className="text-right text-lg">
@@ -449,7 +504,6 @@ function CreateAvatar() {
                     {/* </div> */}
                 </div>
             </div>
-
             <Button
                 bgcolor="bg-[#fdd800]"
                 textColor="#000000"
@@ -457,7 +511,7 @@ function CreateAvatar() {
                 className=""
                 onClick={handleCreateProfile}
             >
-                Enter
+                {loading ? "Entering..." : "Enter"}
             </Button>
         </div>
     );

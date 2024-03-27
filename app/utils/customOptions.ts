@@ -145,6 +145,23 @@ const clotheTypeOptions = [
     { id: 9, name: "ShirtVNeck" },
 ];
 
+const clotheColorOptions = [
+    { name: "Black", id: 1 },
+    { name: "Blue02", id: 3 },
+    { name: "Blue03", id: 4 },
+    { name: "Gray01", id: 5 },
+    { name: "Gray02", id: 6 },
+    { name: "Heather", id: 7 },
+    { name: "PastelBlue", id: 8 },
+    { name: "PastelGreen", id: 9 },
+    { name: "PastelOrange", id: 10 },
+    { name: "PastelRed", id: 11 },
+    { name: "PastelYellow", id: 12 },
+    { name: "Pink", id: 13 },
+    { name: "Red", id: 14 },
+    { name: "White", id: 15 },
+];
+
 const eyeTypeOptions = [
     { id: 1, name: "Close" },
     { id: 2, name: "Cry" },
@@ -214,4 +231,5 @@ export {
     hairColorOptions,
     accessoriesTypeOptions,
     topTypeOptions,
+    clotheColorOptions,
 };
