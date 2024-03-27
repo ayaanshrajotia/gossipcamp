@@ -461,13 +461,13 @@ function CreateAvatar() {
                                     />
                                 </div>
                                 <ArrowPathIcon
-                                    className="absolute my-auto -right-3 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
+                                    className="absolute my-auto -right-3 top-0 bottom-0 max-[400px]:w-6 max-[400px]:h-6 max-[400px]:p-1 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
                                     onClick={() => getRandomAvatarParams()}
                                 />
                             </div>
-                            <div className="flex flex-col items-center gap-6 w-full">
+                            <div className="flex flex-col items-center max-[400px]:gap-8 gap-6 w-full">
                                 <div className="relative flex justify-center mb-3 w-full">
-                                    <span className="text-3xl font-bold">
+                                    <span className="text-3xl font-bold max-[800px]:text-xl">
                                         {firstName !== "Choose First Name"
                                             ? capitalizeFirstLetter(firstName)
                                             : "Black"}
@@ -476,7 +476,7 @@ function CreateAvatar() {
                                             : "Bear"}
                                     </span>
                                     <ArrowPathIcon
-                                        className="absolute my-auto -right-3 top-0 bottom-0 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
+                                        className="absolute my-auto min-[400px]:-right-3 max-[400px]:top-[45px] top-0 bottom-0 max-[400px]:w-6 max-[400px]:h-6 max-[400px]:p-1 w-8 h-8 bg-college-yellow stroke-black stroke-[2] rounded-full p-2 cursor-pointer"
                                         onClick={() => getRandomNames()}
                                     />
                                 </div>
