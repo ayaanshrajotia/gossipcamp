@@ -62,7 +62,6 @@ function PostBox({
     const [likesLoading, setLikesLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const [liked, setLiked] = useState(isLiked);
-    console.log(liked);
 
     const roomId = useParams().roomId;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
