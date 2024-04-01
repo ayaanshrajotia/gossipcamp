@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { MessagesContainerProps } from "@/app/utils/definitions";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -69,9 +69,11 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     top: document.body.scrollHeight, // Scroll to the bottom
                 });
             } else {
-                window.scrollTo({
-                    top: document.body.scrollHeight - prevheight, // Scroll to the bottom
-                });
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.body.scrollHeight - prevheight, // Scroll to the bottom
+                    });
+                }, 1000);
             }
             timer = setTimeout(() => {
                 setLoading(false);
@@ -111,7 +113,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-            <MessageBox
+            {/* <MessageBox
                 key={123}
                 messageType={"Image"}
                 date={"12 June"}
@@ -122,7 +124,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 postImgUrl="/images/avatar-1.png"
                 likesCount={1}
                 isLiked={true}
-            />
+            /> */}
             {messageLoading && (
                 <Skeleton
                     count={2}
@@ -237,6 +239,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 messageType={message.messageType}
                                 date={message.updatedAt}
                                 profileUrl={message.profile?.avatar}
+                                postImgUrl={message.image?.url}
                                 user={
                                     capitalizeFirstLetter(
                                         message.profile?.fName

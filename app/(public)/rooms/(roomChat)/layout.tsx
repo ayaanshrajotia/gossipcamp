@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { MutableRefObject, useRef, useState } from "react";
 
 // icons
 import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -17,6 +17,7 @@ import { Theme } from "emoji-picker-react";
 import Dropdown from "@/app/components/Dropdown";
 import PollMenu from "@/app/components/input-menus/PollMenu";
 import ImageMenu from "@/app/components/input-menus/ImageMenu";
+import { resetFileInput } from "@/app/utils/helper";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [messageText, setMessageText] = useState("");
@@ -34,6 +35,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isImage, setIsImage] = useState(false);
 
     const [file, setFile] = useState<string | undefined>();
+    const [fileData, setFileData] = useState<any>();
 
     const menuOptions = [
         {
@@ -56,21 +58,28 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         },
     ];
 
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const inputRef = React.useRef<any>(null);
+
+    const fileInputRef = React.useRef<any>(null);
     const handleSendMessage = async (e: any) => {
         e.preventDefault();
+        setIsImage(false);
         setLoading(true);
+        setFile(undefined);
         try {
             let message = {
                 _id: v4(),
                 roomId: roomId,
                 text: messageText,
-                messageType: "Text",
+                messageType: isImage ? "Image" : "Text",
                 profile: {
                     _id: profile?._id,
                     fName: profile.fName,
                     lName: profile.lName,
                     avatar: profile.avatar,
+                },
+                image: {
+                    url: file,
                 },
                 likesCount: 0,
                 isLiked: false,
@@ -85,18 +94,24 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 top: document.body.scrollHeight, // Scroll to the bottom
                 behavior: "smooth",
             });
+
+            let formData = new FormData();
+            if (file) {
+                formData.append("image", fileData);
+            }
+            formData.append("text", messageText);
+            formData.append("messageType", file ? "Image" : "Text");
+            formData.append("profileId", profile?._id);
+
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
-                {
-                    text: messageText,
-                    messageType: "Text",
-                    profileId: profile?._id,
-                }
+                formData
             );
 
             if (response.status >= 200) {
                 socket.emit("send-message", {
                     ...message,
+                    image: response.data.data.image,
                     _id: response.data.data._id,
                 });
                 dispatch(updateMessage({ index, message: response.data.data }));
@@ -106,11 +121,15 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             console.log(err);
             setLoading(false);
         }
+
+        resetFileInput("inputTag");
     };
 
     function handleChange(e: any) {
         console.log(e.target.files);
+        setIsImage(true);
         setFile(URL.createObjectURL(e.target.files[0]));
+        setFileData(e.target.files[0]);
     }
 
     console.log(file);
@@ -126,7 +145,12 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     {file && (
                         <ImageMenu
                             file={file}
-                            closeFileMenu={() => setFile(undefined)}
+                            closeFileMenu={() => {
+                                setFile(undefined);
+                                setFileData(undefined);
+                                setIsImage(false);
+                                resetFileInput("inputTag");
+                            }}
                         />
                     )}
                     <EmojiPicker
@@ -177,6 +201,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                 <input
                                     id="inputTag"
                                     type="file"
+                                    ref={fileInputRef}
                                     onChange={handleChange}
                                     // accept=".jpg .png"
                                 />
