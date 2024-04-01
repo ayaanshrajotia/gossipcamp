@@ -18,13 +18,13 @@ export default function Dropdown({
 }: DropdownPropsType) {
     return (
         <ul
-            className={`flex flex-col justify-between text-sm w-[120px] gap-y-1.5 rounded-lg bg-white py-1.5 px-1.5 text-gray-900 border-1 transition ease-in-out duration-200 hover:shadow-non outline-none dark:bg-college-dark-gray-1 dark:text-college-dark-white dark:border-college-dark-gray-2 ${className}`}
+            className={`flex flex-col justify-between text-sm w-[120px] gap-y-1.5 rounded-lg bg-white py-1.5 px-1.5 text-gray-900 border-1 transition ease-in-out duration-200 hover:shadow-non outline-none dark:bg-college-dark-gray-3 dark:text-college-dark-white dark:border-college-dark-gray-2 ${className}`}
             {...props}
         >
             {options?.map((option) => (
                 <li
                     key={option.id}
-                    className="cursor-pointer hover:bg-college-bg-grey px-2 py-1 rounded-[6px] dark:hover:bg-college-dark-gray-3 flex gap-2 text-base"
+                    className="cursor-pointer hover:bg-college-bg-grey px-2 py-1 rounded-[6px] dark:hover:bg-college-dark-gray-2 flex gap-2 text-base transition-all text-college-dark-white-2"
                     onClick={option.action}
                 >
                     {option?.icon}

@@ -1,7 +1,8 @@
 import { MessagesBoxPropsType } from "@/app/utils/definitions";
-import PostBox from "./PostBox";
+import TextBox from "./TextBox";
 import JoinLeaveBox from "./JoinLeaveBox";
 import PollBox from "./PollBox";
+import ImageBox from "./ImageBox";
 
 function MessageBox({
     bgcolor,
@@ -51,9 +52,28 @@ function MessageBox({
                 {...props}
             />
         );
+    } else if (messageType === "Image") {
+        return (
+            <ImageBox
+                bgcolor={bgcolor}
+                id={id}
+                textColor={textColor}
+                className={className}
+                date={date}
+                profileUrl={profileUrl}
+                isLiked={isLiked}
+                postImgUrl={postImgUrl}
+                user={user}
+                description={description}
+                isUser={isUser}
+                likesCount={likesCount}
+                messageType={messageType}
+                {...props}
+            />
+        );
     } else
         return (
-            <PostBox
+            <TextBox
                 bgcolor={bgcolor}
                 id={id}
                 textColor={textColor}

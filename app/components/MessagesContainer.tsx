@@ -1,4 +1,4 @@
-"use client";
+"use client";;
 import { MessagesContainerProps } from "@/app/utils/definitions";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -12,7 +12,6 @@ import {
     updateLikeMessage,
 } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
-import { useParams, useRouter } from "next/navigation";
 import Skeleton from "react-loading-skeleton";
 import { useTheme } from "next-themes";
 
@@ -112,17 +111,18 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-            {/* <MessageBox
+            <MessageBox
                 key={123}
-                messageType={"Poll"}
+                messageType={"Image"}
                 date={"12 June"}
-                profileUrl={"/public/images/avatar-1.png"}
+                profileUrl={"/images/avatar-1.png"}
                 user={"AyaanshRajotia"}
                 description={"Did you know about this?"}
                 isUser={true}
+                postImgUrl="/images/avatar-1.png"
                 likesCount={1}
                 isLiked={true}
-            /> */}
+            />
             {messageLoading && (
                 <Skeleton
                     count={2}
