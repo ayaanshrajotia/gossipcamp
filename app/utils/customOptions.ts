@@ -6,6 +6,7 @@ const collegesOptions = [
     { id: 2, name: "Oriental Institute of Science & Technology" },
     { id: 3, name: "TIT Bhopal" },
     { id: 4, name: "LNCTS Bhopal" },
+    { id: 7, name: "GLA University" },
 ];
 
 const firstNames = [

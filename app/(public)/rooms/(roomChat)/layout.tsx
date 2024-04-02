@@ -9,7 +9,11 @@ import { AppDispatch, RootState } from "@/lib/store";
 import axiosInstance from "@/app/utils/axios";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
-import { addMessage, updateMessage } from "@/lib/slices/chatSlice";
+import {
+    addMessage,
+    updateLikeMessage,
+    updateMessage,
+} from "@/lib/slices/chatSlice";
 import { v4 } from "uuid";
 import EmojiPicker from "emoji-picker-react";
 import { useTheme } from "next-themes";
@@ -18,6 +22,7 @@ import Dropdown from "@/app/components/Dropdown";
 import PollMenu from "@/app/components/input-menus/PollMenu";
 import ImageMenu from "@/app/components/input-menus/ImageMenu";
 import { resetFileInput } from "@/app/utils/helper";
+import { connectSocket } from "@/lib/slices/socketSlice";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     const [messageText, setMessageText] = useState("");
@@ -109,6 +114,25 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
 
             if (response.status >= 200) {
+                if (socket == null) {
+                    dispatch(connectSocket()).then(() => {
+                        socket.on("message", (data: any) => {
+                            let f = async () => {
+                                await dispatch(addMessage(data));
+                                window.scrollTo({
+                                    top: document.body.scrollHeight, // Scroll to the bottom
+                                    behavior: "smooth",
+                                });
+                            };
+                            f();
+                            // console.log(data);
+                        });
+                        socket.on("send-like-message", (data: any) => {
+                            console.log(data, "like-message");
+                            dispatch(updateLikeMessage(data));
+                        });
+                    });
+                }
                 socket.emit("send-message", {
                     ...message,
                     image: response.data.data.image,
