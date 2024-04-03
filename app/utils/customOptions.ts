@@ -53,7 +53,7 @@ const lastNames = [
 ];
 
 const topTypeOptions = [
-    { id: 1, name: "NoHair" },
+    { id: 1, name: "NoHair" },  
     { id: 2, name: "Eyepatch" },
     { id: 3, name: "Hat" },
     { id: 4, name: "Hijab" },
