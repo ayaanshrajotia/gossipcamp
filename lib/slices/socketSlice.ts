@@ -3,7 +3,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const connectSocket = createAsyncThunk(
     "socket/connectSocket",
-    async (_, { rejectWithValue }) => await socket.connect()
+    async (_, { rejectWithValue }) => {
+        try {
+            await socket.connect();
+        } catch (err) {
+            rejectWithValue(err);
+        }
+    }
 );
 
 export const disconnectSocket = createAsyncThunk(
@@ -61,7 +67,7 @@ export const sendMessageEmitter = createAsyncThunk(
 );
 
 const initialState: {
-    isConnected: boolean | null | undefined;
+    isConnected: boolean;
 } = {
     isConnected: false,
 };
@@ -74,6 +80,9 @@ const socketSlice = createSlice({
         builder
             .addCase(connectSocket.fulfilled, (state) => {
                 state.isConnected = true;
+            })
+            .addCase(connectSocket.rejected, (state) => {
+                state.isConnected = false;
             })
             .addCase(disconnectSocket.rejected, (state) => {
                 console.log("Socket is disconnected");

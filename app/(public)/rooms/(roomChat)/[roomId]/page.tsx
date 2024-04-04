@@ -14,6 +14,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import {
     closeRoom,
+    connectSocket,
     leaveRoomEmitter,
     openRoom,
 } from "@/lib/slices/socketSlice";
@@ -47,7 +48,7 @@ export default function Room() {
 
         const getDetails = async () => {
             await dispatch(getRoomDetails(roomId.toString()));
-            // await dispatch(connectSocket());
+            await dispatch(connectSocket());
             await dispatch(
                 openRoom({
                     roomId: roomId.toString(),

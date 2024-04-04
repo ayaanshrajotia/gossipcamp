@@ -113,9 +113,9 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
-            {/* <MessageBox
+            <MessageBox
                 key={123}
-                messageType={"Image"}
+                messageType={"Poll"}
                 date={"12 June"}
                 profileUrl={"/images/avatar-1.png"}
                 user={"AyaanshRajotia"}
@@ -124,7 +124,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 postImgUrl="/images/avatar-1.png"
                 likesCount={1}
                 isLiked={true}
-            /> */}
+            />
             {messageLoading && (
                 <Skeleton
                     count={2}

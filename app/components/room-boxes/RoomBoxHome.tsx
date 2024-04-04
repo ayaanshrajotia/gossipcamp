@@ -34,12 +34,17 @@ function RoomBoxHome({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const { profile } = useSelector((state: RootState) => state.auth);
     const { _id, fName, lName } = useSelector(
         (state: RootState) => state.auth.profile || {}
     );
 
     const handleJoinRoom = async () => {
         try {
+            if (!profile) {
+                toast.error("Please create profile to join room");
+                return;
+            }
             const response = await dispatch(toggleFollowRoom(roomId));
 
             if (response.meta.requestStatus === "rejected") {
@@ -47,17 +52,17 @@ function RoomBoxHome({
             } else {
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
-                router.push(`/rooms/${roomId}`);
                 const capitalizedName =
-                    capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
+                capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
                 dispatch(
                     joinRoomEmitter({
                         profileId: _id,
                         roomId,
                         username: capitalizedName,
                     })
-                );
-                toast.success("Joined Room");
+                    );
+                    toast.success("Joined Room");
+                    router.push(`/rooms/${roomId}`);
             }
 
             // redirect to room page

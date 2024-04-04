@@ -34,12 +34,17 @@ function RoomBoxBigger({
 }: RoomBoxBiggerPropsType) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const { profile } = useSelector((state: RootState) => state.auth);
     const { _id, username, fName, lName } = useSelector(
         (state: RootState) => state.auth.profile || {}
     );
 
     const handleJoinRoom = async () => {
         try {
+            if (!profile) {
+                toast.error("Please create profile to join room");
+                return;
+            }
             const response = await dispatch(toggleFollowRoom(roomId));
 
             if (response.meta.requestStatus === "rejected") {
