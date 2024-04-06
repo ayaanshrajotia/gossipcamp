@@ -92,6 +92,10 @@ const chatSlice = createSlice({
                     (action.payload.isLiked ? 1 : -1);
             }
         },
+        deleteMessage: (state, action) => {
+            const index = state.messagesKeyIndexPair[action.payload];
+            
+        },
     },
     extraReducers: (builder) => {
         builder

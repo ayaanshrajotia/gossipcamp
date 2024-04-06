@@ -23,14 +23,13 @@ import { useDebouncedCallback } from "use-debounce";
 const menuOptions = [
     {
         name: "Delete",
-
         action: () => {
             console.log("delete");
         },
     },
     {
         name: "Edit",
-        icon: <TicketIcon className="h-5 w-5" />,
+        // icon: <TicketIcon className="h-5 w-5" />,
         action: () => {
             console.log("edit");
         },
