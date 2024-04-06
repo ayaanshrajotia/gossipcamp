@@ -111,7 +111,12 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
-                formData
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             if (response.status >= 200) {
