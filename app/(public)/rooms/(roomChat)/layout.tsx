@@ -156,23 +156,23 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             }
         } catch (err: any) {
             console.log(err.response);
-            if (err.response.status === 409) {
-                // this means that the message send has a not ssafe for viewing image
-                // so we need to delete the message
-                console.log("This image is not safe for viewing");
-                dispatch(
-                    updateMessage({
-                        index,
-                        message: {
-                            ...message,
-                            text: "This image is not safe for viewing",
-                            image: null,
-                            messageType: "Text",
-                        },
-                    })
-                );
-                setLoading(false);
-            }
+            // if (err.response.status === 409) {
+            // this means that the message send has a not ssafe for viewing image
+            // so we need to delete the message
+            console.log("This image is inappropriate!");
+            dispatch(
+                updateMessage({
+                    index,
+                    message: {
+                        ...message,
+                        text: "This image is inappropriate!",
+                        image: null,
+                        messageType: "Text",
+                    },
+                })
+            );
+            setLoading(false);
+            // }
             console.log(err);
             setLoading(false);
         }
