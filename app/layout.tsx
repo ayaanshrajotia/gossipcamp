@@ -16,12 +16,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
                 className={`bg-[#F6F6F9] min-w-screen min-h-screen box-border dark:bg-college-dark-gray-2`}
-                suppressHydrationWarning={true}
             >
-                <ThemeProvider attribute="class">
+                <ThemeProvider attribute="class" enableSystem={false}>
                     <StoreProvider>{children}</StoreProvider>
                 </ThemeProvider>
                 <Toaster />

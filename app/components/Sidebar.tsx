@@ -112,7 +112,7 @@ export default function Sidebar() {
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white text-ellipsis overflow-hidden max-[1130px]:w-[128px] w-[182px]">
+                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white text-ellipsis overflow-hidden max-[1160px]:w-[128px] w-[182px]">
                                                 @
                                                 {capitalizeFirstLetter(
                                                     firstName

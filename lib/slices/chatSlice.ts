@@ -20,6 +20,19 @@ export const getAllMessages = createAsyncThunk(
     }
 );
 
+export const deleteMessageApi = createAsyncThunk(
+    "chat/deleteMessage",
+    async (messageId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.delete(
+                `messages/delete-message/` + messageId
+            );
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
 export const toggleLikeMessage = createAsyncThunk(
     "chat/toggleLikeMessage",
     async (
@@ -94,7 +107,10 @@ const chatSlice = createSlice({
         },
         deleteMessage: (state, action) => {
             const index = state.messagesKeyIndexPair[action.payload];
-            
+            if (index !== undefined) {
+                state.messages.splice(index, 1);
+                delete state.messagesKeyIndexPair[action.payload];
+            }
         },
     },
     extraReducers: (builder) => {
@@ -143,42 +159,24 @@ const chatSlice = createSlice({
             })
             .addCase(toggleLikeMessage.fulfilled, (state, action) => {
                 state.likesLoading = false;
-                // check if likes count property is present and if not add it
-                // state.messages[
-                //     state.messagesKeyIndexPair[action.payload._id]
-                // ].likesCount = state.messages[
-                //     state.messagesKeyIndexPair[action.payload._id]
-                // ].likesCount
-                //     ? state.messages[
-                //           state.messagesKeyIndexPair[action.payload._id]
-                //       ].likesCount
-                //     : 0;
-
-                // if (action.payload.isLiked) {
-                //     state.messages[
-                //         state.messagesKeyIndexPair[action.payload._id]
-                //     ].likesCount += 1;
-                // } else {
-                //     state.messages[
-                //         state.messagesKeyIndexPair[action.payload._id]
-                //     ].likesCount -= 1;
-                // }
-                // state.messages[
-                //     state.messagesKeyIndexPair[action.payload._id]
-                // ].isLiked =
-                //     !state.messages[
-                //         state.messagesKeyIndexPair[action.payload._id]
-                //     ].isLiked;
             })
             .addCase(toggleLikeMessage.rejected, (state, action) => {
                 state.likesLoading = false;
                 // state.messageError = action.payload;
                 console.log(action.payload);
+            })
+            .addCase(deleteMessageApi.rejected, (state, action) => {
+                console.log(action.payload);
             });
     },
 });
 
-export const { addMessage, setLoadingFalse, updateMessage, updateLikeMessage } =
-    chatSlice.actions;
+export const {
+    addMessage,
+    setLoadingFalse,
+    updateMessage,
+    updateLikeMessage,
+    deleteMessage,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

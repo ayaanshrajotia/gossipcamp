@@ -14,27 +14,17 @@ import {
 import { useTheme } from "next-themes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
-import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
+import {
+    deleteMessage,
+    deleteMessageApi,
+    toggleLikeMessage,
+    updateLikeMessage,
+} from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import Dropdown from "../Dropdown";
 import { useDebouncedCallback } from "use-debounce";
-
-const menuOptions = [
-    {
-        name: "Delete",
-        action: () => {
-            console.log("delete");
-        },
-    },
-    {
-        name: "Edit",
-        // icon: <TicketIcon className="h-5 w-5" />,
-        action: () => {
-            console.log("edit");
-        },
-    },
-];
+import toast from "react-hot-toast";
 
 function ImageBox({
     isSend,
@@ -65,6 +55,16 @@ function ImageBox({
 
     // console.log(isLiked, "likesLoading");
     // need to use debouncing for like message
+    const menuOptions = [
+        {
+            name: "Delete",
+            action: async () => {
+                dispatch(deleteMessage(id));
+                toast.success("Message deleted successfully");
+                await dispatch(deleteMessageApi(id));
+            },
+        },
+    ];
 
     const likeMessageHandlerDebounced = useDebouncedCallback(async () => {
         setLikesLoading(true);

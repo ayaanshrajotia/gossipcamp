@@ -186,78 +186,10 @@ function PollBox({
                     <div className="flex gap-2">
                         <div className="border-1 dark:border-[#3c3c3c] rounded-full w-8 h-8"></div>
                         <div className="flex flex-col w-full gap-2">
+                            <input type="radio" />
                             <span>Option 1</span>
                             <ProgressBar
                                 completed={vote}
-                                maxCompleted={10}
-                                bgColor={
-                                    theme === "dark" ? "#837001" : "#fdd800"
-                                }
-                                baseBgColor={
-                                    theme === "dark" ? "#3c3c3c" : "#e6e9ea"
-                                }
-                                height="10px"
-                                labelSize="10px"
-                                isLabelVisible={false}
-                                transitionDuration="0.3s"
-                                animateOnRender
-                                className="w-full"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <div className="border-1 dark:border-[#3c3c3c] rounded-full w-8 h-8"></div>
-                        <div className="flex flex-col w-full gap-2">
-                            <span>Option 1</span>
-                            <ProgressBar
-                                completed={8}
-                                maxCompleted={10}
-                                bgColor={
-                                    theme === "dark" ? "#837001" : "#fdd800"
-                                }
-                                baseBgColor={
-                                    theme === "dark" ? "#3c3c3c" : "#e6e9ea"
-                                }
-                                height="10px"
-                                labelSize="10px"
-                                isLabelVisible={false}
-                                transitionDuration="0.3s"
-                                animateOnRender
-                                className="w-full"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <div className="border-1 dark:border-[#3c3c3c] rounded-[50%] w-8 h-8"></div>
-                        <div className="flex flex-col w-full gap-2">
-                            <span>Option 1</span>
-
-                            <ProgressBar
-                                completed={3}
-                                maxCompleted={10}
-                                bgColor={
-                                    theme === "dark" ? "#837001" : "#fdd800"
-                                }
-                                baseBgColor={
-                                    theme === "dark" ? "#3c3c3c" : "#e6e9ea"
-                                }
-                                height="10px"
-                                labelSize="10px"
-                                isLabelVisible={false}
-                                transitionDuration="0.3s"
-                                animateOnRender
-                                className="w-full"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <div className="border-1 dark:border-[#3c3c3c] rounded-[50%] w-8 h-8 p-2 flex justify-center items-center">
-                            <CheckIcon className="h-4 w-4 text-college-dark-white" />
-                        </div>
-                        <div className="flex flex-col w-full gap-2">
-                            <span>Option 1</span>
-                            <ProgressBar
-                                completed={7}
                                 maxCompleted={10}
                                 bgColor={
                                     theme === "dark" ? "#837001" : "#fdd800"

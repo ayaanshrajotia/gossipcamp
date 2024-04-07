@@ -15,29 +15,18 @@ import {
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
+import {
+    deleteMessage,
+    deleteMessageApi,
+    toggleLikeMessage,
+    updateLikeMessage,
+} from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import Dropdown from "../Dropdown";
 import { set } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
-
-const menuOptions = [
-    {
-        name: "Delete",
-        // icon: <TicketIcon className="h-5 w-5" />,
-        action: () => {
-            console.log("delete");
-        },
-    },
-    {
-        name: "Edit",
-        // icon: <TicketIcon className="h-5 w-5" />,
-        action: () => {
-            console.log("edit");
-        },
-    },
-];
+import toast from "react-hot-toast";
 
 function PostBox({
     isSend,
@@ -68,6 +57,18 @@ function PostBox({
 
     // console.log(isLiked, "likesLoading");
     // need to use debouncing for like message
+
+    const menuOptions = [
+        {
+            name: "Delete",
+            // icon: <TicketIcon className="h-5 w-5" />,
+            action: async () => {
+                dispatch(deleteMessage(id));
+                await dispatch(deleteMessageApi(id));
+                toast.success("Message deleted successfully");
+            },
+        },
+    ];
 
     const likeMessageHandlerDebounced = useDebouncedCallback(async () => {
         setLikesLoading(true);
@@ -148,7 +149,9 @@ function PostBox({
                             @{user}
                         </h2>
                     </div>
-                    <p className="leading-tight text-base break-all">{description}</p>
+                    <p className="leading-tight text-base break-all">
+                        {description}
+                    </p>
                     <>
                         {postImgUrl && (
                             <div className="relative w-full h-[200px] mt-3">

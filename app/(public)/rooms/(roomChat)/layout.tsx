@@ -84,7 +84,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 avatar: profile.avatar,
             },
             image: {
-                url: file,
+                url: isImage ? "/images/image-loading.gif" : null,
             },
             likesCount: 0,
             isLiked: false,
@@ -151,7 +151,15 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     image: response.data.data.image,
                     _id: response.data.data._id,
                 });
-                dispatch(updateMessage({ index, message: response.data.data }));
+                await dispatch(
+                    updateMessage({ index, message: response.data.data })
+                );
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.body.scrollHeight, // Scroll to the bottom
+                        behavior: "smooth",
+                    });
+                }, 1000);
                 setLoading(false);
             }
         } catch (err: any) {
@@ -255,7 +263,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                     type="file"
                                     ref={fileInputRef}
                                     onChange={handleChange}
-                                    // accept=".jpg .png"
+                                    accept="image/jpg, image/png"
                                 />
                             </label>
                         </div>
