@@ -1,20 +1,15 @@
+// icons
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
+import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
+
 import Image from "next/image";
 import { useState } from "react";
 import { PostBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-
-// icons
-import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import {
-    CheckIcon,
-    EllipsisVerticalIcon,
-    HeartIcon,
-    TicketIcon,
-} from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
 import {
     deleteMessage,
     deleteMessageApi,
@@ -24,7 +19,6 @@ import {
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import Dropdown from "../Dropdown";
-import { set } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 
@@ -47,21 +41,17 @@ function PostBox({
 }: PostBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
-    // const { likesLoading } = useSelector((state: RootState) => state.chat);
-    const [likesLoading, setLikesLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const [liked, setLiked] = useState(isLiked);
-
     const roomId = useParams().roomId;
+
+    const [likesLoading, setLikesLoading] = useState(false);
+    const [liked, setLiked] = useState(isLiked);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // console.log(isLiked, "likesLoading");
-    // need to use debouncing for like message
 
     const menuOptions = [
         {
             name: "Delete",
-            // icon: <TicketIcon className="h-5 w-5" />,
             action: async () => {
                 dispatch(deleteMessage(id));
                 await dispatch(deleteMessageApi(id));

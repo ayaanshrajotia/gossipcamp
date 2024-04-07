@@ -23,29 +23,20 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 
 export default function Room() {
+    const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     const { roomId } = useParams();
-    const [pageLoading, setPageLoading] = useState(true);
-
+    const { blur } = useSelector((state: RootState) => state.blur);
     const { profile } = useSelector((state: RootState) => state.auth);
+    const { theme } = useTheme();
+
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
-    const { theme } = useTheme();
-    const dispatch = useDispatch<AppDispatch>();
+
+    const [pageLoading, setPageLoading] = useState(true);
 
     useEffect(() => {
-        // checking if the user is the participant of the room
-        // const isPublicParticipant = publicRooms.find(
-        //     (room: any) => room._id === roomId
-        // );
-        // const isPrivateParticipant = privateRoom?._id === roomId;
-        // const isParticipant = isPublicParticipant || isPrivateParticipant;
-
-        // if (!isParticipant) {
-        //     return router.push("/explore/rooms");
-        // }
-
         const getDetails = async () => {
             await dispatch(getRoomDetails(roomId.toString()));
             await dispatch(connectSocket());
@@ -86,7 +77,11 @@ export default function Room() {
     // console.log(roomDetails);
 
     return (
-        <div className="min-h-sreen">
+        <div
+            className={`min-h-sreen transition-all duration-200 ${
+                blur ? "blur-md" : "blur-none"
+            }`}
+        >
             <div className="pt-4 sticky w-full top-0 z-[999]">
                 <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2 dark:text-college-dark-gray-1 dark:bg-college-dark-white">
                     {pageLoading ||

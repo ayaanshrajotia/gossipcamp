@@ -162,14 +162,6 @@ function ImageBox({
                         )}
                     </>
                 </div>
-                {/* <Image
-                    src={"/images/avatar-1.png"}
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="33vw"
-                    style={{ width: "100%", height: "auto" }}
-                /> */}
             </div>
             <div className="flex items-end justify-end gap-1">
                 <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">

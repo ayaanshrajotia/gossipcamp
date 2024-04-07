@@ -10,16 +10,16 @@ export default function ImageMenu({
 }) {
     return (
         <div className="absolute bottom-[55px] right-0 gap-2 flex flex-col">
-            <div className="bg-white rounded-xl border-[1px] border-stone-400 dark:border-college-dark-gray-3 dark:bg-college-dark-gray-2 flex justify-between p-3 items-center py-2">
-                <span className="text-[#565759] dark:text-college-dark-white-2">
-                    IMAGE
+            <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[50px] px-4 rounded-xl dark:bg-college-dark-gray-3">
+                <span className="uppercase text-sm dark:text-college-dark-white-2">
+                    Image
                 </span>
                 <XMarkIcon
-                    className="w-5 h-5 stroke-[#565759] dark:stroke-college-dark-white-2 cursor-pointer"
+                    className="w-5 h-5 stroke-white dark:stroke-college-dark-white-2 cursor-pointer"
                     onClick={closeFileMenu}
                 />
             </div>
-            <div className=" bg-white rounded-xl border-[1px] border-stone-400 dark:border-college-dark-gray-3 dark:bg-college-dark-gray-2 p-3 w-[320px]">
+            <div className=" bg-white rounded-xl border-[1px] border-stone-400 dark:border-college-dark-gray-3 dark:bg-college-dark-gray-3 p-3 w-[320px]">
                 <Image
                     src={file ?? ""}
                     alt="image"

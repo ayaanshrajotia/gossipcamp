@@ -112,6 +112,7 @@ const chatSlice = createSlice({
                 delete state.messagesKeyIndexPair[action.payload];
             }
         },
+        
     },
     extraReducers: (builder) => {
         builder

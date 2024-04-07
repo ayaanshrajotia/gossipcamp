@@ -4,6 +4,7 @@ import roomReducer from "./slices/roomSlice";
 import userReducer from "./slices/userSlice";
 import socketReducer from "./slices/socketSlice";
 import chatReducer from "./slices/chatSlice";
+import blurReducer from "./slices/blurSlice";
 
 export const makeStore = () => {
     return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
             users: userReducer,
             socket: socketReducer,
             chat: chatReducer,
+            blur: blurReducer,
         },
     });
 };

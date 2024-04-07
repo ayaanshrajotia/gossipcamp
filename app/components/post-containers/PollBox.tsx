@@ -1,14 +1,6 @@
 // icons
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import {
-    CheckIcon,
-    CircleStackIcon,
-    EllipsisVerticalIcon,
-    HandThumbDownIcon,
-    HandThumbUpIcon,
-    HeartIcon,
-    TrashIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -25,23 +17,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
 import { socket } from "@/app/StoreProvider";
 import { useParams } from "next/navigation";
-
-const menuOptions = [
-    {
-        name: "Delete",
-        // icon: <TicketIcon className="h-5 w-5" />,
-        action: () => {
-            console.log("delete");
-        },
-    },
-    {
-        name: "Edit",
-        // icon: <TicketIcon className="h-5 w-5" />,
-        action: () => {
-            console.log("edit");
-        },
-    },
-];
 
 function PollBox({
     isSend,
@@ -62,14 +37,41 @@ function PollBox({
     const roomId = useParams().roomId;
     dayjs.extend(relativeTime); // use relative time plugin
     const relativeDate = dayjs(date).fromNow();
-    const [vote, setVote] = useState(5);
-
-    const [isLiked, setIsLiked] = useState(false);
     const { theme } = useTheme();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [vote, setVote] = useState(5);
+    const [isLiked, setIsLiked] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [likesLoading, setLikesLoading] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
     const [liked, setLiked] = useState(isLiked);
+
+    const menuOptions = [
+        {
+            name: "Delete",
+            action: () => {
+                console.log("delete");
+            },
+        },
+    ];
+
+    const pollOptions = [
+        {
+            id: 1,
+            name: "Option 1",
+            vote: 5,
+        },
+        {
+            id: 2,
+            name: "Option 2",
+            vote: 3,
+        },
+        {
+            id: 3,
+            name: "Option 3",
+            vote: 2,
+        },
+    ];
 
     const likeMessageHandlerDebounced = useDebouncedCallback(async () => {
         setLikesLoading(true);
@@ -89,6 +91,7 @@ function PollBox({
         dispatch(updateLikeMessage({ messageId: id, isLiked: !liked }));
         likeMessageHandlerDebounced();
     };
+
     return (
         <div className="relative w-[450px] flex flex-col gap-3">
             <div
@@ -183,29 +186,69 @@ function PollBox({
                     {likesCount > 0 && <span className="">{likesCount}</span>}
                 </div>
                 <div className="flex flex-col gap-6">
-                    <div className="flex gap-2">
-                        <div className="border-1 dark:border-[#3c3c3c] rounded-full w-8 h-8"></div>
-                        <div className="flex flex-col w-full gap-2">
-                            <input type="radio" />
-                            <span>Option 1</span>
-                            <ProgressBar
-                                completed={vote}
-                                maxCompleted={10}
-                                bgColor={
-                                    theme === "dark" ? "#837001" : "#fdd800"
-                                }
-                                baseBgColor={
-                                    theme === "dark" ? "#3c3c3c" : "#e6e9ea"
-                                }
-                                height="10px"
-                                labelSize="10px"
-                                isLabelVisible={false}
-                                transitionDuration="0.3s"
-                                animateOnRender
-                                className="w-full"
-                            />
+                    {pollOptions.map((option) => (
+                        <div
+                            className="flex items-center gap-4"
+                            key={option.id}
+                        >
+                            <label
+                                className="relative flex items-center rounded-full cursor-pointer mt-1"
+                                htmlFor={option.id.toString()}
+                            >
+                                <input
+                                    type="checkbox" 
+                                    className="before:content[''] peer relative h-7 w-7 cursor-pointer appearance-none rounded-full border border-stone-400 border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-none checked:bg-[#fdd800] checked:before:bg-[#fdd800] dark:checked:bg-[#837001] dark:checked:before:bg-[#837001] hover:before:opacity-10"
+                                    id={option.id.toString()}
+                                />
+                                <span className="absolute text-college-dark-gray-2 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-3.5 w-3.5"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        stroke="currentColor"
+                                        strokeWidth="1"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clipRule="evenodd"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </label>
+                            <label
+                                className="font-light cursor-pointer select-none w-full"
+                                htmlFor={option.id.toString()}
+                            >
+                                <div>
+                                    <p className="block text-base font-medium mb-1 dark:text-college-dark-white">
+                                        {option.name}
+                                    </p>
+                                    <ProgressBar
+                                        completed={option.vote}
+                                        maxCompleted={10}
+                                        bgColor={
+                                            theme === "dark"
+                                                ? "#837001"
+                                                : "#fdd800"
+                                        }
+                                        baseBgColor={
+                                            theme === "dark"
+                                                ? "#3c3c3c"
+                                                : "#e6e9ea"
+                                        }
+                                        height="10px"
+                                        labelSize="10px"
+                                        isLabelVisible={false}
+                                        transitionDuration="0.3s"
+                                        animateOnRender
+                                        className="w-full"
+                                    />
+                                </div>
+                            </label>
                         </div>
-                    </div>
+                    ))}
                 </div>
                 <PeopleCount
                     width="w-[35px]"

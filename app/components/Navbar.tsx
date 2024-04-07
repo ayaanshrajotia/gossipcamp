@@ -3,8 +3,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutUser } from "@/lib/slices/authSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import toast from "react-hot-toast";
 
 // icons
@@ -25,6 +25,7 @@ import { useTheme } from "next-themes";
 export default function Navbar() {
     const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
+    const { blur } = useSelector((state: RootState) => state.blur);
     const router = useRouter();
     const { systemTheme, theme, setTheme } = useTheme();
     const currentTheme = theme === "system" ? systemTheme : theme;
@@ -42,7 +43,11 @@ export default function Navbar() {
     };
 
     return (
-        <header className="max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1">
+        <header
+            className={`max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1 transition-all duration-200 ${
+                blur ? "blur-md" : "blur-none"
+            } `}
+        >
             <div className="max-[1330px]:justify-center max-[1330px]:p-0 flex h-[70px] items-center px-4">
                 <h1 className="max-[1330px]:hidden font-secondary flex gap-3 text-2xl font-bold pl-2 dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}

@@ -10,27 +10,27 @@ import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
 function Page() {
-    // const { collegeRooms, collegeRoomsLoading } = useSelector(
-    //     (state: RootState) => state.rooms
-    // );
-    // const dispatch = useDispatch<AppDispatch>();
-    // const [pageLoading, setPageLoading] = useState(true);
-    // const { theme } = useTheme();
+    const { collegeRooms, collegeRoomsLoading } = useSelector(
+        (state: RootState) => state.rooms
+    );
+    const dispatch = useDispatch<AppDispatch>();
+    const [pageLoading, setPageLoading] = useState(true);
+    const { theme } = useTheme();
 
-    // const fetchData = useMemo(() => {
-    //     const getDetails = async () => {
-    //         await dispatch(getAllCollegeRooms());
-    //     };
-    //     return getDetails;
-    // }, [dispatch]);
+    const fetchData = useMemo(() => {
+        const getDetails = async () => {
+            await dispatch(getAllCollegeRooms());
+        };
+        return getDetails;
+    }, [dispatch]);
 
-    // useEffect(() => {
-    //     if (collegeRooms.length === 0) fetchData();
-    //     setPageLoading(false);
-    // }, [dispatch]);
+    useEffect(() => {
+        if (collegeRooms.length === 0) fetchData();
+        setPageLoading(false);
+    }, [dispatch]);
     return (
         <div className="my-4 flex flex-col gap-7">
-            {/* {pageLoading || collegeRoomsLoading ? (
+            {pageLoading || collegeRoomsLoading ? (
                 <div className="flex flex-col gap-4">
                     <Skeleton
                         count={4}
@@ -91,7 +91,7 @@ function Page() {
                         totalParticipants={room?.totalParticipants}
                     />
                 ))
-            )} */}
+            )}
         </div>
     );
 }

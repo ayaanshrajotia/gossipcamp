@@ -18,20 +18,20 @@ import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
 
 export default function Sidebar() {
+    const dispatch = useDispatch<AppDispatch>();
+    const { theme } = useTheme();
+    const { profile, loading, user } = useSelector(
+        (state: RootState) => state.auth
+    );
+    const { privateRoom, publicRooms, privateLoading, publicLoading } =
+        useSelector((state: RootState) => state.rooms);
+    const { blur } = useSelector((state: RootState) => state.blur);
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const [pageLoading, setPageLoading] = useState(true);
-    const { theme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const { profile, loading, user } = useSelector(
-        (state: RootState) => state.auth
-    );
-
-    const { privateRoom, publicRooms, privateLoading, publicLoading } =
-        useSelector((state: RootState) => state.rooms);
-    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         dispatch(connectSocket());
@@ -55,9 +55,11 @@ export default function Sidebar() {
         setPageLoading(false);
     }, [profile, dispatch]);
 
+    console.log(blur);
+
     return (
         <>
-            <div className="min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002]">
+            <div className="min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002] ">
                 <Bars3Icon
                     className={`min-[1160px]:hidden w-9 h-9 stroke-white dark:stroke-black cursor-pointer`}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -68,7 +70,7 @@ export default function Sidebar() {
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"
-                }`}
+                } ${blur ? "blur-md" : "blur-none"} `}
             >
                 <div className=" pt-4 mb-4 mr-6">
                     <div className="h-[70px] w-full flex items-center">
