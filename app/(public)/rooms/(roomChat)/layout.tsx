@@ -24,6 +24,7 @@ import ImageMenu from "@/app/components/input-menus/ImageMenu";
 import { resetFileInput } from "@/app/utils/helper";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { setBlur } from "@/lib/slices/blurSlice";
+import toast from "react-hot-toast";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     let { roomId } = useParams();
@@ -43,19 +44,44 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [isImage, setIsImage] = useState(false);
     const [file, setFile] = useState<string | undefined>();
     const [fileData, setFileData] = useState<any>();
+    const [pollOptions, setPollOptions] = useState([]);
 
     const handleSendMessage = async (e: any) => {
         e?.preventDefault();
         dispatch(setBlur(false));
-        setIsImage(false);
         setLoading(true);
         setFile(undefined);
+
+        if (isPoll && pollOptions.length < 2) {
+            toast.error("Poll must have at least 2 options!");
+            setLoading(false);
+            setIsImage(false);
+            setIsPoll(false);
+            setIsPollMenuOpen(false);
+            return;
+        }
+
+        if (messageText.length === 0) {
+            toast.error("Message cannot be empty!");
+            setLoading(false);
+            setIsImage(false);
+            setIsPoll(false);
+            setIsPollMenuOpen(false);
+            return;
+        }
 
         let message = {
             _id: v4(),
             roomId: roomId,
             text: messageText,
-            messageType: isImage ? "Image" : "Text",
+            messageType:
+                isImage && isPoll
+                    ? "ImagePoll"
+                    : isImage
+                    ? "Image"
+                    : isPoll
+                    ? "Poll"
+                    : "Text",
             profile: {
                 _id: profile?._id,
                 fName: profile.fName,
@@ -63,11 +89,17 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 avatar: profile.avatar,
             },
             image: {
-                url: isImage ? "/images/image-loading.gif" : null,
+                url:
+                    (isImage && isPoll) || isImage
+                        ? "/images/image-loading.gif"
+                        : null,
             },
+            pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
             likesCount: 0,
             isLiked: false,
         };
+
+        console.log(message);
 
         const index = messages.length;
         setMessageText("");
@@ -85,8 +117,19 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 formData.append("image", fileData);
             }
             formData.append("text", messageText);
-            formData.append("messageType", file ? "Image" : "Text");
+            formData.append(
+                "messageType",
+                file && isPoll
+                    ? "ImagePoll"
+                    : file
+                    ? "Image"
+                    : isPoll
+                    ? "Poll"
+                    : "Text"
+            );
             formData.append("profileId", profile?._id);
+            formData.append("pollOptions", JSON.stringify(pollOptions));
+            console.log(JSON.stringify(pollOptions));
 
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
@@ -165,6 +208,9 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         }
 
         resetFileInput("inputTag");
+        setIsImage(false);
+        setIsPoll(false);
+        setIsPollMenuOpen(false);
     };
 
     function handleChange(e: any) {
@@ -174,18 +220,26 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         setFileData(e.target.files[0]);
     }
 
+    const getPollOptions = (options: any) => {
+        setPollOptions(options);
+    };
+
     let title = "";
 
-    if (isImage && isPoll) title = "Add poll with image!";
-    else if (isImage) title = "Write a caption!";
-    else if (isPoll) title = "Write poll question!";
-    else title = "Type a message!";
+    title =
+        isImage && isPoll
+            ? "Add poll with image!"
+            : isImage
+            ? "Write a caption!"
+            : isPoll
+            ? "Write poll question!"
+            : "Type a message!";
 
     return (
         <>
             <div
                 className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-200 ${
-                    blur ? "blur-md" : "blur-none"
+                    blur ? "blur-md pointer-events-none" : "blur-none"
                 }`}
             ></div>
             <div className="min-h-screen h-full relative w-full">
@@ -214,6 +268,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                 setIsPoll(false);
                                 !isImage && dispatch(setBlur(false));
                             }}
+                            getPollOptions={getPollOptions}
                         />
                     )}
                     {/* Sticker Menu */}

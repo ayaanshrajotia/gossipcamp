@@ -88,7 +88,7 @@ function ImageBox({
     const { theme } = useTheme();
     return (
         <div
-            className={`border-box relative max-w-[450px] min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+            className={`border-box relative min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                 theme === "dark"
                     ? isUser
                         ? "self-end box-shadow-yellow-static-dark"
@@ -148,7 +148,7 @@ function ImageBox({
                     <p className="leading-tight text-base">{description}</p>
                     <>
                         {postImgUrl && (
-                            <div className="relative w-[350px] mt-3">
+                            <div className="relative h-[350px] mt-3">
                                 <Image
                                     src={postImgUrl!}
                                     alt="avatar-1"
@@ -156,7 +156,7 @@ function ImageBox({
                                     height={0}
                                     sizes="33vw"
                                     className=" rounded-xl"
-                                    style={{ width: "100%", height: "auto" }}
+                                    style={{ width: "auto", height: "100%" }}
                                 />
                             </div>
                         )}

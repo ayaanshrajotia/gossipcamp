@@ -112,7 +112,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [messageLoading]);
 
     return (
-        <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6">
+        <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6 font-secondary">
             <MessageBox
                 key={123}
                 messageType={"Poll"}

@@ -79,7 +79,7 @@ export default function Room() {
     return (
         <div
             className={`min-h-sreen transition-all duration-200 ${
-                blur ? "blur-md" : "blur-none"
+                blur ? "blur-md pointer-events-none" : "blur-none"
             }`}
         >
             <div className="pt-4 sticky w-full top-0 z-[999]">

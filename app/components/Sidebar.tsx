@@ -55,8 +55,6 @@ export default function Sidebar() {
         setPageLoading(false);
     }, [profile, dispatch]);
 
-    console.log(blur);
-
     return (
         <>
             <div className="min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002] ">
@@ -70,7 +68,7 @@ export default function Sidebar() {
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"
-                } ${blur ? "blur-md" : "blur-none"} `}
+                } ${blur ? "blur-md pointer-events-none" : "blur-none"} `}
             >
                 <div className=" pt-4 mb-4 mr-6">
                     <div className="h-[70px] w-full flex items-center">

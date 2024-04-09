@@ -143,13 +143,18 @@ function PollBox({
                         <p className="leading-tight text-base">{description}</p>
                         <>
                             {postImgUrl && (
-                                <div className="relative w-full h-[200px] mt-3">
+                                <div className="relative h-[350px] mt-3">
                                     <Image
-                                        src={postImgUrl}
+                                        src={postImgUrl!}
                                         alt="avatar-1"
+                                        width={0}
+                                        height={0}
                                         sizes="33vw"
-                                        fill
-                                        className="object-cover rounded-xl"
+                                        className=" rounded-xl"
+                                        style={{
+                                            width: "auto",
+                                            height: "100%",
+                                        }}
                                     />
                                 </div>
                             )}
@@ -196,9 +201,11 @@ function PollBox({
                                 htmlFor={option.id.toString()}
                             >
                                 <input
-                                    type="checkbox" 
+                                    type="checkbox"
                                     className="before:content[''] peer relative h-7 w-7 cursor-pointer appearance-none rounded-full border border-stone-400 border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-none checked:bg-[#fdd800] checked:before:bg-[#fdd800] dark:checked:bg-[#837001] dark:checked:before:bg-[#837001] hover:before:opacity-10"
                                     id={option.id.toString()}
+                                    value={option.name}
+                                    name={option.name}
                                 />
                                 <span className="absolute text-college-dark-gray-2 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                                     <svg
@@ -222,9 +229,12 @@ function PollBox({
                                 htmlFor={option.id.toString()}
                             >
                                 <div>
-                                    <p className="block text-base font-medium mb-1 dark:text-college-dark-white">
-                                        {option.name}
-                                    </p>
+                                    <div className="flex justify-between">
+                                        <p className="block text-base font-medium mb-1 dark:text-college-dark-white">
+                                            {option.name}
+                                        </p>
+                                        <span className="font-medium">12</span>
+                                    </div>
                                     <ProgressBar
                                         completed={option.vote}
                                         maxCompleted={10}
