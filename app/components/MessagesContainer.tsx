@@ -240,6 +240,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 date={message.updatedAt}
                                 profileUrl={message.profile?.avatar}
                                 postImgUrl={message.image?.url}
+                                pollOptions={message?.pollOptions}
+                                isPollVoted={message?.isPollVoted}
                                 user={
                                     capitalizeFirstLetter(
                                         message.profile?.fName

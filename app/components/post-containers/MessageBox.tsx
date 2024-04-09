@@ -16,6 +16,8 @@ function MessageBox({
     isUser,
     likesCount,
     id,
+    pollOptions,
+    isPollVoted,
     isLiked,
     messageType,
     ...props
@@ -45,6 +47,8 @@ function MessageBox({
                 date={date}
                 profileUrl={profileUrl}
                 postImgUrl={postImgUrl}
+                pollOptions={pollOptions}
+                isPollVoted={isPollVoted}
                 user={user}
                 description={description}
                 isUser={isUser}

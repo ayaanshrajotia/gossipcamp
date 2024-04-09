@@ -17,6 +17,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
 import { socket } from "@/app/StoreProvider";
 import { useParams } from "next/navigation";
+import { v4 } from "uuid";
 
 function PollBox({
     isSend,
@@ -30,6 +31,8 @@ function PollBox({
     description,
     isUser,
     id,
+    pollOptions,
+    isPollVoted,
     messageType,
     likesCount,
     ...props
@@ -55,24 +58,6 @@ function PollBox({
         },
     ];
 
-    const pollOptions = [
-        {
-            id: 1,
-            name: "Option 1",
-            vote: 5,
-        },
-        {
-            id: 2,
-            name: "Option 2",
-            vote: 3,
-        },
-        {
-            id: 3,
-            name: "Option 3",
-            vote: 2,
-        },
-    ];
-
     const likeMessageHandlerDebounced = useDebouncedCallback(async () => {
         setLikesLoading(true);
         if (liked == isLiked) return;
@@ -86,6 +71,11 @@ function PollBox({
         });
     }, 1500);
 
+    let totalVotes = pollOptions?.reduce(
+        (acc: number, option: any) => acc + option.votes,
+        0
+    );
+
     const likeClickHandler = () => {
         setLiked((prev) => !prev);
         dispatch(updateLikeMessage({ messageId: id, isLiked: !liked }));
@@ -93,17 +83,19 @@ function PollBox({
     };
 
     return (
-        <div className="relative w-[450px] flex flex-col gap-3">
+        <div
+            className={`relative w-[450px] flex flex-col gap-3  ${
+                theme === "dark"
+                    ? isUser
+                        ? "self-end box-shadow-yellow-static-dark"
+                        : "self-start box-shadow-static-dark"
+                    : isUser
+                    ? "self-end box-shadow-yellow-static"
+                    : "self-start box-shadow-static"
+            }`}
+        >
             <div
-                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                    theme === "dark"
-                        ? isUser
-                            ? "self-end box-shadow-yellow-static-dark"
-                            : "self-start box-shadow-static-dark"
-                        : isUser
-                        ? "self-end box-shadow-yellow-static"
-                        : "self-start box-shadow-static"
-                }`}
+                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2`}
                 style={{ color: textColor }}
                 {...props}
             >
@@ -191,19 +183,16 @@ function PollBox({
                     {likesCount > 0 && <span className="">{likesCount}</span>}
                 </div>
                 <div className="flex flex-col gap-6">
-                    {pollOptions.map((option) => (
-                        <div
-                            className="flex items-center gap-4"
-                            key={option.id}
-                        >
+                    {pollOptions?.map((option: any) => (
+                        <div className="flex items-center gap-4" key={v4()}>
                             <label
                                 className="relative flex items-center rounded-full cursor-pointer mt-1"
-                                htmlFor={option.id.toString()}
+                                // htmlFor={option.id.toString()}
                             >
                                 <input
                                     type="checkbox"
                                     className="before:content[''] peer relative h-7 w-7 cursor-pointer appearance-none rounded-full border border-stone-400 border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-none checked:bg-[#fdd800] checked:before:bg-[#fdd800] dark:checked:bg-[#837001] dark:checked:before:bg-[#837001] hover:before:opacity-10"
-                                    id={option.id.toString()}
+                                    // id={option.id.toString()}
                                     value={option.name}
                                     name={option.name}
                                 />
@@ -226,18 +215,20 @@ function PollBox({
                             </label>
                             <label
                                 className="font-light cursor-pointer select-none w-full"
-                                htmlFor={option.id.toString()}
+                                // htmlFor={option.id.toString()}
                             >
                                 <div>
                                     <div className="flex justify-between">
                                         <p className="block text-base font-medium mb-1 dark:text-college-dark-white">
-                                            {option.name}
+                                            {option.option}
                                         </p>
-                                        <span className="font-medium">12</span>
+                                        <span className="font-medium">
+                                            {option.votes}
+                                        </span>
                                     </div>
                                     <ProgressBar
                                         completed={option.vote}
-                                        maxCompleted={10}
+                                        maxCompleted={totalVotes}
                                         bgColor={
                                             theme === "dark"
                                                 ? "#837001"
