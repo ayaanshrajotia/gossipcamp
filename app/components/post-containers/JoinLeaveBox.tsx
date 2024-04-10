@@ -1,8 +1,4 @@
-import {
-    JoinLeaveBoxPropsType,
-    MessagesBoxPropsType,
-    PostBoxPropsType,
-} from "@/app/utils/definitions";
+import { JoinLeaveBoxPropsType } from "@/app/utils/definitions";
 
 function JoinLeaveBox({
     bgcolor = "bg-white",

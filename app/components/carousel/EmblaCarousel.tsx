@@ -5,14 +5,9 @@ import {
     EmblaOptionsType,
 } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import {
-    NextButton,
-    PrevButton,
-    usePrevNextButtons,
-} from "./EmblaCarouselArrowButtons";
-import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
+import { usePrevNextButtons } from "./EmblaCarouselArrowButtons";
+import { useDotButton } from "./EmblaCarouselDotButton";
 import Autoplay from "embla-carousel-autoplay";
-import Image from "next/image";
 
 const TWEEN_FACTOR_BASE = 0.2;
 

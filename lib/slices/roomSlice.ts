@@ -160,7 +160,6 @@ const roomSlice = createSlice({
     initialState,
     reducers: {
         addPublicJoinedRoom: (state, action) => {
-            console.log(action.payload);
             const roomExists = state.publicRooms.some(
                 (room: any) => room._id === action.payload.roomId
             );

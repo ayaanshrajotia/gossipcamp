@@ -6,14 +6,13 @@ import { AppDispatch, RootState } from "@/lib/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 import {
     getAllRooms,
     getPublicJoinedRooms,
     getRecentlyAddedRooms,
-    getRoomDetails,
     getRoomProfileDetails,
     getTrendingRooms,
     toggleFollowRoom,
@@ -79,7 +78,6 @@ function Page() {
     };
 
     useEffect(() => {
-        console.log("room details fetching");
         const getDetails = async () => {
             await dispatch(getRoomProfileDetails(roomId.toString()));
         };
@@ -87,8 +85,6 @@ function Page() {
         getDetails();
         setPageLoading(false);
     }, [roomId, dispatch]);
-
-    console.log(roomProfileDetails);
 
     return (
         <div className="min-h-screen relative w-full font-secondary">

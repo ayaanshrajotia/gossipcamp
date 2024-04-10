@@ -43,12 +43,10 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
             });
 
             socket.on("send-like-message", (data: any) => {
-                console.log(data, "like-message");
                 dispatch(updateLikeMessage(data));
             });
 
             socket.on("send-delete-message", (data: any) => {
-                console.log(data, "delete-message");
                 dispatch(deleteAndUpdateMessage(data));
             });
         });

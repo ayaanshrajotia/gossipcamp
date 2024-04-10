@@ -152,19 +152,6 @@ function PostBox({
                     <p className="leading-tight text-base break-all">
                         {description}
                     </p>
-                    <>
-                        {postImgUrl && (
-                            <div className="relative w-full h-[200px] mt-3">
-                                <Image
-                                    src={postImgUrl!}
-                                    alt="avatar-1"
-                                    sizes="33vw"
-                                    fill
-                                    className="object-cover rounded-xl"
-                                />
-                            </div>
-                        )}
-                    </>
                 </div>
             </div>
             <div className="flex items-end justify-end gap-1">

@@ -4,13 +4,7 @@ import { ImageBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-// icons
-import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
-import {
-    EllipsisVerticalIcon,
-    HeartIcon,
-    TicketIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
@@ -54,7 +48,6 @@ function ImageBox({
     const roomId = useParams().roomId;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // console.log(isLiked, "likesLoading");
     // need to use debouncing for like message
     const menuOptions = [
         {

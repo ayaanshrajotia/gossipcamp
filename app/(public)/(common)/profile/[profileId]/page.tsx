@@ -69,8 +69,6 @@ function Page() {
         setPageLoading(false);
     }, [profileId, dispatch, userProfile?.isFollowing]);
 
-    console.log(userProfile);
-
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>

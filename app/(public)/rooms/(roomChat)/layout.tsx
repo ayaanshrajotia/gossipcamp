@@ -63,7 +63,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        if (messageText.length === 0) {
+        if (!isImage && messageText.length === 0) {
             toast.error("Message cannot be empty!");
             setLoading(false);
             setIsImage(false);
@@ -101,8 +101,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             isLiked: false,
         };
 
-        console.log(message);
-
         const index = messages.length;
         setMessageText("");
         try {
@@ -131,7 +129,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             );
             formData.append("profileId", profile?._id);
             formData.append("pollOptions", JSON.stringify(pollOptions));
-            console.log(JSON.stringify(pollOptions));
 
             const response = await axiosInstance.post(
                 "messages/send-message/" + roomId,
@@ -155,11 +152,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                 });
                             };
                             f();
-                            // console.log(data);
+
                         });
 
                         socket.on("send-like-message", (data: any) => {
-                            console.log(data, "like-message");
                             dispatch(updateLikeMessage(data));
                         });
 
@@ -187,11 +183,9 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 setLoading(false);
             }
         } catch (err: any) {
-            console.log(err.response);
             // if (err.response.status === 409) {
             // this means that the message send has a not ssafe for viewing image
             // so we need to delete the message
-            console.log("This image is inappropriate!");
             dispatch(
                 updateMessage({
                     index,
@@ -252,7 +246,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 >
                     {/* Image Menu */}
                     <AnimatePresence>
-                        {isImageMenuOpen && (
+                        {file && (
                             <ImageMenu
                                 file={file}
                                 closeFileMenu={() => {

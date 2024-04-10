@@ -213,12 +213,12 @@ function PollBox({
                         <div className="flex items-center gap-4" key={v4()}>
                             <label
                                 className="relative flex items-center rounded-full cursor-pointer mt-1"
-                                // htmlFor={option.id.toString()}
+                                htmlFor={option.name}
                             >
                                 <input
                                     type="checkbox"
                                     className="before:content[''] peer relative h-7 w-7 cursor-pointer appearance-none rounded-full border border-stone-400 border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-none checked:bg-[#fdd800] checked:before:bg-[#fdd800] dark:checked:bg-[#837001] dark:checked:before:bg-[#837001] hover:before:opacity-10"
-                                    // id={option.id.toString()}
+                                    id={option.name}
                                     value={option.name}
                                     name={option.name}
                                 />
@@ -241,7 +241,7 @@ function PollBox({
                             </label>
                             <label
                                 className="font-light cursor-pointer select-none w-full"
-                                // htmlFor={option.id.toString()}
+                                htmlFor={option.name}
                             >
                                 <div>
                                     <div className="flex justify-between">

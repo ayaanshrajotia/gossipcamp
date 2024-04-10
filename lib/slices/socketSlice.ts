@@ -20,7 +20,6 @@ export const disconnectSocket = createAsyncThunk(
 export const openRoom = createAsyncThunk(
     "socket/openRoom",
     async (data: any, { rejectWithValue }) => {
-        // console.log("emitted");
         socket.emit("open-room", data);
     }
 );
@@ -46,7 +45,6 @@ export const welcomeMessageListener = createAsyncThunk(
 export const joinRoomEmitter = createAsyncThunk(
     "socket/joinRoomEmitter",
     async (data: any, { rejectWithValue }) => {
-        console.log("join room called");
         socket.emit("join-room", data);
     }
 );
@@ -54,7 +52,6 @@ export const joinRoomEmitter = createAsyncThunk(
 export const leaveRoomEmitter = createAsyncThunk(
     "socket/leaveRoomEmitter",
     async (data: any, { rejectWithValue }) => {
-        console.log("leave room called");
         socket.emit("leave-room", data);
     }
 );
@@ -85,15 +82,12 @@ const socketSlice = createSlice({
                 state.isConnected = false;
             })
             .addCase(disconnectSocket.rejected, (state) => {
-                console.log("Socket is disconnected");
                 state.isConnected = false;
             })
             .addCase(disconnectSocket.fulfilled, (state) => {
-                console.log("Socket is disconnected");
                 state.isConnected = false;
             })
             .addCase(welcomeMessageListener.fulfilled, (state, action) => {
-                console.log(action.payload);
             });
     },
 });

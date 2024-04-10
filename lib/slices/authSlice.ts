@@ -75,7 +75,6 @@ export const createAvatar = createAsyncThunk(
                 `/users/create-profile`,
                 profile
             );
-            console.log(response.data.data);
             localStorage.setItem("profile", JSON.stringify(response.data.data));
             document.cookie = `profile=${JSON.stringify(response.data.data)}`;
             return response.data.data;
