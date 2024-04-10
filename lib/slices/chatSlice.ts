@@ -1,5 +1,6 @@
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 export const getAllMessages = createAsyncThunk(
     "chat/getAllMessages",
@@ -86,6 +87,8 @@ const chatSlice = createSlice({
     reducers: {
         addMessage: (state, action) => {
             state.messages.push(action.payload);
+            state.messagesKeyIndexPair[action.payload._id] =
+                state.messages.length - 1;
         },
         setLoadingFalse: (state, action) => {
             state.messageLoading = false;
@@ -104,15 +107,19 @@ const chatSlice = createSlice({
                     state.messages[index].likesCount +
                     (action.payload.isLiked ? 1 : -1);
             }
+            console.log(action.payload);
         },
-        deleteMessage: (state, action) => {
-            const index = state.messagesKeyIndexPair[action.payload];
+        deleteAndUpdateMessage: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
             if (index !== undefined) {
-                state.messages.splice(index, 1);
-                delete state.messagesKeyIndexPair[action.payload];
+                state.messages[index] = {
+                    ...state.messages[index],
+                    messageType: "Text",
+                    text: "This message is deleted",
+                };
             }
+            console.log(action.payload.messageId, index);
         },
-        
     },
     extraReducers: (builder) => {
         builder
@@ -177,7 +184,7 @@ export const {
     setLoadingFalse,
     updateMessage,
     updateLikeMessage,
-    deleteMessage,
+    deleteAndUpdateMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

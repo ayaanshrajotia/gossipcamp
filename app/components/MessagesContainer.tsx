@@ -8,6 +8,7 @@ import MessageBox from "./post-containers/MessageBox";
 import { socket } from "../StoreProvider";
 import {
     addMessage,
+    deleteAndUpdateMessage,
     getAllMessages,
     updateLikeMessage,
 } from "@/lib/slices/chatSlice";
@@ -40,24 +41,26 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 };
                 f();
             });
+
             socket.on("send-like-message", (data: any) => {
                 console.log(data, "like-message");
                 dispatch(updateLikeMessage(data));
             });
 
-            socket.on("send-delete-mesage", (data: any) => {
+            socket.on("send-delete-message", (data: any) => {
                 console.log(data, "delete-message");
+                dispatch(deleteAndUpdateMessage(data));
             });
         });
 
         return () => {
             socket.off("message");
             socket.off("send-like-message");
+            socket.off("send-delete-message");
         };
     }, [dispatch]);
 
     useEffect(() => {
-        // console.log("fetching messages");
         dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
             if (pageNo == 1) {
                 window.scrollTo({

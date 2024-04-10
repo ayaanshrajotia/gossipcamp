@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { joinRoomEmitter } from "@/lib/slices/socketSlice";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 function RoomBoxBigger({
     roomId,
@@ -132,19 +133,36 @@ function RoomBoxBigger({
                             {roomDescription}
                         </p>
                         {isPrivate ? (
-                            <Link
-                                href={`/rooms/profile/${roomId}`}
-                                className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                            <motion.div
+                                whileHover={{ scale: 1.08 }}
+                                whileTap={{ scale: 0.9 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 600,
+                                    damping: 20,
+                                }}
                             >
-                                View Room
-                            </Link>
+                                <Link
+                                    href={`/rooms/profile/${roomId}`}
+                                    className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                                >
+                                    View Room
+                                </Link>
+                            </motion.div>
                         ) : (
-                            <button
-                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                            <motion.button
+                                whileHover={{ scale: 1.08 }}
+                                whileTap={{ scale: 0.9 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 600,
+                                    damping: 20,
+                                }}
+                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white  duration-[20ms]"
                                 onClick={() => handleJoinRoom()}
                             >
                                 Join Room
-                            </button>
+                            </motion.button>
                         )}
                     </div>
                 </div>

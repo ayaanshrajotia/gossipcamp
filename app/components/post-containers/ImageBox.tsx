@@ -15,7 +15,7 @@ import { useTheme } from "next-themes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
 import {
-    deleteMessage,
+    deleteAndUpdateMessage,
     deleteMessageApi,
     toggleLikeMessage,
     updateLikeMessage,
@@ -25,6 +25,7 @@ import { socket } from "@/app/StoreProvider";
 import Dropdown from "../Dropdown";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 function ImageBox({
     isSend,
@@ -59,8 +60,8 @@ function ImageBox({
         {
             name: "Delete",
             action: async () => {
-                // dispatch(deleteMessage(id));
-                // await dispatch(deleteMessageApi(id));
+                dispatch(deleteAndUpdateMessage({ messageId: id }));
+                await dispatch(deleteMessageApi(id));
                 toast.success("Message deleted successfully");
                 socket.emit("delete-message", {
                     roomId,
@@ -124,11 +125,17 @@ function ImageBox({
                 className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white"
                 onClick={likeClickHandler}
             >
-                {liked ? (
-                    <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />
-                ) : (
-                    <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
-                )}
+                <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.8 }}
+                    key={"like"}
+                >
+                    <HeartIcon
+                        className={`h-[18px] w-[18px] text-red-500 cursor-pointer ${
+                            liked ? "fill-red-500" : "fill-transparent"
+                        }`}
+                    />
+                </motion.div>
                 {likesCount > 0 && <span className="">{likesCount}</span>}
             </div>
             <div className="flex gap-3 mb-2">

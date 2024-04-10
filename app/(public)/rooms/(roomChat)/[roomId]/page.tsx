@@ -1,35 +1,22 @@
-"use client";
+"use client";;
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { capitalizeFirstLetter } from "@/app/utils/helper";
-import {
-    getAllRooms,
-    getPublicJoinedRooms,
-    getRoomDetails,
-    toggleFollowRoom,
-} from "@/lib/slices/roomSlice";
+import { getRoomDetails } from "@/lib/slices/roomSlice";
 import Skeleton from "react-loading-skeleton";
-import {
-    closeRoom,
-    connectSocket,
-    leaveRoomEmitter,
-    openRoom,
-} from "@/lib/slices/socketSlice";
-import MessagesContainer from "../../../../components/MessagesContainer";
+import { closeRoom, connectSocket, openRoom } from "@/lib/slices/socketSlice";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import MessagesContainer from "@/app/components/MessagesContainer";
 
 export default function Room() {
     const dispatch = useDispatch<AppDispatch>();
-    const router = useRouter();
     const { roomId } = useParams();
     const { blur } = useSelector((state: RootState) => state.blur);
     const { profile } = useSelector((state: RootState) => state.auth);
     const { theme } = useTheme();
-
     const { getRoomDetailsLoading, roomDetails } = useSelector(
         (state: RootState) => state.rooms
     );
@@ -56,29 +43,9 @@ export default function Room() {
         };
     }, [roomId, dispatch]);
 
-    const handleRemoveRoom = async () => {
-        await dispatch(toggleFollowRoom(roomId.toString()));
-        await dispatch(getPublicJoinedRooms());
-        await dispatch(getAllRooms());
-
-        const capitalizedName =
-            capitalizeFirstLetter(profile.fName) +
-            capitalizeFirstLetter(profile.lName);
-        await dispatch(
-            leaveRoomEmitter({
-                roomId: roomId.toString(),
-                profileId: profile?._id,
-                username: capitalizedName,
-            })
-        );
-        router.push("/explore/rooms");
-    };
-
-    // console.log(roomDetails);
-
     return (
         <div
-            className={`min-h-sreen transition-all duration-200 ${
+            className={`min-h-sreen transition-all duration-300 ${
                 blur ? "blur-md pointer-events-none" : "blur-none"
             }`}
         >

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 // icons
 import {
@@ -44,15 +45,24 @@ export default function Navbar() {
 
     return (
         <header
-            className={`max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1 transition-all duration-200 ${
+            className={`max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1 transition-all duration-300 ${
                 blur ? "blur-md pointer-events-none" : "blur-none"
             } `}
         >
             <div className="max-[1330px]:justify-center max-[1330px]:p-0 flex h-[70px] items-center px-4">
-                <h1 className="max-[1330px]:hidden font-secondary flex gap-3 text-2xl font-bold pl-2 dark:text-college-dark-white">
+                <motion.h1
+                    drag={true}
+                    dragConstraints={{
+                        left: 0,
+                        right: 10,
+                        top: 0,
+                        bottom: 10,
+                    }}
+                    className="max-[1330px]:hidden font-secondary flex gap-3 text-2xl font-bold pl-2 dark:text-college-dark-white cursor-pointer"
+                >
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GossipCamp
-                </h1>
+                </motion.h1>
                 <h1 className="min-[1330px]:hidden max-[1330px]:block font-secondary flex gap-3 p-2 text-2xl font-bold dark:text-college-dark-white">
                     {/* <UserGroupIcon className={`w-8 h-8 `} /> */}
                     GC
@@ -60,7 +70,15 @@ export default function Navbar() {
             </div>
             <nav className="max-[700px]:pl-2 max-[700px]:px-4 max-[700px]:flex-0 max-[700px]:mb-0 max-[700px]:items-center max-[700px]:p-0 max-[700px]:flex-row  max-[1330px]:px-3 mb-2 flex flex-1 flex-col justify-between p-4 ">
                 <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex w-full flex-col gap-2">
-                    <li className="cursor-pointer dark:text-college-dark-white">
+                    <motion.li
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 600,
+                            damping: 20,
+                        }}
+                        className="cursor-pointer dark:text-college-dark-white"
+                    >
                         <Link
                             href={"/home"}
                             className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
@@ -74,8 +92,16 @@ export default function Navbar() {
                             )}
                             <span className="max-[1330px]:hidden">Home</span>
                         </Link>
-                    </li>
-                    <li className="cursor-pointer dark:text-college-dark-white">
+                    </motion.li>
+                    <motion.li
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 600,
+                            damping: 20,
+                        }}
+                        className="cursor-pointer dark:text-college-dark-white"
+                    >
                         <Link
                             href={"/explore/people"}
                             className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg  p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
@@ -91,8 +117,16 @@ export default function Navbar() {
                             />
                             <span className="max-[1330px]:hidden">Explore</span>
                         </Link>
-                    </li>
-                    <li className="cursor-pointer dark:text-college-dark-white">
+                    </motion.li>
+                    <motion.li
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 600,
+                            damping: 20,
+                        }}
+                        className="cursor-pointer dark:text-college-dark-white"
+                    >
                         <Link
                             href={"/notifications"}
                             className={`max-[1300px]:justify-center font-secondary flex w-full items-center gap-3 rounded-lg p-2 transition ease-in-out hover:bg-[#F1F2F5] dark:hover:bg-college-dark-gray-3 ${
@@ -108,10 +142,16 @@ export default function Navbar() {
                                 Notifications
                             </span>
                         </Link>
-                    </li>
+                    </motion.li>
                 </ul>
                 <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex flex-col gap-2">
-                    <li
+                    <motion.li
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 600,
+                            damping: 20,
+                        }}
                         onClick={() =>
                             theme == "dark"
                                 ? setTheme("light")
@@ -134,14 +174,20 @@ export default function Navbar() {
                                 </span>
                             </>
                         )}
-                    </li>
-                    <li
+                    </motion.li>
+                    <motion.li
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 600,
+                            damping: 20,
+                        }}
                         onClick={handleLogout}
                         className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer"
                     >
                         <ArrowRightStartOnRectangleIcon className=" h-7 w-7" />
                         <span className="max-[1330px]:hidden">Logout</span>
-                    </li>
+                    </motion.li>
                 </ul>
             </nav>
         </header>

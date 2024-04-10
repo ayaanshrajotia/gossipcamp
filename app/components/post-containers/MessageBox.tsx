@@ -50,6 +50,7 @@ function MessageBox({
                 pollOptions={pollOptions}
                 isPollVoted={isPollVoted}
                 user={user}
+                id={id}
                 description={description}
                 isUser={isUser}
                 messageType={messageType}

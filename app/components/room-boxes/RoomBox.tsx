@@ -1,14 +1,12 @@
-import React from "react";
 import { RoomBoxPropsType } from "../../utils/definitions";
 import Image from "next/image";
 
-// icons
-import { LockClosedIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import PeopleCount from "../PeopleCount";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 function RoomBox({
     roomId,
@@ -99,22 +97,39 @@ function RoomBox({
                         totalParticipants={totalParticipants}
                     />
                     {profile === null ? (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 600,
+                                damping: 20,
+                            }}
                             className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white"
                             onClick={() =>
                                 toast.error("Please create your profile")
                             }
                         >
                             Open
-                        </button>
+                        </motion.button>
                     ) : (
-                        <Link
-                            className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
-                            href={`/rooms/${roomId}`}
-                            onClick={closeMenuFn}
+                        <motion.div
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 600,
+                                damping: 20,
+                            }}
                         >
-                            Open
-                        </Link>
+                            <Link
+                                className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1  px-3 flex items-center justify-center dark:text-college-dark-gray-1 dark:bg-college-dark-white dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                                href={`/rooms/${roomId}`}
+                                onClick={closeMenuFn}
+                            >
+                                Open
+                            </Link>
+                        </motion.div>
                     )}
                 </div>
             </div>

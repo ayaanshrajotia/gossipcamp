@@ -25,6 +25,7 @@ import { resetFileInput } from "@/app/utils/helper";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { setBlur } from "@/lib/slices/blurSlice";
 import toast from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     let { roomId } = useParams();
@@ -40,6 +41,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(false);
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
     const [isPollMenuOpen, setIsPollMenuOpen] = useState(false);
+    const [isImageMenuOpen, setIsImageMenuOpen] = useState(false);
     const [isPoll, setIsPoll] = useState(false);
     const [isImage, setIsImage] = useState(false);
     const [file, setFile] = useState<string | undefined>();
@@ -218,6 +220,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         setIsImage(true);
         setFile(URL.createObjectURL(e.target.files[0]));
         setFileData(e.target.files[0]);
+        setIsImageMenuOpen(true);
     }
 
     const getPollOptions = (options: any) => {
@@ -238,7 +241,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <div
-                className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-200 ${
+                className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-300 ${
                     blur ? "blur-md pointer-events-none" : "blur-none"
                 }`}
             ></div>
@@ -248,29 +251,36 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl flex flex-col mx-6`}
                 >
                     {/* Image Menu */}
-                    {file && (
-                        <ImageMenu
-                            file={file}
-                            closeFileMenu={() => {
-                                setFile(undefined);
-                                setFileData(undefined);
-                                setIsImage(false);
-                                resetFileInput("inputTag");
-                                !isPoll && dispatch(setBlur(false));
-                            }}
-                        />
-                    )}
+                    <AnimatePresence>
+                        {isImageMenuOpen && (
+                            <ImageMenu
+                                file={file}
+                                closeFileMenu={() => {
+                                    setIsImageMenuOpen(false);
+                                    setFile(undefined);
+                                    setFileData(undefined);
+                                    setIsImage(false);
+                                    resetFileInput("inputTag");
+                                    !isPoll && dispatch(setBlur(false));
+                                }}
+                            />
+                        )}
+                    </AnimatePresence>
                     {/* Poll Menu */}
-                    {isPollMenuOpen && (
-                        <PollMenu
-                            closePollMenu={() => {
-                                setIsPollMenuOpen(false);
-                                setIsPoll(false);
-                                !isImage && dispatch(setBlur(false));
-                            }}
-                            getPollOptions={getPollOptions}
-                        />
-                    )}
+                    <AnimatePresence>
+                        {isPollMenuOpen && (
+                            <div>
+                                <PollMenu
+                                    closePollMenu={() => {
+                                        setIsPollMenuOpen(false);
+                                        setIsPoll(false);
+                                        !isImage && dispatch(setBlur(false));
+                                    }}
+                                    getPollOptions={getPollOptions}
+                                />
+                            </div>
+                        )}
+                    </AnimatePresence>
                     {/* Sticker Menu */}
                     <EmojiPicker
                         open={isEmojiPicker}

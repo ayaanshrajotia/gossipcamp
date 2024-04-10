@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 // icons
 
@@ -52,13 +53,23 @@ function UserBox({
                     </div>
                 </div>
                 {/* Lower Div */}
-
-                <Link
-                    href={`/profile/${userName.toLowerCase()}`}
-                    className="bg-black text-white text-sm font-bold rounded-full p-1 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-[1px] border-black transition-all duration-75 dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 600,
+                        damping: 20,
+                    }}
+                    className="w-full"
                 >
-                    View
-                </Link>
+                    <Link
+                        href={`/profile/${userName.toLowerCase()}`}
+                        className="bg-black text-white text-sm font-bold rounded-full p-1 px-3 flex items-center justify-center w-full hover:bg-white hover:text-black border-[1px] border-black transition-all duration-75 dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
+                    >
+                        View
+                    </Link>
+                </motion.div>
             </div>
         </div>
     );

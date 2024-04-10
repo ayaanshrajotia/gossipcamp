@@ -64,7 +64,7 @@ export default function Sidebar() {
                 />
             </div>
             <div
-                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-college-dark-gray-1 max-[1160px]:z-[1003] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-200 ${
+                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-college-dark-gray-1 max-[1160px]:z-[1003] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-300 ${
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"

@@ -1,5 +1,4 @@
 // icons
-import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
 import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
@@ -14,10 +13,17 @@ import Dropdown from "../Dropdown";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
 import { useDebouncedCallback } from "use-debounce";
-import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
+import {
+    deleteAndUpdateMessage,
+    deleteMessageApi,
+    toggleLikeMessage,
+    updateLikeMessage,
+} from "@/lib/slices/chatSlice";
 import { socket } from "@/app/StoreProvider";
 import { useParams } from "next/navigation";
 import { v4 } from "uuid";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 function PollBox({
     isSend,
@@ -52,8 +58,14 @@ function PollBox({
     const menuOptions = [
         {
             name: "Delete",
-            action: () => {
-                console.log("delete");
+            action: async () => {
+                dispatch(deleteAndUpdateMessage({ messageId: id }));
+                await dispatch(deleteMessageApi(id));
+                toast.success("Message deleted successfully");
+                socket.emit("delete-message", {
+                    roomId,
+                    messageId: id,
+                });
             },
         },
     ];
@@ -87,15 +99,23 @@ function PollBox({
             className={`relative w-[450px] flex flex-col gap-3  ${
                 theme === "dark"
                     ? isUser
-                        ? "self-end box-shadow-yellow-static-dark"
-                        : "self-start box-shadow-static-dark"
+                        ? "self-end "
+                        : "self-start"
                     : isUser
-                    ? "self-end box-shadow-yellow-static"
-                    : "self-start box-shadow-static"
+                    ? "self-end"
+                    : "self-start"
             }`}
         >
             <div
-                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2`}
+                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                    theme === "dark"
+                        ? isUser
+                            ? "box-shadow-yellow-static-dark"
+                            : "box-shadow-static-dark"
+                        : isUser
+                        ? "box-shadow-yellow-static"
+                        : "box-shadow-static"
+                }`}
                 style={{ color: textColor }}
                 {...props}
             >
@@ -164,22 +184,28 @@ function PollBox({
                 className={`relative bg-white rounded-xl border-[1px] border-stone-400 w-full px-4 py-3 flex flex-col gap-4 dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                     theme === "dark"
                         ? isUser
-                            ? "self-end box-shadow-yellow-static-dark"
-                            : "self-start box-shadow-static-dark"
+                            ? "box-shadow-yellow-static-dark"
+                            : "box-shadow-static-dark"
                         : isUser
-                        ? "self-end box-shadow-yellow-static"
-                        : "self-start box-shadow-static"
+                        ? "box-shadow-yellow-static"
+                        : "box-shadow-static"
                 }`}
             >
                 <div
                     className="absolute left-4 bottom-0 translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] border-stone-400 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white"
                     onClick={likeClickHandler}
                 >
-                    {liked ? (
-                        <HeartIconFilled className="h-4 w-4 text-red-500 cursor-pointer" />
-                    ) : (
-                        <HeartIcon className="h-4 w-4 text-red-500 cursor-pointer" />
-                    )}
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.8 }}
+                        key={"like"}
+                    >
+                        <HeartIcon
+                            className={`h-[18px] w-[18px] text-red-500 cursor-pointer ${
+                                liked ? "fill-red-500" : "fill-transparent"
+                            }`}
+                        />
+                    </motion.div>
                     {likesCount > 0 && <span className="">{likesCount}</span>}
                 </div>
                 <div className="flex flex-col gap-6">

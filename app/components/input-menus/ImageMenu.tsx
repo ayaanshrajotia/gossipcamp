@@ -1,5 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function ImageMenu({
     file,
@@ -9,7 +10,13 @@ export default function ImageMenu({
     closeFileMenu: () => void;
 }) {
     return (
-        <div className="absolute bottom-[55px] right-0 gap-2 flex flex-col">
+        <motion.div
+            key="image-modal"
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 800, opacity: 0 }}
+            className="absolute bottom-[55px] right-0 gap-2 flex flex-col"
+        >
             <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[50px] px-4 rounded-xl dark:bg-college-dark-gray-3">
                 <span className="uppercase text-sm dark:text-college-dark-white-2">
                     Image
@@ -30,6 +37,6 @@ export default function ImageMenu({
                     style={{ width: "100%", height: "auto" }}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 }

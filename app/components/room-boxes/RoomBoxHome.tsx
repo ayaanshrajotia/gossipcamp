@@ -17,6 +17,7 @@ import {
 import toast from "react-hot-toast";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { joinRoomEmitter } from "@/lib/slices/socketSlice";
+import { motion } from "framer-motion";
 
 function RoomBoxHome({
     roomId,
@@ -53,16 +54,16 @@ function RoomBoxHome({
                 await dispatch(getPublicJoinedRooms());
                 await dispatch(getAllRooms());
                 const capitalizedName =
-                capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
+                    capitalizeFirstLetter(fName) + capitalizeFirstLetter(lName);
                 dispatch(
                     joinRoomEmitter({
                         profileId: _id,
                         roomId,
                         username: capitalizedName,
                     })
-                    );
-                    toast.success("Joined Room");
-                    router.push(`/rooms/${roomId}`);
+                );
+                toast.success("Joined Room");
+                router.push(`/rooms/${roomId}`);
             }
 
             // redirect to room page
@@ -129,12 +130,19 @@ function RoomBoxHome({
                         <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white ">
                             {roomDescription}
                         </p>
-                        <button
-                            className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2  dark:border-college-dark-white dark:hover:text-college-dark-white"
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 600,
+                                damping: 20,
+                            }}
+                            className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2  dark:border-college-dark-white dark:hover:text-college-dark-white duration-[20ms]"
                             onClick={() => handleJoinRoom()}
                         >
                             Join Room
-                        </button>
+                        </motion.button>
                     </div>
                 </div>
             </div>

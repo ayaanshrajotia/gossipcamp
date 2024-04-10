@@ -1,5 +1,6 @@
 import { PlusIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function PollMenu({ closePollMenu, getPollOptions }: any) {
     const [inputs, setInputs] = useState([""]);
@@ -9,7 +10,7 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
     };
 
     const handleChange = (event: any, index: any) => {
-        let { name, value } = event.target;
+        let { value } = event.target;
         let onChangeValue: any = [...inputs];
         onChangeValue[index] = value;
         setInputs(onChangeValue);
@@ -24,7 +25,13 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
     getPollOptions(inputs);
 
     return (
-        <div className="absolute bottom-[55px] left-0 gap-2 flex flex-col w-[calc(100%-330px)]">
+        <motion.div
+            key="poll-modal"
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 300, opacity: 0 }}
+            className="absolute bottom-[55px] left-0 gap-2 flex flex-col w-[calc(100%-330px)]"
+        >
             <div className="bg-college-dark-gray-1 text-white dark:border-[1px]  flex items-center justify-between h-[50px] px-4 rounded-xl dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2">
                 <span className="uppercase text-sm dark:text-college-dark-white-2">
                     Options
@@ -62,6 +69,6 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
                     </div>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 }
