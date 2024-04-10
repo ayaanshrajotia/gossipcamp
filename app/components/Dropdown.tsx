@@ -5,6 +5,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { DropdownPropsType } from "../utils/definitions";
 import { capitalizeFirstLetter } from "../utils/helper";
+import { v4 } from "uuid";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
@@ -23,7 +24,7 @@ export default function Dropdown({
         >
             {options?.map((option) => (
                 <li
-                    key={option.id}
+                    key={v4()}
                     className="cursor-pointer hover:bg-college-bg-grey px-2 py-1 rounded-[6px] dark:hover:bg-college-dark-gray-2 flex gap-2 text-base transition-all text-college-dark-white-2"
                     onClick={option.action}
                 >

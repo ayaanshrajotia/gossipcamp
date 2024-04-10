@@ -48,14 +48,17 @@ function PostBox({
     const [liked, setLiked] = useState(isLiked);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
     const menuOptions = [
         {
             name: "Delete",
             action: async () => {
-                dispatch(deleteMessage(id));
-                await dispatch(deleteMessageApi(id));
+                // dispatch(deleteMessage(id));
+                // await dispatch(deleteMessageApi(id));
                 toast.success("Message deleted successfully");
+                socket.emit("delete-message", {
+                    roomId,
+                    messageId: id,
+                });
             },
         },
     ];

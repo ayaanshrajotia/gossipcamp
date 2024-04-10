@@ -19,24 +19,16 @@ var timer: any = null;
 let prevheight = 0;
 
 export default function MessagesContainer({ roomId }: MessagesContainerProps) {
-    const { user, profile } = useSelector((state: RootState) => state.auth);
-    // const [messages, setMessages] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const { profile } = useSelector((state: RootState) => state.auth);
     const [pageNo, setPageNo] = useState(1);
     const dispatch = useDispatch<AppDispatch>();
     const { theme } = useTheme();
 
-    let { page, messages, messageLoading, hasNextPage } = useSelector(
+    let { messages, messageLoading, hasNextPage } = useSelector(
         (state: RootState) => state.chat
     );
 
-    let { isConnected = false } = useSelector(
-        (state: RootState) => state.socket || {}
-    );
-
     useEffect(() => {
-        // console.log(12);
         dispatch(connectSocket()).then(() => {
             socket.on("message", (data: any) => {
                 let f = async () => {
@@ -47,11 +39,14 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     });
                 };
                 f();
-                // console.log(data);
             });
             socket.on("send-like-message", (data: any) => {
                 console.log(data, "like-message");
                 dispatch(updateLikeMessage(data));
+            });
+
+            socket.on("send-delete-mesage", (data: any) => {
+                console.log(data, "delete-message");
             });
         });
 
@@ -76,7 +71,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 }, 1000);
             }
             timer = setTimeout(() => {
-                setLoading(false);
                 clearTimeout(timer);
                 timer = null;
             }, 3000);
@@ -113,18 +107,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
     return (
         <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6 font-secondary">
-            <MessageBox
-                key={123}
-                messageType={"Poll"}
-                date={"12 June"}
-                profileUrl={"/images/avatar-1.png"}
-                user={"AyaanshRajotia"}
-                description={"Did you know about this?"}
-                isUser={true}
-                postImgUrl="/images/avatar-1.png"
-                likesCount={1}
-                isLiked={true}
-            />
             {messageLoading && (
                 <Skeleton
                     count={2}

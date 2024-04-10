@@ -59,9 +59,13 @@ function ImageBox({
         {
             name: "Delete",
             action: async () => {
-                dispatch(deleteMessage(id));
+                // dispatch(deleteMessage(id));
+                // await dispatch(deleteMessageApi(id));
                 toast.success("Message deleted successfully");
-                await dispatch(deleteMessageApi(id));
+                socket.emit("delete-message", {
+                    roomId,
+                    messageId: id,
+                });
             },
         },
     ];
