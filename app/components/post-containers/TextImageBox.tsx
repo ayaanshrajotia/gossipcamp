@@ -1,10 +1,11 @@
+// icons
+import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
+
 import Image from "next/image";
 import { useState } from "react";
-import { ImageBoxPropsType } from "@/app/utils/definitions";
+import { TextImageBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-
-import { EllipsisVerticalIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
@@ -21,7 +22,7 @@ import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function ImageBox({
+function TextImageBox({
     isSend,
     bgcolor = "bg-white",
     textColor,
@@ -37,18 +38,17 @@ function ImageBox({
     messageType,
     likesCount,
     ...props
-}: ImageBoxPropsType) {
+}: TextImageBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
+    const { theme } = useTheme();
     const relativeDate = dayjs(date).fromNow();
-    // const { likesLoading } = useSelector((state: RootState) => state.chat);
-    const [likesLoading, setLikesLoading] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
-    const [liked, setLiked] = useState(isLiked);
-
     const roomId = useParams().roomId;
+
+    const [likesLoading, setLikesLoading] = useState(false);
+    const [liked, setLiked] = useState(isLiked);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // need to use debouncing for like message
     const menuOptions = [
         {
             name: "Delete",
@@ -83,7 +83,6 @@ function ImageBox({
         likeMessageHandlerDebounced();
     };
 
-    const { theme } = useTheme();
     return (
         <div
             className={`border-box relative min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
@@ -160,7 +159,10 @@ function ImageBox({
                                     height={0}
                                     sizes="33vw"
                                     className=" rounded-xl"
-                                    style={{ width: "auto", height: "100%" }}
+                                    style={{
+                                        width: "auto",
+                                        height: "100%",
+                                    }}
                                 />
                             </div>
                         )}
@@ -176,4 +178,4 @@ function ImageBox({
     );
 }
 
-export default ImageBox;
+export default TextImageBox;

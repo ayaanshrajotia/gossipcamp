@@ -25,7 +25,7 @@ import { resetFileInput } from "@/app/utils/helper";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { setBlur } from "@/lib/slices/blurSlice";
 import toast from "react-hot-toast";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 function RoomLayout({ children }: { children: React.ReactNode }) {
     let { roomId } = useParams();
@@ -101,10 +101,13 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             isLiked: false,
         };
 
+        console.log(message);
+
         const index = messages.length;
         setMessageText("");
         try {
             await dispatch(addMessage(message));
+            setIsPollMenuOpen(false);
             setIsEmojiPicker(false);
 
             window.scrollTo({
@@ -119,9 +122,9 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             formData.append("text", messageText);
             formData.append(
                 "messageType",
-                file && isPoll
+                isImage && isPoll
                     ? "ImagePoll"
-                    : file
+                    : isImage
                     ? "Image"
                     : isPoll
                     ? "Poll"
@@ -152,7 +155,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                                 });
                             };
                             f();
-
                         });
 
                         socket.on("send-like-message", (data: any) => {
@@ -275,6 +277,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             </div>
                         )}
                     </AnimatePresence>
+
                     {/* Sticker Menu */}
                     <EmojiPicker
                         open={isEmojiPicker}
@@ -282,7 +285,11 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                         height={400}
                         theme={theme as Theme}
                         // className="absolute top-0"
-                        style={{ position: "absolute", bottom: "60px" }}
+                        style={{
+                            position: "absolute",
+                            bottom: "60px",
+                            right: "0px",
+                        }}
                         onEmojiClick={(e) => {
                             const curPosition =
                                 inputRef.current?.selectionStart;

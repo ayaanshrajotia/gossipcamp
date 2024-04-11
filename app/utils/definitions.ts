@@ -82,7 +82,7 @@ export type DropdownPropsType = {
     handleOptions: (data: string) => void;
 } & Record<string, any>;
 
-export type PostBoxPropsType = {
+export type TextImageBoxPropsType = {
     // children: any;
     bgcolor?: string;
     messageType: string;

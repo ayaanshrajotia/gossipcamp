@@ -157,7 +157,7 @@ export default function Navbar() {
                                 ? setTheme("light")
                                 : setTheme("dark")
                         }
-                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer duration-0"
                     >
                         {theme === "light" ? (
                             <>
@@ -183,7 +183,7 @@ export default function Navbar() {
                             damping: 20,
                         }}
                         onClick={handleLogout}
-                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer"
+                        className="max-[1300px]:justify-center font-secondary flex items-center gap-3 rounded-lg transition ease-in-out hover:bg-[#F1F2F5] p-2 text-base dark:text-college-dark-white dark:hover:bg-college-dark-gray-3 cursor-pointer duration-0"
                     >
                         <ArrowRightStartOnRectangleIcon className=" h-7 w-7" />
                         <span className="max-[1330px]:hidden">Logout</span>

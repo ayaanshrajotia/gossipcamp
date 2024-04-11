@@ -54,6 +54,7 @@ function PollBox({
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [likesLoading, setLikesLoading] = useState(false);
     const [liked, setLiked] = useState(isLiked);
+    const [checkedValue, setCheckedValue] = useState<string | null>(null);
 
     const menuOptions = [
         {
@@ -94,9 +95,34 @@ function PollBox({
         likeMessageHandlerDebounced();
     };
 
+    // const checkHandler = (event: any) => {
+    //     const { value, checked } = event.target;
+
+    //     console.log(value, checked);
+
+    //     if (!checked) {
+    //         setIsChecked(value);
+    //     }
+
+    //     console.log(value, checked);
+    // };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = event.target;
+
+        // Update the checkedValue state based on checkbox selection
+        if (checked) {
+            setCheckedValue(value);
+        } else {
+            setCheckedValue(null); // Set to null when unchecked
+        }
+    };
+
+    console.log(checkedValue);
+
     return (
         <div
-            className={`relative w-[450px] flex flex-col gap-3  ${
+            className={`relative w-[450px] flex flex-col gap-2.5  ${
                 theme === "dark"
                     ? isUser
                         ? "self-end "
@@ -209,18 +235,20 @@ function PollBox({
                     {likesCount > 0 && <span className="">{likesCount}</span>}
                 </div>
                 <div className="flex flex-col gap-6">
-                    {pollOptions?.map((option: any) => (
+                    {pollOptions?.map((option: any, idx: any) => (
                         <div className="flex items-center gap-4" key={v4()}>
                             <label
                                 className="relative flex items-center rounded-full cursor-pointer mt-1"
-                                htmlFor={option.name}
+                                htmlFor={idx}
                             >
                                 <input
                                     type="checkbox"
                                     className="before:content[''] peer relative h-7 w-7 cursor-pointer appearance-none rounded-full border border-stone-400 border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-none checked:bg-[#fdd800] checked:before:bg-[#fdd800] dark:checked:bg-[#837001] dark:checked:before:bg-[#837001] hover:before:opacity-10"
-                                    id={option.name}
-                                    value={option.name}
-                                    name={option.name}
+                                    id={idx}
+                                    value={option.option}
+                                    name={option.option}
+                                    onChange={handleChange}
+                                    checked={checkedValue === option.option}
                                 />
                                 <span className="absolute text-college-dark-gray-2 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                                     <svg
@@ -241,7 +269,7 @@ function PollBox({
                             </label>
                             <label
                                 className="font-light cursor-pointer select-none w-full"
-                                htmlFor={option.name}
+                                htmlFor={option.option}
                             >
                                 <div>
                                     <div className="flex justify-between">
@@ -253,7 +281,7 @@ function PollBox({
                                         </span>
                                     </div>
                                     <ProgressBar
-                                        completed={option.vote}
+                                        completed={option.votes}
                                         maxCompleted={totalVotes}
                                         bgColor={
                                             theme === "dark"

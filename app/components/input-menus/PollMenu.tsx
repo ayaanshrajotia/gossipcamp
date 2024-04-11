@@ -14,6 +14,7 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
         let onChangeValue: any = [...inputs];
         onChangeValue[index] = value;
         setInputs(onChangeValue);
+        getPollOptions(inputs);
     };
 
     const handleDeleteInput = (index: any) => {
@@ -21,8 +22,6 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
         newArray.splice(index, 1);
         setInputs(newArray);
     };
-
-    getPollOptions(inputs);
 
     return (
         <motion.div
@@ -47,6 +46,7 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
                         <div className="flex items-center bg-gray-100 p-2 px-4 pr-2 rounded-xl dark:bg-college-dark-gray-2">
                             <input
                                 name="option"
+                                autoFocus
                                 type="text"
                                 value={item}
                                 className="bg-transparent outline-none w-full  placeholder:text-college-dark-white-2 break-words"
