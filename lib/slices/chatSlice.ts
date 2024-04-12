@@ -56,6 +56,28 @@ export const toggleLikeMessage = createAsyncThunk(
     }
 );
 
+export const togglePollMessage = createAsyncThunk(
+    "chat/togglePollMessage",
+    async (
+        {
+            roomId,
+            messageId,
+            optionIndex,
+        }: { roomId: string; messageId: string; optionIndex: string },
+        { rejectWithValue }
+    ) => {
+        try {
+            console.log(roomId, messageId, optionIndex);
+            const response = await axiosInstance.post(
+                `messages/vote-poll/${roomId}/${messageId}/${optionIndex}`
+            );
+            return response.data.data;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
 const initialState: {
     messages: any[];
     messagesKeyIndexPair: { [key: string]: number };
@@ -117,6 +139,22 @@ const chatSlice = createSlice({
                 };
             }
         },
+        updatePollVote: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
+            if (index !== undefined) {
+                let pollIndex = state.messages[index].pollIndex;
+                if (pollIndex != "-1") {
+                    state.messages[index].pollOptions[pollIndex].votes -= 1;
+                }
+
+                if (action.payload.optionIndex != "-1") {
+                    state.messages[index].pollOptions[
+                        action.payload.optionIndex
+                    ].votes += 1;
+                }
+                state.messages[index].pollIndex = action.payload.optionIndex;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -169,6 +207,15 @@ const chatSlice = createSlice({
             })
             .addCase(deleteMessageApi.rejected, (state, action) => {
                 console.log(action.payload);
+            })
+            .addCase(togglePollMessage.pending, (state) => {
+                console.log("Poll message pending");
+            })
+            .addCase(togglePollMessage.fulfilled, (state, action) => {
+                console.log(action.payload);
+            })
+            .addCase(togglePollMessage.rejected, (state, action) => {
+                console.log(action.payload);
             });
     },
 });
@@ -179,6 +226,7 @@ export const {
     updateMessage,
     updateLikeMessage,
     deleteAndUpdateMessage,
+    updatePollVote,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

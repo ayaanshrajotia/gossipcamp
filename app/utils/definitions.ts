@@ -126,6 +126,7 @@ export type PollBoxPropsType = {
     user: string;
     description: string;
     isUser: boolean;
+    pollIndex: string;
 } & Record<string, any>;
 
 export type JoinLeaveBoxPropsType = {

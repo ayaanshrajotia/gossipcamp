@@ -18,6 +18,7 @@ function MessageBox({
     pollOptions,
     isPollVoted,
     isLiked,
+    pollIndex,
     messageType,
     ...props
 }: MessagesBoxPropsType) {
@@ -50,13 +51,14 @@ function MessageBox({
                 isPollVoted={isPollVoted}
                 user={user}
                 id={id}
+                pollIndex={pollIndex}
                 description={description}
                 isUser={isUser}
                 messageType={messageType}
                 {...props}
             />
         );
-    } else  {
+    } else {
         return (
             <TextImageBox
                 bgcolor={bgcolor}

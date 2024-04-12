@@ -17,7 +17,9 @@ import {
     deleteAndUpdateMessage,
     deleteMessageApi,
     toggleLikeMessage,
+    togglePollMessage,
     updateLikeMessage,
+    updatePollVote,
 } from "@/lib/slices/chatSlice";
 import { socket } from "@/app/StoreProvider";
 import { useParams } from "next/navigation";
@@ -41,6 +43,7 @@ function PollBox({
     isPollVoted,
     messageType,
     likesCount,
+    pollIndex,
     ...props
 }: PollBoxPropsType) {
     const roomId = useParams().roomId;
@@ -49,12 +52,11 @@ function PollBox({
     const { theme } = useTheme();
     const dispatch = useDispatch<AppDispatch>();
 
-    const [vote, setVote] = useState(5);
     const [isLiked, setIsLiked] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [likesLoading, setLikesLoading] = useState(false);
     const [liked, setLiked] = useState(isLiked);
-    const [checkedValue, setCheckedValue] = useState<string | null>(null);
+    const [checkedValue, setCheckedValue] = useState<string | null>(pollIndex);
 
     const menuOptions = [
         {
@@ -95,30 +97,34 @@ function PollBox({
         likeMessageHandlerDebounced();
     };
 
-    // const checkHandler = (event: any) => {
-    //     const { value, checked } = event.target;
-
-    //     console.log(value, checked);
-
-    //     if (!checked) {
-    //         setIsChecked(value);
-    //     }
-
-    //     console.log(value, checked);
-    // };
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = event.target;
 
-        // Update the checkedValue state based on checkbox selection
         if (checked) {
             setCheckedValue(value);
         } else {
-            setCheckedValue(null); // Set to null when unchecked
+            setCheckedValue(null);
         }
-    };
 
-    console.log(checkedValue);
+        dispatch(
+            updatePollVote({
+                optionIndex: checked ? value : "-1",
+                messageId: id,
+            })
+        );
+        await dispatch(
+            togglePollMessage({
+                roomId: roomId.toString(),
+                messageId: id,
+                optionIndex: !checked ? "-1" : value,
+            })
+        );
+        socket.emit("poll-vote", {
+            roomId: roomId.toString(),
+            messageId: id,
+            optionIndex: !checked ? "-1" : value,
+        });
+    };
 
     return (
         <div
@@ -281,6 +287,7 @@ function PollBox({
                                         </span>
                                     </div>
                                     <ProgressBar
+                                        key={v4()}
                                         completed={option.votes}
                                         maxCompleted={totalVotes}
                                         bgColor={
@@ -297,7 +304,6 @@ function PollBox({
                                         labelSize="10px"
                                         isLabelVisible={false}
                                         transitionDuration="0.3s"
-                                        animateOnRender
                                         className="w-full"
                                     />
                                 </div>
@@ -310,6 +316,7 @@ function PollBox({
                     height="h-[35px]"
                     margin="-ml-5"
                     className="self-end"
+                    totalParticipants={totalVotes}
                 />
             </div>
         </div>

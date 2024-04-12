@@ -3,7 +3,7 @@
 // icons
 import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { ChartBarIcon, PhotoIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -222,6 +222,9 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const getPollOptions = (options: any) => {
         setPollOptions(options);
     };
+
+
+    console.log(pollOptions);
 
     let title = "";
 

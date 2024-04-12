@@ -11,6 +11,7 @@ import {
     deleteAndUpdateMessage,
     getAllMessages,
     updateLikeMessage,
+    updatePollVote,
 } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import Skeleton from "react-loading-skeleton";
@@ -28,6 +29,8 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     let { messages, messageLoading, hasNextPage } = useSelector(
         (state: RootState) => state.chat
     );
+
+    console.log(messages[messages.length - 1]);
 
     useEffect(() => {
         dispatch(connectSocket()).then(() => {
@@ -48,6 +51,10 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
 
             socket.on("send-delete-message", (data: any) => {
                 dispatch(deleteAndUpdateMessage(data));
+            });
+
+            socket.on("send-poll-vote", (data: any) => {
+                dispatch(updatePollVote(data));
             });
         });
 
@@ -236,6 +243,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 description={message.text}
                                 likesCount={message.likesCount || 0}
                                 isUser={message.profile?._id === profile?._id}
+                                pollIndex={message?.pollIndex}
                             />
                         );
                     })}
