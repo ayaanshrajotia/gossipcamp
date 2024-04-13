@@ -188,7 +188,7 @@ function PollBox({
                         <p className="leading-tight text-base">{description}</p>
                         <>
                             {postImgUrl && (
-                                <div className="relative h-[350px] mt-3">
+                                <div className="relative max-h-[350px] mt-3">
                                     <Image
                                         src={postImgUrl!}
                                         alt="avatar-1"
