@@ -151,7 +151,7 @@ function TextImageBox({
                     <p className="leading-tight text-base">{description}</p>
                     <>
                         {postImgUrl && (
-                            <div className="relative max-h-[350px] mt-3">
+                            <div className="relative w-[350px] mt-3">
                                 <Image
                                     src={postImgUrl!}
                                     alt="avatar-1"
@@ -160,8 +160,8 @@ function TextImageBox({
                                     sizes="33vw"
                                     className=" rounded-xl"
                                     style={{
-                                        width: "auto",
-                                        height: "100%",
+                                        width: "100%",
+                                        height: "auto",
                                     }}
                                 />
                             </div>

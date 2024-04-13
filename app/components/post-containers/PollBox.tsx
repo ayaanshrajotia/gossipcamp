@@ -44,15 +44,15 @@ function PollBox({
     messageType,
     likesCount,
     pollIndex,
+    isLiked,
     ...props
 }: PollBoxPropsType) {
     const roomId = useParams().roomId;
-    dayjs.extend(relativeTime); // use relative time plugin
+    dayjs.extend(relativeTime);
     const relativeDate = dayjs(date).fromNow();
     const { theme } = useTheme();
     const dispatch = useDispatch<AppDispatch>();
 
-    const [isLiked, setIsLiked] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [likesLoading, setLikesLoading] = useState(false);
     const [liked, setLiked] = useState(isLiked);
@@ -188,7 +188,7 @@ function PollBox({
                         <p className="leading-tight text-base">{description}</p>
                         <>
                             {postImgUrl && (
-                                <div className="relative max-h-[350px] mt-3">
+                                <div className="relative w-[350px] mt-3">
                                     <Image
                                         src={postImgUrl!}
                                         alt="avatar-1"
@@ -197,8 +197,8 @@ function PollBox({
                                         sizes="33vw"
                                         className=" rounded-xl"
                                         style={{
-                                            width: "auto",
-                                            height: "100%",
+                                            width: "100%",
+                                            height: "auto",
                                         }}
                                     />
                                 </div>

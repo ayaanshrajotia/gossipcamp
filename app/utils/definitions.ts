@@ -123,6 +123,7 @@ export type PollBoxPropsType = {
     date: string;
     profileUrl: string;
     postImgUrl?: string;
+    isLiked: boolean;
     user: string;
     description: string;
     isUser: boolean;
