@@ -170,6 +170,11 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
 
                 socket.emit("send-message", {
                     ...message,
+                    pollOptions: pollOptions.map((option: any) => ({
+                        option: option,
+                        votes: 0,
+                    })),
+                    pollIndex: -1,
                     image: response.data.data.image,
                     _id: response.data.data._id,
                 });
@@ -222,7 +227,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const getPollOptions = (options: any) => {
         setPollOptions(options);
     };
-
 
     console.log(pollOptions);
 

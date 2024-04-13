@@ -155,6 +155,21 @@ const chatSlice = createSlice({
                 state.messages[index].pollIndex = action.payload.optionIndex;
             }
         },
+        changePollVotes: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
+            if (index !== undefined) {
+                // when any user votes on poll then increase the count of votes
+                if (action.payload.optionIndex != "-1") {
+                    state.messages[index].pollOptions[
+                        action.payload.optionIndex
+                    ].votes += 1;
+                } else {
+                    state.messages[index].pollOptions[
+                        action.payload.optionIndex
+                    ].votes -= 1;
+                }
+            }
+        },
     },
     extraReducers: (builder) => {
         builder

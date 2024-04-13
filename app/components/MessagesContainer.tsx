@@ -56,6 +56,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
             socket.on("send-poll-vote", (data: any) => {
                 dispatch(updatePollVote(data));
             });
+
         });
 
         return () => {

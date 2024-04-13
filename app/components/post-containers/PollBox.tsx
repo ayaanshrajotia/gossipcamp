@@ -115,7 +115,7 @@ function PollBox({
         await dispatch(
             togglePollMessage({
                 roomId: roomId.toString(),
-                messageId: id,
+                messageId: id,  
                 optionIndex: !checked ? "-1" : value,
             })
         );
