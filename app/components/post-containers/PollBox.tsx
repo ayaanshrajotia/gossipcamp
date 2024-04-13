@@ -115,13 +115,14 @@ function PollBox({
         await dispatch(
             togglePollMessage({
                 roomId: roomId.toString(),
-                messageId: id,  
+                messageId: id,
                 optionIndex: !checked ? "-1" : value,
             })
         );
         socket.emit("poll-vote", {
             roomId: roomId.toString(),
             messageId: id,
+            oldValue: !checkedValue ? "-1" : checkedValue,
             optionIndex: !checked ? "-1" : value,
         });
     };

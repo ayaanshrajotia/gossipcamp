@@ -101,8 +101,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             isLiked: false,
         };
 
-        console.log(message);
-
         const index = messages.length;
         setMessageText("");
         try {
@@ -225,10 +223,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     }
 
     const getPollOptions = (options: any) => {
-        setPollOptions(options);
+        setPollOptions((prev) => options);
     };
-
-    console.log(pollOptions);
 
     let title = "";
 

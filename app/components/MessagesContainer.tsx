@@ -8,6 +8,7 @@ import MessageBox from "./post-containers/MessageBox";
 import { socket } from "../StoreProvider";
 import {
     addMessage,
+    changePollVotes,
     deleteAndUpdateMessage,
     getAllMessages,
     updateLikeMessage,
@@ -29,8 +30,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     let { messages, messageLoading, hasNextPage } = useSelector(
         (state: RootState) => state.chat
     );
-
-    console.log(messages[messages.length - 1]);
 
     useEffect(() => {
         dispatch(connectSocket()).then(() => {
@@ -54,15 +53,15 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
             });
 
             socket.on("send-poll-vote", (data: any) => {
-                dispatch(updatePollVote(data));
+                dispatch(changePollVotes(data));
             });
-
         });
 
         return () => {
             socket.off("message");
             socket.off("send-like-message");
             socket.off("send-delete-message");
+            socket.off("send-poll-vote");
         };
     }, [dispatch]);
 

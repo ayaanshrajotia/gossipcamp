@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 export default function PollMenu({ closePollMenu, getPollOptions }: any) {
     const [inputs, setInputs] = useState([""]);
-    console.log(inputs);
 
     const handleAddInput = () => {
         setInputs([...inputs, ""]);
@@ -15,6 +14,7 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
         let onChangeValue: any = [...inputs];
         onChangeValue[index] = value;
         setInputs(onChangeValue);
+        getPollOptions(onChangeValue);
     };
 
     const handleDeleteInput = (index: any) => {
@@ -52,7 +52,6 @@ export default function PollMenu({ closePollMenu, getPollOptions }: any) {
                                 className="bg-transparent outline-none w-full  placeholder:text-college-dark-white-2 break-words"
                                 onChange={(event) => {
                                     handleChange(event, index);
-                                    getPollOptions(inputs);
                                 }}
                                 placeholder="Add"
                             />

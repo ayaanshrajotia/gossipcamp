@@ -67,7 +67,6 @@ export const togglePollMessage = createAsyncThunk(
         { rejectWithValue }
     ) => {
         try {
-            console.log(roomId, messageId, optionIndex);
             const response = await axiosInstance.post(
                 `messages/vote-poll/${roomId}/${messageId}/${optionIndex}`
             );
@@ -144,13 +143,13 @@ const chatSlice = createSlice({
             if (index !== undefined) {
                 let pollIndex = state.messages[index].pollIndex;
                 if (pollIndex != "-1") {
+                    pollIndex = parseInt(pollIndex);
                     state.messages[index].pollOptions[pollIndex].votes -= 1;
                 }
 
                 if (action.payload.optionIndex != "-1") {
-                    state.messages[index].pollOptions[
-                        action.payload.optionIndex
-                    ].votes += 1;
+                    let optionIndex = parseInt(action.payload.optionIndex);
+                    state.messages[index].pollOptions[optionIndex].votes += 1;
                 }
                 state.messages[index].pollIndex = action.payload.optionIndex;
             }
@@ -158,15 +157,15 @@ const chatSlice = createSlice({
         changePollVotes: (state, action) => {
             let index = state.messagesKeyIndexPair[action.payload.messageId];
             if (index !== undefined) {
-                // when any user votes on poll then increase the count of votes
-                if (action.payload.optionIndex != "-1") {
-                    state.messages[index].pollOptions[
-                        action.payload.optionIndex
-                    ].votes += 1;
-                } else {
-                    state.messages[index].pollOptions[
-                        action.payload.optionIndex
-                    ].votes -= 1;
+                let oldIndex = action.payload.oldValue;
+                if (oldIndex != "-1") {
+                    oldIndex = parseInt(oldIndex);
+                    state.messages[index].pollOptions[oldIndex].votes -= 1;
+                }
+                let newIndex = action.payload.optionIndex;
+                if (newIndex != "-1") {
+                    newIndex = parseInt(newIndex);
+                    state.messages[index].pollOptions[newIndex].votes += 1;
                 }
             }
         },
@@ -223,9 +222,7 @@ const chatSlice = createSlice({
             .addCase(deleteMessageApi.rejected, (state, action) => {
                 console.log(action.payload);
             })
-            .addCase(togglePollMessage.pending, (state) => {
-                console.log("Poll message pending");
-            })
+            .addCase(togglePollMessage.pending, (state) => {})
             .addCase(togglePollMessage.fulfilled, (state, action) => {
                 console.log(action.payload);
             })
@@ -242,6 +239,7 @@ export const {
     updateLikeMessage,
     deleteAndUpdateMessage,
     updatePollVote,
+    changePollVotes,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;
