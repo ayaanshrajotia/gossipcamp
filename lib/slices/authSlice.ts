@@ -40,17 +40,17 @@ export const loginUser = createAsyncThunk(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 userCredentials
             );
-            document.cookie = `accessToken=${response.data.data.accessToken}`;
-            document.cookie = `refreshToken=${response.data.data.refreshToken}`;
-            document.cookie = `profile=${JSON.stringify(
-                response.data.data.profile
-            )}`;
+            // document.cookie = `accessToken=${response.data.data.accessToken}`;
+            // document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+            // document.cookie = `profile=${JSON.stringify(
+            //     response.data.data.profile
+            // )}`;
 
-            localStorage.setItem("accessToken", response.data.data.accessToken);
-            localStorage.setItem(
-                "refreshToken",
-                response.data.data.refreshToken
-            );
+            // localStorage.setItem("accessToken", response.data.data.accessToken);
+            // localStorage.setItem(
+            //     "refreshToken",
+            //     response.data.data.refreshToken
+            // );
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.data.user)
@@ -59,6 +59,7 @@ export const loginUser = createAsyncThunk(
                 "profile",
                 JSON.stringify(response.data.data.profile)
             );
+            console.log(response);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -90,16 +91,16 @@ export const logoutUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post(`/users/logout`);
-            document.cookie =
-                "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie =
-                "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // document.cookie =
+            //     "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // document.cookie =
+            //     "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie =
                 "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            localStorage.removeItem("profile");
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            localStorage.removeItem("profile");
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);

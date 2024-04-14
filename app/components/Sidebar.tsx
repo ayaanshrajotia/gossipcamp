@@ -35,10 +35,6 @@ export default function Sidebar() {
 
     useEffect(() => {
         dispatch(connectSocket());
-
-        return () => {
-            dispatch(disconnectSocket());
-        };
     }, [dispatch]);
 
     useEffect(() => {
@@ -74,7 +70,7 @@ export default function Sidebar() {
                     <div className="h-[70px] w-full flex items-center">
                         <div className="flex-1 flex items-center justify-between gap-6">
                             {pageLoading || loading || profile === null ? (
-                                <Link
+                                <Link 
                                     href={"/create-avatar"}
                                     className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse dark:text-black text-sm"
                                 >

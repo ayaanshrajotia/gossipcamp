@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/app/components/Button";
 import Image from "next/image";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
     accessoriesTypeOptions,
     clotheColorOptions,
@@ -24,11 +24,15 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
+import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 
 function CreateAvatar() {
     const [firstName, setFirstName] = useState("Choose First Name");
     const [lastName, setLastName] = useState("Choose Last Name");
     const [userDetails, setUserDetails] = useState<any>({});
+    const [currentTheme, setCurrentTheme] = useState<string | undefined>(
+        undefined
+    );
     const [avatarParams, setAvatarParams] = useState({
         avatarStyle: "Circle",
         topType: "LongHairStraight",
@@ -53,6 +57,10 @@ function CreateAvatar() {
     const getRandomIndex = (length: number) => {
         return Math.floor(Math.random() * length);
     };
+
+    useEffect(() => {
+        setCurrentTheme(theme);
+    }, [theme]);
 
     const getRandomNames = () => {
         const randomFirstNameIndex = getRandomIndex(firstNames.length);
@@ -149,7 +157,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -174,7 +182,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -206,7 +214,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -227,7 +235,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -256,7 +264,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -277,7 +285,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -305,7 +313,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -326,7 +334,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -354,7 +362,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -375,7 +383,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -403,7 +411,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}
@@ -424,7 +432,7 @@ function CreateAvatar() {
                                 name=""
                                 id=""
                                 className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                    theme === "dark"
+                                    currentTheme === "dark"
                                         ? "box-shadow-dark"
                                         : "box-shadow"
                                 }`}

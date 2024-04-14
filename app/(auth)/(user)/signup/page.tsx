@@ -6,7 +6,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -27,6 +27,9 @@ type FormFields = z.infer<typeof schema>;
 
 export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [currentTheme, setCurrentTheme] = useState<string | undefined>(
+        undefined
+    );
     const [isLoading, setIsLoading] = useState(false);
     const [college, setCollege] = useState("");
     const router = useRouter();
@@ -43,6 +46,10 @@ export default function SignupPage() {
     const handleOptions = (data: string) => {
         setCollege(data);
     };
+
+    useEffect(() => {
+        setCurrentTheme(theme);
+    }, [theme]);
 
     // Signup handler
     const signup: SubmitHandler<FormFields> = async (data) => {
@@ -80,7 +87,7 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="max-w-[450px] w-full flex flex-col font-secondary">
+        <div className="max-w-[450px] w-full flex flex-col font-secondary max-[1024px]:mx-8">
             <h1 className="font-primary font-bold text-4xl text-college-grey mb-8 dark:text-college-dark-white">
                 Signup Anonymously!
             </h1>
@@ -93,7 +100,7 @@ export default function SignupPage() {
                 <div className="flex flex-col gap-6">
                     <div
                         className={`${
-                            theme === "dark"
+                            currentTheme === "dark"
                                 ? "input-group-dark"
                                 : "input-group"
                         }`}
@@ -103,7 +110,7 @@ export default function SignupPage() {
                             type="email"
                             id="email"
                             className={`w-full h-12 mt-1 border-1 rounded-lg border-black p-3 text-lg font-secondary outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                theme === "dark"
+                                currentTheme === "dark"
                                     ? "box-shadow-dark"
                                     : "box-shadow "
                             }`}
@@ -122,7 +129,9 @@ export default function SignupPage() {
                         name=""
                         id=""
                         className={`flex justify-between items-center text-base w-full h-12 gap-x-1.5 rounded-lg bg-white px-2 py-2 font-semibold text-gray-900 border-1 border-black transition ease-in-out duration-200 hover:shadow-non outline-none dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                            currentTheme === "dark"
+                                ? "box-shadow-dark"
+                                : "box-shadow "
                         }`}
                         onChange={(e) => handleOptions(e.target.value)}
                     >
@@ -145,7 +154,7 @@ export default function SignupPage() {
                     {/* Password */}
                     <div
                         className={`${
-                            theme === "dark"
+                            currentTheme === "dark"
                                 ? "input-group-dark"
                                 : "input-group"
                         }`}
@@ -155,7 +164,7 @@ export default function SignupPage() {
                             id="password"
                             type={showPassword ? "text" : "password"}
                             className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                                theme === "dark"
+                                currentTheme === "dark"
                                     ? "box-shadow-dark"
                                     : "box-shadow "
                             }`}

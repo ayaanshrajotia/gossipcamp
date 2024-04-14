@@ -1,5 +1,4 @@
-"use client";
-
+"use client";;
 import EmblaCarousel from "../../../components/carousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";

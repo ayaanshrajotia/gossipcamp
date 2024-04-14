@@ -2,7 +2,7 @@
 
 import Button from "@/app/components/Button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,6 @@ const schema = z.object({
                 .min(3, "Username must contain at least 3 character(s)");
         }
     }),
-    // .transform((value) => parseInt(value)),
     password: z
         .string()
         .min(8, "Password must contain at least 8 character(s)"),
@@ -36,8 +35,7 @@ type FormFields = z.infer<typeof schema>;
 
 const LoginPage = () => {
     const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
-    // const [loading, setLoading] = useState(false);
+    const { theme } = useTheme();
     const dispatch = useDispatch<AppDispatch>();
     const { loading, user } = useSelector((state: RootState) => state.auth);
     const {
@@ -45,7 +43,11 @@ const LoginPage = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormFields>({ resolver: zodResolver(schema) });
-    const { theme } = useTheme();
+
+    const [currentTheme, setCurrentTheme] = useState<string | undefined>(
+        undefined
+    );
+    const [showPassword, setShowPassword] = useState(false);
 
     // Login Function
     const login: SubmitHandler<FormFields> = async (data) => {
@@ -61,6 +63,10 @@ const LoginPage = () => {
         }
     };
 
+    useEffect(() => {
+        setCurrentTheme(theme);
+    }, [theme]);
+
     return (
         <div className="font-secondary flex w-full max-w-[400px] flex-col dark:text-college-dark-white">
             <h1 className="font-secondary text-college-grey mb-8 text-4xl font-extrabold dark:text-college-dark-white ">
@@ -75,7 +81,9 @@ const LoginPage = () => {
                 {/* Mobile Number */}
                 <div
                     className={`${
-                        theme === "dark" ? "input-group-dark" : "input-group"
+                        currentTheme === "dark"
+                            ? "input-group-dark"
+                            : "input-group"
                     }`}
                 >
                     <input
@@ -83,7 +91,9 @@ const LoginPage = () => {
                         type="text"
                         id="userId"
                         className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                            currentTheme === "dark"
+                                ? "box-shadow-dark"
+                                : "box-shadow"
                         }`}
                         required
                         autoComplete="false"
@@ -103,7 +113,9 @@ const LoginPage = () => {
                 {/* Password */}
                 <div
                     className={`${
-                        theme === "dark" ? "input-group-dark" : "input-group"
+                        currentTheme === "dark"
+                            ? "input-group-dark"
+                            : "input-group"
                     }`}
                 >
                     <input
@@ -111,7 +123,9 @@ const LoginPage = () => {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         className={`border-1 font-secondary mt-1 h-12 w-full rounded-lg border-black p-3 text-lg outline-none dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
-                            theme === "dark" ? "box-shadow-dark" : "box-shadow "
+                            currentTheme === "dark"
+                                ? "box-shadow-dark"
+                                : "box-shadow "
                         }`}
                         required
                     />

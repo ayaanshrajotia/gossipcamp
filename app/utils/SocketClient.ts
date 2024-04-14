@@ -1,5 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import { refreshUserToken } from "./axios";
+import Cookies from "js-cookie";
 
 class SocketClient {
     socket: Socket | null;
@@ -14,9 +15,7 @@ class SocketClient {
         }
 
         this.socket = io(process.env.NEXT_PUBLIC_SOCKET_ORIGIN!, {
-            auth: {
-                token: localStorage.getItem("accessToken") || "",
-            },
+            withCredentials: true,
         });
 
         return new Promise((resolve, reject) => {
