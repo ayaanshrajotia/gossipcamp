@@ -33,10 +33,10 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            await dispatch(logoutUser());
-            toast.success("Logged out successfully");
-            router.push("/login");
-            // setTheme("light");
+            dispatch(logoutUser()).then(() => {
+                toast.success("Logged out successfully");
+                router.push("/login");
+            });
         } catch (error) {
             console.error("Logout error:", error);
             // Handle logout error, if needed
