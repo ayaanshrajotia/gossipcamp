@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { refreshUserToken } from "./axios";
 import Cookies from "js-cookie";
+import { getCookie } from "cookies-next";
 
 class SocketClient {
     socket: Socket | null;
@@ -14,7 +15,9 @@ class SocketClient {
             return;
         }
 
+        let accessToken = getCookie("accessToken");
         this.socket = io(process.env.NEXT_PUBLIC_SOCKET_ORIGIN!, {
+            auth: accessToken ? { token: accessToken } : {},
             withCredentials: true,
         });
 
