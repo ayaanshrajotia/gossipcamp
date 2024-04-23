@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie, setCookie } from "cookies-next";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SERVER_ORIGIN,
@@ -7,7 +8,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     async (request) => {
-        const accessToken = localStorage?.getItem("accessToken");
+        const accessToken = getCookie("accessToken");
         if (accessToken) {
             request.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -43,13 +44,8 @@ export const refreshUserToken = async () => {
             `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
             { refreshToken }
         );
-        document.cookie = `accessToken=${response.data.data.accessToken}`;
-        document.cookie = `refreshToken=${response.data.data.refreshTokenNew}`;
-        localStorage.setItem("accessToken", response.data.data.accessToken);
-        localStorage.setItem(
-            "refreshToken",
-            response.data.data.refreshTokenNew
-        );
+        setCookie("accessToken", response.data.data.accessToken);
+        setCookie("refreshToken", response.data.data.refreshTokenNew);
     } catch (error: any) {
         document.cookie =
             "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

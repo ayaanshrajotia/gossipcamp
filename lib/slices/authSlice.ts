@@ -1,6 +1,7 @@
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setCookie } from "cookies-next";
 
 // signup user
 export const signupUser = createAsyncThunk(
@@ -11,17 +12,13 @@ export const signupUser = createAsyncThunk(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/register`,
                 userCredentials
             );
-            localStorage.setItem("accessToken", response.data.data.accessToken);
-            localStorage.setItem(
-                "refreshToken",
-                response.data.data.refreshToken
-            );
+            setCookie("accessToken", response.data.data.accessToken);
+            setCookie("refreshToken", response.data.data.refreshToken);
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.data.user)
             );
-            document.cookie = `accessToken=${response.data.data.accessToken}`;
-            document.cookie = `refreshToken=${response.data.data.refreshToken}`;
+
             document.cookie = `profile=null`;
 
             return response.data.data;
@@ -40,8 +37,8 @@ export const loginUser = createAsyncThunk(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 userCredentials
             );
-            document.cookie = `AccessToken=${response.data.data.accessToken}`;
-            document.cookie = `RefreshToken=${response.data.data.refreshToken}`;
+            setCookie("accessToken", response.data.data.accessToken);
+            setCookie("refreshToken", response.data.data.refreshToken);
             // document.cookie = `profile=${JSON.stringify(
             //     response.data.data.profile
             // )}`;
@@ -98,9 +95,9 @@ export const logoutUser = createAsyncThunk(
             document.cookie =
                 "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie =
-                "AccessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie =
-                "RefreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             localStorage.removeItem("profile");
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");

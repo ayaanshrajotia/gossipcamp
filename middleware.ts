@@ -4,7 +4,7 @@ import axiosInstance from "./app/utils/axios";
 export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
     const publicPaths = path === "/login" || path === "/signup";
-    const accessToken = request.cookies.get("AccessToken")?.value || "";
+    const accessToken = request.cookies.get("accessToken")?.value || "";
     const profile = request.cookies.get("profile")?.value || "";
     if (
         accessToken &&
