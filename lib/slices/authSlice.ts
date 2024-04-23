@@ -56,7 +56,6 @@ export const loginUser = createAsyncThunk(
                 "profile",
                 JSON.stringify(response.data.data.profile)
             );
-            console.log(response);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);

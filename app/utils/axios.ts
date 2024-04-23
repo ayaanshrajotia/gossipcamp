@@ -63,7 +63,6 @@ export const refreshUserToken = async () => {
             `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/refresh`,
             { refreshToken }
         );
-        console.log(response.data.data.accessToken);
         setCookie("accessToken", response.data.data.accessToken);
         setCookie("refreshToken", response.data.data.refreshTokenNew);
     } catch (error: any) {
