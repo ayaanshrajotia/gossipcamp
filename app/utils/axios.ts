@@ -66,15 +66,7 @@ export const refreshUserToken = async () => {
         setCookie("accessToken", response.data.data.accessToken);
         setCookie("refreshToken", response.data.data.refreshTokenNew);
     } catch (error: any) {
-        document.cookie =
-            "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie =
-            "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie =
-            "profile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         localStorage.removeItem("user");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
         window.location.href = "/login";
     }
 };
