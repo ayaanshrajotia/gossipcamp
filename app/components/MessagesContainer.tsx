@@ -17,14 +17,15 @@ import {
 import { connectSocket } from "@/lib/slices/socketSlice";
 import Skeleton from "react-loading-skeleton";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 var timer: any = null;
 let prevheight = 0;
 
 export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     const { profile } = useSelector((state: RootState) => state.auth);
-    const [pageNo, setPageNo] = useState(1);
     const dispatch = useDispatch<AppDispatch>();
+    const [offset, setOffset] = useState(0);
     const { theme } = useTheme();
 
     let { messages, messageLoading, hasNextPage } = useSelector(
@@ -66,12 +67,13 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getAllMessages({ roomId, page: pageNo })).then(() => {
-            if (pageNo == 1) {
+        dispatch(getAllMessages({ roomId, offset: offset })).then(() => {
+            if (offset == 0) {
                 window.scrollTo({
                     top: document.body.scrollHeight, // Scroll to the bottom
                 });
             } else {
+                
                 setTimeout(() => {
                     window.scrollTo({
                         top: document.body.scrollHeight - prevheight, // Scroll to the bottom
@@ -83,7 +85,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 timer = null;
             }, 3000);
         });
-    }, [dispatch, roomId, pageNo]);
+    }, [dispatch, roomId, offset]);
 
     useEffect(() => {
         const handleScroll: any = () => {
@@ -93,9 +95,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 hasNextPage &&
                 window.scrollY - window.innerHeight < -800
             ) {
-                setPageNo((oldPage) => {
-                    return oldPage + 1;
-                });
+                setOffset(messages.length);
 
                 prevheight = document.body.scrollHeight;
 
@@ -124,7 +124,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 />
             )}
 
-            {pageNo === 1 && messageLoading ? (
+            {offset === 0 && messageLoading ? (
                 <div className="flex flex-col-reverse gap-4 h-full">
                     <div className="self-end">
                         <Skeleton

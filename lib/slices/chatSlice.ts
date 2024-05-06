@@ -5,17 +5,19 @@ import { stat } from "fs";
 export const getAllMessages = createAsyncThunk(
     "chat/getAllMessages",
     async (
-        { roomId, page }: { roomId: string; page: number },
+        { roomId, offset }: { roomId: string; offset: number },
         { rejectWithValue }
     ) => {
         try {
             const response = await axiosInstance.get(
-                `messages/${roomId}/all?page=${page}&limit=50`
+                `messages/${roomId}/all?offset=${offset}&limit=50`
             );
-            return { ...response.data.data, append: page > 1 };
+
+            
+            return { ...response.data.data, offset: offset > 0 };
         } catch (error) {
             console.log(error);
-            return rejectWithValue(error);
+            return rejectWithValue(error); 
         }
     }
 );
@@ -83,7 +85,7 @@ const initialState: {
     roomId: string;
     messageLoading: boolean;
     messageError: any;
-    page: number;
+    offset: number;
     hasNextPage: boolean;
     hasPrevPage: boolean;
     totalPages: number;
@@ -94,7 +96,7 @@ const initialState: {
     messageError: null,
     messagesKeyIndexPair: {},
     messageLoading: false,
-    page: 0,
+    offset: 0,
     hasNextPage: true,
     hasPrevPage: false,
     totalPages: 0,
@@ -176,14 +178,14 @@ const chatSlice = createSlice({
                 state.messageLoading = true;
             })
             .addCase(getAllMessages.fulfilled, (state, action) => {
-                if (action.payload.append) {
+                if (action.payload.offset) {
                     let addIndex = state.messages.length;
                     state.messages = [
                         ...action.payload.docs,
                         ...state.messages,
                     ];
 
-                    action.payload.docs.forEach(
+                    action.payload?.docs.forEach(
                         (message: any, index: number) => {
                             state.messagesKeyIndexPair[message._id] =
                                 addIndex + index;
@@ -198,11 +200,9 @@ const chatSlice = createSlice({
                         }
                     );
                 }
-
-                state.page = action.payload.page;
+                
+                state.offset = action.payload.docs.length;
                 state.hasNextPage = action.payload.hasNextPage;
-                state.hasPrevPage = action.payload.hasPrevPage;
-                state.totalPages = action.payload.totalPages;
                 state.messageLoading = false;
             })
             .addCase(getAllMessages.rejected, (state, action) => {
