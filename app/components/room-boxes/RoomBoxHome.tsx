@@ -12,6 +12,8 @@ import { AppDispatch, RootState } from "@/lib/store";
 import {
     getAllRooms,
     getPublicJoinedRooms,
+    getRecentlyAddedRooms,
+    getTrendingRooms,
     toggleFollowRoom,
 } from "@/lib/slices/roomSlice";
 import toast from "react-hot-toast";
@@ -64,6 +66,11 @@ function RoomBoxHome({
                 );
                 toast.success("Joined Room");
                 router.push(`/rooms/${roomId}`);
+
+                await Promise.all([
+                    dispatch(getTrendingRooms()),
+                    dispatch(getRecentlyAddedRooms()),
+                ]);
             }
 
             // redirect to room page

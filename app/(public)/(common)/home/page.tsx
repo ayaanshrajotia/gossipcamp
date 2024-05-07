@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import EmblaCarousel from "../../../components/carousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
 import RoomBoxHome from "@/app/components/room-boxes/RoomBoxHome";
@@ -39,8 +39,7 @@ const Home = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (trendingRooms.length === 0 || recentlyAddedRooms.length === 0)
-            fetchData();
+        if (!trendingRooms || !recentlyAddedRooms) fetchData();
         setPageLoading(false);
     }, [dispatch, trendingRooms, recentlyAddedRooms]);
 

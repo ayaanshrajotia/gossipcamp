@@ -84,7 +84,7 @@ export const getTrendingRooms = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(`/rooms/trending-rooms`);
-            return response.data.data;
+            return response.data.data || [];
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -96,7 +96,7 @@ export const getRecentlyAddedRooms = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(`/rooms/recent-rooms`);
-            return response.data.data;
+            return response.data.data || [];
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
         }
@@ -139,9 +139,9 @@ const initialState: {
     privateLoading: false,
     privateRoom: {},
     trendingLoading: false,
-    trendingRooms: [],
+    trendingRooms: null,
     recentlyAddedLoading: false,
-    recentlyAddedRooms: [],
+    recentlyAddedRooms: null,
     collegeRoomsLoading: false,
     collegeRooms: [],
     publicLoading: false,
