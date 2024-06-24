@@ -1,4 +1,4 @@
-"use client";
+"use client";;
 import { MessagesContainerProps } from "@/app/utils/definitions";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -12,12 +12,10 @@ import {
     deleteAndUpdateMessage,
     getAllMessages,
     updateLikeMessage,
-    updatePollVote,
 } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import Skeleton from "react-loading-skeleton";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
 
 var timer: any = null;
 let prevheight = 0;

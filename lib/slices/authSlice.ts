@@ -33,6 +33,7 @@ export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (userCredentials: object, { rejectWithValue }) => {
         try {
+            console.log(userCredentials);
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
                 userCredentials
@@ -58,6 +59,33 @@ export const loginUser = createAsyncThunk(
             );
             return response.data.data;
         } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+// login guest
+export const loginAsGuest = createAsyncThunk(
+    "user/loginGuest",
+    async (guestCredentials: object, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
+                guestCredentials
+            );
+            setCookie("accessToken", response.data.data.accessToken);
+            setCookie("refreshToken", response.data.data.refreshToken);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.data.user)
+            );
+            localStorage.setItem(
+                "profile",
+                JSON.stringify(response.data.data.profile)
+            );
+            return response.data.data;
+        } catch (error: any) {
+            console.log(error);
             return rejectWithValue(error.response.data.message);
         }
     }
@@ -106,6 +134,7 @@ export const logoutUser = createAsyncThunk(
 
 const initialState = {
     loading: false,
+    loadingGuest: false,
     user:
         typeof window !== "undefined" && localStorage.getItem("user")
             ? JSON.parse(localStorage.getItem("user")!)
@@ -149,6 +178,21 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
+                state.user = null;
+                state.error = true;
+            })
+            .addCase(loginAsGuest.pending, (state) => {
+                state.loadingGuest = true;
+                state.error = false;
+            })
+            .addCase(loginAsGuest.fulfilled, (state, action) => {
+                state.loadingGuest = false;
+                state.user = action.payload.user;
+                state.profile = action.payload.profile;
+                state.error = false;
+            })
+            .addCase(loginAsGuest.rejected, (state, action) => {
+                state.loadingGuest = false;
                 state.user = null;
                 state.error = true;
             })

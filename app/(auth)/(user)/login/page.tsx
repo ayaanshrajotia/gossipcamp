@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from "@/lib/store";
 
 // icons
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { loginUser } from "@/lib/slices/authSlice";
+import { loginAsGuest, loginUser } from "@/lib/slices/authSlice";
 import { useTheme } from "next-themes";
 
 const schema = z.object({
@@ -37,7 +37,9 @@ const LoginPage = () => {
     const router = useRouter();
     const { theme } = useTheme();
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, user } = useSelector((state: RootState) => state.auth);
+    const { loading, loadingGuest } = useSelector(
+        (state: RootState) => state.auth
+    );
     const {
         register,
         handleSubmit,
@@ -66,6 +68,25 @@ const LoginPage = () => {
     useEffect(() => {
         setCurrentTheme(theme);
     }, [theme]);
+
+    const loginAsGuestHandler = async (e: any) => {
+        e.preventDefault();
+        try {
+            const response = await dispatch(
+                loginAsGuest({
+                    userId: "guest1",
+                    password: "guest1@111",
+                })
+            );
+            if (response.meta.requestStatus === "rejected")
+                throw new Error(response.payload);
+
+            toast.success("Logged in successfully");
+            router.push("/home");
+        } catch (error: any) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <div className="font-secondary flex w-full max-w-[400px] flex-col dark:text-college-dark-white">
@@ -169,6 +190,18 @@ const LoginPage = () => {
                     disabled={isSubmitting}
                 >
                     {loading ? "Logging in..." : " Login → "}
+                </Button>
+                <span className="text-center uppercase text-lg font-semibold">
+                    or
+                </span>
+                <Button
+                    bgcolor="bg-[#2e2e2e]"
+                    textColor="#ffffff"
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={(e: any) => loginAsGuestHandler(e)}
+                >
+                    {loadingGuest ? "Logging in..." : " Login as Guest → "}
                 </Button>
             </form>
             <span className="mt-4 text-center">

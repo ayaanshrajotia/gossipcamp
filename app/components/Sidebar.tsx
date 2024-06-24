@@ -70,7 +70,7 @@ export default function Sidebar() {
                     <div className="h-[70px] w-full flex items-center">
                         <div className="flex-1 flex items-center justify-between gap-6">
                             {pageLoading || loading || profile === null ? (
-                                <Link 
+                                <Link
                                     href={"/create-avatar"}
                                     className="bg-college-yellow rounded-full px-4 py-2 font-extrabold box-shadow-inverse dark:text-black text-sm"
                                 >
@@ -88,7 +88,7 @@ export default function Sidebar() {
                                     }
                                 />
                             ) : (
-                                <div className="flex justify-between cursor-pointer basis-[200px] overflow-hidden">
+                                <div className="flex justify-between cursor-pointer basis-[200px] overflow-ellipsis">
                                     <Link
                                         href={`/profile/${user?.username.toString()}`}
                                         className="flex gap-2"
