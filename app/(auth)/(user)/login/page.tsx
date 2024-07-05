@@ -74,8 +74,8 @@ const LoginPage = () => {
         try {
             const response = await dispatch(
                 loginAsGuest({
-                    userId: "guest1",
-                    password: "guest1@111",
+                    userId: "guest2@gmail.com",
+                    password: "guest2@222",
                 })
             );
             if (response.meta.requestStatus === "rejected")

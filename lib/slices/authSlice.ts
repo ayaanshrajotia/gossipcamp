@@ -68,6 +68,7 @@ export const loginUser = createAsyncThunk(
 export const loginAsGuest = createAsyncThunk(
     "user/loginGuest",
     async (guestCredentials: object, { rejectWithValue }) => {
+        console.log(guestCredentials);
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/users/login`,
