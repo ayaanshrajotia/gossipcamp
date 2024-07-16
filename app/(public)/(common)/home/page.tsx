@@ -55,191 +55,207 @@ const Home = () => {
                         <h1 className="text-3xl font-extrabold font-secondary dark:text-college-dark-white">
                             Trending Rooms
                         </h1>
-                        <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
-                            {pageLoading || trendingLoading ? (
-                                <>
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                </>
-                            ) : (
-                                trendingRooms?.map((room: any) => (
-                                    <RoomBoxHome
-                                        key={room?._id}
-                                        roomId={room?._id}
-                                        roomName={room?.roomName}
-                                        roomType="User"
-                                        roomUsername={
-                                            room?.roomUsername
-                                                ? room?.roomUsername
-                                                : capitalizeFirstLetter(
-                                                      room?.adminProfile?.fName
-                                                  ) +
-                                                  capitalizeFirstLetter(
-                                                      room?.adminProfile?.lName
-                                                  )
-                                        }
-                                        roomDP={room?.roomDP}
-                                        roomDescription={room?.description}
-                                        bgcolor="bg-college-yellow"
-                                        className={
-                                            theme === "dark"
-                                                ? "box-shadow-yellow-static-dark"
-                                                : "box-shadow-yellow-static"
-                                        }
-                                        textColor="black"
-                                        isPrivate={false}
-                                        totalParticipants={
-                                            room?.totalParticipants
-                                        }
-                                    />
-                                ))
-                            )}
-                        </div>
+                        {trendingRooms?.length === 0 ? (
+                            <p className="font-bold text-xl dark:text-stone-600 text-stone-500 uppercase mt-6">
+                                No Rooms to show!
+                            </p>
+                        ) : (
+                            <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
+                                {pageLoading || trendingLoading ? (
+                                    <>
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </>
+                                ) : (
+                                    trendingRooms?.map((room: any) => (
+                                        <RoomBoxHome
+                                            key={room?._id}
+                                            roomId={room?._id}
+                                            roomName={room?.roomName}
+                                            roomType="User"
+                                            roomUsername={
+                                                room?.roomUsername
+                                                    ? room?.roomUsername
+                                                    : capitalizeFirstLetter(
+                                                          room?.adminProfile
+                                                              ?.fName
+                                                      ) +
+                                                      capitalizeFirstLetter(
+                                                          room?.adminProfile
+                                                              ?.lName
+                                                      )
+                                            }
+                                            roomDP={room?.roomDP}
+                                            roomDescription={room?.description}
+                                            bgcolor="bg-college-yellow"
+                                            className={
+                                                theme === "dark"
+                                                    ? "box-shadow-yellow-static-dark"
+                                                    : "box-shadow-yellow-static"
+                                            }
+                                            textColor="black"
+                                            isPrivate={false}
+                                            totalParticipants={
+                                                room?.totalParticipants
+                                            }
+                                        />
+                                    ))
+                                )}
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-col">
                         <h1 className="text-3xl font-extrabold dark:text-college-dark-white">
                             Recently Added Rooms
                         </h1>
-                        <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
-                            {pageLoading || recentlyAddedLoading ? (
-                                <>
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={4}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#ebebeb"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                </>
-                            ) : (
-                                recentlyAddedRooms?.map((room: any) => (
-                                    <RoomBoxHome
-                                        key={room?._id}
-                                        roomId={room?._id}
-                                        roomName={room?.roomName}
-                                        roomType="User"
-                                        roomUsername={
-                                            room?.roomUsername
-                                                ? room?.roomUsername
-                                                : capitalizeFirstLetter(
-                                                      room?.adminProfile?.fName
-                                                  ) +
-                                                  capitalizeFirstLetter(
-                                                      room?.adminProfile?.lName
-                                                  )
-                                        }
-                                        roomDP={room?.roomDP}
-                                        roomDescription={room?.description}
-                                        bgcolor="bg-college-yellow"
-                                        className={
-                                            theme === "dark"
-                                                ? "box-shadow-yellow-static-dark"
-                                                : "box-shadow-yellow-static"
-                                        }
-                                        textColor="black"
-                                        isPrivate={false}
-                                        totalParticipants={
-                                            room?.totalParticipants
-                                        }
-                                    />
-                                ))
-                            )}
-                        </div>
+                        {recentlyAddedRooms?.length === 0 ? (
+                            <p className="font-bold text-xl dark:text-stone-600 text-stone-500 uppercase mt-6">
+                                No Rooms to show!
+                            </p>
+                        ) : (
+                            <div className="max-[920px]:grid-cols-1 mt-4 grid grid-cols-2 gap-6">
+                                {pageLoading || recentlyAddedLoading ? (
+                                    <>
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <Skeleton
+                                            count={4}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#ebebeb"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </>
+                                ) : (
+                                    recentlyAddedRooms?.map((room: any) => (
+                                        <RoomBoxHome
+                                            key={room?._id}
+                                            roomId={room?._id}
+                                            roomName={room?.roomName}
+                                            roomType="User"
+                                            roomUsername={
+                                                room?.roomUsername
+                                                    ? room?.roomUsername
+                                                    : capitalizeFirstLetter(
+                                                          room?.adminProfile
+                                                              ?.fName
+                                                      ) +
+                                                      capitalizeFirstLetter(
+                                                          room?.adminProfile
+                                                              ?.lName
+                                                      )
+                                            }
+                                            roomDP={room?.roomDP}
+                                            roomDescription={room?.description}
+                                            bgcolor="bg-college-yellow"
+                                            className={
+                                                theme === "dark"
+                                                    ? "box-shadow-yellow-static-dark"
+                                                    : "box-shadow-yellow-static"
+                                            }
+                                            textColor="black"
+                                            isPrivate={false}
+                                            totalParticipants={
+                                                room?.totalParticipants
+                                            }
+                                        />
+                                    ))
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -19,8 +19,8 @@ import { useTheme } from "next-themes";
 const options = [
     {
         id: 1,
-        title: "Posts",
-        slug: "/profile/posts",
+        title: "Gossips",
+        slug: "/profile/gossips",
     },
     {
         id: 2,

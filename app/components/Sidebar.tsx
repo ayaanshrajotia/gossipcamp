@@ -108,7 +108,7 @@ export default function Sidebar() {
                                             </div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white text-ellipsis overflow-hidden max-[1160px]:w-[128px] w-[182px]">
+                                            <span className="font-secondary font-extrabold text-base dark:text-college-dark-white text-ellipsis overflow-hidden max-[1160px]:w-[180px] w-[220px]">
                                                 @
                                                 {capitalizeFirstLetter(
                                                     firstName
@@ -124,12 +124,6 @@ export default function Sidebar() {
                                     </Link>
                                 </div>
                             )}
-
-                            <div className="border-1 border-gray-200 rounded-full w-[45px] h-[45px] flex items-center justify-center dark:border-college-dark-gray-3">
-                                <Link href={"/notifications"}>
-                                    <BellIcon className="w-6 h-6" />
-                                </Link>
-                            </div>
                             <Bars3Icon
                                 className={`min-[1160px]:hidden w-9 h-9 fill-white cursor-pointer`}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}

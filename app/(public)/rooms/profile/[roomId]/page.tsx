@@ -47,16 +47,6 @@ function Page() {
     );
     const { theme } = useTheme();
 
-    // const handleToggleFollow = async () => {
-    //     try {
-    //         setIsFollow((prev: any) => !prev);
-    //         await dispatch(toggleFollowUser(userProfile?.user));
-    //         await dispatch(getAllUsers());
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     const handleRemoveRoom = async () => {
         await dispatch(toggleFollowRoom(roomId.toString()));
         await dispatch(getPublicJoinedRooms());
@@ -85,6 +75,8 @@ function Page() {
         getDetails();
         setPageLoading(false);
     }, [roomId, dispatch]);
+
+    console.log(roomProfileDetails);
 
     return (
         <div className="min-h-screen relative w-full font-secondary">
@@ -153,7 +145,7 @@ function Page() {
                                         {roomProfileDetails?.roomType !==
                                             "College" && (
                                             <button
-                                                className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center"
+                                                className="bg-black text-white text-sm font-bold rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1  px-3 flex items-center justify-center dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white dark:hover:border-white"
                                                 onClick={handleRemoveRoom}
                                             >
                                                 Leave Room

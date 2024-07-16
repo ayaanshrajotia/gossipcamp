@@ -85,7 +85,7 @@ function TextImageBox({
 
     return (
         <div
-            className={`border-box relative min-w-[300px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+            className={`border-box relative max-w-[500px] flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                 theme === "dark"
                     ? isUser
                         ? "self-end box-shadow-yellow-static-dark"
@@ -130,9 +130,10 @@ function TextImageBox({
                 </motion.div>
                 {likesCount > 0 && <span className="">{likesCount}</span>}
             </div>
-            <div className="flex gap-3 mb-2">
+            {/* Data of the message box */}
+            <div className="flex gap-3">
                 <div>
-                    <div className="relative h-[50px] w-[50px]">
+                    <div className="relative h-[45px] w-[45px]">
                         <Image
                             src={profileUrl}
                             sizes="33vw"
@@ -143,15 +144,17 @@ function TextImageBox({
                     </div>
                 </div>
                 <div className="flex flex-col">
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center mr-8">
                         <h2 className="font-extrabold dark:text-college-dark-white">
                             @{user}
                         </h2>
                     </div>
-                    <p className="leading-tight text-base">{description}</p>
+                    <p className="leading-tight text-base break-all">
+                        {description}
+                    </p>
                     <>
                         {postImgUrl && (
-                            <div className="relative w-[350px] mt-3">
+                            <div className="relative mt-3">
                                 <Image
                                     src={postImgUrl!}
                                     alt="avatar-1"
