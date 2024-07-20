@@ -5,6 +5,7 @@ import userReducer from "./slices/userSlice";
 import socketReducer from "./slices/socketSlice";
 import chatReducer from "./slices/chatSlice";
 import blurReducer from "./slices/blurSlice";
+import gossipDiscussionReducer from "./slices/gossipDiscussionSlice";
 
 export const makeStore = () => {
     return configureStore({
@@ -15,6 +16,7 @@ export const makeStore = () => {
             socket: socketReducer,
             chat: chatReducer,
             blur: blurReducer,
+            gossipDiscussion: gossipDiscussionReducer,
         },
     });
 };

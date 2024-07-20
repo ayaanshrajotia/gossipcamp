@@ -17,7 +17,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
 
-export default function Sidebar() {
+export default function Sidebar({ className = "" }: { className: string }) {
     const dispatch = useDispatch<AppDispatch>();
     const { theme } = useTheme();
     const { profile, loading, user } = useSelector(
@@ -32,6 +32,10 @@ export default function Sidebar() {
     const [imgUrl, setImgUrl] = useState("");
     const [pageLoading, setPageLoading] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const { gossipDiscussion } = useSelector(
+        (state: RootState) => state.gossipDiscussion
+    );
 
     useEffect(() => {
         dispatch(connectSocket());
@@ -53,18 +57,22 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className="min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002] ">
+            <div
+                className={`min-[1160px]:hidden flex w-[80px] justify-center pt-[1.9rem] fixed top-0 right-4 z-[1002] ${
+                    gossipDiscussion ? "translate-x-[200px] " : "translate-x-0"
+                }`}
+            >
                 <Bars3Icon
                     className={`min-[1160px]:hidden w-9 h-9 stroke-white dark:stroke-black cursor-pointer`}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 />
             </div>
             <div
-                className={`max-[1160px]:bg-white max-[1160px]:dark:bg-college-dark-gray-1 max-[1160px]:z-[1003] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-300 ${
+                className={`bg-[#F6F6F9] dark:bg-college-dark-gray-1 max-[1160px]:bg-white max-[1160px]:dark:bg-college-dark-gray-1 max-[1160px]:z-[1003] fixed top-0 bottom-0 right-0 overflow-auto w-[340px] pl-4 transition-all duration-300 ${
                     !isMenuOpen
                         ? "max-[1160px]:translate-x-full"
                         : "max-[1160px]:translate-x-0"
-                } ${blur ? "blur-md pointer-events-none" : "blur-none"} `}
+                } ${className}`}
             >
                 <div className=" pt-4 mb-4 mr-6">
                     <div className="h-[70px] w-full flex items-center">

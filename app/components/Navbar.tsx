@@ -23,13 +23,16 @@ import {
 } from "@heroicons/react/24/solid";
 import { useTheme } from "next-themes";
 
-export default function Navbar() {
+export default function Navbar({ className = "" }: { className: string }) {
     const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
-    const { blur } = useSelector((state: RootState) => state.blur);
     const router = useRouter();
     const { systemTheme, theme, setTheme } = useTheme();
     const currentTheme = theme === "system" ? systemTheme : theme;
+
+    const { gossipDiscussion } = useSelector(
+        (state: RootState) => state.gossipDiscussion
+    );
 
     const handleLogout = async () => {
         try {
@@ -45,9 +48,7 @@ export default function Navbar() {
 
     return (
         <header
-            className={`max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1 transition-all duration-300 ${
-                blur ? "blur-md pointer-events-none" : "blur-none"
-            } `}
+            className={`max-[700px]:items-center max-[700px]:pl-4 max-[700px]:flex-row max-[700px]:pt-0 max-[700px]:w-full max-[700px]:h-[70px] max-[700px]:bottom-0 max-[1330px]:w-[70px] light-shadow fixed z-[1000] flex h-screen w-[240px] flex-col border-black bg-[#ffffff] pt-4 dark:bg-college-dark-gray-1 transition-all duration-300 ${className} `}
         >
             <div className="max-[1330px]:justify-center max-[1330px]:p-0 flex h-[70px] items-center px-4">
                 <motion.h1

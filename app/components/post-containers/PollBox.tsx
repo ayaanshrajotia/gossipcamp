@@ -140,7 +140,7 @@ function PollBox({
             }`}
         >
             <div
-                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-4 py-3 pt-4 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                className={`w-full border-box relative flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                     theme === "dark"
                         ? isUser
                             ? "box-shadow-yellow-static-dark"
@@ -169,7 +169,7 @@ function PollBox({
                 )}
                 <div className="flex gap-3">
                     <div>
-                        <div className="relative h-[50px] w-[50px]">
+                        <div className="relative h-[40px] w-[40px]">
                             <Image
                                 src={profileUrl}
                                 sizes="33vw"
@@ -185,10 +185,10 @@ function PollBox({
                                 @{user}
                             </h2>
                         </div>
-                        <p className="leading-tight text-base">{description}</p>
+                        <p className="leading-tight text-[15px]">{description}</p>
                         <>
                             {postImgUrl && (
-                                <div className="relative w-[350px] mt-3">
+                                <div className="relative mt-3">
                                     <Image
                                         src={postImgUrl!}
                                         alt="avatar-1"
@@ -214,7 +214,7 @@ function PollBox({
             </div>
             {/* Poll */}
             <div
-                className={`relative bg-white rounded-xl border-[1px] border-stone-400 w-full px-4 py-3 flex flex-col gap-4 dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
+                className={`relative bg-white rounded-xl border-[1px] border-stone-400 w-full px-3 py-3 flex flex-col gap-4 dark:text-college-dark-white dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 ${
                     theme === "dark"
                         ? isUser
                             ? "box-shadow-yellow-static-dark"

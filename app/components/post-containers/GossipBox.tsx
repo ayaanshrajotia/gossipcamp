@@ -1,22 +1,19 @@
 // icons
-import { HeartIcon, SignalIcon, StarIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, StarIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { TextImageBoxPropsType } from "@/app/utils/definitions";
+import { createRef, useEffect, useRef, useState } from "react";
+import { GossipBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTheme } from "next-themes";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import {
     deleteAndUpdateMessage,
     deleteMessageApi,
-    toggleGossipMessage,
     toggleLikeMessage,
-    updateGossipVoteMessage,
     updateLikeMessage,
-    updateMessageToGossip,
 } from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
@@ -24,10 +21,13 @@ import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
-import { IoEarOutline } from "react-icons/io5";
-import { setGossipDiscussion } from "@/lib/slices/gossipDiscussionSlice";
+import {
+    setGossipDiscussion,
+    setGossipDiscussionData,
+} from "@/lib/slices/gossipDiscussionSlice";
+import { useRouter } from "next/navigation";
 
-function TextImageBox({
+function GossipBox({
     isSend,
     bgcolor = "bg-white",
     textColor,
@@ -45,7 +45,8 @@ function TextImageBox({
     isGossipVoted,
     gossipVotesCount,
     ...props
-}: TextImageBoxPropsType) {
+}: GossipBoxPropsType) {
+    const router = useRouter();
     dayjs.extend(relativeTime); // use relative time plugin
     const { theme } = useTheme();
     const relativeDate = dayjs(date).fromNow();
@@ -65,6 +66,11 @@ function TextImageBox({
             threshold: 200,
         }
     );
+
+    const { gossipDiscussion } = useSelector(
+        (state: RootState) => state.gossipDiscussion
+    );
+    const { messages } = useSelector((state: RootState) => state.chat);
 
     const handleDelete = async () => {
         dispatch(deleteAndUpdateMessage({ messageId: id }));
@@ -95,40 +101,32 @@ function TextImageBox({
         });
     }, 1500);
 
-    const gossipClickHandler = () => {
-        gossipVoteHandlerDebounced();
-        setGossip((prev) => !prev);
-        dispatch(
-            updateGossipVoteMessage({ messageId: id, isGossipVoted: !gossip })
-        );
-        console.log("lower")
-    };
-    
-    const gossipVoteHandlerDebounced = useDebouncedCallback(async () => {
-        console.log("asdfasdfasdfasdf");
-        setLikesLoading(true);
-        if (gossip == isGossipVoted) return;
-        await dispatch(
-            toggleGossipMessage({ id, isGossipVoted: !isGossipVoted })
-        );
-        if (gossipVotesCount >= 0) {
-            dispatch(updateMessageToGossip({ messageId: id }));
-        }
-        // connect statement
-        setLikesLoading(false);
-        socket.emit("gossip-vote-message", {
-            roomId,
-            messageId: id,
-            isGossipVoted: !isGossipVoted,
-        });
-    }, 1500);
-
     return (
-        <motion.div whileTap={{ scale: 0.98 }}>
+        <motion.div
+            className={`${gossipDiscussion ? `` : ""}`}
+            whileTap={{ scale: 0.98 }}
+            onDoubleClick={() => {
+                dispatch(setGossipDiscussion("open"));
+                dispatch(
+                    setGossipDiscussionData({
+                        date,
+                        profileUrl,
+                        postImgUrl,
+                        user,
+                        id,
+                        description,
+                        isUser,
+                        isLiked,
+                        messageType,
+                        likesCount,
+                    })
+                );
+            }}
+        >
             {/* Main message box */}
             <div
                 {...attrs}
-                className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
+                className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-zinc-200 px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
                     theme === "dark"
                         ? isUser
                             ? "ml-auto box-shadow-yellow-static-dark"
@@ -140,13 +138,6 @@ function TextImageBox({
                 style={{ color: textColor }}
                 {...props}
             >
-                {/* {isUser && (
-                    <EllipsisVerticalIcon
-                        className="w-5 h-5 absolute right-1.5 top-2 cursor-pointer"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    />
-                    )} */}
-                {/* Delete button */}
                 <AnimatePresence>
                     {isUser &&
                         isMenuOpen &&
@@ -169,29 +160,6 @@ function TextImageBox({
 
                 {/* Reactions Box */}
                 <div className="flex absolute bottom-0 left-[16px] gap-2">
-                    {/* Gossip count */}
-                    <div
-                        className=" translate-y-4 bg-white text-black text-xs py-0.5 px-1.5 h-[24px] rounded-2xl flex items-center gap-1 cursor-pointer border-[1px] dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white border-yellow-500"
-                        onClick={gossipClickHandler}
-                    >
-                        <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                            key={"gossip"}
-                        >
-                            <StarIcon
-                                className={`h-[18px] w-[18px] text-yellow-500 ${
-                                    gossip
-                                        ? "fill-yellow-500"
-                                        : "fill-transparent"
-                                }`}
-                            />
-                        </motion.div>
-                        {gossipVotesCount > 0 && (
-                            <span className="">{gossipVotesCount}</span>
-                        )}
-                        {/* <span>4</span> */}
-                    </div>
                     {/* Like button */}
                     <div
                         className=" translate-y-4  text-black text-xs py-0.5 px-1.5 h-[24px] rounded-xl flex items-center gap-1 cursor-pointer border-[1px] dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white bg-white border-red-500"
@@ -216,7 +184,7 @@ function TextImageBox({
                 {/* Data of the message box */}
                 <div className="flex gap-2.5 pr-[60px]">
                     <div>
-                        <div className="relative h-[40px] w-[40px]">
+                        <div className="relative h-[55px] w-[55px]">
                             <Image
                                 src={profileUrl}
                                 sizes="33vw"
@@ -229,12 +197,12 @@ function TextImageBox({
                     <div className="flex flex-col">
                         {/* Username */}
                         <div className="flex justify-between items-center mr-8">
-                            <h2 className="font-extrabold dark:text-college-dark-white">
+                            <h2 className="font-extrabold dark:text-college-dark-white text-lg">
                                 @{user}
                             </h2>
                         </div>
                         {/* Description */}
-                        <p className="leading-tight break-all text-[15px]">
+                        <p className="leading-tight break-all text-base">
                             {description}
                         </p>
                         <>
@@ -267,4 +235,4 @@ function TextImageBox({
     );
 }
 
-export default TextImageBox;
+export default GossipBox;

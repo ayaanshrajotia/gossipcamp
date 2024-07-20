@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { MessagesContainerProps } from "@/app/utils/definitions";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -11,6 +11,7 @@ import {
     changePollVotes,
     deleteAndUpdateMessage,
     getAllMessages,
+    updateGossipVoteMessage,
     updateLikeMessage,
 } from "@/lib/slices/chatSlice";
 import { connectSocket } from "@/lib/slices/socketSlice";
@@ -47,6 +48,10 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                 dispatch(updateLikeMessage(data));
             });
 
+            socket.on("send-gossip-vote-message", (data: any) => {
+                dispatch(updateGossipVoteMessage(data));
+            });
+
             socket.on("send-delete-message", (data: any) => {
                 dispatch(deleteAndUpdateMessage(data));
             });
@@ -59,6 +64,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
         return () => {
             socket.off("message");
             socket.off("send-like-message");
+            socket.off("send-gossip-message");
             socket.off("send-delete-message");
             socket.off("send-poll-vote");
         };
@@ -71,7 +77,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     top: document.body.scrollHeight, // Scroll to the bottom
                 });
             } else {
-                
                 setTimeout(() => {
                     window.scrollTo({
                         top: document.body.scrollHeight - prevheight, // Scroll to the bottom
@@ -112,7 +117,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
     }, [messageLoading]);
 
     return (
-        <div className="message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-8 z-[-1] px-6 font-secondary">
+        <div className=" message-box min-h-[calc(100vh-200px)] pb-4 w-full my-6 max-w-[1400px] mx-auto flex flex-col gap-7 z-[-1] px-6 font-secondary">
             {messageLoading && (
                 <Skeleton
                     count={2}
@@ -224,6 +229,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 key={message?._id}
                                 id={message?._id}
                                 isLiked={message?.isLiked}
+                                isGossipVoted={message?.isGossipVoted}
                                 messageType={message.messageType}
                                 date={message.updatedAt}
                                 profileUrl={message.profile?.avatar}
@@ -240,13 +246,28 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                                 }
                                 description={message.text}
                                 likesCount={message.likesCount || 0}
+                                gossipVotesCount={message.gossipVotesCount || 0}
                                 isUser={message.profile?._id === profile?._id}
                                 pollIndex={message?.pollIndex}
+                                isGossip={message?.isGossip}
                             />
                         );
                     })}
                 </>
             )}
+            {/* <MessageBox
+                key={321}
+                id={321}
+                isLiked={true}
+                messageType={"Text"}
+                date={"2021-09-09T00:00:00.000Z"}
+                profileUrl={"/images/avatar-1.png"}
+                user={"User"}
+                description={"This is a gossip"}
+                likesCount={0}
+                isUser={true}
+                isGossip={true}
+            /> */}
         </div>
     );
 }

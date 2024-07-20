@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import {
     addMessage,
+    updateGossipVoteMessage,
     updateLikeMessage,
     updateMessage,
 } from "@/lib/slices/chatSlice";
@@ -47,6 +48,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
     const [file, setFile] = useState<string | undefined>();
     const [fileData, setFileData] = useState<any>();
     const [pollOptions, setPollOptions] = useState([]);
+
+    const { gossipDiscussion } = useSelector(
+        (state: RootState) => state.gossipDiscussion
+    );
 
     const handleSendMessage = async (e: any) => {
         e?.preventDefault();
@@ -99,6 +104,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
             likesCount: 0,
             isLiked: false,
+            gossipCount: 0,
+            isGossipVoted: false,
         };
 
         const index = messages.length;
@@ -159,6 +166,10 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                             dispatch(updateLikeMessage(data));
                         });
 
+                        socket.on("send-gossip-message", (data: any) => {
+                            dispatch(updateGossipVoteMessage(data));
+                        });
+
                         socket.emit("open-room", {
                             roomId: roomId.toString(),
                             profileId: profile?._id,
@@ -176,6 +187,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     image: response.data.data.image,
                     _id: response.data.data._id,
                 });
+                console.log(response.data.data);
                 await dispatch(
                     updateMessage({ index, message: response.data.data })
                 );
@@ -241,13 +253,23 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
         <>
             <div
                 className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-300 ${
-                    blur ? "blur-md pointer-events-none" : "blur-none"
+                    blur || gossipDiscussion
+                        ? "blur-md pointer-events-none"
+                        : "blur-none"
                 }`}
             ></div>
-            <div className="min-h-screen h-full relative w-full">
+            <div
+                className={`min-h-screen h-full relative w-full ${
+                    gossipDiscussion ? `filter-none` : ""
+                }`}
+            >
                 {children}
                 <div
-                    className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl flex flex-col mx-6`}
+                    className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl flex flex-col mx-6 ${
+                         gossipDiscussion
+                            ? "blur-md pointer-events-none"
+                            : "blur-none"
+                    }`}
                 >
                     {/* Image Menu */}
                     <AnimatePresence>

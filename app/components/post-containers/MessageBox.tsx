@@ -2,6 +2,7 @@ import { MessagesBoxPropsType } from "@/app/utils/definitions";
 import JoinLeaveBox from "./JoinLeaveBox";
 import PollBox from "./PollBox";
 import TextImageBox from "./TextImageBox";
+import GossipBox from "./GossipBox";
 
 function MessageBox({
     bgcolor,
@@ -19,10 +20,34 @@ function MessageBox({
     isPollVoted,
     isLiked,
     pollIndex,
+    gossipVotesCount,
+    isGossipVoted,
+    isGossip,
     messageType,
     ...props
 }: MessagesBoxPropsType) {
-    if (messageType === "Join Room" || messageType === "Leave Room") {
+    if (isGossip) {
+        return (
+            <GossipBox
+                bgcolor={bgcolor}
+                id={id}
+                textColor={textColor}
+                className={className}
+                date={date}
+                profileUrl={profileUrl}
+                isLiked={isLiked}
+                postImgUrl={postImgUrl}
+                user={user}
+                description={description}
+                isUser={isUser}
+                likesCount={likesCount}
+                messageType={messageType}
+                isGossipVoted={isGossipVoted}
+                gossipVotesCount={gossipVotesCount}
+                {...props}
+            />
+        );
+    } else if (messageType === "Join Room" || messageType === "Leave Room") {
         return (
             <JoinLeaveBox
                 bgcolor={bgcolor}
@@ -59,7 +84,7 @@ function MessageBox({
                 {...props}
             />
         );
-    } else {
+    } else if (messageType === "Text" || messageType === "Image") {
         return (
             <TextImageBox
                 bgcolor={bgcolor}
@@ -75,6 +100,8 @@ function MessageBox({
                 isUser={isUser}
                 likesCount={likesCount}
                 messageType={messageType}
+                isGossipVoted={isGossipVoted}
+                gossipVotesCount={gossipVotesCount}
                 {...props}
             />
         );

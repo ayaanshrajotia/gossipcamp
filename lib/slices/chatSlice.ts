@@ -1,5 +1,6 @@
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { stat } from "fs";
 
 export const getAllMessages = createAsyncThunk(
@@ -13,11 +14,10 @@ export const getAllMessages = createAsyncThunk(
                 `messages/${roomId}/all?offset=${offset}&limit=50`
             );
 
-            
             return { ...response.data.data, offset: offset > 0 };
         } catch (error) {
             console.log(error);
-            return rejectWithValue(error); 
+            return rejectWithValue(error);
         }
     }
 );
@@ -51,7 +51,24 @@ export const toggleLikeMessage = createAsyncThunk(
             const response = await axiosInstance.post(
                 `messages/toggle-like-message/${id}`
             );
-            return { _id: id, isLiked: isLiked };
+            return { _id: id, isLiked: isLiked, messageId: id };
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
+export const toggleGossipMessage = createAsyncThunk(
+    "chat/toggleGossipMessage",
+    async (
+        { id, isGossipVoted }: { id: string; isGossipVoted: boolean },
+        { rejectWithValue }
+    ) => {
+        try {
+            const response = await axiosInstance.post(
+                `messages/toggle-gossip-vote-message/${id}`
+            );
+            return { _id: id, isGossipVoted: isGossipVoted, messageId: id };
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -79,6 +96,7 @@ export const togglePollMessage = createAsyncThunk(
     }
 );
 
+
 const initialState: {
     messages: any[];
     messagesKeyIndexPair: { [key: string]: number };
@@ -90,6 +108,7 @@ const initialState: {
     hasPrevPage: boolean;
     totalPages: number;
     likesLoading: boolean;
+    gossipLoading: boolean;
 } = {
     messages: [],
     roomId: "",
@@ -101,6 +120,7 @@ const initialState: {
     hasPrevPage: false,
     totalPages: 0,
     likesLoading: false,
+    gossipLoading: false,
 };
 
 const chatSlice = createSlice({
@@ -130,13 +150,21 @@ const chatSlice = createSlice({
                     (action.payload.isLiked ? 1 : -1);
             }
         },
+        updateGossipVoteMessage: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
+            if (index !== undefined) {
+                state.messages[index].gossipVotesCount =
+                    state.messages[index].gossipVotesCount +
+                    (action.payload.isGossipVoted ? 1 : -1);
+            }
+        },
         deleteAndUpdateMessage: (state, action) => {
             let index = state.messagesKeyIndexPair[action.payload.messageId];
             if (index !== undefined) {
                 state.messages[index] = {
                     ...state.messages[index],
                     messageType: "Text",
-                    text: "This message is deleted",
+                    text: "❌ This message is deleted",
                 };
             }
         },
@@ -171,6 +199,12 @@ const chatSlice = createSlice({
                 }
             }
         },
+        updateMessageToGossip: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
+            if (index !== undefined) {
+                state.messages[index].isGossip = true;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -200,7 +234,7 @@ const chatSlice = createSlice({
                         }
                     );
                 }
-                
+
                 state.offset = action.payload.docs.length;
                 state.hasNextPage = action.payload.hasNextPage;
                 state.messageLoading = false;
@@ -211,12 +245,29 @@ const chatSlice = createSlice({
             .addCase(toggleLikeMessage.pending, (state) => {
                 state.likesLoading = true;
             })
-            .addCase(toggleLikeMessage.fulfilled, (state, action) => {
+            .addCase(toggleLikeMessage.fulfilled, (state: any, action) => {
+                let index =
+                    state.messagesKeyIndexPair[action.payload.messageId];
+                state.messages[index].isLiked = action.payload.isLiked;
                 state.likesLoading = false;
             })
             .addCase(toggleLikeMessage.rejected, (state, action) => {
                 state.likesLoading = false;
                 // state.messageError = action.payload;
+                console.log(action.payload);
+            })
+            .addCase(toggleGossipMessage.pending, (state) => {
+                state.gossipLoading = true;
+            })
+            .addCase(toggleGossipMessage.fulfilled, (state, action) => {
+                let index =
+                    state.messagesKeyIndexPair[action.payload.messageId];
+                state.messages[index].isGossipVoted =
+                    action.payload.isGossipVoted;
+                state.gossipLoading = false;
+            })
+            .addCase(toggleGossipMessage.rejected, (state, action) => {
+                state.gossipLoading = false;
                 console.log(action.payload);
             })
             .addCase(deleteMessageApi.rejected, (state, action) => {
@@ -237,9 +288,11 @@ export const {
     setLoadingFalse,
     updateMessage,
     updateLikeMessage,
+    updateGossipVoteMessage,
     deleteAndUpdateMessage,
     updatePollVote,
     changePollVotes,
+    updateMessageToGossip,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

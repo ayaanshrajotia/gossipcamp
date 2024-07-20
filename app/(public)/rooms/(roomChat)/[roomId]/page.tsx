@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { closeRoom, connectSocket, openRoom } from "@/lib/slices/socketSlice";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import MessagesContainer from "@/app/components/MessagesContainer";
+import { motion } from "framer-motion";
 
 export default function Room() {
     const dispatch = useDispatch<AppDispatch>();
@@ -42,14 +43,20 @@ export default function Room() {
             dispatch(closeRoom({ roomId: roomId.toString() }));
         };
     }, [roomId, dispatch]);
+    const { gossipDiscussion } = useSelector(
+        (state: RootState) => state.gossipDiscussion
+    );
 
     return (
-        <div
-            className={`min-h-sreen transition-all duration-300 ${
-                blur ? "blur-md pointer-events-none" : "blur-none"
+        <motion.div
+            className={`box-border relative transition-all duration-300 w-full ${
+                blur || gossipDiscussion ? "blur-md pointer-events-none" : "blur-none"
             }`}
         >
-            <div className="pt-4 sticky w-full top-0 z-[999]">
+            {/* Room Details Bar */}
+            <div
+                className={`sticky top-0 pt-4 w-full z-[999]`}
+            >
                 <div className="bg-college-dark-gray-1 text-white flex items-center justify-between h-[70px] px-4 rounded-xl mx-6 py-2 dark:text-college-dark-gray-1 dark:bg-college-dark-white">
                     {pageLoading ||
                     getRoomDetailsLoading ||
@@ -97,6 +104,6 @@ export default function Room() {
                 </div>
             </div>
             <MessagesContainer roomId={roomId.toString()} />
-        </div>
+        </motion.div>
     );
 }
