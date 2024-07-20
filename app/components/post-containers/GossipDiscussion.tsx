@@ -100,161 +100,161 @@ function GossipDiscussion() {
         postImgUrl,
     });
 
-    const handleSendMessage = async (e: any) => {
-        e?.preventDefault();
-        dispatch(setBlur(false));
-        setLoading(true);
-        setFile(undefined);
+    // const handleSendMessage = async (e: any) => {
+    //     e?.preventDefault();
+    //     dispatch(setBlur(false));
+    //     setLoading(true);
+    //     setFile(undefined);
 
-        if (isPoll && pollOptions.length < 2) {
-            toast.error("Poll must have at least 2 options!");
-            setLoading(false);
-            return;
-        }
+    //     if (isPoll && pollOptions.length < 2) {
+    //         toast.error("Poll must have at least 2 options!");
+    //         setLoading(false);
+    //         return;
+    //     }
 
-        if (!isImage && messageText.length === 0) {
-            toast.error("Message cannot be empty!");
-            setLoading(false);
-            return;
-        }
+    //     if (!isImage && messageText.length === 0) {
+    //         toast.error("Message cannot be empty!");
+    //         setLoading(false);
+    //         return;
+    //     }
 
-        let message = {
-            _id: v4(),
-            roomId: roomId,
-            text: messageText,
-            messageType: "Text",
-            profile: {
-                _id: profile?._id,
-                fName: profile.fName,
-                lName: profile.lName,
-                avatar: profile.avatar,
-            },
-            // image: {
-            //     url:
-            //         (isImage && isPoll) || isImage
-            //             ? "/images/image-loading.gif"
-            //             : null,
-            // },
-            // pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
-            likesCount: 0,
-            isLiked: false,
-            gossipCount: 0,
-            isGossipVoted: false,
-        };
+    //     let message = {
+    //         _id: v4(),
+    //         roomId: roomId,
+    //         text: messageText,
+    //         messageType: "Text",
+    //         profile: {
+    //             _id: profile?._id,
+    //             fName: profile.fName,
+    //             lName: profile.lName,
+    //             avatar: profile.avatar,
+    //         },
+    //         // image: {
+    //         //     url:
+    //         //         (isImage && isPoll) || isImage
+    //         //             ? "/images/image-loading.gif"
+    //         //             : null,
+    //         // },
+    //         // pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
+    //         likesCount: 0,
+    //         isLiked: false,
+    //         gossipCount: 0,
+    //         isGossipVoted: false,
+    //     };
 
-        const index = messages.length;
-        setMessageText("");
-        try {
-            await dispatch(addMessage(message));
-            setIsEmojiPicker(false);
+    //     const index = messages.length;
+    //     setMessageText("");
+    //     try {
+    //         await dispatch(addMessage(message));
+    //         setIsEmojiPicker(false);
 
-            window.scrollTo({
-                top: document.body.scrollHeight, // Scroll to the bottom
-                behavior: "smooth",
-            });
+    //         window.scrollTo({
+    //             top: document.body.scrollHeight, // Scroll to the bottom
+    //             behavior: "smooth",
+    //         });
 
-            let formData = new FormData();
-            if (file) {
-                formData.append("image", fileData);
-            }
-            formData.append("text", messageText);
-            formData.append(
-                "messageType",
-                isImage && isPoll
-                    ? "ImagePoll"
-                    : isImage
-                    ? "Image"
-                    : isPoll
-                    ? "Poll"
-                    : "Text"
-            );
-            formData.append("profileId", profile?._id);
-            formData.append("pollOptions", JSON.stringify(pollOptions));
+    //         let formData = new FormData();
+    //         if (file) {
+    //             formData.append("image", fileData);
+    //         }
+    //         formData.append("text", messageText);
+    //         formData.append(
+    //             "messageType",
+    //             isImage && isPoll
+    //                 ? "ImagePoll"
+    //                 : isImage
+    //                 ? "Image"
+    //                 : isPoll
+    //                 ? "Poll"
+    //                 : "Text"
+    //         );
+    //         formData.append("profileId", profile?._id);
+    //         formData.append("pollOptions", JSON.stringify(pollOptions));
 
-            const response = await axiosInstance.post(
-                "messages/send-message/" + roomId,
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
+    //         const response = await axiosInstance.post(
+    //             "messages/send-message/" + roomId,
+    //             formData,
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "multipart/form-data",
+    //                 },
+    //             }
+    //         );
 
-            if (response.status >= 200) {
-                if (socket == null) {
-                    await dispatch(connectSocket()).then(() => {
-                        socket.on("message", (data: any) => {
-                            let f = async () => {
-                                await dispatch(addMessage(data));
-                                window.scrollTo({
-                                    top: document.body.scrollHeight, // Scroll to the bottom
-                                    behavior: "smooth",
-                                });
-                            };
-                            f();
-                        });
+    //         if (response.status >= 200) {
+    //             if (socket == null) {
+    //                 await dispatch(connectSocket()).then(() => {
+    //                     socket.on("message", (data: any) => {
+    //                         let f = async () => {
+    //                             await dispatch(addMessage(data));
+    //                             window.scrollTo({
+    //                                 top: document.body.scrollHeight, // Scroll to the bottom
+    //                                 behavior: "smooth",
+    //                             });
+    //                         };
+    //                         f();
+    //                     });
 
-                        socket.on("send-like-message", (data: any) => {
-                            dispatch(updateLikeMessage(data));
-                        });
+    //                     socket.on("send-like-message", (data: any) => {
+    //                         dispatch(updateLikeMessage(data));
+    //                     });
 
-                        socket.on("send-gossip-message", (data: any) => {
-                            dispatch(updateGossipVoteMessage(data));
-                        });
+    //                     socket.on("send-gossip-message", (data: any) => {
+    //                         dispatch(updateGossipVoteMessage(data));
+    //                     });
 
-                        socket.emit("open-room", {
-                            roomId: roomId.toString(),
-                            profileId: profile?._id,
-                        });
-                    });
-                }
+    //                     socket.emit("open-room", {
+    //                         roomId: roomId.toString(),
+    //                         profileId: profile?._id,
+    //                     });
+    //                 });
+    //             }
 
-                socket.emit("send-message", {
-                    ...message,
-                    pollOptions: pollOptions.map((option: any) => ({
-                        option: option,
-                        votes: 0,
-                    })),
-                    pollIndex: -1,
-                    image: response.data.data.image,
-                    _id: response.data.data._id,
-                });
-                console.log(response.data.data);
-                await dispatch(
-                    updateMessage({ index, message: response.data.data })
-                );
-                setTimeout(() => {
-                    window.scrollTo({
-                        top: document.body.scrollHeight, // Scroll to the bottom
-                        behavior: "smooth",
-                    });
-                }, 1000);
-                setLoading(false);
-            }
-        } catch (err: any) {
-            // if (err.response.status === 409) {
-            // this means that the message send has a not ssafe for viewing image
-            // so we need to delete the message
-            dispatch(
-                updateMessage({
-                    index,
-                    message: {
-                        ...message,
-                        text: "This image is inappropriate!",
-                        image: null,
-                        messageType: "Text",
-                    },
-                })
-            );
-            setLoading(false);
-            // }
-            console.log(err);
-            setLoading(false);
-        }
+    //             socket.emit("send-message", {
+    //                 ...message,
+    //                 pollOptions: pollOptions.map((option: any) => ({
+    //                     option: option,
+    //                     votes: 0,
+    //                 })),
+    //                 pollIndex: -1,
+    //                 image: response.data.data.image,
+    //                 _id: response.data.data._id,
+    //             });
+    //             console.log(response.data.data);
+    //             await dispatch(
+    //                 updateMessage({ index, message: response.data.data })
+    //             );
+    //             setTimeout(() => {
+    //                 window.scrollTo({
+    //                     top: document.body.scrollHeight, // Scroll to the bottom
+    //                     behavior: "smooth",
+    //                 });
+    //             }, 1000);
+    //             setLoading(false);
+    //         }
+    //     } catch (err: any) {
+    //         // if (err.response.status === 409) {
+    //         // this means that the message send has a not ssafe for viewing image
+    //         // so we need to delete the message
+    //         dispatch(
+    //             updateMessage({
+    //                 index,
+    //                 message: {
+    //                     ...message,
+    //                     text: "This image is inappropriate!",
+    //                     image: null,
+    //                     messageType: "Text",
+    //                 },
+    //             })
+    //         );
+    //         setLoading(false);
+    //         // }
+    //         console.log(err);
+    //         setLoading(false);
+    //     }
 
-        resetFileInput("inputTag");
-    };
+    //     resetFileInput("inputTag");
+    // };
 
     const handleDelete = async () => {
         dispatch(deleteAndUpdateMessage({ messageId: id }));
@@ -492,7 +492,7 @@ function GossipDiscussion() {
                             }}
                         />
                         <form
-                            onSubmit={handleSendMessage}
+                            // onSubmit={handleSendMessage}
                             className="flex items-center gap-2 p-2.5 px-3 w-full bg-white rounded-xl border-[1px] border-stone-400 dark:border-college-dark-gray-3 dark:bg-college-dark-gray-3"
                         >
                             <input
