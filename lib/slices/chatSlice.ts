@@ -1,7 +1,5 @@
 import axiosInstance from "@/app/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { stat } from "fs";
 
 export const getAllMessages = createAsyncThunk(
     "chat/getAllMessages",

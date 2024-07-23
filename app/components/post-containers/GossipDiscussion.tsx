@@ -2,46 +2,51 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import {
-    deleteAndUpdateMessage,
-    deleteMessageApi,
-    toggleLikeMessage,
-    updateLikeMessage,
-} from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
 import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
-import { setGossipDiscussion } from "@/lib/slices/gossipDiscussionSlice";
+import {
+    addGossipDiscussionMessage,
+    deleteAndUpdateGossipDiscussionMessage,
+    deleteGossipDiscussionMessageApi,
+    getAllGossipMessages,
+    setGossipDiscussion,
+    updateGossipDiscussionMessage,
+} from "@/lib/slices/gossipDiscussionSlice";
 import { useRouter } from "next/navigation";
 import MessageBox from "./MessageBox";
 import EmojiPicker from "emoji-picker-react";
 // icons
 import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import axiosInstance from "@/app/utils/axios";
-import {
-    addMessage,
-    updateGossipVoteMessage,
-    updateMessage,
-} from "@/lib/slices/chatSlice";
 import { v4 } from "uuid";
 import { Theme } from "emoji-picker-react";
-import { resetFileInput } from "@/app/utils/helper";
+import { capitalizeFirstLetter, resetFileInput } from "@/app/utils/helper";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { setBlur } from "@/lib/slices/blurSlice";
+import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
+import GossipMessageBox from "./GossipMessageBox";
+import Skeleton from "react-loading-skeleton";
+
+var timer: any = null;
+let prevheight = 0;
 
 function GossipDiscussion() {
-    const { gossipDiscussion } = useSelector(
-        (state: RootState) => state.gossipDiscussion
-    );
+    const {
+        gossipDiscussion,
+        gossipDiscussionMessages,
+        gossipDiscussionMessagesLoading,
+        hasNextPage,
+    } = useSelector((state: RootState) => state.gossipDiscussion);
     const {
         date,
         isUser,
@@ -49,7 +54,6 @@ function GossipDiscussion() {
         id,
         isLiked,
         likesCount,
-        messageType,
         profileUrl,
         user,
         postImgUrl,
@@ -62,20 +66,15 @@ function GossipDiscussion() {
     const relativeDate = dayjs(date).fromNow();
     const dispatch = useDispatch<AppDispatch>();
     const roomId = useParams().roomId;
-    const [likesLoading, setLikesLoading] = useState(false);
     const [liked, setLiked] = useState(isLiked);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { profile } = useSelector((state: RootState) => state.auth);
     const inputRef = React.useRef<any>(null);
-
+    const [likesLoading, setLikesLoading] = useState(false);
     const [messageText, setMessageText] = useState("");
     const [loading, setLoading] = useState(false);
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
-    const [isPoll, setIsPoll] = useState(false);
-    const [isImage, setIsImage] = useState(false);
-    const [file, setFile] = useState<string | undefined>();
-    const [fileData, setFileData] = useState<any>();
-    const [pollOptions, setPollOptions] = useState([]);
+    const [offset, setOffset] = useState(0);
     // hook for long press
     const attrs = useLongPress(
         () => {
@@ -87,183 +86,165 @@ function GossipDiscussion() {
         }
     );
 
-    console.log({
-        date,
-        isUser,
-        description,
-        id,
-        isLiked,
-        likesCount,
-        messageType,
-        profileUrl,
-        user,
-        postImgUrl,
-    });
-
-    // const handleSendMessage = async (e: any) => {
-    //     e?.preventDefault();
-    //     dispatch(setBlur(false));
-    //     setLoading(true);
-    //     setFile(undefined);
-
-    //     if (isPoll && pollOptions.length < 2) {
-    //         toast.error("Poll must have at least 2 options!");
-    //         setLoading(false);
-    //         return;
-    //     }
-
-    //     if (!isImage && messageText.length === 0) {
-    //         toast.error("Message cannot be empty!");
-    //         setLoading(false);
-    //         return;
-    //     }
-
-    //     let message = {
-    //         _id: v4(),
-    //         roomId: roomId,
-    //         text: messageText,
-    //         messageType: "Text",
-    //         profile: {
-    //             _id: profile?._id,
-    //             fName: profile.fName,
-    //             lName: profile.lName,
-    //             avatar: profile.avatar,
-    //         },
-    //         // image: {
-    //         //     url:
-    //         //         (isImage && isPoll) || isImage
-    //         //             ? "/images/image-loading.gif"
-    //         //             : null,
-    //         // },
-    //         // pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
-    //         likesCount: 0,
-    //         isLiked: false,
-    //         gossipCount: 0,
-    //         isGossipVoted: false,
-    //     };
-
-    //     const index = messages.length;
-    //     setMessageText("");
-    //     try {
-    //         await dispatch(addMessage(message));
-    //         setIsEmojiPicker(false);
-
-    //         window.scrollTo({
-    //             top: document.body.scrollHeight, // Scroll to the bottom
-    //             behavior: "smooth",
-    //         });
-
-    //         let formData = new FormData();
-    //         if (file) {
-    //             formData.append("image", fileData);
-    //         }
-    //         formData.append("text", messageText);
-    //         formData.append(
-    //             "messageType",
-    //             isImage && isPoll
-    //                 ? "ImagePoll"
-    //                 : isImage
-    //                 ? "Image"
-    //                 : isPoll
-    //                 ? "Poll"
-    //                 : "Text"
-    //         );
-    //         formData.append("profileId", profile?._id);
-    //         formData.append("pollOptions", JSON.stringify(pollOptions));
-
-    //         const response = await axiosInstance.post(
-    //             "messages/send-message/" + roomId,
-    //             formData,
-    //             {
-    //                 headers: {
-    //                     "Content-Type": "multipart/form-data",
-    //                 },
-    //             }
-    //         );
-
-    //         if (response.status >= 200) {
-    //             if (socket == null) {
-    //                 await dispatch(connectSocket()).then(() => {
-    //                     socket.on("message", (data: any) => {
-    //                         let f = async () => {
-    //                             await dispatch(addMessage(data));
-    //                             window.scrollTo({
-    //                                 top: document.body.scrollHeight, // Scroll to the bottom
-    //                                 behavior: "smooth",
-    //                             });
-    //                         };
-    //                         f();
-    //                     });
-
-    //                     socket.on("send-like-message", (data: any) => {
-    //                         dispatch(updateLikeMessage(data));
-    //                     });
-
-    //                     socket.on("send-gossip-message", (data: any) => {
-    //                         dispatch(updateGossipVoteMessage(data));
-    //                     });
-
-    //                     socket.emit("open-room", {
-    //                         roomId: roomId.toString(),
-    //                         profileId: profile?._id,
-    //                     });
-    //                 });
-    //             }
-
-    //             socket.emit("send-message", {
-    //                 ...message,
-    //                 pollOptions: pollOptions.map((option: any) => ({
-    //                     option: option,
-    //                     votes: 0,
-    //                 })),
-    //                 pollIndex: -1,
-    //                 image: response.data.data.image,
-    //                 _id: response.data.data._id,
-    //             });
-    //             console.log(response.data.data);
-    //             await dispatch(
-    //                 updateMessage({ index, message: response.data.data })
-    //             );
-    //             setTimeout(() => {
-    //                 window.scrollTo({
-    //                     top: document.body.scrollHeight, // Scroll to the bottom
-    //                     behavior: "smooth",
-    //                 });
-    //             }, 1000);
-    //             setLoading(false);
-    //         }
-    //     } catch (err: any) {
-    //         // if (err.response.status === 409) {
-    //         // this means that the message send has a not ssafe for viewing image
-    //         // so we need to delete the message
-    //         dispatch(
-    //             updateMessage({
-    //                 index,
-    //                 message: {
-    //                     ...message,
-    //                     text: "This image is inappropriate!",
-    //                     image: null,
-    //                     messageType: "Text",
-    //                 },
-    //             })
-    //         );
-    //         setLoading(false);
-    //         // }
-    //         console.log(err);
-    //         setLoading(false);
-    //     }
-
-    //     resetFileInput("inputTag");
-    // };
-
-    const handleDelete = async () => {
-        dispatch(deleteAndUpdateMessage({ messageId: id }));
-        await dispatch(deleteMessageApi(id));
-        toast.success("Message deleted successfully");
-        socket.emit("delete-message", {
-            roomId,
-            messageId: id,
+    useEffect(() => {
+        dispatch(
+            getAllGossipMessages({
+                roomId: roomId.toString(),
+                offset: offset,
+                messageId: id,
+            })
+        ).then(() => {
+            if (offset == 0) {
+                window.scrollTo({
+                    top: document.body.scrollHeight, // Scroll to the bottom
+                });
+            } else {
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.body.scrollHeight - prevheight, // Scroll to the bottom
+                    });
+                }, 1000);
+            }
+            timer = setTimeout(() => {
+                clearTimeout(timer);
+                timer = null;
+            }, 3000);
         });
+    }, [dispatch, roomId, offset]);
+
+    useEffect(() => {
+        const handleScroll: any = () => {
+            if (
+                !gossipDiscussionMessagesLoading &&
+                timer === null &&
+                hasNextPage &&
+                window.scrollY - window.innerHeight < -800
+            ) {
+                setOffset(gossipDiscussionMessages.length);
+
+                prevheight = document.body.scrollHeight;
+
+                timer = setTimeout(() => {
+                    clearTimeout(timer);
+                    timer = null;
+                }, 2000);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [gossipDiscussionMessagesLoading]);
+
+    console.log(gossipDiscussionMessages);
+
+    const handleSendMessage = async (e: any) => {
+        e?.preventDefault();
+        dispatch(setBlur(false));
+        setLoading(true);
+
+        if (messageText.length === 0) {
+            toast.error("Message cannot be empty!");
+            setLoading(false);
+            return;
+        }
+
+        const index = gossipDiscussionMessages.length;
+        let message = {
+            _id: v4(),
+            room: roomId,
+            text: messageText,
+            messageType: "Text",
+            profile: {
+                _id: profile?._id,
+                fName: profile.fName,
+                lName: profile.lName,
+                avatar: profile.avatar,
+            },
+            parentMessage: id,
+        };
+        try {
+            setMessageText("");
+            await dispatch(addGossipDiscussionMessage(message));
+            setIsEmojiPicker(false);
+
+            window.scrollTo({
+                top: document.body.scrollHeight, // Scroll to the bottom
+                behavior: "smooth",
+            });
+
+            const response = await axiosInstance.post(
+                "messages/send-gossip-message/" + roomId + "/" + id,
+                { text: messageText }
+            );
+
+            if (response.status >= 200) {
+                if (socket == null) {
+                    await dispatch(connectSocket()).then(() => {
+                        socket.on("message", (data: any) => {
+                            let f = async () => {
+                                await dispatch(
+                                    addGossipDiscussionMessage(data)
+                                );
+                                window.scrollTo({
+                                    top: document.body.scrollHeight, // Scroll to the bottom
+                                    behavior: "smooth",
+                                });
+                            };
+                            f();
+                        });
+
+                        socket.emit("open-room", {
+                            roomId: roomId.toString(),
+                            profileId: profile?._id,
+                        });
+                    });
+                }
+
+                socket.emit("send-message", {
+                    ...message,
+
+                    _id: response.data.data._id,
+                });
+                console.log(response.data.data);
+                await dispatch(
+                    updateGossipDiscussionMessage({
+                        index,
+                        message: response.data.data,
+                    })
+                );
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.body.scrollHeight, // Scroll to the bottom
+                        behavior: "smooth",
+                    });
+                }, 1000);
+                setLoading(false);
+            }
+        } catch (err: any) {
+            // if (err.response.status === 409) {
+            // this means that the message send has a not ssafe for viewing image
+            // so we need to delete the message
+            dispatch(
+                updateGossipDiscussionMessage({
+                    index,
+                    message: {
+                        ...message,
+                        text: "This image is inappropriate!",
+                        image: null,
+                        messageType: "Text",
+                    },
+                })
+            );
+            setLoading(false);
+            // }
+            console.log(err);
+            setLoading(false);
+        }
+
+        resetFileInput("inputTag");
     };
 
     const likeClickHandler = () => {
@@ -317,7 +298,7 @@ function GossipDiscussion() {
                                 : "self-start box-shadow-static"
                         }`}
                     >
-                        <AnimatePresence>
+                        {/* <AnimatePresence>
                             {isUser &&
                                 isMenuOpen &&
                                 description !== "This message is deleted" && (
@@ -335,7 +316,7 @@ function GossipDiscussion() {
                                         DELETE
                                     </motion.button>
                                 )}
-                        </AnimatePresence>
+                        </AnimatePresence> */}
 
                         {/* Reactions Box */}
                         <div className="flex absolute bottom-0 left-[16px] gap-2">
@@ -430,23 +411,231 @@ function GossipDiscussion() {
                                 damping: 15,
                             }}
                         >
-                            <MessageBox
-                                key={321}
-                                id={321}
-                                isLiked={true}
-                                messageType={"Text"}
-                                date={"2021-09-09T00:00:00.000Z"}
-                                profileUrl={"/images/avatar-1.png"}
-                                user={"User"}
-                                description={"This is a gossip"}
-                                likesCount={0}
-                                isUser={true}
-                                isGossip={false}
-                            />
+                            {gossipDiscussionMessagesLoading && (
+                                <Skeleton
+                                    count={2}
+                                    width={200}
+                                    baseColor={
+                                        theme === "dark" ? "#202020" : "#e0dfdf"
+                                    }
+                                    highlightColor={
+                                        theme === "dark" ? "#444" : "#f2f2f2"
+                                    }
+                                />
+                            )}
+
+                            {offset === 0 && gossipDiscussionMessagesLoading ? (
+                                <div className="flex flex-col-reverse gap-4 h-full">
+                                    <div className="self-end">
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </div>
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <div className="self-end">
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </div>
+                                    <div className="self-end">
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </div>
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <div className="self-end">
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </div>
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <Skeleton
+                                        count={2}
+                                        width={200}
+                                        baseColor={
+                                            theme === "dark"
+                                                ? "#202020"
+                                                : "#e0dfdf"
+                                        }
+                                        highlightColor={
+                                            theme === "dark"
+                                                ? "#444"
+                                                : "#f2f2f2"
+                                        }
+                                    />
+                                    <div className="self-end">
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    {gossipDiscussionMessages.length === 0 && (
+                                        <h1 className="font-bold text-xl font-secondary text-center">
+                                            No chats to show!
+                                        </h1>
+                                    )}
+                                    {gossipDiscussionMessages.map(
+                                        (message: any) => {
+                                            return (
+                                                <GossipMessageBox
+                                                    key={message?._id}
+                                                    id={message?._id}
+                                                    messageType={
+                                                        message.messageType
+                                                    }
+                                                    date={message.updatedAt}
+                                                    profileUrl={
+                                                        message.profile?.avatar
+                                                    }
+                                                    user={
+                                                        capitalizeFirstLetter(
+                                                            message.profile
+                                                                ?.fName
+                                                        ) +
+                                                        capitalizeFirstLetter(
+                                                            message.profile
+                                                                ?.lName
+                                                        )
+                                                    }
+                                                    description={message.text}
+                                                    isUser={
+                                                        message.profile?._id ===
+                                                        profile?._id
+                                                    }
+                                                />
+                                            );
+                                        }
+                                    )}
+                                </>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
-                {/* input */}
+                {/* Inputbox */}
                 <AnimatePresence>
                     <motion.div
                         className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl flex flex-col w-[75vw] shadow-xl`}
@@ -492,7 +681,7 @@ function GossipDiscussion() {
                             }}
                         />
                         <form
-                            // onSubmit={handleSendMessage}
+                            onSubmit={handleSendMessage}
                             className="flex items-center gap-2 p-2.5 px-3 w-full bg-white rounded-xl border-[1px] border-stone-400 dark:border-college-dark-gray-3 dark:bg-college-dark-gray-3"
                         >
                             <input

@@ -84,6 +84,7 @@ export type DropdownPropsType = {
 
 export type TextImageBoxPropsType = {
     // children: any;
+    id: string;
     bgcolor?: string;
     messageType: string;
     textColor?: string;
@@ -98,6 +99,20 @@ export type TextImageBoxPropsType = {
     isLiked: boolean;
     gossipVotesCount: number;
     isGossipVoted: boolean;
+} & Record<string, any>;
+
+export type GossipMessagePropsType = {
+    id: string;
+    bgcolor?: string;
+    messageType: string;
+    textColor?: string;
+    className?: string;
+    date: string;
+    profileUrl: string;
+    postImgUrl?: string;
+    user: string;
+    description: string;
+    isUser: boolean;
 } & Record<string, any>;
 
 export type GossipBoxPropsType = {
@@ -117,22 +132,6 @@ export type GossipBoxPropsType = {
     gossipVotesCount: number;
     isGossipVoted: boolean;
 } & Record<string, any>;
-
-// export type GossipDiscussionPropsType = {
-//     // children: any;
-//     bgcolor?: string;
-//     messageType: string;
-//     textColor?: string;
-//     className?: string;
-//     date: string;
-//     profileUrl: string;
-//     postImgUrl?: string;
-//     user: string;
-//     description: string;
-//     isUser: boolean;
-//     likesCount: number;
-//     isLiked: boolean;
-// } & Record<string, any>;
 
 export type ImageBoxPropsType = {
     // children: any;
@@ -192,8 +191,8 @@ export type MessagesBoxPropsType = {
     user: string;
     description: string;
     isUser: boolean;
-    isLiked: boolean;
-    likesCount: number;
+    isLiked?: boolean;
+    likesCount?: number;
 } & Record<string, any>;
 
 export type optionType = {

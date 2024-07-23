@@ -101,9 +101,9 @@ function TextImageBox({
         dispatch(
             updateGossipVoteMessage({ messageId: id, isGossipVoted: !gossip })
         );
-        console.log("lower")
+        console.log("lower");
     };
-    
+
     const gossipVoteHandlerDebounced = useDebouncedCallback(async () => {
         console.log("asdfasdfasdfasdf");
         setLikesLoading(true);
