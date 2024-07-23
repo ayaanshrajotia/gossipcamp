@@ -109,10 +109,10 @@ const gossipDiscussionSlice = createSlice({
             let oldId =
                 state.gossipDiscussionMessages[action.payload.index]._id;
             delete state.gossipDiscussionMessagesKeyIndexPair[oldId];
-            state.gossipDiscussionMessagesKeyIndexPair[action.payload.id] =
+            state.gossipDiscussionMessagesKeyIndexPair[action.payload.message._id] =
                 action.payload.index;
             state.gossipDiscussionMessages[action.payload.index] =
-                action.payload;
+                action.payload.message;
         },
         deleteAndUpdateGossipDiscussionMessage: (state, action) => {
             let index =
