@@ -84,7 +84,6 @@ export type DropdownPropsType = {
 
 export type TextImageBoxPropsType = {
     // children: any;
-    id: string;
     bgcolor?: string;
     messageType: string;
     textColor?: string;
@@ -191,8 +190,8 @@ export type MessagesBoxPropsType = {
     user: string;
     description: string;
     isUser: boolean;
-    isLiked?: boolean;
-    likesCount?: number;
+    isLiked: boolean;
+    likesCount: number;
 } & Record<string, any>;
 
 export type optionType = {

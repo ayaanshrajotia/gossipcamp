@@ -59,6 +59,7 @@ function MessageBox({
                 user={user}
                 description={description}
                 isUser={isUser}
+                likesCount={likesCount || 0} // Assign a default value of 0 if likesCount is undefined
                 messageType={messageType}
                 {...props}
             />
