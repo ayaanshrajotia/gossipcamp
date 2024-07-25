@@ -99,7 +99,7 @@ function TextImageBox({
     const gossipClickHandler = () => {
         gossipVoteHandlerDebounced();
         setGossip((prev) => !prev);
-        dispatch(updateGossipVoteSelfMessage({ messageId: id, isGossipVoted: !isGossipVoted }));
+        dispatch(updateGossipVoteSelfMessage({ messageId: id, isGossipVoted: !gossip }));
         console.log("lower");
     };
 
