@@ -15,6 +15,7 @@ import {
     toggleGossipMessage,
     toggleLikeMessage,
     updateGossipVoteMessage,
+    updateGossipVoteSelfMessage,
     updateLikeMessage,
     updateMessageToGossip,
 } from "@/lib/slices/chatSlice";
@@ -98,22 +99,16 @@ function TextImageBox({
     const gossipClickHandler = () => {
         gossipVoteHandlerDebounced();
         setGossip((prev) => !prev);
-        dispatch(
-            updateGossipVoteMessage({ messageId: id, isGossipVoted: !gossip })
-        );
+        dispatch(updateGossipVoteSelfMessage({ messageId: id, isGossipVoted: !isGossipVoted }));
         console.log("lower");
     };
 
     const gossipVoteHandlerDebounced = useDebouncedCallback(async () => {
-        console.log("asdfasdfasdfasdf");
         setLikesLoading(true);
         if (gossip == isGossipVoted) return;
         await dispatch(
             toggleGossipMessage({ id, isGossipVoted: !isGossipVoted })
         );
-        if (gossipVotesCount >= 0) {
-            dispatch(updateMessageToGossip({ messageId: id }));
-        }
         // connect statement
         setLikesLoading(false);
         socket.emit("gossip-vote-message", {

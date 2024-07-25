@@ -154,6 +154,18 @@ const chatSlice = createSlice({
                 state.messages[index].gossipVotesCount =
                     state.messages[index].gossipVotesCount +
                     (action.payload.isGossipVoted ? 1 : -1);
+
+                if(state.messages[index].gossipVotesCount > 2){
+                    state.messages[index].isGossip = true;
+                }
+            }
+        },
+        updateGossipVoteSelfMessage: (state, action) => {
+            let index = state.messagesKeyIndexPair[action.payload.messageId];
+            if (index !== undefined) {
+                state.messages[index].gossipVotesCount =
+                    state.messages[index].gossipVotesCount +
+                    (action.payload.isGossipVoted ? 1 : -1);
             }
         },
         deleteAndUpdateMessage: (state, action) => {
@@ -263,6 +275,13 @@ const chatSlice = createSlice({
                 state.messages[index].isGossipVoted =
                     action.payload.isGossipVoted;
                 state.gossipLoading = false;
+                
+                if (index !== undefined) {
+                    let count = state.messages[index].gossipVotesCount
+                    if(count > 2){
+                        state.messages[index].isGossip = true;
+                    }
+                }
             })
             .addCase(toggleGossipMessage.rejected, (state, action) => {
                 state.gossipLoading = false;
@@ -291,6 +310,7 @@ export const {
     updatePollVote,
     changePollVotes,
     updateMessageToGossip,
+    updateGossipVoteSelfMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

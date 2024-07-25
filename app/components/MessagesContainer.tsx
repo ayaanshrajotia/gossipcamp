@@ -66,6 +66,7 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
             socket.off("send-like-message");
             socket.off("send-gossip-message");
             socket.off("send-delete-message");
+            socket.off("send-goosip-vote-message");
             socket.off("send-poll-vote");
         };
     }, [dispatch]);

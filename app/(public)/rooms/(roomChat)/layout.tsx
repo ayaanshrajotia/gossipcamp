@@ -104,7 +104,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             pollOptions: (isImage && isPoll) || isPoll ? pollOptions : [],
             likesCount: 0,
             isLiked: false,
-            gossipCount: 0,
+            gossipVotesCount: 0,
             isGossipVoted: false,
         };
 

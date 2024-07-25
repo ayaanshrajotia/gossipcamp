@@ -147,7 +147,7 @@ function GossipBox({
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: 800, opacity: 0 }}
                                 key={"delete"}
-                                className={`absolute right-2 top-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-medium transition-all`}
+                                className={`absolute right-2 top-2 bg-red-600 text-white px-2 py-1 rounded z-10 text-xs font-medium transition-all`}
                                 onClick={() => {
                                     setIsMenuOpen(false);
                                     handleDelete();
