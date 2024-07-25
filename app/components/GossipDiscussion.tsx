@@ -23,7 +23,7 @@ import {
     updateGossipDiscussionMessage,
 } from "@/lib/slices/gossipDiscussionSlice";
 import { useRouter } from "next/navigation";
-import MessageBox from "./MessageBox";
+import MessageBox from "./post-containers/MessageBox";
 import EmojiPicker from "emoji-picker-react";
 // icons
 import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -34,7 +34,7 @@ import { capitalizeFirstLetter, resetFileInput } from "@/app/utils/helper";
 import { connectSocket } from "@/lib/slices/socketSlice";
 import { setBlur } from "@/lib/slices/blurSlice";
 import { toggleLikeMessage, updateLikeMessage } from "@/lib/slices/chatSlice";
-import GossipMessageBox from "./GossipMessageBox";
+import GossipMessageBox from "./post-containers/GossipMessageBox";
 import Skeleton from "react-loading-skeleton";
 
 var timer: any = null;
@@ -690,7 +690,7 @@ function GossipDiscussion() {
                                 value={messageText}
                                 className="flex-1 bg-transparent outline-none resize-none font-secondary placeholder:text-college-dark-white-2 placeholder:dark:text-college-dark-white-2"
                                 onChange={(e) => setMessageText(e.target.value)}
-                                placeholder={"asdasda"}
+                                placeholder={"Type a Gossip!"}
                             />
                             <FaceSmileIcon
                                 className="w-6 h-6 cursor-pointer stroke-[#565759] dark:stroke-college-dark-white-2"

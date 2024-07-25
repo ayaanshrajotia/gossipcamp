@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { RootState } from "@/lib/store";
 import MessageBox from "../components/post-containers/MessageBox";
-import GossipDiscussion from "../components/post-containers/GossipDiscussion";
+import GossipDiscussion from "../components/GossipDiscussion";
 
 export default function PublicLayout({
     children,
