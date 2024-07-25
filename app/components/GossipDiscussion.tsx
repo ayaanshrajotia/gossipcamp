@@ -2,7 +2,7 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTheme } from "next-themes";
@@ -75,6 +75,8 @@ function GossipDiscussion() {
     const [loading, setLoading] = useState(false);
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
     const [offset, setOffset] = useState(0);
+    
+    const containerRef = useRef<HTMLDivElement>(null);
     // hook for long press
     const attrs = useLongPress(
         () => {
@@ -95,13 +97,13 @@ function GossipDiscussion() {
             })
         ).then(() => {
             if (offset == 0) {
-                window.scrollTo({
-                    top: document.body.scrollHeight, // Scroll to the bottom
-                });
+                containerRef.current?.scrollTo({
+                    top: containerRef.current.scrollHeight,
+                })
             } else {
                 setTimeout(() => {
-                    window.scrollTo({
-                        top: document.body.scrollHeight - prevheight, // Scroll to the bottom
+                    containerRef.current?.scrollTo({
+                        top: containerRef?.current?.scrollHeight || 1000 - prevheight, // Scroll to the bottom
                     });
                 }, 1000);
             }
@@ -113,16 +115,36 @@ function GossipDiscussion() {
     }, [dispatch, roomId, offset]);
 
     useEffect(() => {
+        socket.emit("open-gossip-room", {roomId: roomId.toString(), messageId: id});
+        socket.on("gossip-message", (data: any) => {
+            console.log("Gossip message received", data);
+            let f = async () => {
+                await dispatch(addGossipDiscussionMessage(data));
+                containerRef.current?.scrollTo({
+                    top: containerRef?.current.scrollHeight, // Scroll to the bottom
+                    behavior: "smooth",
+                });
+            };
+            f();
+        })
+
+        return () => {
+            socket.emit("close-gossip-room", {roomId: roomId.toString(), messageId: id});
+            socket.off("gossip-message");
+        }
+    }, [])
+
+    useEffect(() => {
         const handleScroll: any = () => {
             if (
                 !gossipDiscussionMessagesLoading &&
                 timer === null &&
                 hasNextPage &&
-                window.scrollY - window.innerHeight < -800
+                (containerRef.current?.scrollHeight || 1000 - (containerRef.current?.clientHeight || 1000)) < -800
             ) {
                 setOffset(gossipDiscussionMessages.length);
 
-                prevheight = document.body.scrollHeight;
+                prevheight = containerRef.current?.scrollHeight || 1000;
 
                 timer = setTimeout(() => {
                     clearTimeout(timer);
@@ -138,8 +160,6 @@ function GossipDiscussion() {
         };
     }, [gossipDiscussionMessagesLoading]);
 
-    console.log(gossipDiscussionMessages);
-
     const handleSendMessage = async (e: any) => {
         e?.preventDefault();
         dispatch(setBlur(false));
@@ -154,7 +174,7 @@ function GossipDiscussion() {
         const index = gossipDiscussionMessages.length;
         let message = {
             _id: v4(),
-            room: roomId,
+            room: roomId.toString(),
             text: messageText,
             messageType: "Text",
             profile: {
@@ -188,8 +208,8 @@ function GossipDiscussion() {
                                 await dispatch(
                                     addGossipDiscussionMessage(data)
                                 );
-                                window.scrollTo({
-                                    top: document.body.scrollHeight, // Scroll to the bottom
+                                containerRef.current?.scrollTo({
+                                    top: containerRef.current?.scrollHeight, // Scroll to the bottom
                                     behavior: "smooth",
                                 });
                             };
@@ -200,15 +220,25 @@ function GossipDiscussion() {
                             roomId: roomId.toString(),
                             profileId: profile?._id,
                         });
+
+                        socket.emit("open-gossip-room", {roomId: roomId.toString(), messageId: id});
+                        socket.on("gossip-message", (data: any) => {
+                            let f = async () => {
+                                await dispatch(addGossipDiscussionMessage(data));
+                                containerRef.current?.scrollTo({
+                                    top: containerRef.current?.scrollHeight, // Scroll to the bottom
+                                    behavior: "smooth",
+                                });
+                            };
+                            f();
+                        })
                     });
                 }
 
-                socket.emit("send-message", {
+                socket.emit("send-gossip-message", {
                     ...message,
-
                     _id: response.data.data._id,
                 });
-                console.log(response.data.data);
                 await dispatch(
                     updateGossipDiscussionMessage({
                         index,
@@ -216,8 +246,8 @@ function GossipDiscussion() {
                     })
                 );
                 setTimeout(() => {
-                    window.scrollTo({
-                        top: document.body.scrollHeight, // Scroll to the bottom
+                    containerRef.current?.scrollTo({
+                        top: containerRef.current?.scrollHeight, // Scroll to the bottom
                         behavior: "smooth",
                     });
                 }, 1000);
@@ -398,6 +428,7 @@ function GossipDiscussion() {
                 <AnimatePresence>
                     {gossipDiscussion && (
                         <motion.div
+                            ref={containerRef}
                             className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-[#ececec] dark:bg-black bg-fixed bg-contain w-[100%] mr-6 rounded-xl flex-grow flex flex-col p-5 pr-6 pb-6 gap-6 overflow-scroll shadow-xl`}
                             initial={{ scaleY: 0, scaleX: 0 }}
                             animate={{ scaleY: 1, scaleX: 1 }}
