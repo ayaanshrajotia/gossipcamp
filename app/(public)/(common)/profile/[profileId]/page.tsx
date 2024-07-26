@@ -20,28 +20,28 @@ const options = [
     {
         id: 1,
         title: "Gossips",
-        slug: "/profile/gossips",
+        slug: `gossips`,
     },
     {
         id: 2,
         title: "Rooms",
-        slug: "/profile/rooms",
+        slug: `rooms`,
     },
     {
         id: 3,
         title: "Followers",
-        slug: "/profile/followers",
+        slug: `followers`,
     },
     {
         id: 4,
         title: "Following",
-        slug: "/profile/following",
+        slug: `following`,
     },
 ];
 
 function Page() {
-    const pathname = usePathname();
     const { profileId } = useParams();
+    const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
     const { userProfile, userLoading } = useSelector(
         (state: RootState) => state.users
@@ -50,6 +50,8 @@ function Page() {
     const [pageLoading, setPageLoading] = useState(true);
     const [isFollow, setIsFollow] = useState(false);
     const { theme } = useTheme();
+    const [activeTab, setActiveTab] = useState("gossips");
+
     const handleToggleFollow = async () => {
         try {
             setIsFollow((prev: any) => !prev);
@@ -68,6 +70,71 @@ function Page() {
         setIsFollow(userProfile?.isFollowing);
         setPageLoading(false);
     }, [profileId, dispatch, userProfile?.isFollowing]);
+
+    const renderContent = () => {
+        switch (activeTab) {
+            case "gossips":
+                return (
+                    <div
+                        className={`bg-white p-6 rounded-xl ${
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        } dark:bg-college-dark-gray-2`}
+                    >
+                        Gossip
+                    </div>
+                );
+            case "rooms":
+                return (
+                    <div
+                        className={`bg-white p-6 rounded-xl ${
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        } dark:bg-college-dark-gray-2`}
+                    >
+                        rooms
+                    </div>
+                );
+            case "followers":
+                return (
+                    <div
+                        className={`bg-white p-6 rounded-xl ${
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        } dark:bg-college-dark-gray-2`}
+                    >
+                        followers
+                    </div>
+                );
+            case "following":
+                return (
+                    <div
+                        className={`bg-white p-6 rounded-xl ${
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        } dark:bg-college-dark-gray-2`}
+                    >
+                        following
+                    </div>
+                );
+            default:
+                return (
+                    <div
+                        className={`bg-white p-6 rounded-xl ${
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        } dark:bg-college-dark-gray-2`}
+                    >
+                        asd
+                    </div>
+                );
+        }
+    };
 
     return (
         <div className="min-h-screen relative w-full font-secondary">
@@ -104,6 +171,7 @@ function Page() {
                             />
                         </>
                     ) : (
+                        // Profile
                         <>
                             <div className="max-[700px]:flex-col flex">
                                 <div className="flex flex-1 gap-5 h-full">
@@ -185,31 +253,25 @@ function Page() {
                         </>
                     )}
                 </div>
-
+                {/* Navbar */}
                 <div className="px-4 ">
                     <ul className="flex justify-between">
                         {options.map((option) => (
-                            <Link href={option.slug} key={option.id}>
-                                <li
-                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white dark:hover:bg-college-dark-white dark:hover:text-college-dark-gray-1 ${
-                                        pathname.includes(option.slug)
-                                            ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
-                                            : "bg-white dark:bg-college-dark-gray-3 dark:text-college-dark-white"
-                                    }`}
-                                >
-                                    {option.title}
-                                </li>
-                            </Link>
+                            <li
+                                key={option.id}
+                                onClick={() => setActiveTab(option.slug)}
+                                className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white dark:hover:bg-college-dark-white dark:hover:text-college-dark-gray-1 ${
+                                    option.slug === activeTab
+                                        ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
+                                        : "bg-white dark:bg-college-dark-gray-3 dark:text-college-dark-white"
+                                }`}
+                            >
+                                {option.title}
+                            </li>
                         ))}
                     </ul>
                 </div>
-                <div
-                    className={`bg-white p-6 rounded-xl ${
-                        theme === "dark"
-                            ? "box-shadow-static-dark"
-                            : "box-shadow-static"
-                    } dark:bg-college-dark-gray-2`}
-                ></div>
+                {renderContent()}
             </div>
         </div>
     );

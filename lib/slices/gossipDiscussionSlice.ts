@@ -85,6 +85,10 @@ const gossipDiscussionSlice = createSlice({
     reducers: {
         setGossipDiscussion: (state, action) => {
             state.gossipDiscussion = action.payload;
+            if (action.payload === false) {
+                state.gossipDiscussionMessages = [];
+                state.gossipDiscussionMessagesKeyIndexPair = {};
+            }
         },
         setGossipDiscussionData: (state, action) => {
             state.gossipDisscussionData.id = action.payload.id;

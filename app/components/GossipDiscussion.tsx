@@ -16,14 +16,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
 import {
     addGossipDiscussionMessage,
-    deleteAndUpdateGossipDiscussionMessage,
-    deleteGossipDiscussionMessageApi,
     getAllGossipMessages,
     setGossipDiscussion,
     updateGossipDiscussionMessage,
 } from "@/lib/slices/gossipDiscussionSlice";
 import { useRouter } from "next/navigation";
-import MessageBox from "./post-containers/MessageBox";
 import EmojiPicker from "emoji-picker-react";
 // icons
 import { FaceSmileIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
@@ -75,7 +72,8 @@ function GossipDiscussion() {
     const [loading, setLoading] = useState(false);
     const [isEmojiPicker, setIsEmojiPicker] = useState(false);
     const [offset, setOffset] = useState(0);
-    
+    const [messagesLoading, setMessagesLoading] = useState(false);
+
     const containerRef = useRef<HTMLDivElement>(null);
     // hook for long press
     const attrs = useLongPress(
@@ -89,33 +87,44 @@ function GossipDiscussion() {
     );
 
     useEffect(() => {
-        dispatch(
-            getAllGossipMessages({
-                roomId: roomId.toString(),
-                offset: offset,
-                messageId: id,
-            })
-        ).then(() => {
-            if (offset == 0) {
-                containerRef.current?.scrollTo({
-                    top: containerRef.current.scrollHeight,
+        setMessagesLoading(true);
+        setTimeout(() => {
+            dispatch(
+                getAllGossipMessages({
+                    roomId: roomId.toString(),
+                    offset: offset,
+                    messageId: id,
                 })
-            } else {
-                setTimeout(() => {
-                    containerRef.current?.scrollTo({
-                        top: containerRef?.current?.scrollHeight || 1000 - prevheight, // Scroll to the bottom
-                    });
-                }, 1000);
-            }
-            timer = setTimeout(() => {
-                clearTimeout(timer);
-                timer = null;
-            }, 3000);
-        });
+            ).then(() => {
+                setMessagesLoading(false);
+                if (offset == 0) {
+                    setTimeout(() => {
+                        containerRef.current?.scrollTo({
+                            top: containerRef.current?.scrollHeight,
+                        });
+                    }, 0.1);
+                } else {
+                    setTimeout(() => {
+                        containerRef.current?.scrollTo({
+                            top:
+                                containerRef?.current?.scrollHeight ||
+                                1000 - prevheight, // Scroll to the bottom
+                        });
+                    }, 1000);
+                }
+                timer = setTimeout(() => {
+                    clearTimeout(timer);
+                    timer = null;
+                }, 3000);
+            });
+        }, 1000);
     }, [dispatch, roomId, offset]);
 
     useEffect(() => {
-        socket.emit("open-gossip-room", {roomId: roomId.toString(), messageId: id});
+        socket.emit("open-gossip-room", {
+            roomId: roomId.toString(),
+            messageId: id,
+        });
         socket.on("gossip-message", (data: any) => {
             console.log("Gossip message received", data);
             let f = async () => {
@@ -126,13 +135,16 @@ function GossipDiscussion() {
                 });
             };
             f();
-        })
+        });
 
         return () => {
-            socket.emit("close-gossip-room", {roomId: roomId.toString(), messageId: id});
+            socket.emit("close-gossip-room", {
+                roomId: roomId.toString(),
+                messageId: id,
+            });
             socket.off("gossip-message");
-        }
-    }, [])
+        };
+    }, []);
 
     useEffect(() => {
         const handleScroll: any = () => {
@@ -140,7 +152,8 @@ function GossipDiscussion() {
                 !gossipDiscussionMessagesLoading &&
                 timer === null &&
                 hasNextPage &&
-                (containerRef.current?.scrollHeight || 1000 - (containerRef.current?.clientHeight || 1000)) < -800
+                (containerRef.current?.scrollHeight ||
+                    1000 - (containerRef.current?.clientHeight || 1000)) < -800
             ) {
                 setOffset(gossipDiscussionMessages.length);
 
@@ -190,8 +203,8 @@ function GossipDiscussion() {
             await dispatch(addGossipDiscussionMessage(message));
             setIsEmojiPicker(false);
 
-            window.scrollTo({
-                top: document.body.scrollHeight, // Scroll to the bottom
+            containerRef.current?.scrollTo({
+                top: containerRef.current?.scrollHeight, // Scroll to the bottom
                 behavior: "smooth",
             });
 
@@ -221,17 +234,22 @@ function GossipDiscussion() {
                             profileId: profile?._id,
                         });
 
-                        socket.emit("open-gossip-room", {roomId: roomId.toString(), messageId: id});
+                        socket.emit("open-gossip-room", {
+                            roomId: roomId.toString(),
+                            messageId: id,
+                        });
                         socket.on("gossip-message", (data: any) => {
                             let f = async () => {
-                                await dispatch(addGossipDiscussionMessage(data));
+                                await dispatch(
+                                    addGossipDiscussionMessage(data)
+                                );
                                 containerRef.current?.scrollTo({
                                     top: containerRef.current?.scrollHeight, // Scroll to the bottom
                                     behavior: "smooth",
                                 });
                             };
                             f();
-                        })
+                        });
                     });
                 }
 
@@ -305,7 +323,6 @@ function GossipDiscussion() {
                     onClick={() => {
                         dispatch(setGossipDiscussion(false));
                     }}
-                    // onClick={() => dispatch(setGossipDiscussion("close"))}
                     initial={{
                         y: -120,
                     }}
@@ -328,26 +345,6 @@ function GossipDiscussion() {
                                 : "self-start box-shadow-static"
                         }`}
                     >
-                        {/* <AnimatePresence>
-                            {isUser &&
-                                isMenuOpen &&
-                                description !== "This message is deleted" && (
-                                    <motion.button
-                                        initial={{ x: 300, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        exit={{ x: 800, opacity: 0 }}
-                                        key={"delete"}
-                                        className={`absolute right-2 top-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-medium transition-all`}
-                                        onClick={() => {
-                                            setIsMenuOpen(false);
-                                            handleDelete();
-                                        }}
-                                    >
-                                        DELETE
-                                    </motion.button>
-                                )}
-                        </AnimatePresence> */}
-
                         {/* Reactions Box */}
                         <div className="flex absolute bottom-0 left-[16px] gap-2">
                             {/* Like button */}
@@ -442,20 +439,7 @@ function GossipDiscussion() {
                                 damping: 15,
                             }}
                         >
-                            {gossipDiscussionMessagesLoading && (
-                                <Skeleton
-                                    count={2}
-                                    width={200}
-                                    baseColor={
-                                        theme === "dark" ? "#202020" : "#e0dfdf"
-                                    }
-                                    highlightColor={
-                                        theme === "dark" ? "#444" : "#f2f2f2"
-                                    }
-                                />
-                            )}
-
-                            {offset === 0 && gossipDiscussionMessagesLoading ? (
+                            {offset === 0 && messagesLoading ? (
                                 <div className="flex flex-col-reverse gap-4 h-full">
                                     <div className="self-end">
                                         <Skeleton

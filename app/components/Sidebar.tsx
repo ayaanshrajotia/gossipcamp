@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import RoomBox from "./room-boxes/RoomBox";
 import Image from "next/image";
 
-import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { capitalizeFirstLetter } from "../utils/helper";
@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
+import { connectSocket } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
 
 export default function Sidebar({ className = "" }: { className: string }) {
@@ -25,7 +25,6 @@ export default function Sidebar({ className = "" }: { className: string }) {
     );
     const { privateRoom, publicRooms, privateLoading, publicLoading } =
         useSelector((state: RootState) => state.rooms);
-    const { blur } = useSelector((state: RootState) => state.blur);
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -54,6 +53,7 @@ export default function Sidebar({ className = "" }: { className: string }) {
         setImgUrl(profile?.avatar);
         setPageLoading(false);
     }, [profile, dispatch]);
+    console.log({user, profile});
 
     return (
         <>
@@ -98,7 +98,7 @@ export default function Sidebar({ className = "" }: { className: string }) {
                             ) : (
                                 <div className="flex justify-between cursor-pointer basis-[200px] overflow-ellipsis">
                                     <Link
-                                        href={`/profile/${user?.username.toString()}`}
+                                        href={`/profile/${profile?.username.toString()}`}
                                         className="flex gap-2"
                                     >
                                         <div>
