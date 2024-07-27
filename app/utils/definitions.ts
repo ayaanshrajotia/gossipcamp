@@ -210,3 +210,21 @@ export type PeopleCountPropType = {
 export type MessagesContainerProps = {
     roomId: string; // this is becuase of the nextjs useParam hook
 };
+
+export type GossipContainerPropsType = {
+    // children: any;
+    bgcolor?: string;
+    messageType: string;
+    textColor?: string;
+    className?: string;
+    date: string;
+    profileUrl: string;
+    postImgUrl?: string;
+    user: string;
+    description: string;
+    isUser: boolean;
+    likesCount: number;
+    isLiked: boolean;
+    gossipVotesCount: number;
+    isGossipVoted: boolean;
+} & Record<string, any>;

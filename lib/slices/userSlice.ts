@@ -29,12 +29,12 @@ export const getSingleUser = createAsyncThunk(
     }
 );
 
-export const getSingleUserPosts = createAsyncThunk(
-    "user/getSingleUserPosts",
-    async (userId: string, { rejectWithValue }) => {
+export const getSingleUserGossips = createAsyncThunk(
+    "user/getSingleUserGossips",
+    async (username: string, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(
-                `/profile/${userId}/posts`
+                `/profiles/get-gossips-details/${username}`
             );
             return response.data.data;
         } catch (error: any) {
@@ -45,10 +45,10 @@ export const getSingleUserPosts = createAsyncThunk(
 
 export const getSingleUserRooms = createAsyncThunk(
     "user/getSingleUserRooms",
-    async (userId: string, { rejectWithValue }) => {
+    async (username: string, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(
-                `/profile/${userId}/rooms`
+                `/profiles/get-user-rooms-details/${username}`
             );
             return response.data.data;
         } catch (error: any) {
@@ -59,10 +59,10 @@ export const getSingleUserRooms = createAsyncThunk(
 
 export const getSingleUserFollowers = createAsyncThunk(
     "user/getSingleUserFollowers",
-    async (userId: string, { rejectWithValue }) => {
+    async (username: string, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(
-                `/profile/${userId}/followers`
+                `/profiles/get-user-followers-details/${username}`
             );
             return response.data.data;
         } catch (error: any) {
@@ -73,9 +73,11 @@ export const getSingleUserFollowers = createAsyncThunk(
 
 export const getSingleUserFollowing = createAsyncThunk(
     "user/getSingleUserFollowing",
-    async (userId: string, { rejectWithValue }) => {
+    async (username: string, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/following`);
+            const response = await axiosInstance.get(
+                `/profiles/get-user-following-details/${username}`
+            );
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);
@@ -108,9 +110,11 @@ const initialState: {
     posts: any[];
     followers: any[];
     following: any[];
+    gossips: any[];
     loading: boolean;
     users: any[];
     error: boolean;
+    gossipsLoading: boolean;
 } = {
     roomsLoading: false,
     postsLoading: false,
@@ -122,9 +126,11 @@ const initialState: {
     following: [],
     loading: false,
     users: [],
+    gossips: [],
     userProfile: {},
     userLoading: false,
     error: false,
+    gossipsLoading: false,
 };
 
 const userSlice = createSlice({
@@ -155,15 +161,15 @@ const userSlice = createSlice({
                 state.userLoading = false;
                 state.error = true;
             })
-            .addCase(getSingleUserPosts.pending, (state) => {
-                state.postsLoading = true;
+            .addCase(getSingleUserGossips.pending, (state) => {
+                state.gossipsLoading = true;
             })
-            .addCase(getSingleUserPosts.fulfilled, (state, action) => {
-                state.postsLoading = false;
-                state.posts = action.payload;
+            .addCase(getSingleUserGossips.fulfilled, (state, action) => {
+                state.gossipsLoading = false;
+                state.gossips = action.payload.gossipMessages;
             })
-            .addCase(getSingleUserPosts.rejected, (state) => {
-                state.postsLoading = false;
+            .addCase(getSingleUserGossips.rejected, (state) => {
+                state.gossipsLoading = false;
                 state.error = true;
             })
             .addCase(getSingleUserRooms.pending, (state) => {
@@ -171,7 +177,7 @@ const userSlice = createSlice({
             })
             .addCase(getSingleUserRooms.fulfilled, (state, action) => {
                 state.roomsLoading = false;
-                state.rooms = action.payload;
+                state.rooms = action.payload.rooms;
             })
             .addCase(getSingleUserRooms.rejected, (state) => {
                 state.roomsLoading = false;
@@ -182,7 +188,7 @@ const userSlice = createSlice({
             })
             .addCase(getSingleUserFollowers.fulfilled, (state, action) => {
                 state.followersLoading = false;
-                state.followers = action.payload;
+                state.followers = action.payload.followers;
             })
             .addCase(getSingleUserFollowers.rejected, (state) => {
                 state.followersLoading = false;
@@ -193,15 +199,14 @@ const userSlice = createSlice({
             })
             .addCase(getSingleUserFollowing.fulfilled, (state, action) => {
                 state.followingLoading = false;
-                state.following = action.payload;
+                state.following = action.payload.following;
             })
             .addCase(getSingleUserFollowing.rejected, (state) => {
                 state.followingLoading = false;
                 state.error = true;
             })
             .addCase(toggleFollowUser.pending, (state) => {})
-            .addCase(toggleFollowUser.fulfilled, (state, action) => {
-            })
+            .addCase(toggleFollowUser.fulfilled, (state, action) => {})
             .addCase(toggleFollowUser.rejected, (state) => {});
     },
 });

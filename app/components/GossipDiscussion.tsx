@@ -126,7 +126,7 @@ function GossipDiscussion() {
             messageId: id,
         });
         socket.on("gossip-message", (data: any) => {
-            console.log("Gossip message received", data);
+            // console.log("Gossip message received", data);
             let f = async () => {
                 await dispatch(addGossipDiscussionMessage(data));
                 containerRef.current?.scrollTo({

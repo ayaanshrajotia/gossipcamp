@@ -9,12 +9,15 @@ import {
 } from "@/lib/slices/userSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import Image from "next/image";
-import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 import { useTheme } from "next-themes";
+import Gossips from "@/app/components/profile/Gossips";
+import Rooms from "@/app/components/profile/Rooms";
+import Followers from "@/app/components/profile/Followers";
+import Following from "@/app/components/profile/Following";
 
 const options = [
     {
@@ -41,7 +44,6 @@ const options = [
 
 function Page() {
     const { profileId } = useParams();
-    const pathname = usePathname();
     const dispatch = useDispatch<AppDispatch>();
     const { userProfile, userLoading } = useSelector(
         (state: RootState) => state.users
@@ -71,68 +73,18 @@ function Page() {
         setPageLoading(false);
     }, [profileId, dispatch, userProfile?.isFollowing]);
 
-    const renderContent = () => {
+    const renderTab = () => {
         switch (activeTab) {
             case "gossips":
-                return (
-                    <div
-                        className={`bg-white p-6 rounded-xl ${
-                            theme === "dark"
-                                ? "box-shadow-static-dark"
-                                : "box-shadow-static"
-                        } dark:bg-college-dark-gray-2`}
-                    >
-                        Gossip
-                    </div>
-                );
+                return <Gossips />;
             case "rooms":
-                return (
-                    <div
-                        className={`bg-white p-6 rounded-xl ${
-                            theme === "dark"
-                                ? "box-shadow-static-dark"
-                                : "box-shadow-static"
-                        } dark:bg-college-dark-gray-2`}
-                    >
-                        rooms
-                    </div>
-                );
+                return <Rooms username={profileId.toString()} />;
             case "followers":
-                return (
-                    <div
-                        className={`bg-white p-6 rounded-xl ${
-                            theme === "dark"
-                                ? "box-shadow-static-dark"
-                                : "box-shadow-static"
-                        } dark:bg-college-dark-gray-2`}
-                    >
-                        followers
-                    </div>
-                );
+                return <Followers username={profileId.toString()} />;
             case "following":
-                return (
-                    <div
-                        className={`bg-white p-6 rounded-xl ${
-                            theme === "dark"
-                                ? "box-shadow-static-dark"
-                                : "box-shadow-static"
-                        } dark:bg-college-dark-gray-2`}
-                    >
-                        following
-                    </div>
-                );
+                return <Following username={profileId.toString()} />;
             default:
-                return (
-                    <div
-                        className={`bg-white p-6 rounded-xl ${
-                            theme === "dark"
-                                ? "box-shadow-static-dark"
-                                : "box-shadow-static"
-                        } dark:bg-college-dark-gray-2`}
-                    >
-                        asd
-                    </div>
-                );
+                <Gossips />;
         }
     };
 
@@ -141,12 +93,15 @@ function Page() {
             <Header>Profile</Header>
             <div className="my-6 px-6 flex flex-col gap-8">
                 <div
-                    className={`bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7 ${
+                    className={`relative bg-white flex flex-col rounded-xl p-6 box-shadow-static gap-7 ${
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
                     } dark:bg-college-dark-gray-2 dark:text-college-dark-white`}
                 >
+                    <div
+                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%] transition-all duration-300`}
+                    ></div>
                     {userLoading || pageLoading ? (
                         <>
                             <Skeleton
@@ -172,7 +127,7 @@ function Page() {
                         </>
                     ) : (
                         // Profile
-                        <>
+                        <div className="z-[1] flex flex-col gap-6">
                             <div className="max-[700px]:flex-col flex">
                                 <div className="flex flex-1 gap-5 h-full">
                                     <div className="flex items-center">
@@ -226,31 +181,31 @@ function Page() {
                             </div>
                             <div className="max-[700px]:grid max-[700px]:grid-cols-2 flex w-full gap-8 justify-evenly">
                                 <div className="flex flex-col items-center">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         #1
                                     </span>
                                     <span>Popularity</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         {userProfile?.interactiveScore}
                                     </span>
                                     <span>Messages</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         {userProfile?.followers}
                                     </span>
                                     <span>Followers</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         {userProfile?.following}
                                     </span>
                                     <span>Following</span>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     )}
                 </div>
                 {/* Navbar */}
@@ -271,7 +226,19 @@ function Page() {
                         ))}
                     </ul>
                 </div>
-                {renderContent()}
+                <div
+                    className={`relative bg-white p-6 rounded-xl ${
+                        theme === "dark"
+                            ? "box-shadow-static-dark"
+                            : "box-shadow-static"
+                    } dark:bg-college-dark-gray-2`}
+                >
+                    <div
+                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%] transition-all duration-300`}
+                    ></div>
+
+                    {renderTab()}
+                </div>
             </div>
         </div>
     );

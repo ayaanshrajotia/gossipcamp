@@ -53,7 +53,6 @@ export default function Sidebar({ className = "" }: { className: string }) {
         setImgUrl(profile?.avatar);
         setPageLoading(false);
     }, [profile, dispatch]);
-    console.log({user, profile});
 
     return (
         <>

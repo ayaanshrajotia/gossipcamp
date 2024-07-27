@@ -24,8 +24,8 @@ const options = [
     },
     {
         id: 4,
-        title: "Posts",
-        slug: "/explore/posts",
+        title: "Gossips",
+        slug: "/explore/gossips",
     },
 ];
 

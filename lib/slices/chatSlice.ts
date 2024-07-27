@@ -285,17 +285,13 @@ const chatSlice = createSlice({
             })
             .addCase(toggleGossipMessage.rejected, (state, action) => {
                 state.gossipLoading = false;
-                console.log(action.payload);
             })
             .addCase(deleteMessageApi.rejected, (state, action) => {
-                console.log(action.payload);
             })
             .addCase(togglePollMessage.pending, (state) => {})
             .addCase(togglePollMessage.fulfilled, (state, action) => {
-                console.log(action.payload);
             })
             .addCase(togglePollMessage.rejected, (state, action) => {
-                console.log(action.payload);
             });
     },
 });

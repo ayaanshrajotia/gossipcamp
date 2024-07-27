@@ -187,7 +187,6 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     image: response.data.data.image,
                     _id: response.data.data._id,
                 });
-                console.log(response.data.data);
                 await dispatch(
                     updateMessage({ index, message: response.data.data })
                 );

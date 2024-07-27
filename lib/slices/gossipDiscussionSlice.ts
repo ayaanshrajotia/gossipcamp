@@ -172,7 +172,6 @@ const gossipDiscussionSlice = createSlice({
             .addCase(
                 deleteGossipDiscussionMessageApi.rejected,
                 (state, action) => {
-                    console.log(action.payload);
                 }
             );
     },

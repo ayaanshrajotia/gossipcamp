@@ -119,7 +119,7 @@ export default function Navbar({ className = "" }: { className: string }) {
                             <span className="max-[1330px]:hidden">Explore</span>
                         </Link>
                     </motion.li>
-                    <motion.li
+                    {/* <motion.li
                         whileTap={{ scale: 0.9 }}
                         transition={{
                             type: "spring",
@@ -143,7 +143,7 @@ export default function Navbar({ className = "" }: { className: string }) {
                                 Notifications
                             </span>
                         </Link>
-                    </motion.li>
+                    </motion.li> */}
                 </ul>
                 <ul className="max-[700px]:gap-4 max-[700px]:flex-row flex flex-col gap-2">
                     <motion.li

@@ -76,8 +76,6 @@ function Page() {
         setPageLoading(false);
     }, [roomId, dispatch]);
 
-    console.log(roomProfileDetails);
-
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>

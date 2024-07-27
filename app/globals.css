@@ -21,6 +21,18 @@ body {
     display: none;
 }
 
+.gossip-bg {
+    background-color: #fefcf4;
+    opacity: 1;
+    background-image: linear-gradient(135deg, #fdf9e0 25%, transparent 25%),
+        linear-gradient(225deg, #fdf9e0 25%, transparent 25%),
+        linear-gradient(45deg, #fdf9e0 25%, transparent 25%),
+        linear-gradient(315deg, #fdf9e0 25%, #fefcf4 25%);
+    background-position: 14px 0, 14px 0, 0 0, 0 0;
+    background-size: 28px 28px;
+    background-repeat: repeat;
+}
+
 select {
     /* styling */
     background-color: white;

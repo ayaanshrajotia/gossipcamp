@@ -100,7 +100,6 @@ function TextImageBox({
         gossipVoteHandlerDebounced();
         setGossip((prev) => !prev);
         dispatch(updateGossipVoteSelfMessage({ messageId: id, isGossipVoted: !gossip }));
-        console.log("lower");
     };
 
     const gossipVoteHandlerDebounced = useDebouncedCallback(async () => {
