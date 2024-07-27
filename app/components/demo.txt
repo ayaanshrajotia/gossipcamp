@@ -37,3 +37,8 @@ export default function Dropdown({
         </ul>
     );
 }
+
+
+
+
+className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-[#ececec] dark:bg-black bg-fixed bg-contain w-[100%] mr-6 rounded-xl flex-grow flex flex-col p-5 pr-6 pb-6 gap-6 overflow-scroll shadow-xl`}

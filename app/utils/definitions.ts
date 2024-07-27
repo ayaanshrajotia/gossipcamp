@@ -213,10 +213,7 @@ export type MessagesContainerProps = {
 
 export type GossipContainerPropsType = {
     // children: any;
-    bgcolor?: string;
     messageType: string;
-    textColor?: string;
-    className?: string;
     date: string;
     profileUrl: string;
     postImgUrl?: string;
@@ -224,7 +221,4 @@ export type GossipContainerPropsType = {
     description: string;
     isUser: boolean;
     likesCount: number;
-    isLiked: boolean;
-    gossipVotesCount: number;
-    isGossipVoted: boolean;
 } & Record<string, any>;

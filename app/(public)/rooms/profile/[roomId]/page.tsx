@@ -4,7 +4,6 @@ import Header from "@/app/components/Header";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { AppDispatch, RootState } from "@/lib/store";
 import Image from "next/image";
-import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,18 +18,19 @@ import {
 } from "@/lib/slices/roomSlice";
 import { leaveRoomEmitter } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
+import Members from "@/app/components/room-profile/Members";
+import Gossips from "@/app/components/room-profile/Gossips";
 
 const options = [
-    { id: 1, title: "Gossips", slug: "/profile/gossips" },
     {
-        id: 2,
-        title: "Posts",
-        slug: "/profile/posts",
+        id: 1,
+        title: "Gossips",
+        slug: "gossips",
     },
     {
-        id: 3,
+        id: 2,
         title: "Members",
-        slug: "/profile/followers",
+        slug: "members",
     },
 ];
 
@@ -41,6 +41,7 @@ function Page() {
     const dispatch = useDispatch<AppDispatch>();
     const { user } = useSelector((state: RootState) => state.auth);
     const { profile } = useSelector((state: RootState) => state.auth);
+    const [activeTab, setActiveTab] = useState("gossips");
     const [pageLoading, setPageLoading] = useState(true);
     const { getRoomProfileDetailsLoading, roomProfileDetails } = useSelector(
         (state: RootState) => state.rooms
@@ -76,17 +77,32 @@ function Page() {
         setPageLoading(false);
     }, [roomId, dispatch]);
 
+    const renderTab = () => {
+        switch (activeTab) {
+            case "members":
+                return <Members />;
+            case "gossips":
+                return <Gossips />;
+
+            default:
+                <Members />;
+        }
+    };
+
     return (
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Profile</Header>
             <div className="my-6 px-6 flex flex-col gap-8 ">
                 <div
-                    className={`bg-white flex flex-col rounded-xl p-6 ${
+                    className={`relative bg-white flex flex-col rounded-xl p-6 ${
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
                     } gap-7 dark:bg-college-dark-gray-2`}
                 >
+                    <div
+                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%] transition-all duration-300`}
+                    ></div>
                     {getRoomProfileDetailsLoading || pageLoading ? (
                         <>
                             <Skeleton
@@ -111,7 +127,7 @@ function Page() {
                             />
                         </>
                     ) : (
-                        <>
+                        <div className="z-[1] flex flex-col gap-6">
                             <div className="flex basis-[60%] gap-5 h-full">
                                 <div className="flex items-center">
                                     <div className="relative w-[110px] h-[110px]">
@@ -157,52 +173,58 @@ function Page() {
                             </div>
                             <div className="flex w-full gap-8 justify-evenly">
                                 <div className="flex flex-col items-center dark:text-college-dark-white">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         #1
                                     </span>
                                     <span>Popularity</span>
                                 </div>
                                 <div className="flex flex-col items-center dark:text-college-dark-white">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         {roomProfileDetails?.totalMessages}
                                     </span>
                                     <span>Messages</span>
                                 </div>
                                 <div className="flex flex-col items-center dark:text-college-dark-white">
-                                    <span className="font-bold text-2xl">
+                                    <span className="font-bold text-3xl">
                                         {roomProfileDetails?.totalParticipants}
                                     </span>
                                     <span>Members</span>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     )}
                 </div>
 
                 <div className="px-4 ">
                     <ul className="flex justify-between">
                         {options.map((option) => (
-                            <Link href={option.slug} key={option.id}>
-                                <li
-                                    className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white dark:hover:bg-college-dark-white dark:hover:text-college-dark-gray-1 ${
-                                        pathname.includes(option.slug)
-                                            ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
-                                            : "bg-white dark:bg-college-dark-gray-3 dark:text-college-dark-white"
-                                    }`}
-                                >
-                                    {option.title}
-                                </li>
-                            </Link>
+                            <li
+                                key={option.id}
+                                onClick={() => setActiveTab(option.slug)}
+                                className={`border-1 cursor-pointer rounded-2xl border-college-dark-gray-1  p-1 px-4 font-semibold transition-all hover:bg-college-dark-gray-1 hover:text-white dark:hover:bg-college-dark-white dark:hover:text-college-dark-gray-1 ${
+                                    activeTab === option.slug
+                                        ? "bg-college-dark-gray-1 text-white dark:text-college-dark-gray-1 dark:bg-college-dark-white"
+                                        : "bg-white dark:bg-college-dark-gray-3 dark:text-college-dark-white"
+                                }`}
+                            >
+                                {option.title}
+                            </li>
                         ))}
                     </ul>
                 </div>
                 <div
-                    className={`bg-white p-6 rounded-xl ${
+                    className={`relative bg-white p-6 rounded-xl ${
                         theme === "dark"
                             ? "box-shadow-static-dark"
                             : "box-shadow-static"
                     } dark:bg-college-dark-gray-2`}
-                ></div>
+                >
+                    <div
+                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%] transition-all duration-300`}
+                    ></div>
+
+                    {renderTab()}
+                </div>
             </div>
         </div>
     );

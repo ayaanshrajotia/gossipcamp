@@ -42,7 +42,8 @@ function RoomBoxHome({
         (state: RootState) => state.auth.profile || {}
     );
 
-    const handleJoinRoom = async () => {
+    const handleJoinRoom = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         try {
             if (!profile) {
                 toast.error("Please create profile to join room");
@@ -78,13 +79,21 @@ function RoomBoxHome({
             toast.error(err.message);
         }
     };
+
+    const handleViewRoom = () => {
+        router.push(`/rooms/profile/${roomId}`);
+    };
+
     return (
         <div
-            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3`}
+            className={`max-[550px]:min-w-[150px] relative border-1 rounded-2xl font-secondary ${textColor} ${className} bg-white p-4 min-w-[350px] overflow-hidden dark:bg-college-dark-gray-2 dark:border-college-dark-gray-3 cursor-pointer`}
             style={{ color: textColor }}
             {...props}
         >
-            <div className="max-[550px]:flex-col flex gap-4 max-[550px]:items-center">
+            <div
+                className="max-[550px]:flex-col flex gap-4 max-[550px]:items-center"
+                onClick={handleViewRoom}
+            >
                 {/* Image */}
                 <div className="max-[550px]:gap-4 flex justify-between items-center">
                     <div className="flex gap-2">
@@ -146,7 +155,7 @@ function RoomBoxHome({
                                 damping: 20,
                             }}
                             className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2  dark:border-college-dark-white dark:hover:text-college-dark-white duration-[20ms]"
-                            onClick={() => handleJoinRoom()}
+                            onClick={(e) => handleJoinRoom(e)}
                         >
                             Join Room
                         </motion.button>

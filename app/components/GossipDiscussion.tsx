@@ -318,6 +318,19 @@ function GossipDiscussion() {
         <motion.div className="fixed flex justify-center items-center z-[1111] w-screen h-screen backdrop-brightness-[.6] ">
             <div className="flex flex-col w-[75vw] h-[88vh] gap-6">
                 {/* Gossip */}
+                <div className="relative ">
+                    {postImgUrl && (
+                        <div className="absolute mt-3 h-[20px] w-auto">
+                            <Image
+                                src={postImgUrl!}
+                                alt="avatar-1"
+                                sizes="33vw"
+                                className="rounded-xl"
+                                fill
+                            />
+                        </div>
+                    )}
+                </div>
                 <motion.div
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
@@ -335,7 +348,7 @@ function GossipDiscussion() {
                     {/* Main message box */}
                     <div
                         {...attrs}
-                        className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-zinc-200 px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
+                        className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary gossip-bg px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
                             theme === "dark"
                                 ? isUser
                                     ? "ml-auto box-shadow-yellow-static-dark"
@@ -394,24 +407,6 @@ function GossipDiscussion() {
                                 <p className="leading-tight break-all text-base">
                                     {description}
                                 </p>
-                                <>
-                                    {postImgUrl && (
-                                        <div className="relative mt-3">
-                                            <Image
-                                                src={postImgUrl!}
-                                                alt="avatar-1"
-                                                width={0}
-                                                height={0}
-                                                sizes="33vw"
-                                                className=" rounded-xl"
-                                                style={{
-                                                    width: "100%",
-                                                    height: "auto",
-                                                }}
-                                            />
-                                        </div>
-                                    )}
-                                </>
                             </div>
                         </div>
                         <div className="flex items-end justify-end gap-1">
@@ -426,7 +421,7 @@ function GossipDiscussion() {
                     {gossipDiscussion && (
                         <motion.div
                             ref={containerRef}
-                            className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-[#ececec] dark:bg-black bg-fixed bg-contain w-[100%] mr-6 rounded-xl flex-grow flex flex-col p-5 pr-6 pb-6 gap-6 overflow-scroll shadow-xl`}
+                            className={`relative bg-white w-[100%] h-0 mr-6 rounded-xl flex-grow flex flex-col shadow-xl`}
                             initial={{ scaleY: 0, scaleX: 0 }}
                             animate={{ scaleY: 1, scaleX: 1 }}
                             exit={{ scaleY: 0, scaleX: 0 }}
@@ -439,9 +434,28 @@ function GossipDiscussion() {
                                 damping: 15,
                             }}
                         >
-                            {offset === 0 && messagesLoading ? (
-                                <div className="flex flex-col-reverse gap-4 h-full">
-                                    <div className="self-end">
+                            <div
+                                className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain bg-center h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-300`}
+                            ></div>
+                            <div className="overflow-scroll p-5 pr-6 pb-6 z-[100]">
+                                {offset === 0 && messagesLoading ? (
+                                    <div className="flex flex-col-reverse gap-4 h-full z-[1]">
+                                        <div className="self-end">
+                                            <Skeleton
+                                                count={2}
+                                                width={200}
+                                                baseColor={
+                                                    theme === "dark"
+                                                        ? "#202020"
+                                                        : "#e0dfdf"
+                                                }
+                                                highlightColor={
+                                                    theme === "dark"
+                                                        ? "#444"
+                                                        : "#f2f2f2"
+                                                }
+                                            />
+                                        </div>
                                         <Skeleton
                                             count={2}
                                             width={200}
@@ -456,36 +470,6 @@ function GossipDiscussion() {
                                                     : "#f2f2f2"
                                             }
                                         />
-                                    </div>
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <div className="self-end">
                                         <Skeleton
                                             count={2}
                                             width={200}
@@ -500,8 +484,38 @@ function GossipDiscussion() {
                                                     : "#f2f2f2"
                                             }
                                         />
-                                    </div>
-                                    <div className="self-end">
+                                        <div className="self-end">
+                                            <Skeleton
+                                                count={2}
+                                                width={200}
+                                                baseColor={
+                                                    theme === "dark"
+                                                        ? "#202020"
+                                                        : "#e0dfdf"
+                                                }
+                                                highlightColor={
+                                                    theme === "dark"
+                                                        ? "#444"
+                                                        : "#f2f2f2"
+                                                }
+                                            />
+                                        </div>
+                                        <div className="self-end">
+                                            <Skeleton
+                                                count={2}
+                                                width={200}
+                                                baseColor={
+                                                    theme === "dark"
+                                                        ? "#202020"
+                                                        : "#e0dfdf"
+                                                }
+                                                highlightColor={
+                                                    theme === "dark"
+                                                        ? "#444"
+                                                        : "#f2f2f2"
+                                                }
+                                            />
+                                        </div>
                                         <Skeleton
                                             count={2}
                                             width={200}
@@ -516,36 +530,6 @@ function GossipDiscussion() {
                                                     : "#f2f2f2"
                                             }
                                         />
-                                    </div>
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <div className="self-end">
                                         <Skeleton
                                             count={2}
                                             width={200}
@@ -560,36 +544,22 @@ function GossipDiscussion() {
                                                     : "#f2f2f2"
                                             }
                                         />
-                                    </div>
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <Skeleton
-                                        count={2}
-                                        width={200}
-                                        baseColor={
-                                            theme === "dark"
-                                                ? "#202020"
-                                                : "#e0dfdf"
-                                        }
-                                        highlightColor={
-                                            theme === "dark"
-                                                ? "#444"
-                                                : "#f2f2f2"
-                                        }
-                                    />
-                                    <div className="self-end">
+                                        <div className="self-end">
+                                            <Skeleton
+                                                count={2}
+                                                width={200}
+                                                baseColor={
+                                                    theme === "dark"
+                                                        ? "#202020"
+                                                        : "#e0dfdf"
+                                                }
+                                                highlightColor={
+                                                    theme === "dark"
+                                                        ? "#444"
+                                                        : "#f2f2f2"
+                                                }
+                                            />
+                                        </div>
                                         <Skeleton
                                             count={2}
                                             width={200}
@@ -604,49 +574,84 @@ function GossipDiscussion() {
                                                     : "#f2f2f2"
                                             }
                                         />
+                                        <Skeleton
+                                            count={2}
+                                            width={200}
+                                            baseColor={
+                                                theme === "dark"
+                                                    ? "#202020"
+                                                    : "#e0dfdf"
+                                            }
+                                            highlightColor={
+                                                theme === "dark"
+                                                    ? "#444"
+                                                    : "#f2f2f2"
+                                            }
+                                        />
+                                        <div className="self-end">
+                                            <Skeleton
+                                                count={2}
+                                                width={200}
+                                                baseColor={
+                                                    theme === "dark"
+                                                        ? "#202020"
+                                                        : "#e0dfdf"
+                                                }
+                                                highlightColor={
+                                                    theme === "dark"
+                                                        ? "#444"
+                                                        : "#f2f2f2"
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <>
-                                    {gossipDiscussionMessages.length === 0 && (
-                                        <h1 className="font-bold text-xl font-secondary text-center">
-                                            No chats to show!
-                                        </h1>
-                                    )}
-                                    {gossipDiscussionMessages.map(
-                                        (message: any) => {
-                                            return (
-                                                <GossipMessageBox
-                                                    key={message?._id}
-                                                    id={message?._id}
-                                                    messageType={
-                                                        message.messageType
-                                                    }
-                                                    date={message.updatedAt}
-                                                    profileUrl={
-                                                        message.profile?.avatar
-                                                    }
-                                                    user={
-                                                        capitalizeFirstLetter(
+                                ) : (
+                                    <div className="flex flex-col gap-6">
+                                        {gossipDiscussionMessages.length ===
+                                            0 && (
+                                            <h1 className="font-bold text-xl font-secondary text-center">
+                                                No chats to show!
+                                            </h1>
+                                        )}
+                                        {gossipDiscussionMessages.map(
+                                            (message: any) => {
+                                                return (
+                                                    <GossipMessageBox
+                                                        key={message?._id}
+                                                        id={message?._id}
+                                                        messageType={
+                                                            message.messageType
+                                                        }
+                                                        date={message.updatedAt}
+                                                        profileUrl={
                                                             message.profile
-                                                                ?.fName
-                                                        ) +
-                                                        capitalizeFirstLetter(
+                                                                ?.avatar
+                                                        }
+                                                        user={
+                                                            capitalizeFirstLetter(
+                                                                message.profile
+                                                                    ?.fName
+                                                            ) +
+                                                            capitalizeFirstLetter(
+                                                                message.profile
+                                                                    ?.lName
+                                                            )
+                                                        }
+                                                        description={
+                                                            message.text
+                                                        }
+                                                        isUser={
                                                             message.profile
-                                                                ?.lName
-                                                        )
-                                                    }
-                                                    description={message.text}
-                                                    isUser={
-                                                        message.profile?._id ===
-                                                        profile?._id
-                                                    }
-                                                />
-                                            );
-                                        }
-                                    )}
-                                </>
-                            )}
+                                                                ?._id ===
+                                                            profile?._id
+                                                        }
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
