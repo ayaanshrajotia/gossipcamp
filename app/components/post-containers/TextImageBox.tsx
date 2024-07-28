@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
 import ConfettiExplosion from "react-confetti-explosion";
+
 function TextImageBox({
     isSend,
     bgcolor = "bg-white",
@@ -64,6 +65,7 @@ function TextImageBox({
             threshold: 200,
         }
     );
+
 
     const handleDelete = async () => {
         dispatch(deleteAndUpdateMessage({ messageId: id }));
@@ -138,14 +140,6 @@ function TextImageBox({
                 style={{ color: textColor }}
                 {...props}
             >
-                {true && (
-                    <ConfettiExplosion
-                        force={0.6}
-                        duration={2500}
-                        particleCount={80}
-                        width={1000}
-                    />
-                )}
                 <AnimatePresence>
                     {isUser &&
                         isMenuOpen &&
