@@ -22,11 +22,11 @@ const options = [
         title: "Colleges",
         slug: "/explore/colleges",
     },
-    {
-        id: 4,
-        title: "Gossips",
-        slug: "/explore/gossips",
-    },
+    // {
+    //     id: 4,
+    //     title: "Gossips",
+    //     slug: "/explore/gossips",
+    // },
 ];
 
 function Page({ children }: { children: React.ReactNode }) {
@@ -35,13 +35,13 @@ function Page({ children }: { children: React.ReactNode }) {
         <div className="min-h-screen relative w-full font-secondary">
             <Header>Explore</Header>
             <div className=" my-6 px-6">
-                <div className="border-1 font-secondary mt-1 flex h-12 w-full items-center rounded-xl border-college-dark-gray-3 bg-white p-3 text-lg dark:bg-college-dark-gray-3">
+                {/* <div className="border-1 font-secondary mt-1 flex h-12 w-full items-center rounded-xl border-college-dark-gray-3 bg-white p-3 text-lg dark:bg-college-dark-gray-3">
                     <MagnifyingGlassIcon className="h-7 w-7 dark:stroke-college-dark-white" />
                     <input
                         type="text"
                         className="mx-3 h-10 w-full outline-none bg-transparent"
                     />
-                </div>
+                </div> */}
                 <div className="py-5">
                     <ul className="max-[550px]:grid max-[550px]:grid-cols-2  max-[550px]:gap-2 flex justify-evenly">
                         {options.map((option) => (

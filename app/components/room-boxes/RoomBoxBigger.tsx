@@ -137,7 +137,7 @@ function RoomBoxBigger({
                     </div>
                     {/* Join */}
                     <div className="max-[550px]:mt-2 max-[550px]:gap-2 max-[550px]:flex-col flex justify-between gap-6 w-full items-end">
-                        <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white ">
+                        <p className="max-[550px]:text-center text-ellipsis overflow-hidden line-clamp-1 dark:text-college-dark-white">
                             {roomDescription}
                         </p>
                         {isPrivate ? (
@@ -149,17 +149,17 @@ function RoomBoxBigger({
                                     stiffness: 600,
                                     damping: 20,
                                 }}
+                                className="max-[550px]:w-full bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-[1px] border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white  duration-[20ms]"
                             >
                                 <Link
                                     passHref
                                     href={`/rooms/profile/${roomId}`}
-                                    className="max-[550px]:w-full flex justify-center bg-black text-white font-bold text-sm rounded-full hover:bg-white hover:text-black border-1 border-black transition-all py-1 px-3 min-w-fit self-end dark:bg-college-dark-white dark:text-college-dark-black dark:hover:bg-college-dark-gray-2 dark:hover:text-college-dark-white dark:hover:border-college-dark-white"
                                 >
                                     View Room
                                 </Link>
                             </motion.div>
                         ) : (
-                            <motion.button
+                            <motion.div
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.9 }}
                                 transition={{
@@ -171,7 +171,7 @@ function RoomBoxBigger({
                                 onClick={(e) => handleJoinRoom(e)}
                             >
                                 Join Room
-                            </motion.button>
+                            </motion.div>
                         )}
                     </div>
                 </div>

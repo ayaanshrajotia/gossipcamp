@@ -316,106 +316,143 @@ function GossipDiscussion() {
 
     return (
         <motion.div className="fixed flex justify-center items-center z-[1111] w-screen h-screen backdrop-brightness-[.6]">
-            <div className="flex flex-col w-[75vw] h-[88vh] gap-6">
-                {/* Gossip */}
-                <div className="relative ">
+            <div className="relative flex flex-col w-[75vw] h-[88vh] gap-6">
+                <div
+                    className={`flex gap-4 items-start ${
+                        theme === "dark"
+                            ? isUser
+                                ? "ml-auto"
+                                : "self-start flex-row-reverse"
+                            : isUser
+                            ? "ml-auto"
+                            : "self-start flex-row-reverse"
+                    }`}
+                >
                     {postImgUrl && (
-                        <div className="absolute mt-3 h-[20px] w-auto">
+                        <motion.div
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => {
+                                dispatch(setGossipDiscussion(false));
+                            }}
+                            initial={{
+                                y: -120,
+                            }}
+                            animate={{
+                                y: 0,
+                            }}
+                            exit={{ y: -120 }}
+                            transition={{ type: "spring", stiffness: 100 }}
+                            className="relative"
+                        >
                             <Image
                                 src={postImgUrl!}
                                 alt="avatar-1"
+                                width={0}
+                                height={0}
                                 sizes="33vw"
-                                className="rounded-xl"
-                                fill
+                                className={`rounded-xl bg-white dark:bg-college-dark-gray-2  ${
+                                    theme === "dark"
+                                        ? isUser
+                                            ? "box-shadow-yellow-static-dark"
+                                            : "box-shadow-static-dark"
+                                        : isUser
+                                        ? "box-shadow-yellow-static"
+                                        : "box-shadow-static"
+                                }`}
+                                style={{
+                                    width: "auto",
+                                    height: "90px",
+                                }}
                             />
-                        </div>
+                        </motion.div>
                     )}
-                </div>
-                <motion.div
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => {
-                        dispatch(setGossipDiscussion(false));
-                    }}
-                    initial={{
-                        y: -120,
-                    }}
-                    animate={{
-                        y: 0,
-                    }}
-                    exit={{ y: -120 }}
-                    transition={{ type: "spring", stiffness: 100 }}
-                >
-                    {/* Main message box */}
-                    <div
-                        {...attrs}
-                        className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary gossip-bg px-3 py-3 pt-2 pb-2 bg-white dark:bg-college-dark-gray-2 dark:border-college-dark-gray-2 cursor-pointer ${
-                            theme === "dark"
-                                ? isUser
-                                    ? "ml-auto box-shadow-yellow-static-dark"
-                                    : "self-start box-shadow-static-dark"
-                                : isUser
-                                ? "ml-auto box-shadow-yellow-static"
-                                : "self-start box-shadow-static"
-                        }`}
+                    {/* Gossip */}
+                    <motion.div
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                            dispatch(setGossipDiscussion(false));
+                        }}
+                        initial={{
+                            y: -120,
+                        }}
+                        animate={{
+                            y: 0,
+                        }}
+                        exit={{ y: -120 }}
+                        transition={{ type: "spring", stiffness: 100 }}
                     >
-                        {/* Reactions Box */}
-                        <div className="flex absolute bottom-0 left-[16px] gap-2">
-                            {/* Like button */}
-                            <div
-                                className=" translate-y-4  text-black text-xs py-0.5 px-1.5 h-[24px] rounded-xl flex items-center gap-1 cursor-pointer border-[1px] dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white bg-white border-red-500"
-                                onClick={likeClickHandler}
-                            >
-                                <motion.div
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.8 }}
-                                    key={"like"}
+                        {/* Main message box */}
+                        <div
+                            {...attrs}
+                            className={`border-box relative max-w-[800px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary gossip-bg px-3 py-3 pt-2 pb-2 bg-white dark:bg-college-dark-gray-2 dark:border-college-dark-gray-2 cursor-pointer ${
+                                theme === "dark"
+                                    ? isUser
+                                        ? "ml-auto box-shadow-yellow-static-dark"
+                                        : "self-start box-shadow-static-dark"
+                                    : isUser
+                                    ? "ml-auto box-shadow-yellow-static"
+                                    : "self-start box-shadow-static"
+                            }`}
+                        >
+                            {/* Reactions Box */}
+                            <div className="flex absolute bottom-0 left-[16px] gap-2">
+                                {/* Like button */}
+                                <div
+                                    className=" translate-y-4  text-black text-xs py-0.5 px-1.5 h-[24px] rounded-xl flex items-center gap-1 cursor-pointer border-[1px] dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 dark:text-college-dark-white bg-white border-red-500"
+                                    onClick={likeClickHandler}
                                 >
-                                    <HeartIcon
-                                        className={`h-[18px] w-[18px] text-red-500 cursor-pointer ${
-                                            liked
-                                                ? "fill-red-500"
-                                                : "fill-transparent"
-                                        }`}
-                                    />
-                                </motion.div>
-                                {likesCount > 0 && (
-                                    <span className="">{likesCount}</span>
-                                )}
-                            </div>
-                        </div>
-                        {/* Data of the message box */}
-                        <div className="flex gap-2.5 pr-[60px]">
-                            <div>
-                                <div className="relative h-[55px] w-[55px]">
-                                    <Image
-                                        src={profileUrl}
-                                        sizes="33vw"
-                                        alt="avatar-1"
-                                        fill
-                                        className="object-cover rounded-full"
-                                    />
+                                    <motion.div
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.8 }}
+                                        key={"like"}
+                                    >
+                                        <HeartIcon
+                                            className={`h-[18px] w-[18px] text-red-500 cursor-pointer ${
+                                                liked
+                                                    ? "fill-red-500"
+                                                    : "fill-transparent"
+                                            }`}
+                                        />
+                                    </motion.div>
+                                    {likesCount > 0 && (
+                                        <span className="">{likesCount}</span>
+                                    )}
                                 </div>
                             </div>
-                            <div className="flex flex-col">
-                                {/* Username */}
-                                <div className="flex justify-between items-center mr-8">
-                                    <h2 className="font-extrabold dark:text-college-dark-white text-lg">
-                                        @{user}
-                                    </h2>
+                            {/* Data of the message box */}
+                            <div className="flex gap-2.5 pr-[60px]">
+                                <div>
+                                    <div className="relative h-[55px] w-[55px]">
+                                        <Image
+                                            src={profileUrl}
+                                            sizes="33vw"
+                                            alt="avatar-1"
+                                            fill
+                                            className="object-cover rounded-full"
+                                        />
+                                    </div>
                                 </div>
-                                {/* Description */}
-                                <p className="leading-tight break-all text-base">
-                                    {description}
-                                </p>
+                                <div className="flex flex-col">
+                                    {/* Username */}
+                                    <div className="flex justify-between items-center mr-8">
+                                        <h2 className="font-extrabold dark:text-college-dark-white text-lg">
+                                            @{user}
+                                        </h2>
+                                    </div>
+                                    {/* Description */}
+                                    <p className="leading-tight break-all text-base">
+                                        {description}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-end justify-end gap-1">
+                                <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
+                                    {relativeDate}
+                                </span>
                             </div>
                         </div>
-                        <div className="flex items-end justify-end gap-1">
-                            <span className="text-xs text-right mt-1 tracking-tight text-college-dark-white-2">
-                                {relativeDate}
-                            </span>
-                        </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
                 {/* Chatbox */}
                 <AnimatePresence>
                     {gossipDiscussion && (
