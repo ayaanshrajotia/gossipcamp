@@ -55,6 +55,34 @@ export const getRoomProfileDetails = createAsyncThunk(
     }
 );
 
+export const getRoomGossips = createAsyncThunk(
+    "room/getRoomGossips",
+    async (roomId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/rooms/${roomId}/get-gossip-messages`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+export const getRoomMembers = createAsyncThunk(
+    "room/getRoomMembers",
+    async (roomId: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(
+                `/rooms/${roomId}/get-room-members`
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
 export const getPrivateJoinedRooms = createAsyncThunk(
     "room/getPrivateRoom",
     async (_, { rejectWithValue }) => {
@@ -135,6 +163,10 @@ const initialState: {
     roomProfileDetails: any;
     roomDetails: any;
     error: boolean;
+    roomGossips: any;
+    roomGossipsLoading: boolean;
+    roomMembers: any;
+    roomMembersLoading: boolean;
 } = {
     privateLoading: false,
     privateRoom: {},
@@ -153,6 +185,10 @@ const initialState: {
     allRooms: [],
     loading: false,
     error: false,
+    roomGossips: [],
+    roomGossipsLoading: false,
+    roomMembers: [],
+    roomMembersLoading: false,
 };
 
 const roomSlice = createSlice({
@@ -272,6 +308,30 @@ const roomSlice = createSlice({
             })
             .addCase(getAllCollegeRooms.rejected, (state, action) => {
                 state.collegeRoomsLoading = false;
+                state.error = true;
+            })
+            .addCase(getRoomGossips.pending, (state) => {
+                state.roomGossipsLoading = true;
+            })
+            .addCase(getRoomGossips.fulfilled, (state, action) => {
+                state.roomGossipsLoading = false;
+                state.roomGossips = action.payload.messages;
+                state.error = false;
+            })
+            .addCase(getRoomGossips.rejected, (state, action) => {
+                state.roomGossipsLoading = false;
+                state.error = true;
+            })
+            .addCase(getRoomMembers.pending, (state) => {
+                state.roomMembersLoading = true;
+            })
+            .addCase(getRoomMembers.fulfilled, (state, action) => {
+                state.roomMembersLoading = false;
+                state.roomMembers = action.payload;
+                state.error = false;
+            })
+            .addCase(getRoomMembers.rejected, (state, action) => {
+                state.roomMembersLoading = false;
                 state.error = true;
             });
     },

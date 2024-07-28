@@ -35,7 +35,6 @@ const options = [
 ];
 
 function Page() {
-    const pathname = usePathname();
     const { roomId } = useParams();
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
@@ -195,7 +194,7 @@ function Page() {
                     )}
                 </div>
 
-                <div className="px-4 ">
+                <div className="px-4 z-[1]">
                     <ul className="flex justify-between">
                         {options.map((option) => (
                             <li
@@ -220,7 +219,7 @@ function Page() {
                     } dark:bg-college-dark-gray-2`}
                 >
                     <div
-                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%] transition-all duration-300`}
+                        className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-scroll bg-repeat bg-auto h-full w-full absolute top-0 left-0 invert-[10%] dark:invert-[80%]`}
                     ></div>
 
                     {renderTab()}

@@ -66,7 +66,6 @@ function TextImageBox({
         }
     );
 
-
     const handleDelete = async () => {
         dispatch(deleteAndUpdateMessage({ messageId: id }));
         await dispatch(deleteMessageApi(id));
@@ -125,7 +124,7 @@ function TextImageBox({
     return (
         <motion.div whileTap={{ scale: 0.98 }}>
             {/* Main message box */}
-
+            {/* {true && <ConfettiExplosion />} */}
             <div
                 {...attrs}
                 className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${

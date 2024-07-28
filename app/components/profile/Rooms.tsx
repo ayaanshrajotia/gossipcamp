@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RoomBoxBigger from "../room-boxes/RoomBoxBigger";
 import { capitalizeFirstLetter } from "@/app/utils/helper";
 import { useTheme } from "next-themes";
+import Skeleton from "react-loading-skeleton";
 
 function Rooms({ username }: { username: string }) {
     const { theme } = useTheme();
@@ -19,31 +20,60 @@ function Rooms({ username }: { username: string }) {
 
     return (
         <div className="flex flex-col gap-6">
-            {rooms?.map((room) => (
-                <RoomBoxBigger
-                    key={room?._id}
-                    roomId={room?._id}
-                    roomName={room?.roomName}
-                    roomType={room?.roomType}
-                    roomUsername={
-                        room?.roomUsername
-                            ? room?.roomUsername
-                            : capitalizeFirstLetter(room?.adminProfile.fName) +
-                              capitalizeFirstLetter(room?.adminProfile.lName)
-                    }
-                    roomDP={room?.roomDP}
-                    roomDescription={room?.description}
-                    bgcolor="bg-college-yellow"
-                    textColor="black"
-                    className={
-                        theme === "dark"
-                            ? "box-shadow-static-dark"
-                            : "box-shadow-static"
-                    }
-                    isPrivate={room?.roomType === "College"}
-                    totalParticipants={room?.participantsCount}
-                />
-            ))}
+            {roomsLoading ? (
+                <div className="flex flex-col-reverse gap-4 h-full">
+                    <Skeleton
+                        count={2}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={2}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={2}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                    <Skeleton
+                        count={2}
+                        baseColor={theme === "dark" ? "#202020" : "#e0dfdf"}
+                        highlightColor={theme === "dark" ? "#444" : "#f2f2f2"}
+                    />
+                </div>
+            ) : (
+                rooms?.map((room) => (
+                    <RoomBoxBigger
+                        key={room?._id}
+                        roomId={room?._id}
+                        roomName={room?.roomName}
+                        roomType={room?.roomType}
+                        roomUsername={
+                            room?.roomUsername
+                                ? room?.roomUsername
+                                : capitalizeFirstLetter(
+                                      room?.adminProfile.fName
+                                  ) +
+                                  capitalizeFirstLetter(
+                                      room?.adminProfile.lName
+                                  )
+                        }
+                        roomDP={room?.roomDP}
+                        roomDescription={room?.description}
+                        bgcolor="bg-college-yellow"
+                        textColor="black"
+                        className={
+                            theme === "dark"
+                                ? "box-shadow-static-dark"
+                                : "box-shadow-static"
+                        }
+                        isPrivate={room?.roomType === "College"}
+                        totalParticipants={room?.participantsCount}
+                    />
+                ))
+            )}
         </div>
     );
 }

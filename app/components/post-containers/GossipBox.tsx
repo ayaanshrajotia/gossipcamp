@@ -26,7 +26,6 @@ import {
     setGossipDiscussionData,
 } from "@/lib/slices/gossipDiscussionSlice";
 import { useRouter } from "next/navigation";
-import ConfettiExplosion from "react-confetti-explosion";
 
 function GossipBox({
     isSend,
@@ -207,13 +206,6 @@ function GossipBox({
                             {description}
                         </p>
                         <>
-                            <ConfettiExplosion
-                                force={0.6}
-                                duration={2500}
-                                particleCount={80}
-                                width={1000}
-                            />
-
                             {postImgUrl && (
                                 <div className="relative mt-3">
                                     <Image
