@@ -126,7 +126,7 @@ function GossipBox({
             {/* Main message box */}
             <div
                 {...attrs}
-                className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} gossip-bg px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
+                className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] bg-white border-stone-400 rounded-xl font-secondary ${textColor} ${className} gossip-bg px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
                     theme === "dark"
                         ? isUser
                             ? "ml-auto box-shadow-yellow-static-dark"

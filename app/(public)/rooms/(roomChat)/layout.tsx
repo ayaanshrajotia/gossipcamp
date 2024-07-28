@@ -106,6 +106,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             isLiked: false,
             gossipVotesCount: 0,
             isGossipVoted: false,
+            isGossip: false,
         };
 
         const index = messages.length;
@@ -265,7 +266,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                 {children}
                 <div
                     className={`max-[700px]:bottom-20 bottom-4 sticky rounded-2xl flex flex-col mx-6 ${
-                         gossipDiscussion
+                        gossipDiscussion
                             ? "blur-md pointer-events-none"
                             : "blur-none"
                     }`}

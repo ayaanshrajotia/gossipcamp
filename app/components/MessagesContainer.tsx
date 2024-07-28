@@ -256,19 +256,6 @@ export default function MessagesContainer({ roomId }: MessagesContainerProps) {
                     })}
                 </>
             )}
-            {/* <MessageBox
-                key={321}
-                id={321}
-                isLiked={true}
-                messageType={"Text"}
-                date={"2021-09-09T00:00:00.000Z"}
-                profileUrl={"/images/avatar-1.png"}
-                user={"User"}
-                description={"This is a gossip"}
-                likesCount={0}
-                isUser={true}
-                isGossip={true}
-            /> */}
         </div>
     );
 }

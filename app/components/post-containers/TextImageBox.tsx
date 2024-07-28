@@ -1,5 +1,5 @@
 // icons
-import { HeartIcon, SignalIcon, StarIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, StarIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -7,17 +7,15 @@ import { TextImageBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTheme } from "next-themes";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
 import {
     deleteAndUpdateMessage,
     deleteMessageApi,
     toggleGossipMessage,
     toggleLikeMessage,
-    updateGossipVoteMessage,
     updateGossipVoteSelfMessage,
     updateLikeMessage,
-    updateMessageToGossip,
 } from "@/lib/slices/chatSlice";
 import { useParams } from "next/navigation";
 import { socket } from "@/app/StoreProvider";
@@ -25,9 +23,7 @@ import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
-import { IoEarOutline } from "react-icons/io5";
-import { setGossipDiscussion } from "@/lib/slices/gossipDiscussionSlice";
-
+import ConfettiExplosion from "react-confetti-explosion";
 function TextImageBox({
     isSend,
     bgcolor = "bg-white",
@@ -45,6 +41,7 @@ function TextImageBox({
     likesCount,
     isGossipVoted,
     gossipVotesCount,
+    isGossip,
     ...props
 }: TextImageBoxPropsType) {
     dayjs.extend(relativeTime); // use relative time plugin
@@ -56,6 +53,7 @@ function TextImageBox({
     const [gossip, setGossip] = useState(isGossipVoted);
     const [liked, setLiked] = useState(isLiked);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     // hook for long press
     const attrs = useLongPress(
         () => {
@@ -99,7 +97,12 @@ function TextImageBox({
     const gossipClickHandler = () => {
         gossipVoteHandlerDebounced();
         setGossip((prev) => !prev);
-        dispatch(updateGossipVoteSelfMessage({ messageId: id, isGossipVoted: !gossip }));
+        dispatch(
+            updateGossipVoteSelfMessage({
+                messageId: id,
+                isGossipVoted: !gossip,
+            })
+        );
     };
 
     const gossipVoteHandlerDebounced = useDebouncedCallback(async () => {
@@ -120,6 +123,7 @@ function TextImageBox({
     return (
         <motion.div whileTap={{ scale: 0.98 }}>
             {/* Main message box */}
+
             <div
                 {...attrs}
                 className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary ${textColor} ${className} bg-white px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
@@ -134,13 +138,14 @@ function TextImageBox({
                 style={{ color: textColor }}
                 {...props}
             >
-                {/* {isUser && (
-                    <EllipsisVerticalIcon
-                        className="w-5 h-5 absolute right-1.5 top-2 cursor-pointer"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                {true && (
+                    <ConfettiExplosion
+                        force={0.6}
+                        duration={2500}
+                        particleCount={80}
+                        width={1000}
                     />
-                    )} */}
-                {/* Delete button */}
+                )}
                 <AnimatePresence>
                     {isUser &&
                         isMenuOpen &&

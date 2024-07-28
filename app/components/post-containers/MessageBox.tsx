@@ -103,6 +103,7 @@ function MessageBox({
                 messageType={messageType}
                 isGossipVoted={isGossipVoted}
                 gossipVotesCount={gossipVotesCount}
+                isGossip={isGossip}
                 {...props}
             />
         );

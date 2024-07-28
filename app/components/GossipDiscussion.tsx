@@ -315,7 +315,7 @@ function GossipDiscussion() {
     }, 1500);
 
     return (
-        <motion.div className="fixed flex justify-center items-center z-[1111] w-screen h-screen backdrop-brightness-[.6] ">
+        <motion.div className="fixed flex justify-center items-center z-[1111] w-screen h-screen backdrop-brightness-[.6]">
             <div className="flex flex-col w-[75vw] h-[88vh] gap-6">
                 {/* Gossip */}
                 <div className="relative ">
@@ -348,7 +348,7 @@ function GossipDiscussion() {
                     {/* Main message box */}
                     <div
                         {...attrs}
-                        className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary gossip-bg px-3 py-3 pt-2 pb-2 dark:bg-college-dark-gray-3 dark:border-college-dark-gray-2 cursor-pointer ${
+                        className={`border-box relative max-w-[500px] w-fit flex flex-col border-[1px] border-stone-400 rounded-xl font-secondary gossip-bg px-3 py-3 pt-2 pb-2 bg-white dark:bg-college-dark-gray-2 dark:border-college-dark-gray-2 cursor-pointer ${
                             theme === "dark"
                                 ? isUser
                                     ? "ml-auto box-shadow-yellow-static-dark"
@@ -420,8 +420,7 @@ function GossipDiscussion() {
                 <AnimatePresence>
                     {gossipDiscussion && (
                         <motion.div
-                            ref={containerRef}
-                            className={`relative bg-white w-[100%] h-0 mr-6 rounded-xl flex-grow flex flex-col shadow-xl`}
+                            className={`relative bg-white dark:bg-college-dark-gray-1 w-[100%] h-0 mr-6 rounded-xl flex-grow flex flex-col shadow-xl`}
                             initial={{ scaleY: 0, scaleX: 0 }}
                             animate={{ scaleY: 1, scaleX: 1 }}
                             exit={{ scaleY: 0, scaleX: 0 }}
@@ -437,7 +436,10 @@ function GossipDiscussion() {
                             <div
                                 className={`bg-[url('https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67')] bg-fixed bg-contain bg-center h-full w-full absolute top-0 left-0 invert-[15%] dark:invert-[80%] transition-all duration-300`}
                             ></div>
-                            <div className="overflow-scroll p-5 pr-6 pb-6 z-[100]">
+                            <div
+                                ref={containerRef}
+                                className="overflow-scroll p-5 pr-6 pb-6 z-[100]"
+                            >
                                 {offset === 0 && messagesLoading ? (
                                     <div className="flex flex-col-reverse gap-4 h-full z-[1]">
                                         <div className="self-end">
