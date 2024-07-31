@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
 import { deleteAndUpdateGossipDiscussionMessage, deleteGossipDiscussionMessageApi } from "@/lib/slices/gossipDiscussionSlice";
 import { GossipMessagePropsType } from "@/app/utils/definitions";
+import Linkify from "linkify-react";
 
 function GossipMessageBox({
     bgcolor = "bg-white",
@@ -119,7 +120,14 @@ function GossipMessageBox({
                         </div>
                         {/* Description */}
                         <p className="leading-tight break-all text-[15px]">
-                            {description}
+                            <Linkify
+                                options={{
+                                    className:
+                                        "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                }}
+                            >
+                                {description}
+                            </Linkify>
                         </p>
                     </div>
                 </div>

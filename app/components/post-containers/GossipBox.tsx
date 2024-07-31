@@ -26,6 +26,7 @@ import {
     setGossipDiscussionData,
 } from "@/lib/slices/gossipDiscussionSlice";
 import { useRouter } from "next/navigation";
+import Linkify from "linkify-react";
 
 function GossipBox({
     isSend,
@@ -202,8 +203,15 @@ function GossipBox({
                             </h2>
                         </div>
                         {/* Description */}
-                        <p className="leading-tight break-all text-base">
-                            {description}
+                        <p className="leading-tight break-all text-[15px]">
+                            <Linkify
+                                options={{
+                                    className:
+                                        "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                }}
+                            >
+                                {description}
+                            </Linkify>
                         </p>
                         <>
                             {postImgUrl && (

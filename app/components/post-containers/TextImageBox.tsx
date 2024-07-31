@@ -2,13 +2,13 @@
 import { HeartIcon, StarIcon } from "@heroicons/react/24/outline";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TextImageBoxPropsType } from "@/app/utils/definitions";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTheme } from "next-themes";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
 import {
     deleteAndUpdateMessage,
     deleteMessageApi,
@@ -23,7 +23,7 @@ import { useDebouncedCallback } from "use-debounce";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
-import ConfettiExplosion from "react-confetti-explosion";
+import Linkify from "linkify-react";
 
 function TextImageBox({
     isSend,
@@ -227,7 +227,14 @@ function TextImageBox({
                         </div>
                         {/* Description */}
                         <p className="leading-tight break-all text-[15px]">
-                            {description}
+                            <Linkify
+                                options={{
+                                    className:
+                                        "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                }}
+                            >
+                                {description}
+                            </Linkify>
                         </p>
                         <>
                             {postImgUrl && (

@@ -26,6 +26,7 @@ import { useParams } from "next/navigation";
 import { v4 } from "uuid";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import Linkify from "linkify-react";
 
 function PollBox({
     isSend,
@@ -185,7 +186,16 @@ function PollBox({
                                 @{user}
                             </h2>
                         </div>
-                        <p className="leading-tight text-[15px]">{description}</p>
+                        <p className="leading-tight break-all text-[15px]">
+                            <Linkify
+                                options={{
+                                    className:
+                                        "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                }}
+                            >
+                                {description}
+                            </Linkify>
+                        </p>
                         <>
                             {postImgUrl && (
                                 <div className="relative mt-3">
