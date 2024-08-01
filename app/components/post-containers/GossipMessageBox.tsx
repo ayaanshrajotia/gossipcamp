@@ -10,7 +10,10 @@ import { socket } from "@/app/StoreProvider";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
-import { deleteAndUpdateGossipDiscussionMessage, deleteGossipDiscussionMessageApi } from "@/lib/slices/gossipDiscussionSlice";
+import {
+    deleteAndUpdateGossipDiscussionMessage,
+    deleteGossipDiscussionMessageApi,
+} from "@/lib/slices/gossipDiscussionSlice";
 import { GossipMessagePropsType } from "@/app/utils/definitions";
 import Linkify from "linkify-react";
 
@@ -45,7 +48,9 @@ function GossipMessageBox({
     );
 
     const handleDelete = async () => {
-        dispatch(deleteAndUpdateGossipDiscussionMessage({ gossipMessageId: id }));
+        dispatch(
+            deleteAndUpdateGossipDiscussionMessage({ gossipMessageId: id })
+        );
         await dispatch(deleteGossipDiscussionMessageApi(id));
         toast.success("Message deleted successfully");
         socket.emit("delete-message", {
@@ -53,7 +58,6 @@ function GossipMessageBox({
             messageId: id,
         });
     };
-
 
     return (
         <motion.div whileTap={{ scale: 0.98 }}>
@@ -124,6 +128,7 @@ function GossipMessageBox({
                                 options={{
                                     className:
                                         "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                    target: "_blank",
                                 }}
                             >
                                 {description}

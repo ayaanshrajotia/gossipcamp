@@ -5,7 +5,7 @@ export const getAllRooms = createAsyncThunk(
     "room/getAllRooms",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/rooms/all-rooms`);
+            const response = await axiosInstance.get(`/rooms/all-rooms?limit=100`);
             return response.data.data;
         } catch (error: any) {
             return rejectWithValue(error.response.data.message);

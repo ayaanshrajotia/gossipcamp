@@ -14,8 +14,9 @@ import {
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { connectSocket } from "@/lib/slices/socketSlice";
+import { connectSocket, disconnectSocket } from "@/lib/slices/socketSlice";
 import { useTheme } from "next-themes";
+import { socket } from "../StoreProvider";
 
 export default function Sidebar({ className = "" }: { className: string }) {
     const dispatch = useDispatch<AppDispatch>();
@@ -38,6 +39,15 @@ export default function Sidebar({ className = "" }: { className: string }) {
 
     useEffect(() => {
         dispatch(connectSocket());
+
+        socket.on("disconnect", () => {
+            dispatch(connectSocket());
+        });
+
+        return () => {
+            socket.off("disconnect");
+            dispatch(disconnectSocket());
+        };
     }, [dispatch]);
 
     useEffect(() => {

@@ -208,6 +208,7 @@ function GossipBox({
                                 options={{
                                     className:
                                         "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                    target: "_blank",
                                 }}
                             >
                                 {description}
