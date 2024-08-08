@@ -173,7 +173,7 @@ const LoginPage = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-between ">
+                {/* <div className="flex justify-between ">
                     <span className="text-college-grey flex items-center gap-1 text-sm dark:text-college-dark-white">
                         Remember Me
                     </span>
@@ -182,7 +182,7 @@ const LoginPage = () => {
                             Forgot Password?
                         </span>
                     </Link>
-                </div>
+                </div> */}
                 <Button
                     bgcolor="bg-[#fdd800]"
                     textColor="#000000"
