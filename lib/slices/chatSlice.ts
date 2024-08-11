@@ -94,7 +94,6 @@ export const togglePollMessage = createAsyncThunk(
     }
 );
 
-
 const initialState: {
     messages: any[];
     messagesKeyIndexPair: { [key: string]: number };
@@ -155,7 +154,7 @@ const chatSlice = createSlice({
                     state.messages[index].gossipVotesCount +
                     (action.payload.isGossipVoted ? 1 : -1);
 
-                if(state.messages[index].gossipVotesCount > 2){
+                if (state.messages[index].gossipVotesCount > 2) {
                     state.messages[index].isGossip = true;
                 }
             }
@@ -182,6 +181,7 @@ const chatSlice = createSlice({
             let index = state.messagesKeyIndexPair[action.payload.messageId];
             if (index !== undefined) {
                 let pollIndex = state.messages[index].pollIndex;
+                console.log(pollIndex);
                 if (pollIndex != "-1") {
                     pollIndex = parseInt(pollIndex);
                     state.messages[index].pollOptions[pollIndex].votes -= 1;
@@ -275,10 +275,10 @@ const chatSlice = createSlice({
                 state.messages[index].isGossipVoted =
                     action.payload.isGossipVoted;
                 state.gossipLoading = false;
-                
+
                 if (index !== undefined) {
-                    let count = state.messages[index].gossipVotesCount
-                    if(count > 2){
+                    let count = state.messages[index].gossipVotesCount;
+                    if (count > 2) {
                         state.messages[index].isGossip = true;
                     }
                 }
@@ -286,13 +286,10 @@ const chatSlice = createSlice({
             .addCase(toggleGossipMessage.rejected, (state, action) => {
                 state.gossipLoading = false;
             })
-            .addCase(deleteMessageApi.rejected, (state, action) => {
-            })
+            .addCase(deleteMessageApi.rejected, (state, action) => {})
             .addCase(togglePollMessage.pending, (state) => {})
-            .addCase(togglePollMessage.fulfilled, (state, action) => {
-            })
-            .addCase(togglePollMessage.rejected, (state, action) => {
-            });
+            .addCase(togglePollMessage.fulfilled, (state, action) => {})
+            .addCase(togglePollMessage.rejected, (state, action) => {});
     },
 });
 

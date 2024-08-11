@@ -107,6 +107,7 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
             gossipVotesCount: 0,
             isGossipVoted: false,
             isGossip: false,
+            pollIndex: -1,
         };
 
         const index = messages.length;
@@ -188,6 +189,8 @@ function RoomLayout({ children }: { children: React.ReactNode }) {
                     image: response.data.data.image,
                     _id: response.data.data._id,
                 });
+                console.log(response.data.data);
+                console.log(message);
                 await dispatch(
                     updateMessage({ index, message: response.data.data })
                 );
