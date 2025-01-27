@@ -1,3 +1,41 @@
+# GossipCamp
+
+**GossipCamp** is a social media platform designed exclusively for students, allowing them to communicate anonymously while maintaining safety and fun. With features like customizable avatars, group chats, image sharing, polls, and more, GossipCamp creates a vibrant space for real-time interactions within a student community.
+
+---
+
+## 🚀 Features
+
+- **Anonymous Communication**: Interact anonymously with peers while creating customizable avatars.
+- **Real-Time Chat**: Powered by Socket.io for seamless and instant communication.
+- **Group Chats**: Create and join group conversations to discuss topics of interest.
+- **Image Sharing & Moderation**: Share images with integrated NSFW image recognition for safety.
+- **Polls**: Engage your community with interactive polls.
+- **Message Reactions**: Like messages to express quick feedback.
+- **User Following**: Stay updated with your favorite users' activities.
+- **Secure Environment**: Designed with safety, scalability, and performance in mind.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend:
+- **React.js**
+- **Next.js**
+- **Socket.io (for real-time communication)**
+
+### Backend:
+- **Node.js**
+- **Express.js**
+- **Socket.io**
+
+### Database:
+- **MongoDB**
+
+---
+
+## 📂 Project Structure
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
